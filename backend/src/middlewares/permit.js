@@ -9,6 +9,7 @@ exports.permit = (...roles) => {
 			error.statusCode = 403;
 			return next(error);
 		}
+		console.log(req);
 		next();
 	};
 };
