@@ -1,26 +1,29 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/userModel');
-const Student = require('../models/studentModel');
-const Teacher = require('../models/teacherModel');
-const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
+const User = require('../models/userModel')
+const Student = require('../models/studentModel')
+const Teacher = require('../models/teacherModel')
+const bcrypt = require('bcryptjs')
 
 exports.login = async (req, res, next) => {
 	try {
-		const { username, password } = req.body;
+		const { username, password } = req.body
 
-		// Check if email and password exist
 		if (!username || !password) {
-			res.json('Please provide email and password!');
+			const err = new Error('Please provide email or password!')
+			err.statusCode = 400
+			return next(err)
 		}
 
-		// Check if use existed and username is not correct
+		// Check if user existed and username is not correct
 		const user =
 			(await User.findOne({ username: req.body.username })) ||
 			(await Student.findOne({ username: req.body.username })) ||
-			(await Teacher.findOne({ username: req.body.username }));
+			(await Teacher.findOne({ username: req.body.username }))
 
 		if (!user) {
-			res.json('Username is not correct');
+			const err = new Error('Username is not correct!')
+			err.statusCode = 400
+			return next(err)
 		}
 
 		// Check if use existed and password is not correct
@@ -28,7 +31,7 @@ exports.login = async (req, res, next) => {
 			const token = jwt.sign(
 				{ userID: user._id, role: user.role },
 				process.env.APP_SECRET
-			);
+			)
 
 			const data =
 				(await User.findOne(
@@ -42,14 +45,18 @@ exports.login = async (req, res, next) => {
 				(await Teacher.findOne(
 					{ username: req.body.username },
 					{ password: false }
-				));
+				))
 
 			res.status(200).json({
 				status: 'success',
 				data: { token: token, user: data },
-			});
+			})
 		} else {
-			res.json('Password is not correct');
+			const err = new Error('Password is not correct!')
+			err.statusCode = 400
+			return next(err)
 		}
-	} catch (error) {}
-};
+	} catch (error) {
+		next(error)
+	}
+}

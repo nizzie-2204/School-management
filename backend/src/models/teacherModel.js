@@ -1,5 +1,6 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
+const Schema = mongoose.Schema
 
 const teacherSchema = new mongoose.Schema(
 	{
@@ -29,23 +30,27 @@ const teacherSchema = new mongoose.Schema(
 		isClassHeadTeacher: { type: Boolean, default: false },
 		subject: Array,
 		// classId:
+		user: {
+			type: Schema.Types.ObjectId,
+			ref: 'User',
+		},
 	},
 	{ timestamps: true }
-);
+)
 
 teacherSchema.pre('save', function (next) {
-	let user = this;
+	let user = this
 
 	bcrypt.hash(user.password, 10, (err, hash) => {
 		if (err) {
-			return next(err);
+			return next(err)
 		} else {
-			user.password = hash;
-			next();
+			user.password = hash
+			next()
 		}
-	});
-});
+	})
+})
 
-const Teacher = mongoose.model('Teacher', teacherSchema, 'users');
+const Teacher = mongoose.model('Teacher', teacherSchema)
 
-module.exports = Teacher;
+module.exports = Teacher

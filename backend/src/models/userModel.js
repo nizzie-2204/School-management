@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
 const userSchema = new mongoose.Schema(
 	{
@@ -17,21 +17,21 @@ const userSchema = new mongoose.Schema(
 		gender: { type: String, required: true },
 	},
 	{ timestamps: true }
-);
+)
 
 userSchema.pre('save', function (next) {
-	let user = this;
+	let user = this
 
 	bcrypt.hash(user.password, 10, (err, hash) => {
 		if (err) {
-			return next(err);
+			return next(err)
 		} else {
-			user.password = hash;
-			next();
+			user.password = hash
+			next()
 		}
-	});
-});
+	})
+})
 
-const User = mongoose.model('User', userSchema, 'users');
+const User = mongoose.model('User', userSchema)
 
-module.exports = User;
+module.exports = User
