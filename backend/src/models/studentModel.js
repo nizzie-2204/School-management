@@ -40,11 +40,9 @@ const studentSchema = new mongoose.Schema(
 				address: { type: String, required: true },
 			},
 		},
-		user: {
-			type: Schema.Types.ObjectId,
-			ref: 'User',
-		},
-		// classId:
+		isActive: { type: Boolean, required: true, default: false },
+		visitingTime: { type: Number, required: true, default: 0 },
+		classId: { type: String, required: true },
 	},
 	{ timestamps: true }
 )

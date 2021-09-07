@@ -1,10 +1,8 @@
-const User = require('../models/userModel')
-const createPassword = require('../utils/createPassword')
-const createUsername = require('../utils/createUsername')
+const Admin = require('../models/adminModel')
 
-exports.createUser = async (req, res, next) => {
+exports.createAdmin = async (req, res, next) => {
 	try {
-		const user = await User.create(req.body)
+		const user = await Admin.create(req.body)
 
 		const { password, ...info } = user._doc
 
@@ -17,9 +15,9 @@ exports.createUser = async (req, res, next) => {
 	}
 }
 
-exports.getAllUsers = async (req, res, next) => {
+exports.getAllAdmins = async (req, res, next) => {
 	try {
-		const users = await User.find()
+		const users = await Admin.find()
 
 		res.status(200).json({ status: 'success', data: users })
 	} catch (error) {
@@ -27,9 +25,9 @@ exports.getAllUsers = async (req, res, next) => {
 	}
 }
 
-exports.getUser = async (req, res, next) => {
+exports.getAdmin = async (req, res, next) => {
 	try {
-		const user = await User.findById(req.params.id).select('-password')
+		const user = await Admin.findById(req.params.id).select('-password')
 
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)
@@ -43,9 +41,9 @@ exports.getUser = async (req, res, next) => {
 	}
 }
 
-exports.updateUser = async (req, res, next) => {
+exports.updateAdmin = async (req, res, next) => {
 	try {
-		const user = await User.findByIdAndUpdate(
+		const user = await Admin.findByIdAndUpdate(
 			req.params.id,
 			{ ...req.body },
 			{ new: true, runValidators: true }
@@ -63,9 +61,9 @@ exports.updateUser = async (req, res, next) => {
 	}
 }
 
-exports.deleteUser = async (req, res, next) => {
+exports.deleteAdmin = async (req, res, next) => {
 	try {
-		const user = await User.findByIdAndDelete(req.params.id)
+		const user = await Admin.findByIdAndDelete(req.params.id)
 
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)

@@ -3,11 +3,14 @@ const app = express()
 const cors = require('cors')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+
 // Route
 const authRoute = require('./src/routes/v1/authRoute')
-const userRoute = require('./src/routes/v1/userRoute')
+const adminRoute = require('./src/routes/v1/adminRoute')
 const teacherRoute = require('./src/routes/v1/teacherRoute')
 const studentRoute = require('./src/routes/v1/studentRoute')
+const subjectRoute = require('./src/routes/v1/subjectRoute')
+const classRoute = require('./src/routes/v1/classRoute')
 dotenv.config()
 
 if (process.env.NODE_ENV !== 'production') {
@@ -20,7 +23,15 @@ const { connectDB } = require('./src/configs/mongodb')
 connectDB()
 
 // Mount the route
-app.use('/api/v1/', authRoute, teacherRoute, userRoute, studentRoute)
+app.use(
+	'/api/v1/',
+	authRoute,
+	teacherRoute,
+	adminRoute,
+	studentRoute,
+	subjectRoute,
+	classRoute
+)
 
 // Import error handler
 const { errorHandler } = require('./src/middlewares/errorHandler')

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const User = require('../models/userModel')
+const Admin = require('../models/adminModel')
 const Student = require('../models/studentModel')
 const Teacher = require('../models/teacherModel')
 const bcrypt = require('bcryptjs')
@@ -16,7 +16,7 @@ exports.login = async (req, res, next) => {
 
 		// Check if user existed and username is not correct
 		const user =
-			(await User.findOne({ username: req.body.username })) ||
+			(await Admin.findOne({ username: req.body.username })) ||
 			(await Student.findOne({ username: req.body.username })) ||
 			(await Teacher.findOne({ username: req.body.username }))
 
@@ -26,6 +26,8 @@ exports.login = async (req, res, next) => {
 			return next(err)
 		}
 
+		console.log(user)
+
 		// Check if use existed and password is not correct
 		if (bcrypt.compareSync(req.body.password, user.password)) {
 			const token = jwt.sign(
@@ -34,18 +36,15 @@ exports.login = async (req, res, next) => {
 			)
 
 			const data =
-				(await User.findOne(
-					{ username: req.body.username },
-					{ password: false }
-				)) ||
-				(await Student.findOne(
-					{ username: req.body.username },
-					{ password: false }
-				)) ||
-				(await Teacher.findOne(
-					{ username: req.body.username },
-					{ password: false }
-				))
+				(await Admin.findOne({ username: req.body.username }).select({
+					password: -1,
+				})) ||
+				(await Student.findOne({ username: req.body.username }).select({
+					password: -1,
+				})) ||
+				(await Teacher.findOne({ username: req.body.username }).select({
+					password: -1,
+				}))
 
 			res.status(200).json({
 				status: 'success',

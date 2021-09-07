@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 
-const userSchema = new mongoose.Schema(
+const adminSchema = new mongoose.Schema(
 	{
 		username: { type: String, trim: true, unique: true, required: true },
 		password: { type: String, trim: true, required: true },
@@ -12,14 +12,11 @@ const userSchema = new mongoose.Schema(
 			default: 'admin',
 			required: true,
 		},
-		address: { type: String, required: true },
-		dateOfBirth: { type: Date, required: true },
-		gender: { type: String, required: true },
 	},
 	{ timestamps: true }
 )
 
-userSchema.pre('save', function (next) {
+adminSchema.pre('save', function (next) {
 	let user = this
 
 	bcrypt.hash(user.password, 10, (err, hash) => {
@@ -32,6 +29,6 @@ userSchema.pre('save', function (next) {
 	})
 })
 
-const User = mongoose.model('User', userSchema)
+const Admin = mongoose.model('Admin', adminSchema)
 
-module.exports = User
+module.exports = Admin
