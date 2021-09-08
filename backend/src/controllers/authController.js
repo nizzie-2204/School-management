@@ -26,8 +26,6 @@ exports.login = async (req, res, next) => {
 			return next(err)
 		}
 
-		console.log(user)
-
 		// Check if use existed and password is not correct
 		if (bcrypt.compareSync(req.body.password, user.password)) {
 			const token = jwt.sign(
@@ -39,10 +37,22 @@ exports.login = async (req, res, next) => {
 				(await Admin.findOne({ username: req.body.username }).select({
 					password: -1,
 				})) ||
-				(await Student.findOne({ username: req.body.username }).select({
+				(await Student.findOneAndUpdate(
+					{ username: req.body.username },
+					{
+						isLoggedIn: true,
+						$inc: { visitingTime: 1 },
+					}
+				).select({
 					password: -1,
 				})) ||
-				(await Teacher.findOne({ username: req.body.username }).select({
+				(await Teacher.findOneAndUpdate(
+					{ username: req.body.username },
+					{
+						isLoggedIn: true,
+						$inc: { visitingTime: 1 },
+					}
+				).select({
 					password: -1,
 				}))
 
