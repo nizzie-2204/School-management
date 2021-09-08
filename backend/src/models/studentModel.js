@@ -10,7 +10,7 @@ const studentSchema = new mongoose.Schema(
 		role: {
 			type: String,
 			enum: ['admin', 'student', 'teacher'],
-			default: 'admin',
+			default: 'student',
 			required: true,
 		},
 		address: { type: String, required: true },
@@ -42,7 +42,7 @@ const studentSchema = new mongoose.Schema(
 		},
 		isLoggedIn: { type: Boolean, default: false },
 		visitingTime: { type: Number, default: 0 },
-		classId: { type: String, required: true },
+		classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 	},
 	{ timestamps: true }
 )

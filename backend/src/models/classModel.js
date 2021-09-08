@@ -127,7 +127,7 @@ const classSchema = new Schema(
 				],
 			},
 		],
-		students: [{ type: String, maxLength: 30 }],
+		students: [{ type: Schema.Types.ObjectId, ref: 'Student', maxLength: 30 }],
 		schoolYear: { type: String, default: '2021-2022' },
 		grade: { type: Number, enum: [1, 2, 3, 4, 5], default: 1 },
 		idClassOnline: { type: String },
