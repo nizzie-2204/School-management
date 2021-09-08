@@ -40,8 +40,8 @@ const studentSchema = new mongoose.Schema(
 				address: { type: String, required: true },
 			},
 		},
-		isActive: { type: Boolean, required: true, default: false },
-		visitingTime: { type: Number, required: true, default: 0 },
+		isLoggedIn: { type: Boolean, default: false },
+		visitingTime: { type: Number, default: 0 },
 		classId: { type: String, required: true },
 	},
 	{ timestamps: true }

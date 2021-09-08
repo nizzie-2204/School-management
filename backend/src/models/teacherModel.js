@@ -27,9 +27,9 @@ const teacherSchema = new mongoose.Schema(
 			required: true,
 			trim: true,
 		},
-		isLoggedIn: { type: Boolean, required: true, default: false },
-		visitingTime: { type: Number, required: true, default: 0 },
-		isClassHeadTeacher: { type: Boolean, required: true, default: false },
+		isLoggedIn: { type: Boolean, default: false },
+		visitingTime: { type: Number, default: 0 },
+		isClassHeadTeacher: { type: Boolean, default: false },
 		timetable: [
 			{
 				time: { type: String, required: true, default: '07:30 - 08:05' },
@@ -132,7 +132,7 @@ const teacherSchema = new mongoose.Schema(
 				],
 			},
 		],
-		classId: {},
+		classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 	},
 	{ timestamps: true }
 )

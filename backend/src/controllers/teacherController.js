@@ -43,7 +43,9 @@ exports.getAllTeachers = async (req, res, next) => {
 
 exports.getTeacher = async (req, res, next) => {
 	try {
-		const user = await Teacher.findById(req.params.id).select('-password')
+		const user = await Teacher.findById(req.params.id)
+			.select('-password')
+			.populate('classId')
 
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)
@@ -64,7 +66,7 @@ exports.updateTeacher = async (req, res, next) => {
 			{ ...req.body },
 			{ new: true, runValidators: true }
 		)
-
+		console.log(user)
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)
 			error.statusCode = 404
