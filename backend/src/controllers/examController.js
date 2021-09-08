@@ -2,9 +2,22 @@ const Exam = require('../models/examModel')
 
 exports.createExam = async (req, res, next) => {
 	try {
-		const newExam = await Exam.create(req.body)
+		// const newExam = await Exam.create(req.body)
+		let exam = new Exam({
+			...req.body,
+		})
+		if (req.files) {
+			let path = ''
+			req.files.forEach((file) => {
+				path = path + file.path + ','
+			})
 
-		res.status(200).json({ status: 'success', data: newExam })
+			path = path.substring(0, path.lastIndexOf(','))
+
+			exam.examImages = path
+		}
+
+		res.status(200).json({ status: 'success', data: exam })
 	} catch (error) {
 		next(error)
 	}
