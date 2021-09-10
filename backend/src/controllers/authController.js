@@ -69,3 +69,10 @@ exports.login = async (req, res, next) => {
 		next(error)
 	}
 }
+
+exports.logout = async (req, res, next) => {
+	try {
+	} catch (error) {
+		next(error)
+	}
+}

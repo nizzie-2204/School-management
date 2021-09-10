@@ -6,6 +6,7 @@ const {
 	getExam,
 	getAllExams,
 	updateExam,
+	deleteExam,
 } = require('../../controllers/examController')
 const { permit } = require('../../middlewares/permit')
 const { verifyToken } = require('../../middlewares/auth')
@@ -20,6 +21,6 @@ Router.route('/exams')
 Router.route('/exams/:id')
 	.get(verifyToken, permit('admin'), getExam)
 	.put(verifyToken, permit('admin'), upload.array('examImages[]'), updateExam)
-// 	.delete(verifyToken, permit('admin'), deleteClass)
+	.delete(verifyToken, permit('admin'), deleteExam)
 
 module.exports = Router

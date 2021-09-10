@@ -13,6 +13,7 @@ const studentRoute = require('./src/routes/v1/studentRoute')
 const subjectRoute = require('./src/routes/v1/subjectRoute')
 const classRoute = require('./src/routes/v1/classRoute')
 const examRoute = require('./src/routes/v1/examRoute')
+const examResultRoute = require('./src/routes/v1/examResultRoute')
 dotenv.config()
 
 // if (process.env.NODE_ENV !== 'production') {
@@ -35,7 +36,8 @@ app.use(
 	studentRoute,
 	subjectRoute,
 	classRoute,
-	examRoute
+	examRoute,
+	examResultRoute
 )
 
 // Import error handler
