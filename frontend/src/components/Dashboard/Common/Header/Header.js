@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import React from 'react'
+import useStyles from './styles'
 import MailIcon from '@material-ui/icons/Mail'
 import MenuIcon from '@material-ui/icons/Menu'
 import SearchIcon from '@material-ui/icons/Search'
@@ -25,56 +26,7 @@ import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone'
 import { withStyles } from '@material-ui/styles'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import { Button } from '@material-ui/core'
-
-const useStyles = makeStyles((theme) => ({
-	grow: {
-		flexGrow: 1,
-	},
-	toolBar: {
-		width: '100%',
-		height: '90px',
-		backgroundColor: '#f7f7f7',
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-	},
-	right: {
-		display: 'flex',
-		alignItems: 'center',
-	},
-	select: {
-		display: 'flex',
-		alignItems: 'center',
-	},
-	selectItem: {
-		margin: '0 10px',
-	},
-	info: {
-		display: 'flex',
-		alignItems: 'center',
-	},
-	user: {
-		display: 'flex',
-		alignItems: 'center',
-	},
-	username: {
-		color: '#000',
-		display: 'flex',
-		alignItems: 'center',
-		backgroundColor: 'transparent',
-		boxShadow: '0',
-		maxWidth: '200px',
-		'&:hover': {
-			background: 'transparent',
-		},
-	},
-	badge: {
-		backgroundColor: theme.palette.secondary.main,
-		color: theme.palette.primary.contrastText,
-	},
-}))
-
+import { Link } from 'react-router-dom'
 const customStyles = {
 	option: (provided, state) => ({
 		...provided,
@@ -162,11 +114,11 @@ const Header = () => {
 	}
 
 	return (
-		<AppBar position="static">
+		<AppBar position="fixed" className={classes.appBar} elevation={0}>
 			<Toolbar className={classes.toolBar}>
-				<div className={classes.logo}>
+				<Link to="/" className={classes.logo}>
 					<img src={logo} alt="Logo" />
-				</div>
+				</Link>
 				<div className={classes.right}>
 					<div className={classes.select}>
 						<div className={classes.selectItem}>

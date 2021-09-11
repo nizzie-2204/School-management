@@ -4,69 +4,61 @@ import {
 	ListItem,
 	ListItemIcon,
 	ListItemText,
-} from "@material-ui/core";
-import EqualizerIcon from "@material-ui/icons/Equalizer";
-import ExpandLessIcon from "@material-ui/icons/ExpandLess";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import GroupWorkIcon from "@material-ui/icons/GroupWork";
-import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
-import PeopleIcon from "@material-ui/icons/People";
-import PersonIcon from "@material-ui/icons/Person";
-import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
-import SchoolIcon from "@material-ui/icons/School";
-import SpeedIcon from "@material-ui/icons/Speed";
-import { makeStyles } from "@material-ui/styles";
-import React from "react";
-const useStyles = makeStyles((theme) => ({
-	root: {
-		width: "100%",
-		maxWidth: 290,
-		height: "calc(100vh - 90px)",
-		backgroundColor: theme.palette.secondary.main,
-	},
-	listIcon: {
-		color: theme.palette.primary.contrastText,
-	},
-	listItemText: {
-		color: theme.palette.primary.contrastText,
-		textTransform: "uppercase",
-	},
-	nested: {
-		paddingLeft: theme.spacing(5),
-		color: theme.palette.primary.contrastText,
-	},
-}));
+} from '@material-ui/core'
+import EqualizerIcon from '@material-ui/icons/Equalizer'
+import ExpandLessIcon from '@material-ui/icons/ExpandLess'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import GroupWorkIcon from '@material-ui/icons/GroupWork'
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
+import MenuBookIcon from '@material-ui/icons/MenuBook'
+import PeopleIcon from '@material-ui/icons/People'
+import PersonIcon from '@material-ui/icons/Person'
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
+import SchoolIcon from '@material-ui/icons/School'
+import SpeedIcon from '@material-ui/icons/Speed'
+import React from 'react'
+import useStyles from './styles'
+import { NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
-	const classes = useStyles();
-	const [open, setOpen] = React.useState(false);
-	const [open2, setOpen2] = React.useState(false);
+	const classes = useStyles()
+	const [open, setOpen] = React.useState(false)
+	const [open2, setOpen2] = React.useState(false)
 
 	const handleClick = () => {
-		setOpen(!open);
-		setOpen2(false);
-	};
+		setOpen(!open)
+	}
 
 	const handleClick2 = () => {
-		setOpen2(!open2);
-		setOpen(false);
-	};
+		setOpen2(!open2)
+	}
 	return (
-		<div>
+		<div className={classes.sidebar}>
 			<List
 				component="nav"
 				aria-labelledby="nested-list-subheader"
 				className={classes.root}
 			>
-				<ListItem button>
+				<ListItem
+					className={classes.listItem}
+					button
+					component={NavLink}
+					to="/aa"
+					activeClassName={classes.activeLink}
+				>
 					<ListItemIcon className={classes.listIcon}>
 						<SpeedIcon />
 					</ListItemIcon>
 					<ListItemText className={classes.listItemText} primary="Tổng quan" />
 				</ListItem>
 
-				<ListItem button>
+				<ListItem
+					className={classes.listItem}
+					button
+					component={NavLink}
+					to="/a"
+					activeClassName={classes.activeLink}
+				>
 					<ListItemIcon className={classes.listIcon}>
 						<PersonIcon />
 					</ListItemIcon>
@@ -76,7 +68,14 @@ const Sidebar = () => {
 					/>
 				</ListItem>
 
-				<ListItem button onClick={handleClick}>
+				<ListItem
+					className={classes.listItem}
+					button
+					onClick={handleClick}
+					component={NavLink}
+					to="/a"
+					activeClassName={classes.activeLink}
+				>
 					<ListItemIcon className={classes.listIcon}>
 						<PeopleIcon />
 					</ListItemIcon>
@@ -122,7 +121,14 @@ const Sidebar = () => {
 					</List>
 				</Collapse>
 
-				<ListItem button onClick={handleClick2}>
+				<ListItem
+					className={classes.listItem}
+					button
+					onClick={handleClick2}
+					component={NavLink}
+					to="/a"
+					activeClassName={classes.activeLink}
+				>
 					<ListItemIcon className={classes.listIcon}>
 						<GroupWorkIcon />
 					</ListItemIcon>
@@ -156,7 +162,13 @@ const Sidebar = () => {
 					</List>
 				</Collapse>
 
-				<ListItem button>
+				<ListItem
+					className={classes.listItem}
+					button
+					component={NavLink}
+					to="/a"
+					activeClassName={classes.activeLink}
+				>
 					<ListItemIcon className={classes.listIcon}>
 						<EqualizerIcon />
 					</ListItemIcon>
@@ -165,7 +177,13 @@ const Sidebar = () => {
 						primary="Báo cáo thống kê"
 					/>
 				</ListItem>
-				<ListItem button>
+				<ListItem
+					className={classes.listItem}
+					button
+					component={NavLink}
+					to="/a"
+					activeClassName={classes.activeLink}
+				>
 					<ListItemIcon className={classes.listIcon}>
 						<MenuBookIcon />
 					</ListItemIcon>
@@ -174,7 +192,13 @@ const Sidebar = () => {
 						primary="Thời khóa biểu"
 					/>
 				</ListItem>
-				<ListItem button>
+				<ListItem
+					className={classes.listItem}
+					button
+					component={NavLink}
+					to="/a"
+					activeClassName={classes.activeLink}
+				>
 					<ListItemIcon className={classes.listIcon}>
 						<HelpOutlineIcon />
 					</ListItemIcon>
@@ -182,7 +206,7 @@ const Sidebar = () => {
 				</ListItem>
 			</List>
 		</div>
-	);
-};
+	)
+}
 
-export default Sidebar;
+export default Sidebar

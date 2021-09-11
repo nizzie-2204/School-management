@@ -9,8 +9,9 @@ import StudyPrograms from 'pages/StudyPrograms/StudyPrograms'
 import Admission from 'pages/Admission/Admission'
 import Contact from 'pages/Contact/Contact'
 import Login from 'features/Login/Login'
-import Header from 'components/Dashboard/Header/Header'
-import Sidebar from 'components/Dashboard/Sidebar/Sidebar'
+import Header from 'components/Dashboard/Common/Header/Header'
+import Sidebar from 'components/Dashboard/Common/Sidebar/Sidebar'
+import MainLayout from 'components/Dashboard/Layout/MainLayout'
 
 function App() {
 	return (
@@ -18,13 +19,14 @@ function App() {
 			<ThemeProvider theme={theme}>
 				<Router>
 					<Switch>
-						<Route exact path="/" component={Home} />
+						<MainLayout />
+						{/* <Route exact path="/" component={Home} />
 						<Route exact path="/teacher" component={Teacher} />
 						<Route exact path="/vision" component={Vision} />
 						<Route exact path="/programs" component={StudyPrograms} />
 						<Route exact path="/admission" component={Admission} />
 						<Route exact path="/contact" component={Contact} />
-						<Route exact path="/login" component={Login} />
+						<Route exact path="/login" component={Login} /> */}
 					</Switch>
 				</Router>
 			</ThemeProvider>
