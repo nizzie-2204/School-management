@@ -21,10 +21,10 @@ Router.route('/exam-results')
 		upload.array('examResultImages[]'),
 		createExamResult
 	)
-	.get(verifyToken, permit('admin'), getAllExamResults)
+	.get(verifyToken, permit('admin', 'teacher', 'student'), getAllExamResults)
 
 Router.route('/exam-results/:id')
-	.get(verifyToken, permit('admin'), getExamResult)
+	.get(verifyToken, permit('admin', 'teacher', 'student'), getExamResult)
 	.put(
 		verifyToken,
 		permit('admin'),

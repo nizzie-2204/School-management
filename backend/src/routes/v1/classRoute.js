@@ -17,7 +17,7 @@ Router.route('/classes')
 	.get(verifyToken, permit('admin'), getAllClasses)
 
 Router.route('/classes/:id')
-	.get(verifyToken, permit('admin'), getClass)
+	.get(verifyToken, permit('admin', 'teacher', 'student'), getClass)
 	.put(verifyToken, permit('admin'), updateClass)
 	.delete(verifyToken, permit('admin'), deleteClass)
 

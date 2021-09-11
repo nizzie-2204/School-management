@@ -14,10 +14,10 @@ const Router = express.Router()
 
 Router.route('/subjects')
 	.post(verifyToken, permit('admin'), createSubject)
-	.get(verifyToken, permit('admin'), getAllSubjects)
+	.get(verifyToken, permit('admin', 'teacher', 'student'), getAllSubjects)
 
 Router.route('/subjects/:id')
-	.get(verifyToken, permit('admin'), getSubject)
+	.get(verifyToken, permit('admin', 'teacher', 'student'), getSubject)
 	.put(verifyToken, permit('admin'), updateSubject)
 	.delete(verifyToken, permit('admin'), deleteSubject)
 
