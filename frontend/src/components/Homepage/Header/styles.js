@@ -1,4 +1,4 @@
-const { makeStyles } = require('@material-ui/styles');
+const { makeStyles } = require('@material-ui/styles')
 
 const useStyles = makeStyles((theme) => ({
 	header: {
@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
 		height: '90px',
 		display: 'flex',
 		justifyContent: 'center',
+		paddingRight: '0 !important',
 	},
 	logo: {
 		width: '250px',
@@ -88,6 +89,6 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: theme.palette.secondary.main,
 		},
 	},
-}));
+}))
 
-export { useStyles };
+export { useStyles }

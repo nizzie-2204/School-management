@@ -42,8 +42,8 @@ const Teacher = () => {
 			<Header />
 			<Breadcrumb links={links} />
 			<About />
-			<Fade bottom cascade>
-				<div className={classes.teacherContainer}>
+			<div className={classes.teacherContainer}>
+				<Fade bottom cascade>
 					<Container maxWidth="lg" className={classes.container}>
 						<Typography
 							variant="body2"
@@ -127,8 +127,8 @@ const Teacher = () => {
 							</Grid>
 						</Grid>
 					</Container>
-				</div>
-			</Fade>
+				</Fade>
+			</div>
 			<Footer />
 		</>
 	)

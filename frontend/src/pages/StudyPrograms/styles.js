@@ -1,6 +1,9 @@
 import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme) => ({
+	studyPrograms: {
+		backgroundColor: theme.palette.background.paper,
+	},
 	container: {
 		padding: '100px 0',
 		display: 'flex',

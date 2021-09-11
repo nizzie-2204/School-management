@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles'
 const useStyles = makeStyles((theme) => ({
 	teacherContainer: {
 		backgroundColor: theme.palette.background.paper,
-		marginBottom: '100px',
+		// marginBottom: '100px',
 	},
 	container: {
 		padding: '50px',

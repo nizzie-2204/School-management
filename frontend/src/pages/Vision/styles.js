@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
 	vision: {
 		backgroundColor: theme.palette.background.paper,
+		paddingBottom: '100px',
 	},
 	container: {
-		marginBottom: '100px',
 		padding: '50px',
 		border: '1px solid #ffb607',
 	},

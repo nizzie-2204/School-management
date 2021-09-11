@@ -49,7 +49,7 @@ const Admission = () => {
 						<Typography className={classes.title} variant="h2">
 							Thông tin tuyển sinh
 						</Typography>
-						<Grid container justifyContent="center">
+						<Grid container spacing={4}>
 							<Grid
 								disableSpacing
 								className={classes.gridItem}

@@ -24,11 +24,7 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: 345,
 		textAlign: 'center',
 		textDecoration: 'none',
-		boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
-		transition: 'all 0.1s cubic-bezier(.25,.8,.25,1)',
-		' &:hover': {
-			boxShadow: ' 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)',
-		},
+		cursor: 'default',
 	},
 	media: {
 		height: 0,
@@ -56,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
 		color: '#000',
 		fontSize: '20px',
 		marginBottom: '10px',
+		cursor: 'pointer',
+		transition: '0.3s',
+		'&:hover': {
+			color: theme.palette.primary.main,
+		},
 	},
 	cardSubtitle: {
 		color: '#52575e',

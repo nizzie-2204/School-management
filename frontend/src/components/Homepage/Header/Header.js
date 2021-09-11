@@ -5,23 +5,23 @@ import {
 	List,
 	MenuItem,
 	Toolbar,
-} from '@material-ui/core';
-import logo from 'assets/images/logo.png';
+} from '@material-ui/core'
+import logo from 'assets/images/logo.png'
 import {
 	bindHover,
 	bindMenu,
 	usePopupState,
-} from 'material-ui-popup-state/hooks';
-import Menu from 'material-ui-popup-state/HoverMenu';
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import DrawerComponent from './DrawerComponent/DrawerComponent';
-import { useStyles } from './styles.js';
+} from 'material-ui-popup-state/hooks'
+import Menu from 'material-ui-popup-state/HoverMenu'
+import React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
+import DrawerComponent from './DrawerComponent/DrawerComponent'
+import { useStyles } from './styles.js'
 
 const Header = () => {
-	const classes = useStyles();
-	const popupState1 = usePopupState({ variant: 'popover', popupId: 'menu1' });
-	const popupState2 = usePopupState({ variant: 'popover', popupId: 'menu2' });
+	const classes = useStyles()
+	const popupState1 = usePopupState({ variant: 'popper', popupId: 'menu1' })
+	const popupState2 = usePopupState({ variant: 'popper', popupId: 'menu2' })
 
 	return (
 		<AppBar position="fixed" className={classes.header}>
@@ -156,7 +156,7 @@ const Header = () => {
 				</Hidden>
 			</Toolbar>
 		</AppBar>
-	);
-};
+	)
+}
 
-export default Header;
+export default Header
