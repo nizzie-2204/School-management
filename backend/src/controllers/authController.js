@@ -15,11 +15,11 @@ exports.login = async (req, res, next) => {
 		}
 
 		// Check if user existed and username is not correct
+
 		const user =
 			(await Admin.findOne({ username: req.body.username })) ||
-			(await Student.findOne({ username: req.body.username })) ||
-			(await Teacher.findOne({ username: req.body.username }))
-
+			(await Teacher.findOne({ username: req.body.username })) ||
+			(await Student.findOne({ username: req.body.username }))
 		if (!user) {
 			const err = new Error('Username is not correct!')
 			err.statusCode = 400
@@ -33,32 +33,28 @@ exports.login = async (req, res, next) => {
 				process.env.APP_SECRET
 			)
 
-			const data =
-				(await Admin.findOne({ username: req.body.username }).select({
-					password: -1,
-				})) ||
+			const newUser =
+				(await Admin.findOne({ username: req.body.username })) ||
 				(await Student.findOneAndUpdate(
 					{ username: req.body.username },
+					{ $inc: { visitingTime: 1 }, isLoggedIn: true },
 					{
-						isLoggedIn: true,
-						$inc: { visitingTime: 1 },
+						new: true,
+						runValidators: true,
 					}
-				).select({
-					password: -1,
-				})) ||
+				).select('-password')) ||
 				(await Teacher.findOneAndUpdate(
 					{ username: req.body.username },
+					{ $inc: { visitingTime: 1 }, isLoggedIn: true },
 					{
-						isLoggedIn: true,
-						$inc: { visitingTime: 1 },
+						new: true,
+						runValidators: true,
 					}
-				).select({
-					password: -1,
-				}))
+				).select('-password'))
 
 			res.status(200).json({
 				status: 'success',
-				data: { token: token, user: data },
+				data: { token: token, user: newUser },
 			})
 		} else {
 			const err = new Error('Password is not correct!')
@@ -72,6 +68,30 @@ exports.login = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
 	try {
+		const user =
+			(await Admin.findOne({ _id: req.body.id })) ||
+			(await Student.findOneAndUpdate(
+				{ _id: req.body.id },
+				{
+					isLoggedIn: false,
+				},
+				{
+					new: true,
+					runValidators: true,
+				}
+			)) ||
+			(await Teacher.findOneAndUpdate(
+				{ _id: req.body.id },
+				{
+					isLoggedIn: false,
+				},
+				{
+					new: true,
+					runValidators: true,
+				}
+			))
+
+		res.json({ message: 'Logout successful' })
 	} catch (error) {
 		next(error)
 	}
