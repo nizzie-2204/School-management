@@ -5,6 +5,8 @@ import Header from 'components/Dashboard/Common/Header/Header'
 import Sidebar from '../Common/Sidebar/Sidebar'
 import { Route, Switch } from 'react-router-dom'
 import Overview from 'components/Dashboard/Common/Overview/Overview'
+import StudentAccount from '../Common/StudentAccount/StudentAccount'
+import TeacherAccount from '../Common/TeacherAccount/TeacherAccount'
 
 const MainLayout = () => {
 	const classes = useStyles()
@@ -21,6 +23,8 @@ const MainLayout = () => {
 			<Box className={classes.main}>
 				<Switch>
 					<Route exact path="/overview" component={Overview} />
+					<Route exact path="/accounts/student" component={StudentAccount} />
+					<Route exact path="/accounts/teacher" component={TeacherAccount} />
 				</Switch>
 			</Box>
 		</Box>
