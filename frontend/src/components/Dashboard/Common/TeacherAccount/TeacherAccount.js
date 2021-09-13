@@ -16,6 +16,8 @@ import BuildIcon from '@material-ui/icons/Build'
 import CheckIcon from '@material-ui/icons/Check'
 import ClearIcon from '@material-ui/icons/Clear'
 import AddIcon from '@material-ui/icons/Add'
+import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
+
 function createData(name, calories, fat, carbs, protein) {
 	return { name, calories, fat, carbs }
 }
@@ -28,19 +30,36 @@ const rows = [
 	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
 ]
 
+const links = [
+	{
+		title: 'Dashboard',
+		path: '/dashboard/overview',
+	},
+	{
+		title: 'Quản lý tài khoản',
+		path: '/dashboard/student',
+	},
+	{
+		title: 'Giáo viên',
+		path: '/dashboard/teacher',
+	},
+]
+
 const TeacherAccount = () => {
 	const classes = useStyles()
 
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 
 	return (
-		<div>
+		<>
+			<Breadcrumb links={links} />
+
 			<form noValidate autoComplete="off">
 				<div className={classes.searchBar}>
 					<TextField
 						className={classes.searchField}
 						id="outlined-textarea"
-						placeholder="Tên đăng nhập"
+						placeholder="Họ và tên"
 						variant="outlined"
 						inputProps={{
 							style: { padding: '12.5px 14px' },
@@ -159,7 +178,7 @@ const TeacherAccount = () => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-		</div>
+		</>
 	)
 }
 

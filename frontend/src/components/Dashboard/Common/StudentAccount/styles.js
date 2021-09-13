@@ -24,24 +24,26 @@ const useStyles = makeStyles((theme) => ({
 	searchBar: {
 		display: 'flex',
 		alignItems: 'center',
-		marginBottom: '60px',
+		marginBottom: '30px',
 		backgroundColor: theme.palette.background.paper,
 	},
 	searchField: {
 		flex: '1',
 		color: theme.palette.text.main,
 		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: theme.palette.secondary.main,
+			borderColor: 'rgba(0, 0, 0, 0.15)',
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
 		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: theme.palette.secondary.main,
+			borderColor: 'rgba(0, 0, 0, 0.15)',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
 		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-			borderColor: theme.palette.secondary.main,
+			borderColor: 'rgba(0, 0, 0, 0.15)',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
@@ -53,11 +55,11 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		padding: '10px 20px',
 		color: theme.palette.text.secondary,
-		backgroundColor: theme.palette.secondary.main,
+		backgroundColor: '#3254ac',
 		borderRadius: '0',
 		boxShadow: 'none !important',
 		'&:hover': {
-			backgroundColor: theme.palette.secondary.main,
+			backgroundColor: '#3254ac',
 		},
 	},
 }))

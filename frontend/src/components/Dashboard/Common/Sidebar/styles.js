@@ -8,15 +8,15 @@ const useStyles = makeStyles((theme) => ({
 		'*::-webkit-scrollbar-thumb': {
 			height: '10px',
 			borderRadius: '10px',
-			backgroundColor: '#aaa',
+			backgroundColor: 'rgba(0,0,0,0.12)',
 			opacity: 0.4,
 		},
 	},
 	sidebar: {
-		backgroundColor: theme.palette.background.paper,
+		backgroundColor: '#5278db',
 		transition: '0.3s',
 		width: '310px',
-		// height: 'calc(100vh - 90px)',
+		height: 'calc(100vh - 90px)',
 		overflowY: 'overlay',
 		'&:hover': {
 			overflowY: 'overlay',
@@ -26,24 +26,26 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 	listIcon: {
-		color: theme.palette.text.main,
+		color: theme.palette.text.secondary,
 	},
 	listItem: {
-		backgroundColor: theme.palette.background.paper,
+		backgroundColor: '#5278db',
 		'&:hover': {
-			backgroundColor: '#eff3f6',
+			backgroundColor: '#3254ac',
 		},
 	},
 	activeLink: {
-		backgroundColor: '#eff3f6',
+		backgroundColor: '#3254ac',
 	},
 	listItemText: {
-		color: theme.palette.text.main,
+		color: theme.palette.text.secondary,
 		textTransform: 'uppercase',
 	},
 	nested: {
 		paddingLeft: theme.spacing(5),
-		color: theme.palette.text.main,
+		'&:hover': {
+			backgroundColor: '#3254ac',
+		},
 	},
 }))
 

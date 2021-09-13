@@ -5,8 +5,8 @@ import {
 	ListItemIcon,
 	ListItemText,
 } from '@material-ui/core'
-import EqualizerIcon from '@material-ui/icons/Equalizer'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
+import EqualizerIcon from '@material-ui/icons/Equalizer'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import GroupWorkIcon from '@material-ui/icons/GroupWork'
@@ -18,8 +18,8 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
 import SchoolIcon from '@material-ui/icons/School'
 import SpeedIcon from '@material-ui/icons/Speed'
 import React from 'react'
-import useStyles from './styles'
 import { NavLink } from 'react-router-dom'
+import useStyles from './styles'
 
 const Sidebar = () => {
 	const classes = useStyles()
@@ -49,7 +49,7 @@ const Sidebar = () => {
 					className={classes.listItem}
 					button
 					component={NavLink}
-					to="/overview"
+					to="/dashboard/overview"
 					activeClassName={classes.activeLink}
 				>
 					<ListItemIcon className={classes.listIcon}>
@@ -58,14 +58,7 @@ const Sidebar = () => {
 					<ListItemText className={classes.listItemText} primary="Tổng quan" />
 				</ListItem>
 
-				<ListItem
-					className={classes.listItem}
-					button
-					onClick={handleClick3}
-					component={NavLink}
-					to="/"
-					activeClassName={classes.activeLink}
-				>
+				<ListItem className={classes.listItem} button onClick={handleClick3}>
 					<ListItemIcon className={classes.listIcon}>
 						<PeopleIcon />
 					</ListItemIcon>
@@ -83,7 +76,7 @@ const Sidebar = () => {
 					<List component="div" disablePadding>
 						<ListItem
 							component={NavLink}
-							to="/accounts/student"
+							to="/dashboard/student"
 							activeClassName={classes.activeLink}
 							button
 							className={classes.nested}
@@ -98,7 +91,7 @@ const Sidebar = () => {
 						</ListItem>
 						<ListItem
 							component={NavLink}
-							to="/accounts/teacher"
+							to="/dashboard/teacher"
 							activeClassName={classes.activeLink}
 							button
 							className={classes.nested}
@@ -114,14 +107,7 @@ const Sidebar = () => {
 					</List>
 				</Collapse>
 
-				<ListItem
-					className={classes.listItem}
-					button
-					onClick={handleClick}
-					component={NavLink}
-					to="/a"
-					activeClassName={classes.activeLink}
-				>
+				<ListItem className={classes.listItem} button onClick={handleClick}>
 					<ListItemIcon className={classes.listIcon}>
 						<AssignmentIndIcon />
 					</ListItemIcon>
@@ -167,14 +153,7 @@ const Sidebar = () => {
 					</List>
 				</Collapse>
 
-				<ListItem
-					className={classes.listItem}
-					button
-					onClick={handleClick2}
-					component={NavLink}
-					to="/a"
-					activeClassName={classes.activeLink}
-				>
+				<ListItem className={classes.listItem} button onClick={handleClick2}>
 					<ListItemIcon className={classes.listIcon}>
 						<GroupWorkIcon />
 					</ListItemIcon>

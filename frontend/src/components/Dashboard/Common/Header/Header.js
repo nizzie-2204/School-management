@@ -1,52 +1,31 @@
 import {
+	AppBar,
+	Badge,
+	Button,
+	IconButton,
+	ListItemText,
 	Menu,
 	MenuItem,
 	Toolbar,
-	Badge,
-	AppBar,
-	makeStyles,
-	IconButton,
 	Typography,
-	InputBase,
-	ListItemIcon,
-	ListItemText,
 } from '@material-ui/core'
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import React from 'react'
-import useStyles from './styles'
-import MailIcon from '@material-ui/icons/Mail'
-import MenuIcon from '@material-ui/icons/Menu'
-import SearchIcon from '@material-ui/icons/Search'
-import NotificationsIcon from '@material-ui/icons/Notifications'
-import MoreIcon from '@material-ui/icons/More'
-import logo from 'assets/images/logo.png'
-import { useState } from 'react'
-import Select from 'react-select'
+import Avatar from '@material-ui/core/Avatar'
+import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone'
+import PermIdentityIcon from '@material-ui/icons/PermIdentity'
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 import { withStyles } from '@material-ui/styles'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import { Button } from '@material-ui/core'
+import logo from 'assets/images/logo.png'
+import React from 'react'
 import { Link } from 'react-router-dom'
-const customStyles = {
-	option: (provided, state) => ({
-		...provided,
-		color: '#000',
-		padding: 5,
-	}),
-	control: () => ({
-		// none of react-select's styles are passed to <Control />
-		width: 180,
-		display: 'flex',
-		alignItems: 'center',
-		backgroundColor: '#fff',
-		borderRadius: '4px',
-	}),
-}
+import useStyles from './styles'
 
 const StyledMenu = withStyles({
 	list: {
 		backgroundColor: 'transparent',
-		padding: '0',
+		padding: '10px 0',
+		border: '1px solid rgba(0, 0, 0, 0.15)',
+		borderRadius: '8px',
 	},
 })((props) => (
 	<Menu
@@ -66,41 +45,15 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles((theme) => ({
 	root: {
-		padding: '10px 8px',
+		padding: '3px 16px',
 		backgroundColor: '#fff',
 		color: '#000',
-		// "&:focus": {
-		// 	backgroundColor: theme.palette.primary.main,
-		// 	"& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-		// 		color: theme.palette.common.white,
-		// 	},
-		// },
+		fontSize: '14px !important',
 	},
 }))(MenuItem)
 
-const yearOptions = [
-	{ value: '2020-2021', label: 'Năm học 2020-2021' },
-	{ value: '2021-2022', label: 'Năm học 2021-2022' },
-]
-
-const termOptions = [
-	{ value: '1', label: 'Học kỳ I' },
-	{ value: '2', label: 'Học kỳ II' },
-]
-
 const Header = () => {
 	const classes = useStyles()
-
-	// React-select
-	const [selectedYearOption, setSelectedYearOption] = useState(null)
-	const handleChangeYearOption = (selectedYearOption) => {
-		setSelectedYearOption(selectedYearOption)
-	}
-
-	const [selectedTermOption, setSelectedTermOption] = useState(null)
-	const handleChangeTermOption = (selectedTermOption) => {
-		setSelectedTermOption(selectedTermOption)
-	}
 
 	// User dropdown
 	const [anchorEl, setAnchorEl] = React.useState(null)
@@ -116,36 +69,27 @@ const Header = () => {
 	return (
 		<AppBar position="fixed" className={classes.appBar} elevation={0}>
 			<Toolbar className={classes.toolBar}>
-				<Link to="/" className={classes.logo}>
+				<Link to="/dashboard/overview" className={classes.logo}>
 					<img src={logo} alt="Logo" />
 				</Link>
+				<Typography
+					variant="subtitle1"
+					component="p"
+					className={classes.schoolYear}
+				>
+					Năm học 2021-2022
+				</Typography>
 				<div className={classes.right}>
-					<div className={classes.select}>
-						<div className={classes.selectItem}>
-							<Select
-								placeholder="Năm học"
-								styles={customStyles}
-								className={classes.yearOptions}
-								value={selectedYearOption}
-								onChange={handleChangeYearOption}
-								options={yearOptions}
-							/>
-						</div>
-						<div className={classes.selectItem}>
-							<Select
-								placeholder="Học kỳ"
-								styles={customStyles}
-								className={classes.termOptions}
-								value={selectedTermOption}
-								onChange={handleChangeTermOption}
-								options={termOptions}
-							/>
-						</div>
-					</div>
 					<div className={classes.info}>
 						<IconButton className={classes.notify}>
-							<Badge badgeContent={17} classes={{ badge: classes.badge }}>
+							<Badge badgeContent={5} classes={{ badge: classes.badge }}>
 								<NotificationsNoneIcon />
+							</Badge>
+						</IconButton>
+
+						<IconButton className={classes.notify}>
+							<Badge badgeContent={2} classes={{ badge: classes.badge }}>
+								<MailOutlineIcon />
 							</Badge>
 						</IconButton>
 
@@ -159,7 +103,14 @@ const Header = () => {
 								variant="contained"
 								color="primary"
 								onClick={handleClick}
-								startIcon={<AccountCircleIcon />}
+								startIcon={
+									<Avatar
+										className={classes.avatar}
+										src={
+											'https://cdn-icons-png.flaticon.com/512/3237/3237472.png'
+										}
+									/>
+								}
 							>
 								Nguyễn Anh Tuấn
 							</Button>
@@ -171,10 +122,24 @@ const Header = () => {
 								onClose={handleClose}
 							>
 								<StyledMenuItem>
-									<ListItemIcon>
-										<ExitToAppIcon fontSize="small" />
-									</ListItemIcon>
-									<ListItemText primary="Đăng xuất" />
+									<PermIdentityIcon
+										fontSize="small"
+										style={{ marginRight: '15px' }}
+									/>
+									<ListItemText
+										primary="Thông tin"
+										className={classes.popupUser}
+									/>
+								</StyledMenuItem>
+								<StyledMenuItem>
+									<PowerSettingsNewIcon
+										fontSize="small"
+										style={{ marginRight: '15px' }}
+									/>
+									<ListItemText
+										primary="Đăng xuất"
+										className={classes.popupUser}
+									/>
 								</StyledMenuItem>
 							</StyledMenu>
 						</div>

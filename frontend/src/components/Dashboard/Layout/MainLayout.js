@@ -22,9 +22,9 @@ const MainLayout = () => {
 
 			<Box className={classes.main}>
 				<Switch>
-					<Route exact path="/overview" component={Overview} />
-					<Route exact path="/accounts/student" component={StudentAccount} />
-					<Route exact path="/accounts/teacher" component={TeacherAccount} />
+					<Route exact path="/dashboard/overview" component={Overview} />
+					<Route exact path="/dashboard/student" component={StudentAccount} />
+					<Route exact path="/dashboard/teacher" component={TeacherAccount} />
 				</Switch>
 			</Box>
 		</Box>
