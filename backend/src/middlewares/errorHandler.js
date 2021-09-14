@@ -23,5 +23,7 @@ exports.errorHandler = (err, req, res, next) => {
 		}
 	}
 
+	console.log(res.json({ status: 'fail', message: err.message }))
+
 	res.status(err.statusCode).json({ status: 'fail', message: err.message })
 }

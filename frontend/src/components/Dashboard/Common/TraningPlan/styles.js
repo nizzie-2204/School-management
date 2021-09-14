@@ -37,11 +37,13 @@ const useStyles = makeStyles((theme) => ({
 		},
 		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
 			borderColor: 'rgba(0, 0, 0, 0.15)',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
 		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
 			borderColor: 'rgba(0, 0, 0, 0.15)',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
@@ -59,31 +61,6 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			backgroundColor: '#3254ac',
 		},
-	},
-	root: {
-		display: 'grid',
-		gridTemplateRows: 'auto 1fr',
-		gridTemplateColumns: '310px 1fr',
-		gridTemplateAreas: `"header header" "sidebar main"`,
-
-		minHeight: '100vh',
-	},
-
-	header: {
-		gridArea: 'header',
-		zIndex: 999,
-	},
-	sidebar: {
-		gridArea: 'sidebar',
-		borderRight: `1px solid ${theme.palette.divider}`,
-		backgroundColor: theme.palette.background.paper,
-		position: 'fixed',
-	},
-	main: {
-		gridArea: 'main',
-		backgroundColor: '#f9fafb',
-		padding: theme.spacing(2, 3),
-		overflowY: 'overlay',
 	},
 }))
 

@@ -13,9 +13,9 @@ const Breadcrumb = ({ title, links }) => {
 				separator={<NavigateNextIcon fontSize="small" />}
 				className={classes.link}
 			>
-				{links.map((link) => {
+				{links.map((link, index) => {
 					return (
-						<Link to={link.path} className={classes.link}>
+						<Link key={index} to={link.path} className={classes.link}>
 							{link.title}
 						</Link>
 					)

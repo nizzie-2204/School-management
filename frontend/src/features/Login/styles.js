@@ -1,8 +1,9 @@
-const { makeStyles } = require('@material-ui/core');
+import background from 'assets/images/background.jpg'
+const { makeStyles } = require('@material-ui/core')
 
 const useStyles = makeStyles((theme) => ({
 	login: {
-		backgroundColor: theme.palette.background.paper,
+		backgroundImage: `url(${background})`,
 		height: '100vh',
 	},
 	container: {
@@ -12,68 +13,90 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 	},
 	paper: {
-		width: '40%',
-		height: '100%',
+		width: '50%',
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
+		justifyContent: 'center',
+		padding: '20px',
+		backgroundColor: theme.palette.background.paper,
 	},
 	avatar: {
 		margin: theme.spacing(1),
-		backgroundColor: theme.palette.background.default,
-		marginTop: '70px',
-		color: theme.palette.text.main,
+		backgroundColor: '#5278db',
+		color: theme.palette.text.secondary,
+	},
+	title: {
+		marginBottom: '30px',
 	},
 	form: {
-		width: '100%', // Fix IE 11 issue.
-		marginTop: '30px',
+		width: '70%', // Fix IE 11 issue.
+		marginTop: '10px',
+		marginBottom: '20px',
 	},
 	submit: {
-		margin: theme.spacing(3, 0, 2),
-		backgroundColor: '#ffb607',
+		margin: theme.spacing(5, 0, 2),
+		padding: '10px 0',
+		backgroundColor: '#5278db',
 		'&:hover': {
-			backgroundColor: '#007bff',
+			backgroundColor: '#5278db',
 		},
 	},
 	input: {
 		fontSize: '16px',
 		color: '#000',
 		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: '#ffb607',
+			border: '1px solid #dcdbdb',
 		},
 		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: '#ffb607',
+			border: '1px solid #dcdbdb',
 		},
 		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-			borderColor: '#ffb607',
+			border: '1px solid #3254ac',
 		},
-	},
-	footer: {
-		width: '60%',
-		marginTop: 'auto',
-		paddingBottom: '20px',
-	},
-	footerList: {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-
-		listStyle: 'none',
 	},
 	footerLink: {
 		textDecoration: 'none',
-		color: theme.palette.text.main,
+		color: '#5c6ac4',
 		transition: '0.3s',
-		'&:hover': {
-			color: theme.palette.primary.main,
-		},
+		display: 'flex',
+		alignItems: 'center',
+		fontSize: '14px',
 	},
-	// border: {
-	// 	margin: '0 30px',
-	// 	padding: '0 30px',
-	// 	borderLeft: '1px solid #000',
-	// 	borderRight: '1px solid #000',
-	// },
-}));
+	footerIcon: {
+		fontSize: '14px',
+		color: '#5c6ac4',
+		marginRight: '5px',
+	},
+	error: {
+		width: '70%',
+		color: '#c74a47',
+		backgroundColor: '#fbe2e2',
+		fontSize: '16px',
+		textAlign: 'left',
+		padding: '10px 15px',
+	},
+	emptySubmit: {
+		width: '70%',
+		backgroundColor: '#fff',
+		fontSize: '14px',
+		textAlign: 'left',
+		height: '42px',
+	},
+	empty: {
+		width: '70%',
+		backgroundColor: 'transparent',
+		fontSize: '16px',
+		textAlign: 'left',
+		height: '42px',
+	},
+	top: {
+		color: '#fff',
+		animationDuration: '750ms',
+	},
+	circle: {
+		strokeLinecap: 'round',
+	},
+}))
 
-export { useStyles };
+export { useStyles }

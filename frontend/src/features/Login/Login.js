@@ -8,25 +8,72 @@ import {
 	TextField,
 	Typography,
 	withStyles,
-} from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
-import { useStyles } from './styles';
+	CircularProgress,
+} from '@material-ui/core'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import React, { useState } from 'react'
+import { Helmet } from 'react-helmet'
+import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { useStyles } from './styles'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { login } from 'features/Login/authSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { unwrapResult } from '@reduxjs/toolkit'
 
 const CustomCheckbox = withStyles({
 	root: {
-		color: ' #ffb607',
+		color: ' #5278db',
 		'&$checked': {
-			color: ' #ffb607',
+			color: ' #5278db',
 		},
 	},
 	checked: {},
-})((props) => <Checkbox color="default" {...props} />);
+})((props) => <Checkbox color="default" {...props} />)
+
+const schema = yup.object().shape({
+	username: yup.string().required('Bạn chưa nhập tài khoản'),
+	password: yup.string().required('Bạn chưa nhập mật khẩu'),
+})
 
 const Login = () => {
-	const classes = useStyles();
+	const classes = useStyles()
+	const dispatch = useDispatch()
+	const history = useHistory()
+	const isLogging = useSelector((state) => state.auth.isLogging)
+
+	const {
+		register,
+		formState: { errors },
+		handleSubmit,
+	} = useForm({ resolver: yupResolver(schema), reValidateMode: 'onSubmit' })
+	const [error, setError] = useState(null)
+
+	const submit = (data, e) => {
+		e.preventDefault()
+
+		const action = login({ ...data })
+		dispatch(action)
+			.then(unwrapResult)
+			.then((res) => {
+				if (res.message === 'Username is not correct!') {
+					setError('Tài khoản không tồn tại')
+				} else if (res.message === 'Password is not correct!') {
+					setError('Mật khẩu không đúng')
+				}
+
+				if (res.status !== 'fail') {
+					history.push('/dashboard/overview')
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -40,11 +87,29 @@ const Login = () => {
 						<Avatar className={classes.avatar}>
 							<LockOutlinedIcon />
 						</Avatar>
-						<Typography component="h1" variant="h5">
+						<Typography component="h1" variant="h5" className={classes.title}>
 							Đăng nhập
 						</Typography>
-						<form className={classes.form} noValidate>
+
+						{(errors.username && (
+							<p className={classes.error}>{errors?.username?.message}</p>
+						)) ||
+							(errors.password && (
+								<p className={classes.error}>{errors?.password?.message}</p>
+							)) ||
+							(error && <p className={classes.error}>{error}</p>)}
+
+						{!errors?.username && !errors?.password && !error ? (
+							<div className={classes.empty}></div>
+						) : null}
+
+						<form
+							className={classes.form}
+							noValidate
+							onSubmit={handleSubmit(submit)}
+						>
 							<TextField
+								{...register('username')}
 								className={classes.input}
 								InputLabelProps={{
 									style: { color: '#000' },
@@ -55,33 +120,31 @@ const Login = () => {
 								fullWidth
 								id="email"
 								label="Tài khoản"
-								name="email"
+								name="username"
 								autoComplete="email"
-								autoFocus
 							/>
+
 							<TextField
+								{...register('password')}
 								className={classes.input}
 								InputLabelProps={{
 									style: { color: '#000' },
 								}}
 								variant="outlined"
 								margin="normal"
+								label="Mật khẩu"
 								required
 								fullWidth
 								name="password"
-								label="Mật khẩu"
 								type="password"
 								id="password"
 								autoComplete="current-password"
 							/>
-							<FormControlLabel
+							{/* <FormControlLabel
 								control={<CustomCheckbox value="remember" color="primary" />}
 								label="Remember me"
-							/>
+							/> */}
 
-							{/* <RouterLink to="/" variant="body2">
-							Forgot password?
-						</RouterLink> */}
 							<Button
 								type="submit"
 								fullWidth
@@ -89,36 +152,31 @@ const Login = () => {
 								color="primary"
 								className={classes.submit}
 							>
-								Đăng nhập
+								{isLogging ? (
+									<CircularProgress
+										variant="indeterminate"
+										disableShrink
+										className={classes.top}
+										classes={{
+											circle: classes.circle,
+										}}
+										size={18}
+										thickness={4}
+									/>
+								) : (
+									'Đăng nhập'
+								)}
 							</Button>
 						</form>
-						<div className={classes.footer}>
-							<ul className={classes.footerList}>
-								<li>
-									<Link className={classes.footerLink} to="/">
-										Trang chủ
-									</Link>
-								</li>
-								<li>
-									<Link
-										className={`${classes.footerLink} ${classes.border}`}
-										to="/about"
-									>
-										Giới thiệu
-									</Link>
-								</li>
-								<li>
-									<Link className={classes.footerLink} to="/admission">
-										Tuyển sinh
-									</Link>
-								</li>
-							</ul>
-						</div>
+						<Link className={classes.footerLink} to="/">
+							<ArrowBackIcon className={classes.footerIcon} />
+							Về trang chủ
+						</Link>
 					</div>
 				</Container>
 			</div>
 		</>
-	);
-};
+	)
+}
 
-export default Login;
+export default Login

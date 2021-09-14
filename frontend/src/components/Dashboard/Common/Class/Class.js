@@ -2,40 +2,38 @@ import {
 	Box,
 	Button,
 	IconButton,
+	Paper,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
 	TextField,
+	Tooltip,
 	Typography,
 } from '@material-ui/core'
-import Paper from '@material-ui/core/Paper'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Tooltip from '@material-ui/core/Tooltip'
 import AddIcon from '@material-ui/icons/Add'
 import BuildIcon from '@material-ui/icons/Build'
-import CheckIcon from '@material-ui/icons/Check'
-import ClearIcon from '@material-ui/icons/Clear'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import React, { useState } from 'react'
-import { Helmet } from 'react-helmet-async'
+import React from 'react'
+import { Helmet } from 'react-helmet'
 import useStyles from './styles'
 import Header from 'components/Dashboard/Common/Header/Header'
 import Sidebar from 'components/Dashboard/Common/Sidebar/Sidebar'
-function createData(name, calories, fat, carbs, protein) {
-	return { name, calories, fat, carbs }
+function createData(name, calories, fat, carbs, asd) {
+	return { name, calories, asd, fat, carbs }
 }
 
 const rows = [
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
+	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
+	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
+	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
+	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
+	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
 ]
 
 const links = [
@@ -44,24 +42,21 @@ const links = [
 		path: '/dashboard/overview',
 	},
 	{
-		title: 'Quản lý tài khoản',
-		path: '/dashboard/student',
+		title: 'Quản lý đào tạo',
+		path: '/dashboard/class',
 	},
 	{
-		title: 'Giáo viên',
-		path: '/dashboard/teacher',
+		title: 'Lớp học',
+		path: '/dashboard/class',
 	},
 ]
 
-const TeacherAccount = () => {
+const Class = () => {
 	const classes = useStyles()
-
-	const [isLoggedIn, setIsLoggedIn] = useState(false)
-
 	return (
 		<>
 			<Helmet>
-				<title>Giáo viên - Hệ thống trường quốc tế</title>
+				<title>Lớp học - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
 			<Breadcrumb links={links} />
@@ -81,7 +76,7 @@ const TeacherAccount = () => {
 							<TextField
 								className={classes.searchField}
 								id="outlined-textarea"
-								placeholder="Họ và tên"
+								placeholder="Tên lớp"
 								variant="outlined"
 								inputProps={{
 									style: { padding: '12.5px 14px' },
@@ -104,14 +99,14 @@ const TeacherAccount = () => {
 							id="subtitle"
 							component="div"
 						>
-							Danh sách tài khoản giáo viên
+							Danh sách lớp học
 						</Typography>
 						<Button
 							variant="contained"
 							className={classes.button}
 							startIcon={<AddIcon />}
 						>
-							Thêm tài khoản
+							Thêm lớp học
 						</Button>
 					</div>
 
@@ -123,15 +118,13 @@ const TeacherAccount = () => {
 										STT
 									</TableCell>
 									<TableCell align="center" className={classes.tableHead}>
-										Họ và tên
+										Tên
 									</TableCell>
-
 									<TableCell align="center" className={classes.tableHead}>
-										Đăng nhập
+										Số lượng học sinh
 									</TableCell>
-
 									<TableCell align="center" className={classes.tableHead}>
-										Tài khoản
+										Khối
 									</TableCell>
 									<TableCell align="center" className={classes.tableHead}>
 										Ngày tạo
@@ -152,23 +145,11 @@ const TeacherAccount = () => {
 											{row.name}
 										</TableCell>
 										<TableCell align="center">{row.calories}</TableCell>
-
-										<TableCell align="center">
-											{isLoggedIn ? (
-												<CheckIcon
-													fontSize="small"
-													className={classes.isLoggedIn}
-												/>
-											) : (
-												<ClearIcon
-													fontSize="small"
-													className={classes.isLoggedOut}
-												/>
-											)}
-										</TableCell>
-										<TableCell align="center">t2100021</TableCell>
-										<TableCell align="center">{row.carbs}</TableCell>
 										<TableCell align="center">{row.fat}</TableCell>
+
+										<TableCell align="center">1</TableCell>
+										<TableCell align="center">{row.asd}</TableCell>
+										<TableCell align="center">{row.carbs}</TableCell>
 										<TableCell align="center">
 											<Tooltip title="Chi tiết">
 												<IconButton>
@@ -206,4 +187,4 @@ const TeacherAccount = () => {
 	)
 }
 
-export default TeacherAccount
+export default Class

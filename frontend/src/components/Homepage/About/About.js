@@ -1,15 +1,14 @@
-import { Button, Container, Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import React from 'react';
-import image from 'assets/images/aboutImg.png';
-import image2 from 'assets/images/education.png';
-import image3 from 'assets/images/class.png';
-import image4 from 'assets/images/academy.png';
-import { useStyles } from './styles';
-import Fade from 'react-reveal/Fade';
+import { Container, Grid, Typography } from '@material-ui/core'
+import image from 'assets/images/aboutImg.png'
+import image4 from 'assets/images/academy.png'
+import image3 from 'assets/images/class.png'
+import image2 from 'assets/images/education.png'
+import React from 'react'
+import Fade from 'react-reveal/Fade'
+import { useStyles } from './styles'
 
 const About = () => {
-	const classes = useStyles();
+	const classes = useStyles()
 	return (
 		<div className={classes.about}>
 			<Container>
@@ -91,7 +90,7 @@ const About = () => {
 				</Fade>
 			</Container>
 		</div>
-	);
-};
+	)
+}
 
-export default About;
+export default About

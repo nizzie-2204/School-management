@@ -1,21 +1,18 @@
 import {
 	Card,
-	CardActionArea,
-	CardActions,
 	CardContent,
 	CardMedia,
 	Container,
 	Grid,
 	Typography,
 } from '@material-ui/core'
-import StarIcon from '@material-ui/icons/Star'
 import FormatQuoteIcon from '@material-ui/icons/FormatQuote'
+import StarIcon from '@material-ui/icons/Star'
 import image1 from 'assets/images/si-hoang_1.jpg'
-import image3 from 'assets/images/kim-dung.jpg'
 import image2 from 'assets/images/thanh-dien.jpg'
 import React from 'react'
-import { useStyles } from './styles'
 import Fade from 'react-reveal/Fade'
+import { useStyles } from './styles'
 
 const Testimonial = () => {
 	const classes = useStyles()

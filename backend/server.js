@@ -3,7 +3,6 @@ const app = express()
 const cors = require('cors')
 const path = require('path')
 const dotenv = require('dotenv')
-// const morgan = require('morgan')
 
 // Route
 const authRoute = require('./src/routes/v1/authRoute')
@@ -19,11 +18,11 @@ dotenv.config()
 // if (process.env.NODE_ENV !== 'production') {
 // 	app.use(morgan('combined'))
 // }
+
 app.use(cors())
 app.use(express.json())
 
 app.use(express.static(`${__dirname}/src/public`))
-console.log(__dirname)
 const { connectDB } = require('./src/configs/mongodb')
 connectDB()
 

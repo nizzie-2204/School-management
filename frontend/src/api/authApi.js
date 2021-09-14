@@ -1,11 +1,11 @@
 import axiosClient from './axios'
 
 const authAPI = {
-	login: async (username, password) => {
-		return axiosClient.post({
-			url: '/login',
-			headers: { ContentType: 'application/json' },
-			body: JSON.stringify({ username, password }),
+	login: async (user) => {
+		return axiosClient.post('/login', user, {
+			headers: {
+				'Content-Type': 'application/json',
+			},
 		})
 	},
 	logout: async (token, id) => {

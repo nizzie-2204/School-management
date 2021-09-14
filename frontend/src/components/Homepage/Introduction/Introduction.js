@@ -1,23 +1,21 @@
 import {
-	Avatar,
 	Card,
 	CardContent,
-	CardHeader,
 	CardMedia,
+	Container,
+	Grid,
 	Typography,
-} from '@material-ui/core';
-import { Container, Grid } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/styles';
-import React from 'react';
-import image1 from 'assets/images/teacher.png';
-import image2 from 'assets/images/book.png';
-import image3 from 'assets/images/support.png';
-import image4 from 'assets/images/scholarship.png';
-import Fade from 'react-reveal/Fade';
-import { useStyles } from './styles';
+} from '@material-ui/core'
+import image2 from 'assets/images/book.png'
+import image4 from 'assets/images/scholarship.png'
+import image3 from 'assets/images/support.png'
+import image1 from 'assets/images/teacher.png'
+import React from 'react'
+import Fade from 'react-reveal/Fade'
+import { useStyles } from './styles'
 
 const Introduction = () => {
-	const classes = useStyles();
+	const classes = useStyles()
 
 	return (
 		<div className={classes.introduction}>
@@ -189,7 +187,7 @@ const Introduction = () => {
 				</Fade>
 			</Container>
 		</div>
-	);
-};
+	)
+}
 
-export default Introduction;
+export default Introduction

@@ -123,6 +123,36 @@ const Sidebar = () => {
 				</ListItem>
 				<Collapse in={open} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
+						<ListItem
+							button
+							className={classes.nested}
+							component={NavLink}
+							to="/dashboard/class"
+							activeClassName={classes.activeLink}
+						>
+							<ListItemIcon className={classes.listIcon}>
+								<SchoolIcon />
+							</ListItemIcon>
+							<ListItemText
+								className={classes.listItemText}
+								primary="Lớp học"
+							/>
+						</ListItem>
+						<ListItem
+							button
+							className={classes.nested}
+							component={NavLink}
+							to="/dashboard/subject"
+							activeClassName={classes.activeLink}
+						>
+							<ListItemIcon className={classes.listIcon}>
+								<SchoolIcon />
+							</ListItemIcon>
+							<ListItemText
+								className={classes.listItemText}
+								primary="Môn học"
+							/>
+						</ListItem>
 						<ListItem button className={classes.nested}>
 							<ListItemIcon className={classes.listIcon}>
 								<SchoolIcon />
@@ -132,6 +162,7 @@ const Sidebar = () => {
 								primary="Kế hoạch đào tào"
 							/>
 						</ListItem>
+
 						<ListItem button className={classes.nested}>
 							<ListItemIcon className={classes.listIcon}>
 								<SchoolIcon />

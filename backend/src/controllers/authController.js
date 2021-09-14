@@ -7,7 +7,6 @@ const bcrypt = require('bcryptjs')
 exports.login = async (req, res, next) => {
 	try {
 		const { username, password } = req.body
-
 		if (!username || !password) {
 			const err = new Error('Please provide email or password!')
 			err.statusCode = 400

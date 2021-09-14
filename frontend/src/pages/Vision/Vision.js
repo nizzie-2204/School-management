@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react'
-import { Helmet } from 'react-helmet'
+import { Container, Typography } from '@material-ui/core'
 import About from 'components/Homepage/About/About'
 import Breadcrumb from 'components/Homepage/Breadcrumb/Breadcrumb'
 import Footer from 'components/Homepage/Footer/Footer'
 import Header from 'components/Homepage/Header/Header'
-import { Container, makeStyles } from '@material-ui/core'
-import { Typography } from '@material-ui/core'
-import { useStyles } from './styles'
+import React, { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import Fade from 'react-reveal/Fade'
+import { useStyles } from './styles'
 
 const Vision = () => {
 	const links = [
