@@ -33,7 +33,9 @@ exports.login = async (req, res, next) => {
 			)
 
 			const newUser =
-				(await Admin.findOne({ username: req.body.username })) ||
+				(await Admin.findOne({ username: req.body.username }).select(
+					'-password'
+				)) ||
 				(await Student.findOneAndUpdate(
 					{ username: req.body.username },
 					{ $inc: { visitingTime: 1 }, isLoggedIn: true },

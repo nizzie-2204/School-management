@@ -1,6 +1,6 @@
 import React, { Fragment, lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
-
+import PrivateRoute from 'components/Route/PrivateRoute'
 const Home = lazy(() => import('pages/Home/Home'))
 const Teacher = lazy(() => import('pages/Teacher/Teacher'))
 const Vision = lazy(() => import('pages/Vision/Vision'))
@@ -93,8 +93,14 @@ const Routes = () => {
 					<Switch>
 						{routes.map((route, index) => {
 							const Component = route.component
-
-							return (
+							return route.path.includes('/dashboard') ? (
+								<PrivateRoute
+									exact={route.exact}
+									path={route.path}
+									key={index}
+									component={Component}
+								/>
+							) : (
 								<Route
 									key={index}
 									path={route.path}
@@ -103,6 +109,13 @@ const Routes = () => {
 								/>
 							)
 						})}
+						{/* route.path.includes('/login') ||
+							 route.path.includes('/dashboard') ? (
+							 	<PrivateRoute
+							// 		key={index}
+							// 		path={route.path}
+							// 		exact={route.exact}
+							// 	/> */}
 					</Switch>
 				</Suspense>
 			) : null}

@@ -1,19 +1,17 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom/cjs/react-router-dom.min';
+import React from 'react'
+import { Route, Redirect } from 'react-router-dom/cjs/react-router-dom.min'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-	// const user = useSelector((state) => state.user.user);
+	const isLoggedIn = Boolean(localStorage.getItem('token'))
 
 	return (
-		<></>
-		// <Route
-		// 	{...rest}
-		// 	render={(props) => {
-		// 		return user ? <Component {...props} /> : <Redirect to="/" />;
-		// 	}}
-		// />
-	);
-};
+		<Route
+			{...rest}
+			render={(props) => {
+				return isLoggedIn ? <Component {...props} /> : <Redirect to="/login" />
+			}}
+		/>
+	)
+}
 
-export default PrivateRoute;
+export default PrivateRoute
