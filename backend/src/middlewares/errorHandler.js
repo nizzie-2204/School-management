@@ -22,8 +22,6 @@ exports.errorHandler = (err, req, res, next) => {
 			err.message.push(err.error[p].properties.message)
 		}
 	}
-
-	console.log(res.json({ status: 'fail', message: err.message }))
-
+	console.log(JSON.stringify({ status: 'fail', message: err.message }))
 	res.status(err.statusCode).json({ status: 'fail', message: err.message })
 }

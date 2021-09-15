@@ -9,17 +9,17 @@ import {
 	ListItem,
 	ListItemIcon,
 	Typography,
-} from '@material-ui/core';
-import HomeIcon from '@material-ui/icons/Home';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import PhoneIcon from '@material-ui/icons/Phone';
-import SendIcon from '@material-ui/icons/Send';
-import logo from 'assets/images/logo.png';
-import React from 'react';
-import { useStyles } from './styles';
+} from '@material-ui/core'
+import HomeIcon from '@material-ui/icons/Home'
+import MailOutlineIcon from '@material-ui/icons/MailOutline'
+import PhoneIcon from '@material-ui/icons/Phone'
+import SendIcon from '@material-ui/icons/Send'
+import logo from 'assets/images/logo.png'
+import React from 'react'
+import { useStyles } from './styles'
 
 const Footer = () => {
-	const classes = useStyles();
+	const classes = useStyles()
 
 	return (
 		<footer className={classes.footer}>
@@ -43,7 +43,7 @@ const Footer = () => {
 					</Grid>
 					<Grid item md={5} sm={12} xs={12}>
 						<Grid item container>
-							<Grid xs={6}>
+							<Grid xs={6} item>
 								<Typography
 									component="h2"
 									variant="body2"
@@ -87,7 +87,7 @@ const Footer = () => {
 									</ListItem>
 								</List>
 							</Grid>
-							<Grid xs={6} className={classes.between}>
+							<Grid xs={6} item className={classes.between}>
 								<Typography
 									component="h2"
 									variant="body2"
@@ -177,7 +177,7 @@ const Footer = () => {
 				</Grid>
 			</Container>
 		</footer>
-	);
-};
+	)
+}
 
-export default Footer;
+export default Footer

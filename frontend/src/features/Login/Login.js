@@ -1,38 +1,24 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
 	Avatar,
 	Button,
-	Checkbox,
+	CircularProgress,
 	Container,
 	CssBaseline,
-	FormControlLabel,
 	TextField,
 	Typography,
-	withStyles,
-	CircularProgress,
 } from '@material-ui/core'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { login } from 'features/Login/authSlice'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
-import { useStyles } from './styles'
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { login } from 'features/Login/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
-import { unwrapResult } from '@reduxjs/toolkit'
-
-const CustomCheckbox = withStyles({
-	root: {
-		color: ' #5278db',
-		'&$checked': {
-			color: ' #5278db',
-		},
-	},
-	checked: {},
-})((props) => <Checkbox color="default" {...props} />)
+import { Link, useHistory } from 'react-router-dom'
+import * as yup from 'yup'
+import { useStyles } from './styles'
 
 const schema = yup.object().shape({
 	username: yup.string().required('Bạn chưa nhập tài khoản'),
@@ -59,18 +45,18 @@ const Login = () => {
 		dispatch(action)
 			.then(unwrapResult)
 			.then((res) => {
-				if (res.message === 'Username is not correct!') {
-					setError('Tài khoản không tồn tại')
-				} else if (res.message === 'Password is not correct!') {
-					setError('Mật khẩu không đúng')
-				}
-
 				if (res.status !== 'fail') {
 					history.push('/dashboard/overview')
 				}
 			})
 			.catch((error) => {
-				console.log(error)
+				if (error.status === 400) {
+					if (error.data.message === 'Username is not correct!') {
+						setError('Tài khoản không tồn tại')
+					} else if (error.data.message === 'Password is not correct!') {
+						setError('Mật khẩu không đúng')
+					}
+				}
 			})
 	}
 

@@ -65,9 +65,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	main: {
 		gridArea: 'main',
-		backgroundColor: '#f9fafb',
-		padding: theme.spacing(2, 3),
+		backgroundColor: '#eff3f6',
+		padding: '15px',
 		overflowY: 'overlay',
+		marginTop: '90px',
 	},
 }))
 

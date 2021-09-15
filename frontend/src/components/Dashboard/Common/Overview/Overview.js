@@ -64,7 +64,7 @@ const Overview = () => {
 				<title>Tổng quan - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
-			<Breadcrumb links={links} />
+
 			<Box className={classes.root}>
 				<Box className={classes.header}>
 					<Header />
@@ -75,6 +75,7 @@ const Overview = () => {
 				</Box>
 
 				<Box className={classes.main}>
+					<Breadcrumb links={links} />
 					<Box className={classes.container}>
 						<Box className={classes.data}>
 							<Typography variant="h4" className={classes.dataTitle}>

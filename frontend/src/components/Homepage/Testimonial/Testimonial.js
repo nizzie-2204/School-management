@@ -24,7 +24,7 @@ const Testimonial = () => {
 					Phụ Huynh Nói Gì
 				</Typography>
 				<Container maxWidth="xl">
-					<Grid container spacing="8" justifyContent="center">
+					<Grid container spacing={8} justifyContent="center">
 						<Grid item md={5}>
 							<Card className={classes.root}>
 								<CardMedia

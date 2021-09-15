@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.text.secondary,
 	},
 	title: {
-		marginBottom: '30px',
+		marginBottom: '15px',
 	},
 	form: {
 		width: '70%', // Fix IE 11 issue.

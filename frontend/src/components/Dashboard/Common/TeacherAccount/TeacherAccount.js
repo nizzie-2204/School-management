@@ -64,7 +64,6 @@ const TeacherAccount = () => {
 				<title>Giáo viên - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
-			<Breadcrumb links={links} />
 
 			<Box className={classes.root}>
 				<Box className={classes.header}>
@@ -76,6 +75,8 @@ const TeacherAccount = () => {
 				</Box>
 
 				<Box className={classes.main}>
+					<Breadcrumb links={links} />
+
 					<form noValidate autoComplete="off">
 						<div className={classes.searchBar}>
 							<TextField

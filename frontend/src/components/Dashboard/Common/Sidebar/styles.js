@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			overflowY: 'overlay',
 		},
-		paddingTop: '7px',
+		marginTop: '90px',
 	},
 	root: {
 		padding: 0,

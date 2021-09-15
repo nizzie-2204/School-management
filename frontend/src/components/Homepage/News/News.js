@@ -25,13 +25,7 @@ const News = () => {
 						Tin tức tháng 10
 					</Typography>
 					<Grid container justifyContent="center">
-						<Grid
-							disableSpacing
-							className={classes.gridItem}
-							item
-							md={4}
-							sm={12}
-						>
+						<Grid className={classes.gridItem} item md={4} sm={12}>
 							<Card
 								elevation={0}
 								className={classes.root}
@@ -51,11 +45,7 @@ const News = () => {
 									>
 										Lịch sử, không còn là môn học “khó nhằn”nữa…
 									</Typography>
-									<Typography
-										variant="h5"
-										component="subtitle1"
-										className={classes.cardSubtitle}
-									>
+									<Typography variant="h5" className={classes.cardSubtitle}>
 										16 Tháng Một, 2019
 									</Typography>
 									<Typography
@@ -70,13 +60,7 @@ const News = () => {
 								</CardContent>
 							</Card>
 						</Grid>
-						<Grid
-							disableSpacing
-							className={classes.gridItem}
-							item
-							md={4}
-							sm={12}
-						>
+						<Grid className={classes.gridItem} item md={4} sm={12}>
 							<Card
 								elevation={0}
 								className={classes.root}
@@ -96,11 +80,7 @@ const News = () => {
 									>
 										Back to school: Chào mừng ngày tựu trường năm học
 									</Typography>
-									<Typography
-										variant="h5"
-										component="subtitle1"
-										className={classes.cardSubtitle}
-									>
+									<Typography variant="h5" className={classes.cardSubtitle}>
 										16 Tháng Một, 2019
 									</Typography>
 									<Typography
@@ -115,13 +95,7 @@ const News = () => {
 								</CardContent>
 							</Card>
 						</Grid>
-						<Grid
-							disableSpacing
-							className={classes.gridItem}
-							item
-							md={4}
-							sm={12}
-						>
+						<Grid className={classes.gridItem} item md={4} sm={12}>
 							<Card
 								elevation={0}
 								className={classes.root}
@@ -141,11 +115,7 @@ const News = () => {
 									>
 										Hello Grade 1 – Cùng con tự tin vào
 									</Typography>
-									<Typography
-										variant="h5"
-										component="subtitle1"
-										className={classes.cardSubtitle}
-									>
+									<Typography variant="h5" className={classes.cardSubtitle}>
 										16 Tháng Một, 2019
 									</Typography>
 									<Typography
