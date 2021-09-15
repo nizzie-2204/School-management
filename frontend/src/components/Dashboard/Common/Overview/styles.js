@@ -44,31 +44,13 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 	},
-	root: {
-		display: 'grid',
-		gridTemplateRows: 'auto 1fr',
-		gridTemplateColumns: '310px 1fr',
-		gridTemplateAreas: `"header header" "sidebar main"`,
 
-		minHeight: '100vh',
-	},
-
-	header: {
-		gridArea: 'header',
-		zIndex: 999,
-	},
-	sidebar: {
-		gridArea: 'sidebar',
-		borderRight: `1px solid ${theme.palette.divider}`,
-		backgroundColor: theme.palette.background.paper,
-		position: 'fixed',
-	},
 	main: {
-		gridArea: 'main',
 		backgroundColor: '#eff3f6',
 		padding: '15px',
 		overflowY: 'overlay',
 		marginTop: '90px',
+		marginLeft: '310px',
 	},
 }))
 

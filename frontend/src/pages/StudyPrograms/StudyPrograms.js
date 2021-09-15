@@ -10,12 +10,10 @@ import image4 from 'assets/images/academy.png'
 import image3 from 'assets/images/class.png'
 import image2 from 'assets/images/education.png'
 import Breadcrumb from 'components/Homepage/Breadcrumb/Breadcrumb'
-import Footer from 'components/Homepage/Footer/Footer'
-import Header from 'components/Homepage/Header/Header'
 import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useStyles } from './styles'
 import Fade from 'react-reveal/Fade'
+import { useStyles } from './styles'
 
 const StudyPrograms = () => {
 	const links = [
@@ -283,7 +281,6 @@ const StudyPrograms = () => {
 					</Fade>
 				</Container>
 			</div>
-			<Footer />
 		</>
 	)
 }

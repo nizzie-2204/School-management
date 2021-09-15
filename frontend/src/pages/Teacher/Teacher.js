@@ -1,18 +1,16 @@
 import { Container, Grid, Typography } from '@material-ui/core'
-import About from 'components/Homepage/About/About'
-import Breadcrumb from 'components/Homepage/Breadcrumb/Breadcrumb'
-import Footer from 'components/Homepage/Footer/Footer'
-import Header from 'components/Homepage/Header/Header'
-import React, { useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
-import Fade from 'react-reveal/Fade'
-import { useStyles } from './styles'
-import image1 from 'assets/images/Tran-Hoang-Anh-2.jpg'
-import image2 from 'assets/images/Tamah-Pnematicatos.jpg'
 import image3 from 'assets/images/Anna-Alessandra-Lee-Flood-1.jpg'
 import image4 from 'assets/images/Nguyen-Phuong-Oanh-1.jpg'
 import image5 from 'assets/images/Nguyen-Thi-Mung-2-1.jpg'
 import image6 from 'assets/images/Nguyen-Thi-Thanh-Lan.jpg'
+import image2 from 'assets/images/Tamah-Pnematicatos.jpg'
+import image1 from 'assets/images/Tran-Hoang-Anh-2.jpg'
+import About from 'components/Homepage/About/About'
+import Breadcrumb from 'components/Homepage/Breadcrumb/Breadcrumb'
+import React, { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
+import Fade from 'react-reveal/Fade'
+import { useStyles } from './styles'
 const Teacher = () => {
 	const links = [
 		{
@@ -128,7 +126,6 @@ const Teacher = () => {
 					</Container>
 				</Fade>
 			</div>
-			<Footer />
 		</>
 	)
 }

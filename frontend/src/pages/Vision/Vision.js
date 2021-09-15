@@ -1,8 +1,6 @@
 import { Container, Typography } from '@material-ui/core'
 import About from 'components/Homepage/About/About'
 import Breadcrumb from 'components/Homepage/Breadcrumb/Breadcrumb'
-import Footer from 'components/Homepage/Footer/Footer'
-import Header from 'components/Homepage/Header/Header'
 import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Fade from 'react-reveal/Fade'
@@ -89,8 +87,6 @@ const Vision = () => {
 					</Container>
 				</Fade>
 			</div>
-
-			<Footer />
 		</>
 	)
 }

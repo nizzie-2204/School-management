@@ -10,13 +10,11 @@ import image1 from 'assets/images/hoclichsuobaotang.jpg'
 import image3 from 'assets/images/jpj_WKWQ.jpg'
 import image2 from 'assets/images/SG200481.jpg'
 import Breadcrumb from 'components/Homepage/Breadcrumb/Breadcrumb'
-import Footer from 'components/Homepage/Footer/Footer'
-import Header from 'components/Homepage/Header/Header'
 import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
+import Fade from 'react-reveal/Fade'
 import { Link as RouterLink } from 'react-router-dom'
 import { useStyles } from './styles'
-import Fade from 'react-reveal/Fade'
 
 const Admission = () => {
 	const links = [
@@ -152,7 +150,6 @@ const Admission = () => {
 					</Fade>
 				</Container>
 			</div>
-			<Footer />
 		</>
 	)
 }
