@@ -44,7 +44,6 @@ const StudyPrograms = () => {
 				<title>Tư vấn giáo dục - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
-			<Header />
 			<Breadcrumb links={links} />
 			<div className={classes.studyPrograms}>
 				<Container maxWidth="xl" className={classes.container}>

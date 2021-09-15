@@ -39,7 +39,6 @@ const Teacher = () => {
 				<title>Đội ngũ giáo viên - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
-			<Header />
 			<Breadcrumb links={links} />
 			<About />
 			<div className={classes.teacherContainer}>

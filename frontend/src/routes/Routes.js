@@ -109,13 +109,6 @@ const Routes = () => {
 								/>
 							)
 						})}
-						{/* route.path.includes('/login') ||
-							 route.path.includes('/dashboard') ? (
-							 	<PrivateRoute
-							// 		key={index}
-							// 		path={route.path}
-							// 		exact={route.exact}
-							// 	/> */}
 					</Switch>
 				</Suspense>
 			) : null}

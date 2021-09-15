@@ -30,7 +30,6 @@ const Contact = () => {
 				<title>Liên hệ - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
-			<Header />
 			<Breadcrumb links={links} />
 			<div className={classes.contact}>
 				<Container maxWidth="xl" className={classes.container}>

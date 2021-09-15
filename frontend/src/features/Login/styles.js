@@ -97,6 +97,10 @@ const useStyles = makeStyles((theme) => ({
 	circle: {
 		strokeLinecap: 'round',
 	},
+	opacity: {
+		opacity: '0.5',
+		cursor: 'not-allowed',
+	},
 }))
 
 export { useStyles }

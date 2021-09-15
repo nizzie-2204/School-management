@@ -1,4 +1,4 @@
-import { createTheme } from '@material-ui/core';
+import { createTheme } from '@material-ui/core'
 
 const theme = createTheme({
 	palette: {
@@ -20,8 +20,9 @@ const theme = createTheme({
 		},
 	},
 	typography: {
-		fontFamily: "'Baloo Thambi 2', cursive",
+		// fontFamily: "'Baloo Thambi 2', cursive",
+		fontFamily: "'Baloo Paaji 2', cursive",
 	},
-});
+})
 
-export default theme;
+export default theme

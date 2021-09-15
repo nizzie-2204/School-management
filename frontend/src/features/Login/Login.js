@@ -12,7 +12,7 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { login } from 'features/Login/authSlice'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Helmet } from 'react-helmet'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
@@ -82,6 +82,7 @@ const Login = () => {
 								Đăng nhập
 							</Typography>
 
+							{/* Error message */}
 							{(errors.username && (
 								<p className={classes.error}>{errors?.username?.message}</p>
 							)) ||
@@ -93,6 +94,7 @@ const Login = () => {
 							{!errors?.username && !errors?.password && !error ? (
 								<div className={classes.empty}></div>
 							) : null}
+							{/* End error message */}
 
 							<form
 								className={classes.form}
@@ -131,17 +133,15 @@ const Login = () => {
 									id="password"
 									autoComplete="current-password"
 								/>
-								{/* <FormControlLabel
-								control={<CustomCheckbox value="remember" color="primary" />}
-								label="Remember me"
-							/> */}
 
 								<Button
 									type="submit"
 									fullWidth
 									variant="contained"
 									color="primary"
-									className={classes.submit}
+									className={`${classes.submit} ${
+										isLogging && classes.opacity
+									}`}
 								>
 									{isLogging ? (
 										<CircularProgress
@@ -151,7 +151,7 @@ const Login = () => {
 											classes={{
 												circle: classes.circle,
 											}}
-											size={18}
+											size={24}
 											thickness={4}
 										/>
 									) : (

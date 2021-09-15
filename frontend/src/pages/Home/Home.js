@@ -19,7 +19,6 @@ const Home = () => {
 				<title>Trang chủ - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
-			<Header />
 			<Banner />
 			<Introduction />
 			<About />

@@ -1,4 +1,5 @@
 import { ThemeProvider } from '@material-ui/styles'
+import HeaderContainer from 'components/HeaderContainer/HeaderContainer'
 import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -14,6 +15,7 @@ function App() {
 				<div className="App">
 					<ThemeProvider theme={theme}>
 						<Router>
+							<HeaderContainer />
 							<Routes />
 						</Router>
 					</ThemeProvider>

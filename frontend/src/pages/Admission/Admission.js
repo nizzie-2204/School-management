@@ -41,7 +41,6 @@ const Admission = () => {
 				<title>Tuyển sinh - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
-			<Header />
 			<Breadcrumb links={links} />
 			<div className={classes.admission}>
 				<Container maxWidth="xl" className={classes.container}>
