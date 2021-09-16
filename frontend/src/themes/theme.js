@@ -1,6 +1,6 @@
-import { createTheme } from '@material-ui/core'
+import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-ui/core'
 
-const theme = createTheme({
+const theme = createMuiTheme({
 	palette: {
 		common: { white: '#fff' },
 		background: { default: '#ffb607', paper: '#fff' },

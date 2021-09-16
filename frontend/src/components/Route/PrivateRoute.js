@@ -1,8 +1,12 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom/cjs/react-router-dom.min'
+import React, { useEffect } from 'react'
+import {
+	Route,
+	Redirect,
+	useLocation,
+} from 'react-router-dom/cjs/react-router-dom.min'
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-	const isLoggedIn = Boolean(localStorage.getItem('token'))
+	let isLoggedIn = Boolean(localStorage.getItem('token'))
 
 	return (
 		<Route

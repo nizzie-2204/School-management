@@ -2,11 +2,9 @@ import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {
-		backgroundColor: theme.palette.background.paper,
+		backgroundColor: '#f3f7fa',
 		height: '90px',
 		paddingRight: '0 !important',
-		boxShadow:
-			'0 0.46875rem 2.1875rem rgb(4 9 20 / 3%), 0 0.9375rem 1.40625rem rgb(4 9 20 / 3%), 0 0.25rem 0.53125rem rgb(4 9 20 / 5%), 0 0.125rem 0.1875rem rgb(4 9 20 / 3%)',
 	},
 	grow: {
 		flexGrow: 1,
@@ -29,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	schoolYear: {
 		color: theme.palette.text.main,
-		fontWeight: '700',
+		fontSize: '20px',
+		fontWeight: '600',
 		textTransform: 'uppercase',
 	},
 	info: {
@@ -46,9 +45,11 @@ const useStyles = makeStyles((theme) => ({
 		color: '#000',
 		display: 'flex',
 		alignItems: 'center',
+		textTransform: 'capitalize',
 		backgroundColor: 'transparent',
 		boxShadow: '0',
 		maxWidth: '200px',
+		fontWeight: '600',
 		'&:hover': {
 			background: 'transparent',
 		},
@@ -63,9 +64,10 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.primary.contrastText,
 	},
 	popupUser: {
-		'.MuiListItemText-root': {
-			fonSize: '14px',
-		},
+		display: 'flex',
+		alignItems: 'center',
+		textDecoration: 'none',
+		color: '#fff',
 	},
 }))
 

@@ -8,11 +8,11 @@ const authAPI = {
 			},
 		})
 	},
-	logout: async (token, id) => {
-		return await axiosClient.post({
-			url: '/logout',
+	logout: async (id) => {
+		const token = localStorage.getItem('token')
+
+		return await axiosClient.post('/logout', id, {
 			headers: { Authorization: `Bearer ${token}` },
-			body: JSON.stringify(id),
 		})
 	},
 }

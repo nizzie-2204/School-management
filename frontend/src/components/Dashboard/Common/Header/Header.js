@@ -12,20 +12,25 @@ import {
 import Avatar from '@material-ui/core/Avatar'
 import MailOutlineIcon from '@material-ui/icons/MailOutline'
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone'
-import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew'
 import { withStyles } from '@material-ui/styles'
 import logo from 'assets/images/logo.png'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import useStyles from './styles'
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from 'features/Login/authSlice'
+import { unwrapResult } from '@reduxjs/toolkit'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 const StyledMenu = withStyles({
+	paper: {
+		boxShadow: ' 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%)',
+	},
 	list: {
-		backgroundColor: 'transparent',
-		padding: '10px 0',
-		border: '1px solid rgba(0, 0, 0, 0.15)',
-		borderRadius: '8px',
+		padding: '0',
+		borderRadius: '0',
+		overflow: 'hidden',
 	},
 })((props) => (
 	<Menu
@@ -45,16 +50,21 @@ const StyledMenu = withStyles({
 
 const StyledMenuItem = withStyles((theme) => ({
 	root: {
-		padding: '3px 16px',
-		backgroundColor: '#fff',
-		color: '#000',
-		fontSize: '14px !important',
+		borderRadius: '0',
+		padding: '8px 24px',
+		color: '#fff',
+		backgroundColor: '#5278db',
+		'&:hover': {
+			backgroundColor: '#3254ac',
+		},
 	},
 }))(MenuItem)
 
 const Header = () => {
 	const classes = useStyles()
-
+	const user = useSelector((state) => state.auth.user)
+	const history = useHistory()
+	const dispatch = useDispatch()
 	// User dropdown
 	const [anchorEl, setAnchorEl] = React.useState(null)
 
@@ -64,6 +74,18 @@ const Header = () => {
 
 	const handleClose = () => {
 		setAnchorEl(null)
+	}
+
+	const handleLogout = () => {
+		const action = logout(user._id)
+		dispatch(action)
+			.then(unwrapResult)
+			.then((res) => {
+				console.log(res)
+				localStorage.removeItem('token')
+				history.push('/login')
+			})
+			.catch((error) => console.error(error))
 	}
 
 	return (
@@ -111,6 +133,7 @@ const Header = () => {
 										}
 									/>
 								}
+								endIcon={<ExpandMoreIcon />}
 							>
 								Nguyễn Anh Tuấn
 							</Button>
@@ -122,16 +145,15 @@ const Header = () => {
 								onClose={handleClose}
 							>
 								<StyledMenuItem>
-									<PermIdentityIcon
-										fontSize="small"
-										style={{ marginRight: '15px' }}
-									/>
-									<ListItemText
-										primary="Thông tin"
-										className={classes.popupUser}
-									/>
+									<Link to="/dashboard/profile" className={classes.popupUser}>
+										<AccountCircleIcon
+											fontSize="small"
+											style={{ marginRight: '15px' }}
+										/>
+										<ListItemText primary="Xem hồ sơ" />
+									</Link>
 								</StyledMenuItem>
-								<StyledMenuItem>
+								<StyledMenuItem onClick={handleLogout}>
 									<PowerSettingsNewIcon
 										fontSize="small"
 										style={{ marginRight: '15px' }}

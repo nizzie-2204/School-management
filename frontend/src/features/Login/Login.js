@@ -39,7 +39,7 @@ const Login = () => {
 	} = useForm({ resolver: yupResolver(schema), reValidateMode: 'onSubmit' })
 	const [error, setError] = useState(null)
 
-	const submit = (data, e) => {
+	const handleLogin = (data, e) => {
 		e.preventDefault()
 
 		const action = login({ ...data })
@@ -99,7 +99,7 @@ const Login = () => {
 							<form
 								className={classes.form}
 								noValidate
-								onSubmit={handleSubmit(submit)}
+								onSubmit={handleSubmit(handleLogin)}
 							>
 								<TextField
 									{...register('username')}

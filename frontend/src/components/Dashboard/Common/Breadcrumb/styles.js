@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		alignItems: 'center',
 		background: theme.palette.background.paper,
-		marginBottom: '40px',
+		marginBottom: '20px',
 	},
 	link: {
 		fontSize: '16px',

@@ -136,8 +136,8 @@ const TeacherAccount = () => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{rows.map((row) => (
-								<TableRow key={row.name}>
+							{rows.map((row, index) => (
+								<TableRow key={index}>
 									<TableCell align="center" component="th" scope="row">
 										{row.name}
 									</TableCell>

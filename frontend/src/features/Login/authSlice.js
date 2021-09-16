@@ -13,6 +13,18 @@ export const login = createAsyncThunk(
 	}
 )
 
+export const logout = createAsyncThunk(
+	'auth/logout',
+	async (id, { rejectWithValue }) => {
+		try {
+			const authLogout = await authAPI.logout(id)
+			return authLogout.data
+		} catch (error) {
+			return rejectWithValue(error.response)
+		}
+	}
+)
+
 const initialState = {
 	user: null,
 	isLoggedIn: false,
@@ -24,7 +36,7 @@ const authSlice = createSlice({
 	initialState,
 	reducers: {},
 	extraReducers: {
-		[login.pending]: (state, payload) => {
+		[login.pending]: (state) => {
 			state.isLogging = true
 		},
 		[login.fulfilled]: (state, action) => {
@@ -32,11 +44,15 @@ const authSlice = createSlice({
 			state.isLoggedIn = true
 			state.user = action.payload.data.user
 		},
-		[login.rejected]: (state, action) => {
+		[login.rejected]: (state) => {
 			state.isLogging = false
+		},
+		[logout.fulfilled]: (state) => {
+			state.isLogging = false
+			state.isLoggedIn = false
+			state.user = null
 		},
 	},
 })
 
-export const {} = authSlice.actions
 export default authSlice.reducer

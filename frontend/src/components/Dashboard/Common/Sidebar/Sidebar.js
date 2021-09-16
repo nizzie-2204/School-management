@@ -237,7 +237,7 @@ const Sidebar = () => {
 					className={classes.listItem}
 					button
 					component={NavLink}
-					to="/a"
+					to="/dashboard/timetable"
 					activeClassName={classes.activeLink}
 				>
 					<ListItemIcon className={classes.listIcon}>

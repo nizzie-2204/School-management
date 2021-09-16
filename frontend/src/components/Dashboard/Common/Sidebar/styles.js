@@ -3,13 +3,16 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
 	'@global': {
 		'*::-webkit-scrollbar': {
-			width: '10px',
+			// width: '10px',
+		},
+		'*::-webkit-scrollbar-track': {
+			'-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)',
+			backgroundColor: '#5278db',
 		},
 		'*::-webkit-scrollbar-thumb': {
-			height: '10px',
-			borderRadius: '10px',
-			backgroundColor: 'rgba(0,0,0,0.12)',
-			opacity: 0.4,
+			height: '8px',
+			// borderRadius: '10px',
+			backgroundColor: '#85a0e5',
 		},
 	},
 	sidebar: {
