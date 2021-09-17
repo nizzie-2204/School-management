@@ -2,11 +2,11 @@ import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles((theme) => ({
 	main: {
-		minHeight: '100vh',
+		// minHeight: '100vh',
 		backgroundColor: '#f3f7fa',
 		padding: '0 15px 15px 15px',
 
-		// overflow: 'hidden',
+		overflow: 'hidden',
 		// overflowY: 'overlay',
 		marginTop: '90px',
 		marginLeft: '310px',
