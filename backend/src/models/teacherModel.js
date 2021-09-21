@@ -10,7 +10,7 @@ const teacherSchema = new mongoose.Schema(
 		role: {
 			type: String,
 			enum: ['admin', 'student,', 'teacher'],
-			default: 'admin',
+			default: 'teacher',
 			required: true,
 		},
 		address: { type: String, required: true },
@@ -29,7 +29,7 @@ const teacherSchema = new mongoose.Schema(
 		},
 		isLoggedIn: { type: Boolean, default: false },
 		visitingTime: { type: Number, default: 0 },
-		isClassHeadTeacher: { type: Boolean, default: false },
+		teacherType: { type: Schema.Types.ObjectId, ref: 'TeacherType' },
 		timetable: [
 			{
 				time: { type: String, required: true, default: '07:30 - 08:05' },
@@ -37,22 +37,27 @@ const teacherSchema = new mongoose.Schema(
 					{
 						day: { type: String, required: true, default: 'Monday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Tuesday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Wednesday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Thursday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Friday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 				],
 			},
@@ -62,22 +67,27 @@ const teacherSchema = new mongoose.Schema(
 					{
 						day: { type: String, required: true, default: 'Monday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Tuesday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Wednesday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Thursday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Friday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 				],
 			},
@@ -87,22 +97,27 @@ const teacherSchema = new mongoose.Schema(
 					{
 						day: { type: String, required: true, default: 'Monday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Tuesday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Wednesday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Thursday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Friday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 				],
 			},
@@ -112,22 +127,27 @@ const teacherSchema = new mongoose.Schema(
 					{
 						day: { type: String, required: true, default: 'Monday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Tuesday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Wednesday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Thursday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Friday' },
 						subject: { type: Schema.Types.ObjectId, ref: 'Subject' },
+						class: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 				],
 			},

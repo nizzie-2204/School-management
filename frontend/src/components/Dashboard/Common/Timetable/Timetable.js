@@ -10,24 +10,13 @@ import {
 	Typography,
 } from '@material-ui/core'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
+import addDays from 'date-fns/addDays'
+import startOfWeek from 'date-fns/startOfWeek'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Select from 'react-select'
+import TableCellSubject from './components/TableCellSubject/TableCellSubject'
 import useStyles from './styles'
-import startOfWeek from 'date-fns/startOfWeek'
-import addDays from 'date-fns/addDays'
-
-function createData(session, name, calories, time, fat, carbs, protein) {
-	return { session, name, calories, time, fat, carbs }
-}
-
-const rows = [
-	createData('7:30 - 8:05', 'Chào cờ', 'Chào cờ', 'Thể dục', 'Toán', 'Toán'),
-	createData('7:30 - 8:05', 'Chào cờ', 'Chào cờ', 'Thể dục', 'Toán', 'Toán'),
-	createData('7:30 - 8:05', 'Chào cờ', 'Chào cờ', 'Thể dục', 'Toán', 'Toán'),
-	createData('7:30 - 8:05', 'Chào cờ', 'Chào cờ', 'Thể dục', 'Toán', 'Toán'),
-	createData('7:30 - 8:05', 'Chào cờ', 'Chào cờ', 'Thể dục', 'Toán', 'Toán'),
-]
 
 const links = [
 	{
@@ -39,6 +28,18 @@ const links = [
 		path: '/dashboard/timetable',
 	},
 ]
+
+const days = []
+
+for (let i = 1; i < 6; i++) {
+	const day = addDays(
+		startOfWeek(new Date(), {
+			weekStartsOn: 1,
+		}),
+		i
+	)
+	days.push(day)
+}
 
 // React select
 const options = [
@@ -52,22 +53,12 @@ const options = [
 
 const Timetable = () => {
 	const classes = useStyles()
+
+	// React select
 	const [selectedOption, setselectedOption] = useState()
 
 	const handleChange = (selectedOption) => {
 		setselectedOption(selectedOption)
-	}
-
-	const days = []
-
-	for (let i = 1; i < 6; i++) {
-		const day = addDays(
-			startOfWeek(new Date(), {
-				weekStartsOn: 1,
-			}),
-			i
-		)
-		days.push(day)
 	}
 
 	return (
@@ -81,7 +72,7 @@ const Timetable = () => {
 
 				<Box className={classes.content}>
 					<Box className={classes.top}>
-						<Typography variant="span" className={classes.title}>
+						<Typography variant="body1" className={classes.title}>
 							Thời khóa biểu
 						</Typography>
 						<Box>
@@ -112,9 +103,10 @@ const Timetable = () => {
 											<TableCell
 												align="center"
 												className={classes.tableHeadTitle}
+												key={index}
 											>
 												<div>{`Thứ ${index + 2}`}</div>
-												<div>
+												<div className={classes.titleSmall}>
 													{day.toLocaleDateString('en-US', { timeZone: 'UTC' })}
 												</div>
 											</TableCell>
@@ -134,33 +126,7 @@ const Timetable = () => {
 									</TableCell>
 								</TableRow>
 
-								{rows.map((row, index) => (
-									<TableRow key={index}>
-										<TableCell className={classes.session} align="center">
-											<div>{row.session}</div>
-										</TableCell>
-										<TableCell className={classes.tableCell} align="center">
-											<div>{row.carbs}</div>
-											<div>Cô Hoa</div>
-										</TableCell>
-										<TableCell className={classes.tableCell} align="center">
-											<div>{row.carbs}</div>
-											<div>Cô Hoa</div>
-										</TableCell>
-										<TableCell className={classes.tableCell} align="center">
-											<div>{row.carbs}</div>
-											<div>Cô Hoa</div>
-										</TableCell>
-										<TableCell className={classes.tableCell} align="center">
-											<div>{row.carbs}</div>
-											<div>Cô Hoa</div>
-										</TableCell>
-										<TableCell className={classes.tableCell} align="center">
-											<div>{row.carbs}</div>
-											<div>Cô Hoa</div>
-										</TableCell>
-									</TableRow>
-								))}
+								<TableCellSubject />
 							</TableBody>
 						</Table>
 					</TableContainer>

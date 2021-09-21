@@ -5,6 +5,7 @@ const classSchema = new Schema(
 	{
 		teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
 		name: { type: String, required: true, unique: true },
+		// subjects: ['Toán',],
 		timetable: [
 			{
 				time: { type: String, default: '07:30 - 08:05' },

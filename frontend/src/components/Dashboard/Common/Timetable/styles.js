@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 	top: {
 		display: 'flex',
 		alignItems: 'center',
-		marginBottom: '30px',
+		marginBottom: '50px',
 	},
 	title: {
 		fontSize: '20px',
@@ -24,36 +24,48 @@ const useStyles = makeStyles((theme) => ({
 		width: '200px',
 		fontSize: '14px',
 	},
-	tableCell: {
-		textTransform: 'uppercase',
-		fontWeight: 'bold',
-		cursor: 'pointer',
-		'&:not(:last-of-type)': {
-			borderRight: '1px solid rgba(224, 224, 224, 1)',
-		},
-	},
+
 	tableHeadTitle: {
 		textTransform: 'uppercase',
 		fontWeight: 'bold',
+		fontSize: '16px',
 		color: theme.palette.text.main,
 		'&:not(:last-of-type)': {
-			borderRight: '1px solid rgba(224, 224, 224, 1)',
+			borderRight: '1px solid rgba(180, 180, 180, 1)',
 		},
 	},
 	tableHead: {
-		backgroundColor: '#dce4f7',
+		// backgroundColor: '#f86254',
 	},
-	session: {
-		color: theme.palette.text.main,
-		fontWeight: 'bold',
-		borderRight: '1px solid rgba(224, 224, 224, 1)',
-		backgroundColor: '#dce4f7',
-	},
+
 	content: {
 		display: 'flex',
 		flexDirection: 'column',
 		backgroundColor: theme.palette.background.paper,
 		padding: '20px',
+	},
+	tableCell: {
+		textTransform: 'capitalize',
+		fontWeight: 'bold',
+		cursor: 'pointer',
+		color: theme.palette.text.main,
+		fontSize: '16px',
+		position: 'relative',
+		'&:not(:last-of-type)': {
+			borderRight: '1px solid rgba(180, 180, 180, 1)',
+		},
+	},
+	titleSmall: {
+		fontSize: '14px',
+		fontWeight: 'normal',
+	},
+	session: {
+		color: theme.palette.text.main,
+		fontWeight: 'bold',
+		borderRight: '1px solid rgba(180, 180, 180, 1)',
+		fontSize: '16px',
+
+		// backgroundColor: '#dce4f7',
 	},
 }))
 

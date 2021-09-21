@@ -1,16 +1,16 @@
-import { AppBar, Box, Paper, Tab, Tabs, Typography } from '@material-ui/core'
+import { AppBar, Box, Tab, Tabs, Typography } from '@material-ui/core'
+import HomeIcon from '@material-ui/icons/Home'
+import HttpsIcon from '@material-ui/icons/Https'
+import SettingsIcon from '@material-ui/icons/Settings'
+import { useTheme } from '@material-ui/styles'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import useStyles from './styles'
-import SettingsIcon from '@material-ui/icons/Settings'
-import HttpsIcon from '@material-ui/icons/Https'
-import HomeIcon from '@material-ui/icons/Home'
 import SwipeableViews from 'react-swipeable-views'
-import { useTheme } from '@material-ui/styles'
-import Background from './components/Background/Background'
 import Account from './components/Account/Account'
+import Background from './components/Background/Background'
 import Family from './components/Family/Family'
+import useStyles from './styles'
 
 const links = [
 	{
