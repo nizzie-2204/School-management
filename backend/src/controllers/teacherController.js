@@ -65,7 +65,7 @@ exports.updateTeacher = async (req, res, next) => {
 			req.params.id,
 			{ ...req.body },
 			{ new: true, runValidators: true }
-		)
+		).select('-username -password')
 		console.log(user)
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)

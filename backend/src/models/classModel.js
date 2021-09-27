@@ -11,28 +11,68 @@ const classSchema = new Schema(
 				content: [
 					{
 						day: { type: String, default: 'Monday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Tuesday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Wednesday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Thursday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Friday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 				],
 			},
@@ -41,28 +81,68 @@ const classSchema = new Schema(
 				content: [
 					{
 						day: { type: String, default: 'Monday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Tuesday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Wednesday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Thursday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Friday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 				],
 			},
@@ -71,28 +151,68 @@ const classSchema = new Schema(
 				content: [
 					{
 						day: { type: String, default: 'Monday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Tuesday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Wednesday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Thursday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Friday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 				],
 			},
@@ -101,28 +221,68 @@ const classSchema = new Schema(
 				content: [
 					{
 						day: { type: String, default: 'Monday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Tuesday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Wednesday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Thursday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 					{
 						day: { type: String, default: 'Friday' },
-						subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-						teacherId: { type: Schema.Types.ObjectId, ref: 'Teacher' },
+						subjectId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Subject',
+							default: '',
+						},
+						teacherId: {
+							type: Schema.Types.ObjectId,
+							ref: 'Teacher',
+							default: '',
+						},
 					},
 				],
 			},
