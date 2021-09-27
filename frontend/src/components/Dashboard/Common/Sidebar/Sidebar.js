@@ -123,6 +123,15 @@ const Sidebar = () => {
 				</ListItem>
 				<Collapse in={open} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
+						<ListItem button className={classes.nested}>
+							<ListItemIcon className={classes.listIcon}>
+								<SchoolIcon />
+							</ListItemIcon>
+							<ListItemText
+								className={classes.listItemText}
+								primary="Loại giáo viên"
+							/>
+						</ListItem>
 						<ListItem
 							button
 							className={classes.nested}
@@ -160,16 +169,6 @@ const Sidebar = () => {
 							<ListItemText
 								className={classes.listItemText}
 								primary="Kế hoạch đào tào"
-							/>
-						</ListItem>
-
-						<ListItem button className={classes.nested}>
-							<ListItemIcon className={classes.listIcon}>
-								<SchoolIcon />
-							</ListItemIcon>
-							<ListItemText
-								className={classes.listItemText}
-								primary="Phân công giảng dạy"
 							/>
 						</ListItem>
 						<ListItem button className={classes.nested}>

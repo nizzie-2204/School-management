@@ -79,7 +79,7 @@ const Overview = () => {
 									style={{ color: '#1a61c6' }}
 								/>
 								<Typography variant="h6" className={classes.numberItemDesc}>
-									Người dùng đã đăng nhập
+									Người dùng đang đăng nhập
 								</Typography>
 							</Box>
 
@@ -103,7 +103,7 @@ const Overview = () => {
 									style={{ color: '#ffa326' }}
 								/>
 								<Typography variant="h6" className={classes.numberItemDesc}>
-									Người dùng đã đăng nhập
+									Bài thi đã tạo
 								</Typography>
 							</Box>
 
@@ -115,7 +115,7 @@ const Overview = () => {
 									style={{ color: '#e96053' }}
 								/>
 								<Typography variant="h6" className={classes.numberItemDesc}>
-									Người dùng đã đăng nhập
+									Tổng số lượt truy cập
 								</Typography>
 							</Box>
 						</Box>

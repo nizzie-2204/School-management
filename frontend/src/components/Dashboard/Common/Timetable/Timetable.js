@@ -1,6 +1,10 @@
 import {
 	Box,
+	FormControl,
+	InputLabel,
+	MenuItem,
 	Paper,
+	Select,
 	Table,
 	TableBody,
 	TableCell,
@@ -14,7 +18,6 @@ import addDays from 'date-fns/addDays'
 import startOfWeek from 'date-fns/startOfWeek'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import Select from 'react-select'
 import TableCellSubject from './components/TableCellSubject/TableCellSubject'
 import useStyles from './styles'
 
@@ -61,6 +64,11 @@ const Timetable = () => {
 		setselectedOption(selectedOption)
 	}
 
+	const [subject, setSubject] = useState('')
+	const handleChangeSubject = (event) => {
+		setSubject(event.target.value)
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -75,15 +83,23 @@ const Timetable = () => {
 						<Typography variant="body1" className={classes.title}>
 							Thời khóa biểu
 						</Typography>
-						<Box>
+						<FormControl variant="outlined" className={classes.selectClass}>
+							<InputLabel
+								id="demo-simple-select-outlined-label"
+								style={{ color: '#000' }}
+							>
+								Lớp
+							</InputLabel>
 							<Select
-								value={selectedOption}
-								onChange={handleChange}
-								className={classes.select}
-								options={options}
-								placeholder="Chọn lớp"
-							/>
-						</Box>
+								labelId="demo-simple-select-outlined-label"
+								id="demo-simple-select-outlined"
+								value={subject}
+								onChange={handleChangeSubject}
+								label="Lớp"
+							>
+								<MenuItem value="1A">1A</MenuItem>
+							</Select>
+						</FormControl>
 					</Box>
 
 					<TableContainer component={Paper}>

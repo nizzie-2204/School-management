@@ -7,7 +7,10 @@ const FooterContainer = () => {
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 	const location = useLocation()
 
-	if (location.pathname.includes('/login') || isLoggedIn) {
+	if (
+		location.pathname.includes('/login') ||
+		location.pathname.includes('/dashboard')
+	) {
 		// Login page and Dashboard page not using Footer component
 		return null
 	} else {

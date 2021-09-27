@@ -45,7 +45,7 @@ exports.getTeacher = async (req, res, next) => {
 	try {
 		const user = await Teacher.findById(req.params.id)
 			.select('-password')
-			.populate('classId')
+			.populate('classId teacherType')
 
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)

@@ -1,6 +1,26 @@
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
+	modal: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	paper: {
+		display: 'flex',
+		flexDirection: 'column',
+		width: '30%',
+		padding: '40px 30px',
+		backgroundColor: theme.palette.background.paper,
+		border: 'none',
+		boxShadow: 'none',
+		outline: 'none',
+	},
+	formTitle: {
+		marginBottom: '40px',
+		paddingBottom: '20px',
+		borderBottom: '1px solid #dcdbdb',
+	},
 	tableCell: {
 		textTransform: 'capitalize',
 		fontWeight: 'bold',
@@ -24,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 
 		// backgroundColor: '#dce4f7',
 	},
-	select: { fontSize: '12px' },
 	typography: {
 		padding: theme.spacing(2),
 	},
@@ -41,10 +60,20 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	selectOption: {
-		width: 200,
+		width: '100%',
 		fontSize: 12,
 		'&:last-of-type': {
 			marginTop: '20px',
+			marginBottom: '20px',
+		},
+		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #dcdbdb',
+		},
+		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #dcdbdb',
+		},
+		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #3254ac',
 		},
 	},
 }))

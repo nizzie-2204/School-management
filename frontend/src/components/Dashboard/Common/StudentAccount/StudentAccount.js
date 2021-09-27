@@ -23,7 +23,11 @@ import VisibilityIcon from '@material-ui/icons/Visibility'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import AddEditAccount from './components/AddEditAccount/AddEditAccount'
 import useStyles from './styles'
+import Swal from 'sweetalert2'
+import DeleteAlert from './components/DeleteAlert/DeleteAlert'
+
 function createData(name, calories, fat, carbs, protein) {
 	return { name, calories, fat, carbs }
 }
@@ -55,6 +59,22 @@ const StudentAccount = () => {
 	const classes = useStyles()
 
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+	const [open, setOpen] = useState(false)
+	const handleOpen = () => {
+		setOpen(true)
+	}
+	const handleClose = () => {
+		setOpen(false)
+	}
+
+	const [open2, setOpen2] = useState(false)
+	const handleOpen2 = () => {
+		setOpen2(true)
+	}
+	const handleClose2 = () => {
+		setOpen2(false)
+	}
 
 	return (
 		<>
@@ -100,9 +120,11 @@ const StudentAccount = () => {
 						variant="contained"
 						className={classes.button}
 						startIcon={<AddIcon />}
+						onClick={handleOpen}
 					>
 						Thêm tài khoản
 					</Button>
+					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>
 
 				<TableContainer component={Paper}>
@@ -177,7 +199,7 @@ const StudentAccount = () => {
 											</IconButton>
 										</Tooltip>
 										<Tooltip title="Xóa">
-											<IconButton>
+											<IconButton onClick={handleOpen2}>
 												<DeleteIcon
 													fontSize="small"
 													style={{ color: '#e96053' }}
@@ -187,6 +209,7 @@ const StudentAccount = () => {
 									</TableCell>
 								</TableRow>
 							))}
+							<DeleteAlert open={open2} handleClose={handleClose2} />
 						</TableBody>
 					</Table>
 				</TableContainer>

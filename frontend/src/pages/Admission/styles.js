@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		textDecoration: 'none',
 		cursor: 'default',
+		display: 'flex',
+		flexDirection: 'column',
 	},
 	media: {
 		height: 0,
@@ -42,17 +44,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 	gridItem: {
 		display: 'flex',
-		alignItems: 'center',
 		justifyContent: 'center',
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: '20px',
 		},
+	},
+	card: {
+		// padding:
 	},
 	cardTitle: {
 		color: '#000',
 		fontSize: '20px',
 		marginBottom: '10px',
 		cursor: 'pointer',
+		textAlign: 'left',
 		transition: '0.3s',
 		'&:hover': {
 			color: theme.palette.primary.main,
@@ -67,6 +72,21 @@ const useStyles = makeStyles((theme) => ({
 	cardDesc: {
 		color: '#353535',
 		fontSize: '14px',
+		textAlign: 'left',
+	},
+	actions: {
+		marginTop: 'auto',
+	},
+	seeMore: {
+		marginLeft: '9px',
+		marginBottom: '16px',
+		padding: '10px 20px',
+		backgroundColor: theme.palette.background.default,
+		color: theme.palette.text.secondary,
+		'&:hover': {
+			backgroundColor: theme.palette.background.default,
+			color: theme.palette.text.secondary,
+		},
 	},
 }))
 

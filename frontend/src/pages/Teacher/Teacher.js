@@ -10,6 +10,9 @@ import Breadcrumb from 'components/Homepage/Breadcrumb/Breadcrumb'
 import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Fade from 'react-reveal/Fade'
+import FacebookIcon from '@material-ui/icons/Facebook'
+import TwitterIcon from '@material-ui/icons/Twitter'
+import MailIcon from '@material-ui/icons/Mail'
 import { useStyles } from './styles'
 const Teacher = () => {
 	const links = [
@@ -57,9 +60,23 @@ const Teacher = () => {
 										alt="teacher"
 										className={classes.teacherImage}
 									/>
-									<p className={classes.teacherName}>
-										Nguyễn Thị Thanh Lan - Khối trưởng khối 3
-									</p>
+									<p className={classes.teacherName}>Nguyễn Thị Thanh Lan</p>
+									<p className={classes.teacherPosition}>Khối trưởng khối 3</p>
+									<p className={classes.separator}></p>
+									<div className={classes.social}>
+										<FacebookIcon
+											style={{ color: '#3b5998' }}
+											className={classes.socialIcon}
+										/>
+										<TwitterIcon
+											style={{ color: '#33bdfd' }}
+											className={classes.socialIcon}
+										/>
+										<MailIcon
+											style={{ color: '#f05a21' }}
+											className={classes.socialIcon}
+										/>
+									</div>
 								</div>
 							</Grid>
 							<Grid item md={4} xs={6}>
@@ -69,9 +86,23 @@ const Teacher = () => {
 										alt="teacher"
 										className={classes.teacherImage}
 									/>
-									<p className={classes.teacherName}>
-										Anna Alessandra - Teacher English
-									</p>
+									<p className={classes.teacherName}>Anna Alessandra</p>
+									<p className={classes.teacherPosition}>Giáo viên tiếng Anh</p>
+									<p className={classes.separator}></p>
+									<div className={classes.social}>
+										<FacebookIcon
+											style={{ color: '#3b5998' }}
+											className={classes.socialIcon}
+										/>
+										<TwitterIcon
+											style={{ color: '#33bdfd' }}
+											className={classes.socialIcon}
+										/>
+										<MailIcon
+											style={{ color: '#f05a21' }}
+											className={classes.socialIcon}
+										/>
+									</div>
 								</div>
 							</Grid>
 							<Grid item md={4} xs={6}>
@@ -81,9 +112,23 @@ const Teacher = () => {
 										alt="teacher"
 										className={classes.teacherImage}
 									/>
-									<p className={classes.teacherName}>
-										Tamah Pnematicatos - Teacher English
-									</p>
+									<p className={classes.teacherName}>Tamah Pnematicatos</p>
+									<p className={classes.teacherPosition}>Giáo viên tiếng Anh</p>
+									<p className={classes.separator}></p>
+									<div className={classes.social}>
+										<FacebookIcon
+											style={{ color: '#3b5998' }}
+											className={classes.socialIcon}
+										/>
+										<TwitterIcon
+											style={{ color: '#33bdfd' }}
+											className={classes.socialIcon}
+										/>
+										<MailIcon
+											style={{ color: '#f05a21' }}
+											className={classes.socialIcon}
+										/>
+									</div>
 								</div>
 							</Grid>
 							<Grid item md={4} xs={6}>
@@ -93,9 +138,23 @@ const Teacher = () => {
 										alt="teacher"
 										className={classes.teacherImage}
 									/>
-									<p className={classes.teacherName}>
-										Nguyễn Phương Oanh - Khối trưởng khối 1
-									</p>
+									<p className={classes.teacherName}> Nguyễn Phương Oanh</p>
+									<p className={classes.teacherPosition}>Khối trưởng khối 1</p>
+									<p className={classes.separator}></p>
+									<div className={classes.social}>
+										<FacebookIcon
+											style={{ color: '#3b5998' }}
+											className={classes.socialIcon}
+										/>
+										<TwitterIcon
+											style={{ color: '#33bdfd' }}
+											className={classes.socialIcon}
+										/>
+										<MailIcon
+											style={{ color: '#f05a21' }}
+											className={classes.socialIcon}
+										/>
+									</div>
 								</div>
 							</Grid>
 							<Grid item md={4} xs={6}>
@@ -105,9 +164,26 @@ const Teacher = () => {
 										alt="teacher"
 										className={classes.teacherImage}
 									/>
-									<p className={classes.teacherName}>
-										Nguyễn Thị Mừng - Tổ trưởng chuyên môn
+
+									<p className={classes.teacherName}>Nguyễn Thị Mừng</p>
+									<p className={classes.teacherPosition}>
+										Tổ trưởng chuyên môn
 									</p>
+									<p className={classes.separator}></p>
+									<div className={classes.social}>
+										<FacebookIcon
+											style={{ color: '#3b5998' }}
+											className={classes.socialIcon}
+										/>
+										<TwitterIcon
+											style={{ color: '#33bdfd' }}
+											className={classes.socialIcon}
+										/>
+										<MailIcon
+											style={{ color: '#f05a21' }}
+											className={classes.socialIcon}
+										/>
+									</div>
 								</div>
 							</Grid>
 							<Grid item md={4} xs={6}>
@@ -117,9 +193,23 @@ const Teacher = () => {
 										alt="teacher"
 										className={classes.teacherImage}
 									/>
-									<p className={classes.teacherName}>
-										Trần Hoàng Anh - Hiệu trưởng
-									</p>
+									<p className={classes.teacherName}>Trần Hoàng Anh</p>
+									<p className={classes.teacherPosition}>Hiệu trưởng</p>
+									<p className={classes.separator}></p>
+									<div className={classes.social}>
+										<FacebookIcon
+											style={{ color: '#3b5998' }}
+											className={classes.socialIcon}
+										/>
+										<TwitterIcon
+											style={{ color: '#33bdfd' }}
+											className={classes.socialIcon}
+										/>
+										<MailIcon
+											style={{ color: '#f05a21' }}
+											className={classes.socialIcon}
+										/>
+									</div>
 								</div>
 							</Grid>
 						</Grid>

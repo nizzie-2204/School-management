@@ -21,7 +21,6 @@ import { useStyles } from './styles.js'
 const Header = () => {
 	const classes = useStyles()
 	const popupState1 = usePopupState({ variant: 'popper', popupId: 'menu1' })
-	const popupState2 = usePopupState({ variant: 'popper', popupId: 'menu2' })
 
 	return (
 		<AppBar position="fixed" className={classes.header}>
@@ -83,49 +82,10 @@ const Header = () => {
 							variant="contained"
 							component={RouterLink}
 							to="/programs"
-							{...bindHover(popupState2)}
 							disableRipple
 						>
 							Chương trình
 						</Button>
-						<Menu
-							{...bindMenu(popupState2)}
-							classes={{ paper: classes.listDropdown }}
-							MenuListProps={{
-								disablePadding: true,
-							}}
-						>
-							<MenuItem
-								selected={false}
-								className={classes.navItemTextDropdown}
-								onClick={popupState2.close}
-								component={RouterLink}
-								to="/programs"
-								disableRipple
-							>
-								Tư vấn giáo dục
-							</MenuItem>
-							<MenuItem
-								selected={false}
-								className={classes.navItemTextDropdown}
-								onClick={popupState2.close}
-								component={RouterLink}
-								to="/programs"
-								disableRipple
-							>
-								Chương trình giáo dục
-							</MenuItem>
-							<MenuItem
-								selected={false}
-								className={classes.navItemTextDropdown}
-								onClick={popupState2.close}
-								component={RouterLink}
-								to="/programs"
-								disableRipple
-							>
-								Phương pháp giáo dục
-							</MenuItem>
-						</Menu>
 
 						<Button
 							className={classes.navItemText}

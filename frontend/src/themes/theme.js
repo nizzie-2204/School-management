@@ -3,7 +3,7 @@ import { unstable_createMuiStrictModeTheme as createMuiTheme } from '@material-u
 const theme = createMuiTheme({
 	palette: {
 		common: { white: '#fff' },
-		background: { default: '#ffb607', paper: '#fff' },
+		background: { default: '#fff', paper: '#fff' },
 		primary: {
 			main: '#ffb607',
 			light: '#f0aa00',

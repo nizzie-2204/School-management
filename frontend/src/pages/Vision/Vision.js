@@ -50,19 +50,14 @@ const Vision = () => {
 							className={classes.desc}
 							variant="body2"
 							component="p"
-							style={{ marginBottom: '80px' }}
+							style={{ marginBottom: '50px' }}
 						>
-							Chúng ta vẫn biết rằng, làm việc với một đoạn văn bản dễ đọc và rõ
-							nghĩa dễ gây rối trí và cản trở việc tập trung vào yếu tố trình
-							bày văn bản. Lorem Ipsum có ưu điểm hơn so với đoạn văn bản chỉ
-							gồm nội dung kiểu “Nội dung, nội dung, nội dung” là nó khiến văn
-							bản giống thật hơn, bình thường hơn. Nhiều phần mềm thiết kế giao
-							diện web và dàn trang ngày nay đã sử dụng Lorem Ipsum làm đoạn văn
-							bản giả, và nếu bạn thử tìm các đoạn “Lorem ipsum” trên mạng thì
-							sẽ khám phá ra nhiều trang web hiện vẫn đang trong quá trình xây
-							dựng. Có nhiều phiên bản khác nhau đã xuất hiện, đôi khi do vô
-							tình, nhiều khi do cố ý (xen thêm vào những câu hài hước hay thông
-							tục).
+							Trở thành một hệ thống trường học xuất sắc và không ngừng phát
+							triển – nơi trang bị cho học sinh nền tảng vững vàng thông qua sự
+							kết hợp hài hòa giữa Chương trình Giáo dục Quốc gia và Chương
+							trình Giáo dục Quốc tế, giúp các em thành công ở các bậc học cao
+							hơn và trong cuộc sống, đồng thời vẫn gìn giữ những giá trị truyền
+							thống của Việt Nam.
 						</Typography>
 						<Typography
 							variant="body2"
@@ -71,18 +66,56 @@ const Vision = () => {
 						>
 							Sứ mệnh
 						</Typography>
-						<Typography className={classes.desc} variant="body2" component="p">
-							Chúng ta vẫn biết rằng, làm việc với một đoạn văn bản dễ đọc và rõ
-							nghĩa dễ gây rối trí và cản trở việc tập trung vào yếu tố trình
-							bày văn bản. Lorem Ipsum có ưu điểm hơn so với đoạn văn bản chỉ
-							gồm nội dung kiểu “Nội dung, nội dung, nội dung” là nó khiến văn
-							bản giống thật hơn, bình thường hơn. Nhiều phần mềm thiết kế giao
-							diện web và dàn trang ngày nay đã sử dụng Lorem Ipsum làm đoạn văn
-							bản giả, và nếu bạn thử tìm các đoạn “Lorem ipsum” trên mạng thì
-							sẽ khám phá ra nhiều trang web hiện vẫn đang trong quá trình xây
-							dựng. Có nhiều phiên bản khác nhau đã xuất hiện, đôi khi do vô
-							tình, nhiều khi do cố ý (xen thêm vào những câu hài hước hay thông
-							tục).
+						<Typography
+							className={classes.desc}
+							variant="body2"
+							component="p"
+							style={{ display: 'inline-block' }}
+						>
+							VAS sẽ xác định một cách rõ ràng các giá trị cốt lõi và tạo điều
+							kiện tốt nhất cho tất cả các bên liên quan cống hiến nhằm đạt được
+							tiêu chuẩn cao nhất của mỗi giá trị trên tinh thần cải tiến liên
+							tục.
+						</Typography>
+						<Typography
+							className={classes.desc}
+							variant="body2"
+							component="p"
+							style={{ display: 'inline-block' }}
+						>
+							VAS sẽ kết hợp giảng dạy hài hòa Chương trình Giáo dục Quốc gia và
+							Chương trình Giáo dục Quốc tế, giúp học sinh thông thạo cả tiếng
+							Việt và tiếng Anh.
+						</Typography>
+						<Typography
+							className={classes.desc}
+							variant="body2"
+							component="p"
+							style={{ display: 'inline-block' }}
+						>
+							VAS sẽ xây dựng một tập thể xuất sắc các nhà quản lý, giáo viên và
+							nhân viên trong nước và quốc tế - những người thực hiện một cách
+							nhiệt huyết và hiệu quả những chương trình giáo dục của VAS.
+						</Typography>
+						<Typography
+							className={classes.desc}
+							variant="body2"
+							component="p"
+							style={{ display: 'inline-block' }}
+						>
+							VAS sẽ liên tục xây dựng mối giao tiếp thường xuyên và quan hệ gắn
+							kết với phụ huynh mà ở đó phụ huynh đóng vai trò hỗ trợ đắc lực,
+							giúp giáo viên phát triển tối đa tiềm năng của học sinh.
+						</Typography>
+						<Typography
+							className={classes.desc}
+							variant="body2"
+							component="p"
+							style={{ display: 'inline-block' }}
+						>
+							VAS sẽ thu hút ngày càng nhiều học sinh cũng như mở rộng số lượng
+							cơ sở giáo dục trên nền tảng của trách nhiệm và phát triển bền
+							vững.
 						</Typography>
 					</Container>
 				</Fade>

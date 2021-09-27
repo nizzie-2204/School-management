@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#5278db',
 		transition: '0.3s',
 		width: '310px',
-		height: 'calc(100vh - 90px)',
+		minHeight: 'calc(100vh - 90px)',
 		overflowY: 'overlay',
 		'&:hover': {
 			overflowY: 'overlay',

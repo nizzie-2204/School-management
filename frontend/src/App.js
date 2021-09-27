@@ -10,6 +10,8 @@ import { store, persistor } from 'store/store'
 import theme from 'themes/theme'
 import { PersistGate } from 'redux-persist/integration/react'
 import './App.css'
+import { SnackbarProvider } from 'notistack'
+import Slide from '@material-ui/core/Slide'
 
 function App() {
 	return (
@@ -18,12 +20,20 @@ function App() {
 				<PersistGate loading={null} persistor={persistor}>
 					<div className="App">
 						<ThemeProvider theme={theme}>
-							<Router>
-								<HeaderContainer />
-								<SidebarContainer />
-								<Routes />
-								<FooterContainer />
-							</Router>
+							<SnackbarProvider
+								anchorOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								TransitionComponent={Slide}
+							>
+								<Router>
+									<HeaderContainer />
+									<SidebarContainer />
+									<Routes />
+									<FooterContainer />
+								</Router>
+							</SnackbarProvider>
 						</ThemeProvider>
 					</div>
 				</PersistGate>

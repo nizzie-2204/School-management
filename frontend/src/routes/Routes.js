@@ -1,7 +1,7 @@
-import React, { Fragment, lazy, Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
 import PrivateRoute from 'components/Route/PrivateRoute'
 import { nanoid } from 'nanoid'
+import React, { lazy, Suspense } from 'react'
+import { Route, Switch } from 'react-router-dom'
 
 // Components
 const Home = lazy(() => import('pages/Home/Home'))

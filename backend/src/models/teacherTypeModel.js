@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.model
+const Schema = mongoose.Schema
 
-const teacherTypeSchema = Schema(
+const teacherTypeSchema = new Schema(
 	{
 		isClassHeadTeacher: { type: Boolean, default: false },
 		nameType: { type: String, required: true, unique: true },

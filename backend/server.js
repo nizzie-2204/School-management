@@ -8,6 +8,7 @@ const dotenv = require('dotenv')
 const authRoute = require('./src/routes/v1/authRoute')
 const adminRoute = require('./src/routes/v1/adminRoute')
 const teacherRoute = require('./src/routes/v1/teacherRoute')
+const teacherTypeRoute = require('./src/routes/v1/teacherType')
 const studentRoute = require('./src/routes/v1/studentRoute')
 const subjectRoute = require('./src/routes/v1/subjectRoute')
 const classRoute = require('./src/routes/v1/classRoute')
@@ -36,7 +37,8 @@ app.use(
 	subjectRoute,
 	classRoute,
 	examRoute,
-	examResultRoute
+	examResultRoute,
+	teacherTypeRoute
 )
 
 // Import error handler

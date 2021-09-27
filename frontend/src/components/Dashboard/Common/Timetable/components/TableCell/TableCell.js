@@ -1,53 +1,48 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStyles from './styles'
-import { Button, TableCell, Popover } from '@material-ui/core'
-import Select from 'react-select'
+import {
+	Button,
+	TableCell,
+	Popover,
+	Typography,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+} from '@material-ui/core'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTimeTable } from '../../timetableSlice'
-const options = [
-	{ value: 'a', label: 'Toán' },
-	{ value: 'b', label: 'Tiếng Việt' },
-	{ value: 'c', label: 'Âm Nhạc' },
-]
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+import Modal from '@material-ui/core/Modal'
 
-const options2 = [
-	{ value: '1', label: 'A' },
-	{ value: '2', label: 'B' },
-	{ value: '3', label: 'C' },
-]
-
-const Modal = ({ row, index, cell }) => {
+const Lession = ({ row, index, cell }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const timetable = useSelector((state) => state.timetable)
 
-	// React select
-	const [selectedOption, setselectedOption] = useState(null)
+	const [open, setOpen] = useState(false)
 
-	const handleChange = (selectedOption) => {
-		setselectedOption(selectedOption)
-	}
-
-	const [selectedOption2, setselectedOption2] = useState(null)
-
-	const handleChange2 = (selectedOption2) => {
-		setselectedOption2(selectedOption2)
-	}
-
-	const [anchorEl, setAnchorEl] = useState(null)
-
-	const handleClick = (event) => {
-		setAnchorEl(event.currentTarget)
+	const handleOpen = () => {
+		setOpen(true)
 	}
 
 	const handleClose = () => {
-		setAnchorEl(null)
+		setOpen(false)
 	}
 
-	const open = Boolean(anchorEl)
-	const id = open ? 'simple-popover' : undefined
+	const [subject, setSubject] = useState('')
+	const handleChangeSubject = (event) => {
+		setSubject(event.target.value)
+	}
+
+	const [teacher, setTeacher] = useState('')
+	const handleChangeTeacher = (event) => {
+		setTeacher(event.target.value)
+	}
+
 	let newRow = {
-		time: row.session,
+		time: row?.session,
 		content: [
 			{
 				day: 'Monday',
@@ -77,68 +72,106 @@ const Modal = ({ row, index, cell }) => {
 		],
 	}
 
-	const [subject, setSubject] = useState(null)
-	const [teacher, setTeacher] = useState(null)
+	const [lesson, setLesson] = useState({
+		subject: '',
+		teacher: '',
+	})
 
 	const handleConfirm = () => {
-		setAnchorEl(null)
+		if (subject === '' || teacher === '') {
+			return
+		}
 
-		setSubject(selectedOption)
-		setTeacher(selectedOption2)
+		setLesson({ ...lesson, subject: subject, teacher: teacher })
 
 		newRow.content[index] = {
 			...newRow.content[index],
-			subjectId: selectedOption.value,
-			teacherId: selectedOption2.value,
+			subjectId: subject,
+			teacherId: teacher,
 		}
 		const action = setTimeTable({ newRow, index })
 		dispatch(action)
+
+		handleClose()
 	}
+
+	useEffect(() => {
+		console.log(subject)
+		console.log(teacher)
+	}, [subject, teacher])
 	return (
 		<>
 			<TableCell
-				onClick={handleClick}
+				onClick={handleOpen}
 				className={classes.tableCell}
 				align="center"
 			>
-				<div>{subject?.label}</div>
-				<div className={classes.titleSmall}>{teacher?.label}</div>
+				<div>{lesson.subject}</div>
+				<div className={classes.titleSmall}>{lesson.teacher}</div>
 			</TableCell>
-			<Popover
-				className={classes.popup}
-				id={id}
+			<Modal
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
+				className={classes.modal}
 				open={open}
-				anchorEl={anchorEl}
 				onClose={handleClose}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'center',
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'center',
+				closeAfterTransition
+				BackdropComponent={Backdrop}
+				BackdropProps={{
+					timeout: 100,
 				}}
 			>
-				<Select
-					value={selectedOption}
-					onChange={handleChange}
-					className={classes.selectOption}
-					options={options}
-					placeholder="Môn"
-				/>
-				<Select
-					value={selectedOption2}
-					onChange={handleChange2}
-					className={classes.selectOption}
-					options={options2}
-					placeholder="Giáo viên"
-				/>
-				<Button variant="contained" onClick={handleConfirm}>
-					Xác nhận
-				</Button>
-			</Popover>
+				<Fade in={open}>
+					<div className={classes.paper}>
+						<Typography className={classes.formTitle} variant="h5">
+							Chọn môn học và giáo viên
+						</Typography>
+						<FormControl variant="outlined" className={classes.selectOption}>
+							<InputLabel
+								id="demo-simple-select-outlined-label"
+								style={{ color: '#000' }}
+							>
+								Môn học
+							</InputLabel>
+							<Select
+								labelId="demo-simple-select-outlined-label"
+								id="demo-simple-select-outlined"
+								value={subject}
+								onChange={handleChangeSubject}
+								label="Lớp"
+							>
+								<MenuItem value="Toán">Toán</MenuItem>
+								<MenuItem value="Tiếng Việt">Tiếng Việt</MenuItem>
+								<MenuItem value="Âm Nhạc">Âm Nhạc</MenuItem>
+							</Select>
+						</FormControl>
+						<FormControl variant="outlined" className={classes.selectOption}>
+							<InputLabel
+								id="demo-simple-select-outlined-label"
+								style={{ color: '#000' }}
+							>
+								Giáo viên
+							</InputLabel>
+							<Select
+								labelId="demo-simple-select-outlined-label"
+								id="demo-simple-select-outlined"
+								value={teacher}
+								onChange={handleChangeTeacher}
+								label="Lớp"
+							>
+								<MenuItem value="A">A</MenuItem>
+								<MenuItem value="B">B</MenuItem>
+								<MenuItem value="C">C</MenuItem>
+							</Select>
+						</FormControl>
+						<Button variant="contained" onClick={handleConfirm}>
+							Xác nhận
+						</Button>
+					</div>
+				</Fade>
+			</Modal>
 		</>
 	)
 }
 
-export default Modal
+export default Lession

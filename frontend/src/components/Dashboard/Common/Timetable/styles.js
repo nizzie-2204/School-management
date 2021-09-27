@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
 	main: {
 		backgroundColor: '#f3f7fa',
+		minHeight: '100vh',
 		padding: '0 15px 15px 15px',
-
 		overflowY: 'overlay',
 		marginTop: '90px',
 		marginLeft: '310px',
@@ -24,12 +24,27 @@ const useStyles = makeStyles((theme) => ({
 		width: '200px',
 		fontSize: '14px',
 	},
-
+	selectClass: {
+		width: 300,
+		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #dcdbdb',
+		},
+		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #dcdbdb',
+		},
+		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #3254ac',
+		},
+	},
+	table: {
+		height: 450,
+	},
 	tableHeadTitle: {
 		textTransform: 'uppercase',
 		fontWeight: 'bold',
 		fontSize: '16px',
-		color: theme.palette.text.main,
+		color: theme.palette.text.secondary,
+		backgroundColor: '#3254ac',
 		'&:not(:last-of-type)': {
 			borderRight: '1px solid rgba(180, 180, 180, 1)',
 		},

@@ -133,9 +133,6 @@ const timetableSlice = createSlice({
 
 			const indexCurrRow = current(state).indexOf(currRow)
 
-			console.log(current(state)[indexCurrRow].content[action.payload.index])
-			console.log(action.payload.newRow.content[action.payload.index])
-
 			state[indexCurrRow].content[action.payload.index] =
 				action.payload.newRow.content[action.payload.index]
 		},
