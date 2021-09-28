@@ -4,6 +4,8 @@ import storage from 'redux-persist/lib/storage'
 import { combineReducers } from 'redux'
 import authSlice from 'features/Login/authSlice'
 import timetableSlice from 'components/Dashboard/Common/Timetable/timetableSlice'
+import subjectSlice from 'components/Dashboard/Common/Subject/subjectSlice'
+
 const persistConfig = {
 	key: 'root',
 	storage,
@@ -12,6 +14,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
 	auth: authSlice,
 	timetable: timetableSlice,
+	subjects: subjectSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

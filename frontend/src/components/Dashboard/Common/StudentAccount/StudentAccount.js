@@ -25,7 +25,6 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import AddEditAccount from './components/AddEditAccount/AddEditAccount'
 import useStyles from './styles'
-import Swal from 'sweetalert2'
 import DeleteAlert from './components/DeleteAlert/DeleteAlert'
 
 function createData(name, calories, fat, carbs, protein) {

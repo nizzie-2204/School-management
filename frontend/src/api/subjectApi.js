@@ -1,42 +1,42 @@
 import axiosClient from './axios'
 
 const subjectAPI = {
-	getALlSubjects: async (token) => {
-		return await axiosClient.get({
-			url: '/subjects',
+	getALlSubjects: async () => {
+		const token = localStorage.getItem('token')
+
+		return await axiosClient.get('/subjects', {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
 
-	getSubject: async (token, id) => {
-		return await axiosClient.get({
-			url: `/subjects/${id}`,
+	getSubject: async (id) => {
+		const token = localStorage.getItem('token')
+
+		return await axiosClient.get(`/subjects/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
 
-	addSubject: async (token, data) => {
-		return await axiosClient.post({
-			url: '/subjects',
-			headers: {
-				Authorization: `Bearer ${token}`,
-				ContentType: 'application/json',
-			},
-			body: JSON.stringify(data),
-		})
-	},
+	addSubject: async (data) => {
+		const token = localStorage.getItem('token')
 
-	updateSubject: async (token, id, data) => {
-		return await axiosClient.put({
-			url: `/subjects/${id}`,
+		return await axiosClient.post('/subjects', data, {
 			headers: { Authorization: `Bearer ${token}` },
-			body: JSON.stringify(data),
 		})
 	},
 
-	deleteSubject: async (token, id) => {
-		return await axiosClient.delete({
-			url: `/subjects/${id}`,
+	updateSubject: async (data) => {
+		const token = localStorage.getItem('token')
+
+		return await axiosClient.put(`/subjects/${data._id}`, data, {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+	},
+
+	deleteSubject: async (id) => {
+		const token = localStorage.getItem('token')
+
+		return await axiosClient.delete(`/subjects/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
