@@ -2,6 +2,8 @@ import PrivateRoute from 'components/Route/PrivateRoute'
 import { nanoid } from 'nanoid'
 import React, { lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
+import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 // Components
 const Home = lazy(() => import('pages/Home/Home'))
@@ -29,6 +31,9 @@ const TeacherAccount = lazy(() =>
 )
 const Subject = lazy(() =>
 	import('components/Dashboard/Common/Subject/Subject')
+)
+const TypeTeacher = lazy(() =>
+	import('components/Dashboard/Common/TypeTeacher/TypeTeacher')
 )
 
 const routes = [
@@ -102,35 +107,45 @@ const routes = [
 		path: '/dashboard/timetable',
 		component: Timetable,
 	},
+	{
+		exact: true,
+		path: '/dashboard/teacher-type',
+		component: TypeTeacher,
+	},
 ]
 
 const Routes = () => {
+	const location = useLocation()
 	return (
 		<>
-			{routes ? (
-				<Suspense fallback={<div />}>
-					<Switch>
-						{routes.map((route, index) => {
-							const Component = route.component
-							return route.path.includes('/dashboard') ? (
-								<PrivateRoute
-									exact={route.exact}
-									path={route.path}
-									key={nanoid()}
-									component={Component}
-								/>
-							) : (
-								<Route
-									key={nanoid()}
-									path={route.path}
-									exact={route.exact}
-									render={(props) => <Component {...props} />}
-								/>
-							)
-						})}
-					</Switch>
-				</Suspense>
-			) : null}
+			<TransitionGroup component={null}>
+				<CSSTransition timeout={300} classNames="page" key={location.key}>
+					{routes ? (
+						<Suspense fallback={<div />}>
+							<Switch location={location}>
+								{routes.map((route, index) => {
+									const Component = route.component
+									return route.path.includes('/dashboard') ? (
+										<PrivateRoute
+											exact={route.exact}
+											path={route.path}
+											key={nanoid()}
+											component={Component}
+										/>
+									) : (
+										<Route
+											key={nanoid()}
+											path={route.path}
+											exact={route.exact}
+											render={(props) => <Component {...props} />}
+										/>
+									)
+								})}
+							</Switch>
+						</Suspense>
+					) : null}
+				</CSSTransition>
+			</TransitionGroup>
 		</>
 	)
 }

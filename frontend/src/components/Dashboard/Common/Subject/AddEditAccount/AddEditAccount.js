@@ -22,45 +22,53 @@ const AddEditAccount = ({ open, handleClose, subject }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-
-	const { register, handleSubmit, reset, setValue } = useForm({
+	const { register, handleSubmit, reset } = useForm({
 		resolver: yupResolver(schema),
 	})
+	const [error, setError] = useState(null)
 
 	const handleAddSubject = (data) => {
 		console.log('Add: ', data)
-		// const action = addSubject(data)
-		// dispatch(action)
-		// 	.then(unwrapResult)
-		// 	.then(() => {
-		// 		handleClose()
-		// 		enqueueSnackbar('Thêm môn học thành công', {
-		// 			variant: 'success',
-		// 			autoHideDuration: 3000,
-		// 		})
-		// 		reset()
-		// 	})
-		// 	.catch((err) => console.error)
+		const action = addSubject(data)
+		dispatch(action)
+			.then(unwrapResult)
+			.then(() => {
+				handleClose()
+				enqueueSnackbar('Thêm mới thành công', {
+					variant: 'success',
+					autoHideDuration: 3000,
+				})
+				reset()
+			})
+			.catch((error) => {
+				if (error.data.message === 'name have to be unique') {
+					setError('Tên môn học đã tồn tại')
+				}
+			})
 	}
 
 	const handleUpdateSubject = (data) => {
-		console.log('Edit: ', data)
-
-		// const action = updateSubject(newData)
-		// dispatch(action)
-		// 	.then(unwrapResult)
-		// 	.then(() => {
-		// 		handleClose()
-		// 		enqueueSnackbar('Cập nhật môn học thành công', {
-		// 			variant: 'success',
-		// 			autoHideDuration: 3000,
-		// 		})
-		// 		reset()
-		// 	})
-		// 	.catch((err) => console.error)
+		const newDate = { ...subject, name: data.name, desc: data.desc }
+		const action = updateSubject(newDate)
+		dispatch(action)
+			.then(unwrapResult)
+			.then(() => {
+				handleClose()
+				enqueueSnackbar('Chỉnh sửa thành công', {
+					variant: 'success',
+					autoHideDuration: 3000,
+				})
+				reset()
+			})
+			.catch((error) => {
+				if (error.data.message === 'name have to be unique') {
+					setError('Tên môn học đã tồn tại')
+				}
+			})
 	}
 
 	useEffect(() => {
+		// Reset defaultValue input when editing
 		if (subject) {
 			reset({ name: subject.name, desc: subject.desc })
 		}
@@ -92,6 +100,7 @@ const AddEditAccount = ({ open, handleClose, subject }) => {
 					<Typography className={classes.formTitle} variant="h5">
 						{subject ? 'Chỉnh sửa môn học' : 'Thêm môn học'}
 					</Typography>
+					{error && <p className={classes.error}>{error}</p>}
 					<div className={classes.inputGroup}>
 						<TextField
 							className={classes.root}

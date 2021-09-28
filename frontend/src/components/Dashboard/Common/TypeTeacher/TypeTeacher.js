@@ -14,6 +14,7 @@ import {
 	Tooltip,
 	Typography,
 } from '@material-ui/core'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import AddIcon from '@material-ui/icons/Add'
 import BuildIcon from '@material-ui/icons/Build'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -24,12 +25,11 @@ import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
-import AddEditAccount from './AddEditAccount/AddEditAccount'
-import useStyles from './styles'
-import { getSubject, getSubjects } from './subjectSlice'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import formatDate from 'utils/formatDate'
-import DeleteAlert from './DeleteAlert/DeleteAlert'
+import AddEditTypeTeacher from './AddEditAccount/AddEditTypeTeacher'
+import useStyles from './styles'
+import { getTypeTeachers } from './typeTeacherSlice'
+// import { getSubjects } from './subjectSlice'
 
 const links = [
 	{
@@ -41,20 +41,23 @@ const links = [
 		path: '/dashboard/class',
 	},
 	{
-		title: 'Môn học',
-		path: '/dashboard/subject',
+		title: 'Loại giáo viên',
+		path: '/dashboard/teacher-type',
 	},
 ]
 
-const Subject = () => {
+const TypeTeacher = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const subjects = useSelector((state) => state.subjects.subjects)
-	const subjectsLoading = useSelector((state) => state.subjects.subjectsLoading)
+	const typeTeachers = useSelector((state) => state.typeTeacher.typeTeachers)
+	const typeTeachersLoading = useSelector(
+		(state) => state.subjects.typeTeachersLoading
+	)
+
 	const [subject, setSubject] = useState(null)
 
 	const [open, setOpen] = useState(false)
-	const handleOpen = (subject) => {
+	const handleOpen = () => {
 		setOpen(true)
 	}
 	const handleClose = () => {
@@ -89,7 +92,7 @@ const Subject = () => {
 	}
 
 	useEffect(() => {
-		const action = getSubjects()
+		const action = getTypeTeachers()
 		dispatch(action)
 			.then(unwrapResult)
 			.catch((error) => console.error(error))
@@ -111,7 +114,7 @@ const Subject = () => {
 	return (
 		<>
 			<Helmet>
-				<title>Môn học - Hệ thống trường quốc tế</title>
+				<title>Loại giáo viên - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
 
@@ -123,7 +126,7 @@ const Subject = () => {
 						<TextField
 							className={classes.searchField}
 							id="outlined-textarea"
-							placeholder="Tên môn hoặc miêu tả"
+							placeholder="Tên loại giáo viên"
 							variant="outlined"
 							inputProps={{
 								style: { padding: '12.5px 14px' },
@@ -147,7 +150,7 @@ const Subject = () => {
 						id="subtitle"
 						component="div"
 					>
-						Danh sách môn học
+						Danh sách loại giáo viên
 					</Typography>
 					<Button
 						variant="contained"
@@ -155,9 +158,9 @@ const Subject = () => {
 						startIcon={<AddIcon />}
 						onClick={handleOpen}
 					>
-						Thêm môn học
+						Thêm loại giáo viên
 					</Button>
-					<AddEditAccount open={open} handleClose={handleClose} />
+					<AddEditTypeTeacher open={open} handleClose={handleClose} />
 				</div>
 
 				<TableContainer component={Paper} className={classes.tableContainer}>
@@ -174,9 +177,9 @@ const Subject = () => {
 								<TableCell align="center" className={classes.tableHead}>
 									Tên
 								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
+								{/* <TableCell align="center" className={classes.tableHead}>
 									Miêu tả
-								</TableCell>
+								</TableCell> */}
 
 								<TableCell align="center" className={classes.tableHead}>
 									Ngày tạo
@@ -190,7 +193,7 @@ const Subject = () => {
 								</TableCell>
 							</TableRow>
 						</TableHead>
-						{subjectsLoading ? (
+						{typeTeachersLoading ? (
 							<CircularProgress
 								style={{ color: '#3254ac' }}
 								className={classes.loading}
@@ -198,7 +201,7 @@ const Subject = () => {
 						) : (
 							<TableBody>
 								{/* Search and render */}
-								{subjects
+								{typeTeachers
 									?.filter((subject) => {
 										if (searchTerm === '') {
 											return subject
@@ -214,24 +217,26 @@ const Subject = () => {
 										}
 									})
 									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((subject, index) => (
+									.map((typeTeacher, index) => (
 										<>
-											<TableRow key={subject._id}>
+											<TableRow key={typeTeacher._id}>
 												<TableCell
 													align="center"
 													component="th"
 													scope="row"
 													className={classes.limitText}
 												>
-													{subject._id}
-												</TableCell>
-												<TableCell align="center">{subject.name}</TableCell>
-												<TableCell align="center">{subject.desc}</TableCell>
-												<TableCell align="center">
-													{formatDate(subject.createdAt)}
+													{typeTeacher._id}
 												</TableCell>
 												<TableCell align="center">
-													{formatDate(subject.updatedAt)}
+													{typeTeacher.nameType}
+												</TableCell>
+
+												<TableCell align="center">
+													{formatDate(typeTeacher.createdAt)}
+												</TableCell>
+												<TableCell align="center">
+													{formatDate(typeTeacher.updatedAt)}
 												</TableCell>
 												<TableCell align="center">
 													<Tooltip title="Chi tiết">
@@ -245,7 +250,7 @@ const Subject = () => {
 													<Tooltip title="Chỉnh sửa">
 														<IconButton
 															onClick={() => {
-																handleOpen3(subject)
+																handleOpen3(typeTeacher)
 															}}
 														>
 															<BuildIcon
@@ -257,7 +262,7 @@ const Subject = () => {
 													<Tooltip title="Xóa">
 														<IconButton
 															onClick={() => {
-																handleOpen2(subject)
+																handleOpen2(typeTeacher)
 															}}
 														>
 															<DeleteIcon
@@ -272,7 +277,7 @@ const Subject = () => {
 									))}
 							</TableBody>
 						)}
-						<DeleteAlert
+						{/* <DeleteAlert
 							open={open2}
 							handleClose={handleClose2}
 							subject={subject}
@@ -281,7 +286,7 @@ const Subject = () => {
 							open={open3}
 							handleClose={handleClose3}
 							subject={subject}
-						/>
+						/> */}
 					</Table>
 				</TableContainer>
 				<TablePagination
@@ -289,7 +294,7 @@ const Subject = () => {
 					component="div"
 					// Pagination on search
 					count={
-						subjects?.filter((subject) => {
+						typeTeachers?.filter((subject) => {
 							if (searchTerm === '') {
 								return subject
 							} else if (
@@ -310,4 +315,4 @@ const Subject = () => {
 	)
 }
 
-export default Subject
+export default TypeTeacher

@@ -20,26 +20,34 @@ export const getSubject = createAsyncThunk(
 export const addSubject = createAsyncThunk(
 	'subjects/addSubject',
 	async (data, thunkAPI) => {
-		const subject = await subjectAPI.addSubject(data)
+		try {
+			const subject = await subjectAPI.addSubject(data)
 
-		if (subject) {
-			thunkAPI.dispatch(getSubjects())
+			if (subject) {
+				thunkAPI.dispatch(getSubjects())
+			}
+
+			return subject.data
+		} catch (error) {
+			return thunkAPI.rejectWithValue(error.response)
 		}
-
-		return subject.data
 	}
 )
 
 export const updateSubject = createAsyncThunk(
 	'subjects/updateSubject',
 	async (data, thunkAPI) => {
-		const subject = await subjectAPI.updateSubject(data)
+		try {
+			const subject = await subjectAPI.updateSubject(data)
 
-		if (subject) {
-			thunkAPI.dispatch(getSubjects())
+			if (subject) {
+				thunkAPI.dispatch(getSubjects())
+			}
+
+			return subject.data
+		} catch (error) {
+			return thunkAPI.rejectWithValue(error.response)
 		}
-
-		return subject.data
 	}
 )
 

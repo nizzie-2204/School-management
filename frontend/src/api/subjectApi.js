@@ -21,7 +21,10 @@ const subjectAPI = {
 		const token = localStorage.getItem('token')
 
 		return await axiosClient.post('/subjects', data, {
-			headers: { Authorization: `Bearer ${token}` },
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
 		})
 	},
 
@@ -29,7 +32,10 @@ const subjectAPI = {
 		const token = localStorage.getItem('token')
 
 		return await axiosClient.put(`/subjects/${data._id}`, data, {
-			headers: { Authorization: `Bearer ${token}` },
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
 		})
 	},
 

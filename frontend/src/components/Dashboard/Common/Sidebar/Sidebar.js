@@ -123,7 +123,13 @@ const Sidebar = () => {
 				</ListItem>
 				<Collapse in={open} timeout="auto" unmountOnExit>
 					<List component="div" disablePadding>
-						<ListItem button className={classes.nested}>
+						<ListItem
+							button
+							className={classes.nested}
+							component={NavLink}
+							to="/dashboard/teacher-type"
+							activeClassName={classes.activeLink}
+						>
 							<ListItemIcon className={classes.listIcon}>
 								<SchoolIcon />
 							</ListItemIcon>
