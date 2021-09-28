@@ -160,151 +160,164 @@ const Subject = () => {
 					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>
 
-				<TableContainer component={Paper} className={classes.tableContainer}>
-					<Table
-						className={classes.table}
-						stickyHeader
-						aria-label="sticky table"
-					>
-						<TableHead>
-							<TableRow>
-								<TableCell align="center" className={classes.tableHead}>
-									ID
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Tên
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Miêu tả
-								</TableCell>
-
-								<TableCell align="center" className={classes.tableHead}>
-									Ngày tạo
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Ngày cập nhật
-								</TableCell>
-
-								<TableCell align="center" className={classes.tableHead}>
-									Hành động
-								</TableCell>
-							</TableRow>
-						</TableHead>
-						{subjectsLoading ? (
-							<CircularProgress
-								style={{ color: '#3254ac' }}
-								className={classes.loading}
-							/>
-						) : (
-							<TableBody>
-								{/* Search and render */}
-								{subjects
-									?.filter((subject) => {
-										if (searchTerm === '') {
-											return subject
-										} else if (
-											subject.name
-												.toLowerCase()
-												.includes(searchTerm.toLowerCase()) ||
-											subject.desc
-												.toLowerCase()
-												.includes(searchTerm.toLowerCase())
-										) {
-											return subject
-										}
-									})
-									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((subject, index) => (
-										<>
-											<TableRow key={subject._id}>
-												<TableCell
-													align="center"
-													component="th"
-													scope="row"
-													className={classes.limitText}
-												>
-													{subject._id}
-												</TableCell>
-												<TableCell align="center">{subject.name}</TableCell>
-												<TableCell align="center">{subject.desc}</TableCell>
-												<TableCell align="center">
-													{formatDate(subject.createdAt)}
-												</TableCell>
-												<TableCell align="center">
-													{formatDate(subject.updatedAt)}
-												</TableCell>
-												<TableCell align="center">
-													<Tooltip title="Chi tiết">
-														<IconButton>
-															<VisibilityIcon
-																fontSize="small"
-																style={{ color: '#1a61c6' }}
-															/>
-														</IconButton>
-													</Tooltip>
-													<Tooltip title="Chỉnh sửa">
-														<IconButton
-															onClick={() => {
-																handleOpen3(subject)
-															}}
-														>
-															<BuildIcon
-																fontSize="small"
-																style={{ color: '#ffa326' }}
-															/>
-														</IconButton>
-													</Tooltip>
-													<Tooltip title="Xóa">
-														<IconButton
-															onClick={() => {
-																handleOpen2(subject)
-															}}
-														>
-															<DeleteIcon
-																fontSize="small"
-																style={{ color: '#e96053' }}
-															/>
-														</IconButton>
-													</Tooltip>
-												</TableCell>
-											</TableRow>
-										</>
-									))}
-							</TableBody>
-						)}
-						<DeleteAlert
-							open={open2}
-							handleClose={handleClose2}
-							subject={subject}
+				{subjectsLoading ? (
+					<div className={classes.loading}>
+						<CircularProgress
+							style={{
+								color: '#3254ac',
+							}}
 						/>
-						<AddEditAccount
-							open={open3}
-							handleClose={handleClose3}
-							subject={subject}
-						/>
-					</Table>
-				</TableContainer>
-				<TablePagination
-					rowsPerPageOptions={[10]}
-					component="div"
-					// Pagination on search
-					count={
-						subjects?.filter((subject) => {
-							if (searchTerm === '') {
-								return subject
-							} else if (
-								subject.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-								subject.desc.toLowerCase().includes(searchTerm.toLowerCase())
-							) {
-								return subject
+					</div>
+				) : (
+					<>
+						<TableContainer
+							component={Paper}
+							className={classes.tableContainer}
+						>
+							<Table
+								className={classes.table}
+								stickyHeader
+								aria-label="sticky table"
+							>
+								<TableHead>
+									<TableRow>
+										<TableCell align="center" className={classes.tableHead}>
+											ID
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Tên
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Miêu tả
+										</TableCell>
+
+										<TableCell align="center" className={classes.tableHead}>
+											Ngày tạo
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Ngày cập nhật
+										</TableCell>
+
+										<TableCell align="center" className={classes.tableHead}>
+											Hành động
+										</TableCell>
+									</TableRow>
+								</TableHead>
+
+								<TableBody>
+									{/* Search and render */}
+									{subjects
+										?.filter((subject) => {
+											if (searchTerm === '') {
+												return subject
+											} else if (
+												subject.name
+													.toLowerCase()
+													.includes(searchTerm.toLowerCase()) ||
+												subject.desc
+													.toLowerCase()
+													.includes(searchTerm.toLowerCase())
+											) {
+												return subject
+											}
+										})
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((subject, index) => (
+											<>
+												<TableRow key={subject._id}>
+													<TableCell
+														align="center"
+														component="th"
+														scope="row"
+														className={classes.limitText}
+													>
+														{subject._id}
+													</TableCell>
+													<TableCell align="center">{subject.name}</TableCell>
+													<TableCell align="center">{subject.desc}</TableCell>
+													<TableCell align="center">
+														{formatDate(subject.createdAt)}
+													</TableCell>
+													<TableCell align="center">
+														{formatDate(subject.updatedAt)}
+													</TableCell>
+													<TableCell align="center">
+														<Tooltip title="Chi tiết">
+															<IconButton>
+																<VisibilityIcon
+																	fontSize="small"
+																	style={{ color: '#1a61c6' }}
+																/>
+															</IconButton>
+														</Tooltip>
+														<Tooltip title="Chỉnh sửa">
+															<IconButton
+																onClick={() => {
+																	handleOpen3(subject)
+																}}
+															>
+																<BuildIcon
+																	fontSize="small"
+																	style={{ color: '#ffa326' }}
+																/>
+															</IconButton>
+														</Tooltip>
+														<Tooltip title="Xóa">
+															<IconButton
+																onClick={() => {
+																	handleOpen2(subject)
+																}}
+															>
+																<DeleteIcon
+																	fontSize="small"
+																	style={{ color: '#e96053' }}
+																/>
+															</IconButton>
+														</Tooltip>
+													</TableCell>
+												</TableRow>
+											</>
+										))}
+								</TableBody>
+								<DeleteAlert
+									open={open2}
+									handleClose={handleClose2}
+									subject={subject}
+								/>
+								<AddEditAccount
+									open={open3}
+									handleClose={handleClose3}
+									subject={subject}
+								/>
+							</Table>
+						</TableContainer>
+						<TablePagination
+							rowsPerPageOptions={[10]}
+							component="div"
+							// Pagination on search
+							count={
+								subjects?.filter((subject) => {
+									if (searchTerm === '') {
+										return subject
+									} else if (
+										subject.name
+											.toLowerCase()
+											.includes(searchTerm.toLowerCase()) ||
+										subject.desc
+											.toLowerCase()
+											.includes(searchTerm.toLowerCase())
+									) {
+										return subject
+									}
+								}).length
 							}
-						}).length
-					}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
+							rowsPerPage={rowsPerPage}
+							page={page}
+							onPageChange={handleChangePage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</>
+				)}
 			</Box>
 		</>
 	)
