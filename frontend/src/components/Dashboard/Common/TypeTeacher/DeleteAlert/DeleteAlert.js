@@ -7,15 +7,15 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import useStyles from './styles'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { deleteSubject } from '../subjectSlice'
+import { deleteTypeTeacher } from '../typeTeacherSlice'
 
-const DeleteAlert = ({ open, handleClose, subject }) => {
+const DeleteAlert = ({ open, handleClose, typeTeacher }) => {
 	const classes = useStyles()
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
 	const handleDeleteAccount = () => {
-		const action = deleteSubject(subject._id)
+		const action = deleteTypeTeacher(typeTeacher._id)
 		dispatch(action)
 			.then(unwrapResult)
 			.then(() => {

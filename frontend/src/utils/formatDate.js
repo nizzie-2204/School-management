@@ -1,11 +1,15 @@
 const formatDate = (date) => {
 	const thisDate = new Date(date)
 
-	const hour = thisDate.getHours()
-	const minute = thisDate.getMinutes()
-	const currDate = thisDate.toLocaleDateString('vi-VN', {
+	let hour = thisDate.getHours()
+	let minute = thisDate.getMinutes()
+	let currDate = thisDate.toLocaleDateString('vi-VN', {
 		timeZone: 'UTC',
 	})
+
+	if (minute < 10) {
+		minute = '0' + minute
+	}
 
 	return `${hour}:${minute} ${currDate}`
 }

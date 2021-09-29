@@ -123,7 +123,7 @@ const Timetable = () => {
 											>
 												<div>{`Thứ ${index + 2}`}</div>
 												<div className={classes.titleSmall}>
-													{day.toLocaleDateString('en-US', { timeZone: 'UTC' })}
+													{day.toLocaleDateString('vi-VN', { timeZone: 'UTC' })}
 												</div>
 											</TableCell>
 										)

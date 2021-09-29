@@ -25,7 +25,7 @@ const typeTeacherAPI = {
 	},
 
 	updateTypeTeacher: async (data) => {
-		return await axiosClient.put('/teacher-types', data, {
+		return await axiosClient.put(`/teacher-types/${data._id}`, data, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 				'Content-Type': 'application/json',

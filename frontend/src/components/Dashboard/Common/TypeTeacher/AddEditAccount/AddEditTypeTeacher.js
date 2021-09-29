@@ -20,12 +20,13 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { addTypeTeacher, updateTypeTeacher } from '../typeTeacherSlice'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { withStyles } from '@material-ui/styles'
 import { getTypeTeachers } from '../typeTeacherSlice'
+
 const schema = yup.object().shape({
-	name: yup.string().required(),
+	nameType: yup.string().required(),
 })
 
 const GreenRadio = withStyles({
@@ -60,45 +61,55 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 	const [error, setError] = useState(null)
 
 	const handleAddTypeTeacher = (data) => {
-		console.log('Add: ', data)
-		console.log('Add: asdasd')
-		alert(JSON.stringify(data))
-		// const action = addSubject(data)
-		// dispatch(action)
-		// 	.then(unwrapResult)
-		// 	.then(() => {
-		// 		handleClose()
-		// 		enqueueSnackbar('Thêm mới thành công', {
-		// 			variant: 'success',
-		// 			autoHideDuration: 3000,
-		// 		})
-		// 		reset()
-		// 	})
-		// 	.catch((error) => {
-		// 		if (error.data.message === 'name have to be unique') {
-		// 			setError('Tên môn học đã tồn tại')
-		// 		}
-		// 	})
+		if (!data.subjects || data.subjects.length === 0) {
+			setError('Chưa chọn môn học')
+			return
+		} else {
+			setError(null)
+			const newData = {
+				...data,
+				isClassHeadTeacher: data.isClassHeadTeacher === 'true',
+			}
+
+			const action = addTypeTeacher(newData)
+			dispatch(action)
+				.then(unwrapResult)
+				.then(() => {
+					handleClose()
+					enqueueSnackbar('Thêm mới thành công', {
+						variant: 'success',
+						autoHideDuration: 3000,
+					})
+					reset()
+				})
+				.catch((error) => console.log(error))
+		}
 	}
 
-	const handleUpdateSubject = (data) => {
-		// const newDate = { ...typeTeacher, name: data.name, desc: data.desc }
-		// const action = updateSubject(newDate)
-		// dispatch(action)
-		// 	.then(unwrapResult)
-		// 	.then(() => {
-		// 		handleClose()
-		// 		enqueueSnackbar('Chỉnh sửa thành công', {
-		// 			variant: 'success',
-		// 			autoHideDuration: 3000,
-		// 		})
-		// 		reset()
-		// 	})
-		// 	.catch((error) => {
-		// 		if (error.data.message === 'name have to be unique') {
-		// 			setError('Tên môn học đã tồn tại')
-		// 		}
-		// 	})
+	const handleUpdateTypeTeacher = (data) => {
+		if (!data.subjects || data.subjects.length === 0) {
+			setError('Chưa chọn môn học')
+			return
+		} else {
+			setError(null)
+			const newData = {
+				...data,
+				_id: typeTeacher._id,
+				isClassHeadTeacher: data.isClassHeadTeacher === 'true',
+			}
+			const action = updateTypeTeacher(newData)
+			dispatch(action)
+				.then(unwrapResult)
+				.then(() => {
+					handleClose()
+					enqueueSnackbar('Chỉnh sửa thành công', {
+						variant: 'success',
+						autoHideDuration: 3000,
+					})
+					reset()
+				})
+				.catch((error) => console.log(error))
+		}
 	}
 
 	const [value, setValue] = useState()
@@ -109,7 +120,7 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 	useEffect(() => {
 		// Reset defaultValue input when editing
 		if (typeTeacher) {
-			reset({ name: typeTeacher.name })
+			reset({ nameType: typeTeacher.name })
 		}
 	}, [typeTeacher])
 
@@ -131,20 +142,16 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 					className={classes.form}
 					autoComplete="off"
 					onSubmit={
-						handleSubmit(handleAddTypeTeacher)
-
-						// typeTeacher
-
-						// 	?
-						// 	 handleSubmit(handleUpdateSubject)
-						// 	:
-						//
+						typeTeacher
+							? handleSubmit(handleUpdateTypeTeacher)
+							: handleSubmit(handleAddTypeTeacher)
 					}
 				>
 					<Typography className={classes.formTitle} variant="h5">
 						{typeTeacher ? 'Chỉnh sửa loại giáo viên' : 'Thêm loại giáo viên'}
 					</Typography>
 					{error && <p className={classes.error}>{error}</p>}
+
 					<div className={classes.inputGroup}>
 						<TextField
 							className={classes.root}
@@ -161,14 +168,16 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 							}}
 							required
 							{...register('nameType')}
-							// defaultValue={subject?.name}
+							defaultValue={typeTeacher?.nameType}
 						/>
 						<FormControl component="fieldset" className={classes.radioGroup}>
 							<Typography variant="body2">Loại</Typography>
 							<Controller
 								rules={{ required: true }}
 								control={control}
-								defaultValue="false"
+								defaultValue={
+									typeTeacher?.isClassHeadTeacher.toString() || 'false'
+								}
 								name="isClassHeadTeacher"
 								render={({ field }) => {
 									const { name, onBlur, onChange, value } = field
@@ -207,11 +216,20 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 								{subjects.map((subject) => {
 									return (
 										<FormControlLabel
+											control={
+												<CustomCheckbox
+													defaultChecked={typeTeacher?.subjects.includes(
+														subject._id
+													)}
+												/>
+											}
+											{...register('subjects')}
 											value={subject._id}
-											control={<CustomCheckbox />}
 											label={subject.name}
 											labelPlacement="end"
-											{...register('subjects')}
+											// onClick={(e) => {
+											// 	setcheckemail(e.target.checked);
+											//   }}
 										/>
 									)
 								})}

@@ -27,6 +27,7 @@ import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
 import AddEditTypeTeacher from './AddEditAccount/AddEditTypeTeacher'
+import DeleteAlert from './DeleteAlert/DeleteAlert'
 import useStyles from './styles'
 import { getTypeTeachers } from './typeTeacherSlice'
 // import { getSubjects } from './subjectSlice'
@@ -54,7 +55,7 @@ const TypeTeacher = () => {
 		(state) => state.subjects.typeTeachersLoading
 	)
 
-	const [subject, setSubject] = useState(null)
+	const [typeTeacher, setTypeTeacher] = useState(null)
 
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => {
@@ -65,22 +66,22 @@ const TypeTeacher = () => {
 	}
 
 	const [open2, setOpen2] = useState(false)
-	const handleOpen2 = (subject) => {
-		setSubject(subject)
+	const handleOpen2 = (typeTeacher) => {
+		setTypeTeacher(typeTeacher)
 		setOpen2(true)
 	}
 	const handleClose2 = () => {
-		setSubject(null)
+		setTypeTeacher(null)
 		setOpen2(false)
 	}
 
 	const [open3, setOpen3] = useState(false)
-	const handleOpen3 = (subject) => {
-		setSubject(subject)
+	const handleOpen3 = (typeTeacher) => {
+		setTypeTeacher(typeTeacher)
 		setOpen3(true)
 	}
 	const handleClose3 = () => {
-		setSubject(null)
+		setTypeTeacher(null)
 
 		setOpen3(false)
 	}
@@ -163,153 +164,175 @@ const TypeTeacher = () => {
 					<AddEditTypeTeacher open={open} handleClose={handleClose} />
 				</div>
 
-				<TableContainer component={Paper} className={classes.tableContainer}>
-					<Table
-						className={classes.table}
-						stickyHeader
-						aria-label="sticky table"
-					>
-						<TableHead>
-							<TableRow>
-								<TableCell align="center" className={classes.tableHead}>
-									ID
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Tên
-								</TableCell>
-								{/* <TableCell align="center" className={classes.tableHead}>
+				{typeTeachersLoading ? (
+					<div className={classes.loading}>
+						<CircularProgress
+							style={{
+								color: '#3254ac',
+							}}
+						/>
+					</div>
+				) : (
+					<>
+						<TableContainer
+							component={Paper}
+							className={classes.tableContainer}
+						>
+							<Table
+								className={classes.table}
+								stickyHeader
+								aria-label="sticky table"
+							>
+								<TableHead>
+									<TableRow>
+										<TableCell align="center" className={classes.tableHead}>
+											ID
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Tên
+										</TableCell>
+										{/* <TableCell align="center" className={classes.tableHead}>
 									Miêu tả
 								</TableCell> */}
 
-								<TableCell align="center" className={classes.tableHead}>
-									Ngày tạo
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Ngày cập nhật
-								</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Ngày tạo
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Ngày cập nhật
+										</TableCell>
 
-								<TableCell align="center" className={classes.tableHead}>
-									Hành động
-								</TableCell>
-							</TableRow>
-						</TableHead>
-						{typeTeachersLoading ? (
-							<CircularProgress
-								style={{ color: '#3254ac' }}
-								className={classes.loading}
-							/>
-						) : (
-							<TableBody>
-								{/* Search and render */}
-								{typeTeachers
-									?.filter((subject) => {
-										if (searchTerm === '') {
-											return subject
-										} else if (
-											subject.name
-												.toLowerCase()
-												.includes(searchTerm.toLowerCase()) ||
-											subject.desc
-												.toLowerCase()
-												.includes(searchTerm.toLowerCase())
-										) {
-											return subject
-										}
-									})
-									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((typeTeacher, index) => (
-										<>
-											<TableRow key={typeTeacher._id}>
-												<TableCell
-													align="center"
-													component="th"
-													scope="row"
-													className={classes.limitText}
-												>
-													{typeTeacher._id}
-												</TableCell>
-												<TableCell align="center">
-													{typeTeacher.nameType}
-												</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Hành động
+										</TableCell>
+									</TableRow>
+								</TableHead>
+								{typeTeachersLoading ? (
+									<CircularProgress
+										style={{ color: '#3254ac' }}
+										className={classes.loading}
+									/>
+								) : (
+									<TableBody>
+										{/* Search and render */}
+										{typeTeachers
+											?.filter((subject) => {
+												if (searchTerm === '') {
+													return subject
+												} else if (
+													subject.name
+														.toLowerCase()
+														.includes(searchTerm.toLowerCase()) ||
+													subject.desc
+														.toLowerCase()
+														.includes(searchTerm.toLowerCase())
+												) {
+													return subject
+												}
+											})
+											.slice(
+												page * rowsPerPage,
+												page * rowsPerPage + rowsPerPage
+											)
+											.map((typeTeacher, index) => (
+												<>
+													<TableRow key={typeTeacher._id}>
+														<TableCell
+															align="center"
+															component="th"
+															scope="row"
+															className={classes.limitText}
+														>
+															{typeTeacher._id}
+														</TableCell>
+														<TableCell align="center">
+															{typeTeacher.nameType}
+														</TableCell>
 
-												<TableCell align="center">
-													{formatDate(typeTeacher.createdAt)}
-												</TableCell>
-												<TableCell align="center">
-													{formatDate(typeTeacher.updatedAt)}
-												</TableCell>
-												<TableCell align="center">
-													<Tooltip title="Chi tiết">
-														<IconButton>
-															<VisibilityIcon
-																fontSize="small"
-																style={{ color: '#1a61c6' }}
-															/>
-														</IconButton>
-													</Tooltip>
-													<Tooltip title="Chỉnh sửa">
-														<IconButton
-															onClick={() => {
-																handleOpen3(typeTeacher)
-															}}
-														>
-															<BuildIcon
-																fontSize="small"
-																style={{ color: '#ffa326' }}
-															/>
-														</IconButton>
-													</Tooltip>
-													<Tooltip title="Xóa">
-														<IconButton
-															onClick={() => {
-																handleOpen2(typeTeacher)
-															}}
-														>
-															<DeleteIcon
-																fontSize="small"
-																style={{ color: '#e96053' }}
-															/>
-														</IconButton>
-													</Tooltip>
-												</TableCell>
-											</TableRow>
-										</>
-									))}
-							</TableBody>
-						)}
-						{/* <DeleteAlert
-							open={open2}
-							handleClose={handleClose2}
-							subject={subject}
-						/>
-						<AddEditAccount
-							open={open3}
-							handleClose={handleClose3}
-							subject={subject}
-						/> */}
-					</Table>
-				</TableContainer>
-				<TablePagination
-					rowsPerPageOptions={[10]}
-					component="div"
-					// Pagination on search
-					count={
-						typeTeachers?.filter((subject) => {
-							if (searchTerm === '') {
-								return subject
-							} else if (
-								subject.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-								subject.desc.toLowerCase().includes(searchTerm.toLowerCase())
-							) {
-								return subject
+														<TableCell align="center">
+															{formatDate(typeTeacher.createdAt)}
+														</TableCell>
+														<TableCell align="center">
+															{formatDate(typeTeacher.updatedAt)}
+														</TableCell>
+														<TableCell align="center">
+															<Tooltip title="Chi tiết">
+																<IconButton>
+																	<VisibilityIcon
+																		fontSize="small"
+																		style={{ color: '#1a61c6' }}
+																	/>
+																</IconButton>
+															</Tooltip>
+															<Tooltip title="Chỉnh sửa">
+																<IconButton
+																	onClick={() => {
+																		handleOpen3(typeTeacher)
+																	}}
+																>
+																	<BuildIcon
+																		fontSize="small"
+																		style={{ color: '#ffa326' }}
+																	/>
+																</IconButton>
+															</Tooltip>
+															<Tooltip title="Xóa">
+																<IconButton
+																	onClick={() => {
+																		handleOpen2(typeTeacher)
+																	}}
+																>
+																	<DeleteIcon
+																		fontSize="small"
+																		style={{ color: '#e96053' }}
+																	/>
+																</IconButton>
+															</Tooltip>
+														</TableCell>
+													</TableRow>
+												</>
+											))}
+									</TableBody>
+								)}
+								<DeleteAlert
+									open={open2}
+									handleClose={handleClose2}
+									typeTeacher={typeTeacher}
+								/>
+								<AddEditTypeTeacher
+									open={open3}
+									handleClose={handleClose3}
+									typeTeacher={typeTeacher}
+								/>
+							</Table>
+						</TableContainer>
+						<TablePagination
+							rowsPerPageOptions={[10]}
+							component="div"
+							// Pagination on search
+							count={
+								typeTeachers?.filter((subject) => {
+									if (searchTerm === '') {
+										return subject
+									} else if (
+										subject.name
+											.toLowerCase()
+											.includes(searchTerm.toLowerCase()) ||
+										subject.desc
+											.toLowerCase()
+											.includes(searchTerm.toLowerCase())
+									) {
+										return subject
+									}
+								}).length
 							}
-						}).length
-					}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
+							rowsPerPage={rowsPerPage}
+							page={page}
+							onPageChange={handleChangePage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</>
+				)}
 			</Box>
 		</>
 	)
