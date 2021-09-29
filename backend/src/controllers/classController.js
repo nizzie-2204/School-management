@@ -36,18 +36,19 @@ exports.getAllClasses = async (req, res, next) => {
 
 exports.getClass = async (req, res, next) => {
 	try {
-		const newClass = await Class.findById(req.params.id).populate({
-			// path: 'timetable',
-			// populate: {
-			// 	path: 'content',
-			// 	populate: {
-			// 		path: 'subjectId',
-			// 		model: 'Subject',
-			// 	},
-			// },
-			path: 'teacherId',
-			select: '-username -password',
-		})
+		const newClass = await Class.findById(req.params.id)
+		// .populate({
+		// 	// path: 'timetable',
+		// 	// populate: {
+		// 	// 	path: 'content',
+		// 	// 	populate: {
+		// 	// 		path: 'subjectId',
+		// 	// 		model: 'Subject',
+		// 	// 	},
+		// 	// },
+		// 	path: 'teacherId',
+		// 	select: '-username -password',
+		// })
 		// .populate('students')
 
 		if (!newClass) {

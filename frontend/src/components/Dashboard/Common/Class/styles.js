@@ -1,8 +1,17 @@
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
+	tableContainer: {
+		maxHeight: 440,
+	},
 	table: {
 		minWidth: 650,
+	},
+	limitText: {
+		maxWidth: 100,
+		overflow: 'hidden',
+		whiteSpace: ' nowrap',
+		textOverflow: 'ellipsis',
 	},
 	tableHead: {
 		fontWeight: 'bold',
@@ -66,9 +75,14 @@ const useStyles = makeStyles((theme) => ({
 	main: {
 		backgroundColor: '#f3f7fa',
 		padding: '0 15px 15px 15px',
+
 		overflowY: 'overlay',
 		marginTop: '90px',
 		marginLeft: '310px',
+	},
+	loading: {
+		textAlign: 'center',
+		margin: '50px auto',
 	},
 }))
 

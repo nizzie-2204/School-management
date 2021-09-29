@@ -1,42 +1,40 @@
 import axiosClient from './axios'
 
+const token = localStorage.getItem('token')
+
 const classAPI = {
-	getALlClasses: async (token) => {
-		return await axiosClient.get({
-			url: '/classes',
+	getALlClasses: async () => {
+		return await axiosClient.get('/classes', {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
 
-	getClass: async (token, id) => {
-		return await axiosClient.get({
-			url: `/classes/${id}`,
+	getClass: async (id) => {
+		return await axiosClient.get(`/classes/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
 
-	addClass: async (token, data) => {
-		return await axiosClient.post({
-			url: '/classes',
+	addClass: async (data) => {
+		return await axiosClient.post('/classes', data, {
 			headers: {
 				Authorization: `Bearer ${token}`,
-				ContentType: 'application/json',
+				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(data),
 		})
 	},
 
-	updateClass: async (token, id, data) => {
-		return await axiosClient.put({
-			url: `/classes/${id}`,
-			headers: { Authorization: `Bearer ${token}` },
-			body: JSON.stringify(data),
+	updateClass: async (data) => {
+		return await axiosClient.put(`/classes/${data._id}`, data, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json',
+			},
 		})
 	},
 
-	deleteClass: async (token, id) => {
-		return await axiosClient.delete({
-			url: `/classes/${id}`,
+	deleteClass: async (id) => {
+		return await axiosClient.delete(`/classes/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},

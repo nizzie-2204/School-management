@@ -8,6 +8,7 @@ import {
 	TableCell,
 	TableContainer,
 	TableHead,
+	TablePagination,
 	TableRow,
 	TextField,
 	Tooltip,
@@ -19,20 +20,15 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import useStyles from './styles'
-function createData(name, calories, fat, carbs, asd) {
-	return { name, calories, asd, fat, carbs }
-}
-
-const rows = [
-	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
-	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
-	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
-	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
-	createData(1, '1A', 18, '12/02/2021', '12/02/2021'),
-]
+import { useSelector, useDispatch } from 'react-redux'
+import { getClasses } from './classSlice'
+import formatDate from 'utils/formatDate'
+import AddEditClass from './AddEditClass/AddEditClass'
+import DeleteAlert from './DeleteAlert/DeleteAlert'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const links = [
 	{
@@ -51,6 +47,68 @@ const links = [
 
 const Class = () => {
 	const classes = useStyles()
+	const classesFromStore = useSelector((state) => state.classes.classes)
+	const classesLoading = useSelector((state) => state.classes.classesLoading)
+	const dispatch = useDispatch()
+
+	const [thisClass, setThisClass] = useState(null)
+
+	const [open, setOpen] = useState(false)
+	const handleOpen = () => {
+		setOpen(true)
+	}
+	const handleClose = () => {
+		setOpen(false)
+	}
+
+	const [open2, setOpen2] = useState(false)
+	const handleOpen2 = (thisClass) => {
+		setThisClass(thisClass)
+		setOpen2(true)
+	}
+	const handleClose2 = () => {
+		setThisClass(null)
+		setOpen2(false)
+	}
+
+	const [open3, setOpen3] = useState(false)
+	const handleOpen3 = (thisClass) => {
+		setThisClass(thisClass)
+		setOpen3(true)
+	}
+	const handleClose3 = () => {
+		setThisClass(null)
+		setOpen3(false)
+	}
+
+	useEffect(() => {
+		const fetchClasses = () => {
+			const action = getClasses()
+			dispatch(action)
+		}
+		fetchClasses()
+	}, [])
+
+	// Search
+	const [searchTerm, setSearchTerm] = useState('')
+	const handleChangeSearch = (e) => {
+		setSearchTerm(e.target.value)
+		console.log(e.target.value)
+	}
+
+	// Pagination
+	const [page, setPage] = useState(0)
+	const [rowsPerPage, setRowsPerPage] = useState(10)
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage)
+	}
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value)
+		setPage(0)
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -61,7 +119,7 @@ const Class = () => {
 			<Box className={classes.main}>
 				<Breadcrumb links={links} />
 
-				<form noValidate autoComplete="off">
+				<form autoComplete="off">
 					<div className={classes.searchBar}>
 						<TextField
 							className={classes.searchField}
@@ -71,6 +129,7 @@ const Class = () => {
 							inputProps={{
 								style: { padding: '12.5px 14px' },
 							}}
+							onChange={handleChangeSearch}
 						/>
 						<Button
 							variant="contained"
@@ -95,82 +154,164 @@ const Class = () => {
 						variant="contained"
 						className={classes.button}
 						startIcon={<AddIcon />}
+						onClick={handleOpen}
 					>
 						Thêm lớp học
 					</Button>
+					<AddEditClass open={open} handleClose={handleClose} />
 				</div>
 
-				<TableContainer component={Paper}>
-					<Table className={classes.table} aria-label="simple table">
-						<TableHead>
-							<TableRow>
-								<TableCell align="center" className={classes.tableHead}>
-									STT
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Tên
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Số lượng học sinh
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Khối
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Ngày tạo
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Ngày cập nhật
-								</TableCell>
+				{classesLoading ? (
+					<div className={classes.loading}>
+						<CircularProgress
+							style={{
+								color: '#3254ac',
+							}}
+						/>
+					</div>
+				) : (
+					<>
+						<TableContainer component={Paper}>
+							<Table className={classes.table} aria-label="simple table">
+								<TableHead>
+									<TableRow>
+										<TableCell align="center" className={classes.tableHead}>
+											ID
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Tên
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Số lượng học sinh
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Khối
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Ngày tạo
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Ngày cập nhật
+										</TableCell>
 
-								<TableCell align="center" className={classes.tableHead}>
-									Hành động
-								</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{rows.map((row, index) => (
-								<TableRow key={index}>
-									<TableCell align="center" component="th" scope="row">
-										{row.name}
-									</TableCell>
-									<TableCell align="center">{row.calories}</TableCell>
-									<TableCell align="center">{row.fat}</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Hành động
+										</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{/* Search and render */}
+									{classesFromStore
+										?.filter((thisClass) => {
+											if (searchTerm === '') {
+												return thisClass
+											} else if (
+												thisClass.name
+													.toLowerCase()
+													.includes(searchTerm.toLowerCase())
+											) {
+												return thisClass
+											}
+										})
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((classFromStore, index) => (
+											<TableRow key={index}>
+												<TableCell
+													align="center"
+													component="th"
+													scope="row"
+													className={classes.limitText}
+												>
+													{classFromStore._id}
+												</TableCell>
 
-									<TableCell align="center">1</TableCell>
-									<TableCell align="center">{row.asd}</TableCell>
-									<TableCell align="center">{row.carbs}</TableCell>
-									<TableCell align="center">
-										<Tooltip title="Chi tiết">
-											<IconButton>
-												<VisibilityIcon
-													fontSize="small"
-													style={{ color: '#1a61c6' }}
-												/>
-											</IconButton>
-										</Tooltip>
-										<Tooltip title="Chỉnh sửa">
-											<IconButton>
-												<BuildIcon
-													fontSize="small"
-													style={{ color: '#ffa326' }}
-												/>
-											</IconButton>
-										</Tooltip>
-										<Tooltip title="Xóa">
-											<IconButton>
-												<DeleteIcon
-													fontSize="small"
-													style={{ color: '#e96053' }}
-												/>
-											</IconButton>
-										</Tooltip>
-									</TableCell>
-								</TableRow>
-							))}
-						</TableBody>
-					</Table>
-				</TableContainer>
+												<TableCell align="center">
+													{classFromStore.name}
+												</TableCell>
+
+												<TableCell align="center">
+													{classFromStore.students.length}
+												</TableCell>
+												<TableCell align="center">
+													{classFromStore.grade}
+												</TableCell>
+												<TableCell align="center">
+													{formatDate(classFromStore.createdAt)}
+												</TableCell>
+												<TableCell align="center">
+													{formatDate(classFromStore.updatedAt)}
+												</TableCell>
+												<TableCell align="center">
+													<Tooltip title="Chi tiết">
+														<IconButton>
+															<VisibilityIcon
+																fontSize="small"
+																style={{ color: '#1a61c6' }}
+															/>
+														</IconButton>
+													</Tooltip>
+													<Tooltip title="Chỉnh sửa">
+														<IconButton
+															onClick={() => {
+																handleOpen3(classFromStore)
+															}}
+														>
+															<BuildIcon
+																fontSize="small"
+																style={{ color: '#ffa326' }}
+															/>
+														</IconButton>
+													</Tooltip>
+													<Tooltip title="Xóa">
+														<IconButton
+															onClick={() => handleOpen2(classFromStore)}
+														>
+															<DeleteIcon
+																fontSize="small"
+																style={{ color: '#e96053' }}
+															/>
+														</IconButton>
+													</Tooltip>
+												</TableCell>
+											</TableRow>
+										))}
+									<DeleteAlert
+										open={open2}
+										handleClose={handleClose2}
+										thisClass={thisClass}
+									/>
+									<AddEditClass
+										open={open3}
+										handleClose={handleClose3}
+										currClass={thisClass}
+									/>
+								</TableBody>
+							</Table>
+						</TableContainer>
+						<TablePagination
+							rowsPerPageOptions={[10]}
+							component="div"
+							// Pagination on search
+							count={
+								classesFromStore?.filter((thisClass) => {
+									if (searchTerm === '') {
+										return thisClass
+									} else if (
+										thisClass.name
+											.toLowerCase()
+											.includes(searchTerm.toLowerCase())
+									) {
+										return thisClass
+									}
+								}).length
+							}
+							rowsPerPage={rowsPerPage}
+							page={page}
+							onPageChange={handleChangePage}
+							onRowsPerPageChange={handleChangeRowsPerPage}
+						/>
+					</>
+				)}
 			</Box>
 		</>
 	)

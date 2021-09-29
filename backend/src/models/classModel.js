@@ -14,12 +14,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -27,12 +25,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -40,12 +36,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -53,12 +47,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -66,12 +58,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 				],
@@ -84,12 +74,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -97,12 +85,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -110,12 +96,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -123,12 +107,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -136,12 +118,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 				],
@@ -154,12 +134,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -167,12 +145,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -180,12 +156,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -193,12 +167,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -206,12 +178,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 				],
@@ -224,12 +194,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -237,12 +205,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -250,12 +216,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -263,12 +227,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 					{
@@ -276,12 +238,10 @@ const classSchema = new Schema(
 						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
-							default: '',
 						},
 						teacherId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Teacher',
-							default: '',
 						},
 					},
 				],

@@ -5,6 +5,7 @@ import { combineReducers } from 'redux'
 import authSlice from 'features/Login/authSlice'
 import timetableSlice from 'components/Dashboard/Common/Timetable/timetableSlice'
 import subjectSlice from 'components/Dashboard/Common/Subject/subjectSlice'
+import classSlice from 'components/Dashboard/Common/Class/classSlice'
 import typeTeacherSlice from 'components/Dashboard/Common/TypeTeacher/typeTeacherSlice'
 
 const persistConfig = {
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
 	timetable: timetableSlice,
 	subjects: subjectSlice,
 	typeTeacher: typeTeacherSlice,
+	classes: classSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

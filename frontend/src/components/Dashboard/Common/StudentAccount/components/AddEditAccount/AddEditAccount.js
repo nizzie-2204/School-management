@@ -38,13 +38,13 @@ const AddEditAccount = ({ open, handleClose }) => {
 	}
 
 	const [value, setValue] = useState()
-	const handleChange = (event) => {
-		setValue(event.target.value)
+	const handleChange = (e) => {
+		setValue(e.target.value)
 	}
 
-	const [age, setAge] = React.useState('')
-	const handleChangeAge = (event) => {
-		setAge(event.target.value)
+	const [age, setAge] = useState('')
+	const handleChangeAge = (e) => {
+		setAge(e.target.value)
 	}
 
 	const handleAddAccount = (e) => {

@@ -89,7 +89,6 @@ const TypeTeacher = () => {
 	const [searchTerm, setSearchTerm] = useState('')
 	const handleChangeSearch = (e) => {
 		setSearchTerm(e.target.value)
-		console.log(e.target.value)
 	}
 
 	useEffect(() => {
@@ -216,18 +215,15 @@ const TypeTeacher = () => {
 									<TableBody>
 										{/* Search and render */}
 										{typeTeachers
-											?.filter((subject) => {
+											?.filter((typeTeacher) => {
 												if (searchTerm === '') {
-													return subject
+													return typeTeacher
 												} else if (
-													subject.name
-														.toLowerCase()
-														.includes(searchTerm.toLowerCase()) ||
-													subject.desc
+													typeTeacher.nameType
 														.toLowerCase()
 														.includes(searchTerm.toLowerCase())
 												) {
-													return subject
+													return typeTeacher
 												}
 											})
 											.slice(
@@ -311,18 +307,15 @@ const TypeTeacher = () => {
 							component="div"
 							// Pagination on search
 							count={
-								typeTeachers?.filter((subject) => {
+								typeTeachers?.filter((typeTeacher) => {
 									if (searchTerm === '') {
-										return subject
+										return typeTeacher
 									} else if (
-										subject.name
-											.toLowerCase()
-											.includes(searchTerm.toLowerCase()) ||
-										subject.desc
+										typeTeacher.nameType
 											.toLowerCase()
 											.includes(searchTerm.toLowerCase())
 									) {
-										return subject
+										return typeTeacher
 									}
 								}).length
 							}
