@@ -21,9 +21,12 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	formTitle: {
-		marginBottom: '70px',
+		marginBottom: '40px',
 		paddingBottom: '20px',
 		borderBottom: '1px solid #dcdbdb',
+	},
+	formSubtitle: {
+		marginBottom: '20px',
 	},
 	inputGroup: {
 		display: 'flex',
@@ -45,6 +48,33 @@ const useStyles = makeStyles((theme) => ({
 		},
 		'& .MuiFormLabel-root': {
 			color: '#000',
+		},
+	},
+	borderClass: {
+		'&.react-tel-input .form-control:focus': {
+			border: '1px solid #3254ac !important',
+			boxShadow: 'none',
+		},
+		'&.react-tel-input .selected-flag .arrow': {
+			display: 'none',
+		},
+		'&.react-tel-input .selected-flag .flag': {
+			marginLeft: '4px',
+		},
+		'&.react-tel-input .selected-flag': {
+			cursor: 'default',
+		},
+		'&.react-tel-input .form-control': {
+			fontSize: '14px',
+			fontFamily: "'Baloo Paaji 2', cursive",
+			borderRadius: '4px',
+			padding: '13px 14px 13.5px 58px',
+			border: '1px solid #dcdbdb',
+			color: 'currentColor',
+		},
+		'&.react-tel-input .special-label': {
+			fontFamily: "'Baloo Paaji 2', cursive",
+			top: '-12px',
 		},
 	},
 	radioGroup: {

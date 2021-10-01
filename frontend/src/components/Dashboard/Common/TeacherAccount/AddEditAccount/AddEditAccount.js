@@ -122,6 +122,7 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 				dateOfBirth: `${thisTeacher.dateOfBirth.slice(0, 10)}`,
 				gender: thisTeacher.gender,
 				email: thisTeacher.email,
+				teacherType: thisTeacher?.teacherType?._id,
 			})
 			setPhoneInput(`84 ${thisTeacher.phone}`)
 		}
@@ -298,22 +299,33 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 							>
 								Loại giáo viên
 							</InputLabel>
-							<Select
-								labelId="demo-simple-select-outlined-label"
-								id="demo-simple-select-outlined"
-								style={{ fontSize: 14 }}
+							<Controller
+								rules={{ required: true }}
+								control={control}
 								{...register('teacherType')}
-								defaultValue={thisTeacher?.teacherType}
+								defaultValue={thisTeacher?.teacherType?._id}
 								required
-							>
-								{typeTeachers?.map((type) => {
+								render={({ field }) => {
+									const { name, onBlur, onChange, value } = field
 									return (
-										<MenuItem key={type._id} value={type._id}>
-											{type.nameType}
-										</MenuItem>
+										<Select
+											value={value}
+											onBlur={onBlur}
+											onChange={(e) => {
+												onChange(e)
+											}}
+										>
+											{typeTeachers?.map((type) => {
+												return (
+													<MenuItem key={type._id} value={type._id}>
+														{type.nameType}
+													</MenuItem>
+												)
+											})}
+										</Select>
 									)
-								})}
-							</Select>
+								}}
+							/>
 						</FormControl>
 					</div>
 

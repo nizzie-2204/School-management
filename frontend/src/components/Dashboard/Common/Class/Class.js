@@ -16,10 +16,9 @@ import {
 } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import AddIcon from '@material-ui/icons/Add'
-import BuildIcon from '@material-ui/icons/Build'
+import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
-import VisibilityIcon from '@material-ui/icons/Visibility'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
@@ -171,8 +170,15 @@ const Class = () => {
 					</div>
 				) : (
 					<>
-						<TableContainer component={Paper}>
-							<Table className={classes.table} aria-label="simple table">
+						<TableContainer
+							component={Paper}
+							className={classes.tableContainer}
+						>
+							<Table
+								className={classes.table}
+								stickyHeader
+								aria-label="sticky table"
+							>
 								<TableHead>
 									<TableRow>
 										<TableCell align="center" className={classes.tableHead}>
@@ -242,21 +248,13 @@ const Class = () => {
 													{formatDate(classFromStore.updatedAt)}
 												</TableCell>
 												<TableCell align="center">
-													<Tooltip title="Chi tiết">
-														<IconButton>
-															<VisibilityIcon
-																fontSize="small"
-																style={{ color: '#1a61c6' }}
-															/>
-														</IconButton>
-													</Tooltip>
 													<Tooltip title="Chỉnh sửa">
 														<IconButton
 															onClick={() => {
 																handleOpen3(classFromStore)
 															}}
 														>
-															<BuildIcon
+															<CreateIcon
 																fontSize="small"
 																style={{ color: '#ffa326' }}
 															/>

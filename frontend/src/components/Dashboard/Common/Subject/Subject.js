@@ -14,22 +14,21 @@ import {
 	Tooltip,
 	Typography,
 } from '@material-ui/core'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import AddIcon from '@material-ui/icons/Add'
-import BuildIcon from '@material-ui/icons/Build'
+import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
-import VisibilityIcon from '@material-ui/icons/Visibility'
 import { unwrapResult } from '@reduxjs/toolkit'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
-import AddEditAccount from './AddEditAccount/AddEditAccount'
-import useStyles from './styles'
-import { getSubject, getSubjects } from './subjectSlice'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import formatDate from 'utils/formatDate'
+import AddEditAccount from './AddEditAccount/AddEditAccount'
 import DeleteAlert from './DeleteAlert/DeleteAlert'
+import useStyles from './styles'
+import { getSubjects } from './subjectSlice'
 
 const links = [
 	{
@@ -242,21 +241,13 @@ const Subject = () => {
 														{formatDate(subject.updatedAt)}
 													</TableCell>
 													<TableCell align="center">
-														<Tooltip title="Chi tiết">
-															<IconButton>
-																<VisibilityIcon
-																	fontSize="small"
-																	style={{ color: '#1a61c6' }}
-																/>
-															</IconButton>
-														</Tooltip>
 														<Tooltip title="Chỉnh sửa">
 															<IconButton
 																onClick={() => {
 																	handleOpen3(subject)
 																}}
 															>
-																<BuildIcon
+																<CreateIcon
 																	fontSize="small"
 																	style={{ color: '#ffa326' }}
 																/>

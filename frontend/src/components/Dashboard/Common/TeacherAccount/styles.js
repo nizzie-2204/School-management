@@ -1,6 +1,9 @@
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
+	tableContainer: {
+		maxHeight: 440,
+	},
 	table: {
 		minWidth: 650,
 		'&:nth-of-type(odd)': {

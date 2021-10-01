@@ -14,12 +14,11 @@ import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import AddIcon from '@material-ui/icons/Add'
-import BuildIcon from '@material-ui/icons/Build'
 import CheckIcon from '@material-ui/icons/Check'
 import ClearIcon from '@material-ui/icons/Clear'
+import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
-import VisibilityIcon from '@material-ui/icons/Visibility'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
@@ -75,6 +74,19 @@ const StudentAccount = () => {
 		setOpen2(false)
 	}
 
+	const [open3, setOpen3] = useState(false)
+	const handleOpen3 = (subject) => {
+		setOpen3(true)
+	}
+	const handleClose3 = () => {
+		setOpen3(false)
+	}
+
+	const [searchTerm, setSearchTerm] = useState('')
+	const handleChangeSearch = (e) => {
+		setSearchTerm(e.target.value)
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -95,6 +107,7 @@ const StudentAccount = () => {
 							inputProps={{
 								style: { padding: '12.5px 14px' },
 							}}
+							onChange={handleChangeSearch}
 						/>
 						<Button
 							variant="contained"
@@ -126,12 +139,16 @@ const StudentAccount = () => {
 					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>
 
-				<TableContainer component={Paper}>
-					<Table className={classes.table} aria-label="simple table">
+				<TableContainer component={Paper} className={classes.tableContainer}>
+					<Table
+						className={classes.table}
+						stickyHeader
+						aria-label="sticky table"
+					>
 						<TableHead>
 							<TableRow>
 								<TableCell align="center" className={classes.tableHead}>
-									STT
+									ID
 								</TableCell>
 								<TableCell align="center" className={classes.tableHead}>
 									Họ và tên
@@ -181,17 +198,9 @@ const StudentAccount = () => {
 									<TableCell align="center">{row.carbs}</TableCell>
 									<TableCell align="center">{row.fat}</TableCell>
 									<TableCell align="center">
-										<Tooltip title="Chi tiết">
-											<IconButton>
-												<VisibilityIcon
-													fontSize="small"
-													style={{ color: '#1a61c6' }}
-												/>
-											</IconButton>
-										</Tooltip>
 										<Tooltip title="Chỉnh sửa">
 											<IconButton>
-												<BuildIcon
+												<CreateIcon
 													fontSize="small"
 													style={{ color: '#ffa326' }}
 												/>

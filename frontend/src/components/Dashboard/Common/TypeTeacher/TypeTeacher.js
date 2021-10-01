@@ -16,10 +16,9 @@ import {
 } from '@material-ui/core'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import AddIcon from '@material-ui/icons/Add'
-import BuildIcon from '@material-ui/icons/Build'
+import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
-import VisibilityIcon from '@material-ui/icons/Visibility'
 import { unwrapResult } from '@reduxjs/toolkit'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
@@ -252,21 +251,13 @@ const TypeTeacher = () => {
 															{formatDate(typeTeacher.updatedAt)}
 														</TableCell>
 														<TableCell align="center">
-															<Tooltip title="Chi tiết">
-																<IconButton>
-																	<VisibilityIcon
-																		fontSize="small"
-																		style={{ color: '#1a61c6' }}
-																	/>
-																</IconButton>
-															</Tooltip>
 															<Tooltip title="Chỉnh sửa">
 																<IconButton
 																	onClick={() => {
 																		handleOpen3(typeTeacher)
 																	}}
 																>
-																	<BuildIcon
+																	<CreateIcon
 																		fontSize="small"
 																		style={{ color: '#ffa326' }}
 																	/>

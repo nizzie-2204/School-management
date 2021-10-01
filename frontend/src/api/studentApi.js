@@ -1,42 +1,37 @@
 import axiosClient from './axios'
 
+const token = localStorage.getItem('token')
+
 const studentAPI = {
-	getALlStudents: async (token) => {
-		return await axiosClient.get({
-			url: '/students',
+	getALlStudents: async () => {
+		return await axiosClient.get('/students', {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
 
-	getStudent: async (token, id) => {
-		return await axiosClient.get({
-			url: `/students/${id}`,
+	getStudent: async (id) => {
+		return await axiosClient.get(`/students/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
 
-	addStudent: async (token, data) => {
-		return await axiosClient.post({
-			url: '/students',
+	addStudent: async (data) => {
+		return await axiosClient.post('/students', data, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 				ContentType: 'application/json',
 			},
-			body: JSON.stringify(data),
 		})
 	},
 
-	updateStudent: async (token, id, data) => {
-		return await axiosClient.put({
-			url: `/students/${id}`,
+	updateStudent: async (data) => {
+		return await axiosClient.put(`/students/${data._id}`, data, {
 			headers: { Authorization: `Bearer ${token}` },
-			body: JSON.stringify(data),
 		})
 	},
 
-	deleteStudent: async (token, id) => {
-		return await axiosClient.delete({
-			url: `/students/${id}`,
+	deleteStudent: async (id) => {
+		return await axiosClient.delete(`/students/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},

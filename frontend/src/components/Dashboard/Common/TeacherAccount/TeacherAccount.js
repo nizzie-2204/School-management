@@ -6,6 +6,7 @@ import {
 	TextField,
 	Typography,
 } from '@material-ui/core'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -15,22 +16,21 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Tooltip from '@material-ui/core/Tooltip'
 import AddIcon from '@material-ui/icons/Add'
-import BuildIcon from '@material-ui/icons/Build'
 import CheckIcon from '@material-ui/icons/Check'
 import ClearIcon from '@material-ui/icons/Clear'
+import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import AddEditAccount from './AddEditAccount/AddEditAccount'
-import { getTeachers } from './teacherAccountSlice'
-import useStyles from './styles'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
+import AddEditAccount from './AddEditAccount/AddEditAccount'
 import DeleteAlert from './DeleteAlert/DeleteAlert'
-import CircularProgress from '@material-ui/core/CircularProgress'
+import useStyles from './styles'
+import { getTeachers } from './teacherAccountSlice'
 
 const links = [
 	{
@@ -173,8 +173,15 @@ const TeacherAccount = () => {
 					</div>
 				) : (
 					<>
-						<TableContainer component={Paper}>
-							<Table className={classes.table} aria-label="simple table">
+						<TableContainer
+							component={Paper}
+							className={classes.tableContainer}
+						>
+							<Table
+								className={classes.table}
+								stickyHeader
+								aria-label="sticky table"
+							>
 								<TableHead>
 									<TableRow>
 										<TableCell align="center" className={classes.tableHead}>
@@ -253,21 +260,13 @@ const TeacherAccount = () => {
 													{formatDate(teacher.updatedAt)}
 												</TableCell>
 												<TableCell align="center">
-													<Tooltip title="Chi tiết">
-														<IconButton>
-															<VisibilityIcon
-																fontSize="small"
-																style={{ color: '#1a61c6' }}
-															/>
-														</IconButton>
-													</Tooltip>
 													<Tooltip title="Chỉnh sửa">
 														<IconButton
 															onClick={() => {
 																handleOpen2(teacher)
 															}}
 														>
-															<BuildIcon
+															<CreateIcon
 																fontSize="small"
 																style={{ color: '#ffa326' }}
 															/>
