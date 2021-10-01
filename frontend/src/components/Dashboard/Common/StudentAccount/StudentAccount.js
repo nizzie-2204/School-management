@@ -24,8 +24,8 @@ import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import AddEditAccount from './components/AddEditAccount/AddEditAccount'
-import useStyles from './styles'
 import DeleteAlert from './components/DeleteAlert/DeleteAlert'
+import useStyles from './styles'
 
 function createData(name, calories, fat, carbs, protein) {
 	return { name, calories, fat, carbs }

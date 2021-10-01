@@ -2,20 +2,20 @@ import { Button, Typography } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
-import { unwrapResult } from '@reduxjs/toolkit'
 import { useSnackbar } from 'notistack'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { deleteClass } from '../classSlice'
 import useStyles from './styles'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { deleteTeacher } from '../teacherAccountSlice'
 
-const DeleteAlert = ({ open, handleClose, thisClass }) => {
+const DeleteAlert = ({ open, handleClose, thisTeacher }) => {
 	const classes = useStyles()
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
-	const handleDeleteClass = () => {
-		const action = deleteClass(thisClass._id)
+	const handleDeleteAccount = () => {
+		const action = deleteTeacher(thisTeacher._id)
 		dispatch(action)
 			.then(unwrapResult)
 			.then(() => {
@@ -51,7 +51,7 @@ const DeleteAlert = ({ open, handleClose, thisClass }) => {
 						<Button
 							style={{ backgroundColor: '#3254ac', color: '#fff' }}
 							className={classes.button}
-							onClick={handleDeleteClass}
+							onClick={handleDeleteAccount}
 						>
 							Có
 						</Button>

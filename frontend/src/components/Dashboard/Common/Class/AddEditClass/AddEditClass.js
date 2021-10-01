@@ -1,25 +1,25 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
 	Button,
+	InputLabel,
+	MenuItem,
+	Select,
 	TextField,
 	Typography,
-	InputLabel,
-	Select,
-	MenuItem,
 } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
+import FormControl from '@material-ui/core/FormControl'
 import Modal from '@material-ui/core/Modal'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
-import useStyles from './styles'
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
-import { useDispatch, useSelector } from 'react-redux'
-import FormControl from '@material-ui/core/FormControl'
-import { unwrapResult } from '@reduxjs/toolkit'
+import { useDispatch } from 'react-redux'
 import schoolYears from 'utils/schoolYear'
+import * as yup from 'yup'
 import { addClass, updateClass } from '../classSlice'
+import useStyles from './styles'
 
 const schema = yup.object().shape({
 	name: yup.string().required(),

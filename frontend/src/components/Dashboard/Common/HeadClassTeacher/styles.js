@@ -1,21 +1,22 @@
 import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
+	tableContainer: {
+		maxHeight: 440,
+		// overflowY: 'unset',
+	},
 	table: {
 		minWidth: 650,
-		'&:nth-of-type(odd)': {
-			// backgroundColor: theme.palette.action.hover,
-		},
-	},
-	tableHead: {
-		fontWeight: 'bold',
-		backgroundColor: '#eff3f6',
 	},
 	limitText: {
 		maxWidth: 100,
 		overflow: 'hidden',
 		whiteSpace: ' nowrap',
 		textOverflow: 'ellipsis',
+	},
+	tableHead: {
+		fontWeight: 'bold',
+		backgroundColor: '#eff3f6',
 	},
 	titleTable: {
 		backgroundColor: theme.palette.background.paper,
@@ -46,11 +47,13 @@ const useStyles = makeStyles((theme) => ({
 		},
 		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
 			borderColor: 'rgba(0, 0, 0, 0.15)',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
 		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
 			borderColor: 'rgba(0, 0, 0, 0.15)',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},

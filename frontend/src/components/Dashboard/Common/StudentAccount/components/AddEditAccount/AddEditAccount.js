@@ -42,11 +42,6 @@ const AddEditAccount = ({ open, handleClose }) => {
 		setValue(e.target.value)
 	}
 
-	const [age, setAge] = useState('')
-	const handleChangeAge = (e) => {
-		setAge(e.target.value)
-	}
-
 	const handleAddAccount = (e) => {
 		e.preventDefault()
 		handleClose()
@@ -158,16 +153,12 @@ const AddEditAccount = ({ open, handleClose }) => {
 							<Select
 								labelId="demo-simple-select-outlined-label"
 								id="demo-simple-select-outlined"
-								value={age}
-								onChange={handleChangeAge}
-								label="Lớp"
 							>
 								<MenuItem value={10}>1A</MenuItem>
-								<MenuItem value={20}>2B</MenuItem>
-								<MenuItem value={30}>3A</MenuItem>
 							</Select>
 						</FormControl>
 					</div>
+
 					<Button
 						type="submit"
 						fullWidth

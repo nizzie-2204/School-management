@@ -35,6 +35,9 @@ const Subject = lazy(() =>
 const TypeTeacher = lazy(() =>
 	import('components/Dashboard/Common/TypeTeacher/TypeTeacher')
 )
+const HeadClassTeacher = lazy(() =>
+	import('components/Dashboard/Common/HeadClassTeacher/HeadClassTeacher')
+)
 
 const routes = [
 	{
@@ -111,6 +114,11 @@ const routes = [
 		exact: true,
 		path: '/dashboard/teacher-type',
 		component: TypeTeacher,
+	},
+	{
+		exact: true,
+		path: '/dashboard/head-class-teacher',
+		component: HeadClassTeacher,
 	},
 ]
 

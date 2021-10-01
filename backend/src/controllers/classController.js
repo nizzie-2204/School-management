@@ -26,7 +26,7 @@ exports.updateClass = async (req, res, next) => {
 
 exports.getAllClasses = async (req, res, next) => {
 	try {
-		const classes = await Class.find()
+		const classes = await Class.find().populate('teacherId')
 
 		res.status(200).json({ status: 'success', data: classes })
 	} catch (error) {

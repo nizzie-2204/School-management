@@ -34,6 +34,8 @@ exports.createTeacher = async (req, res, next) => {
 exports.getAllTeachers = async (req, res, next) => {
 	try {
 		const teacher = await Teacher.find()
+			.select('-password')
+			.populate('teacherType')
 
 		res.status(200).json({ status: 'success', data: teacher })
 	} catch (error) {

@@ -7,6 +7,7 @@ import timetableSlice from 'components/Dashboard/Common/Timetable/timetableSlice
 import subjectSlice from 'components/Dashboard/Common/Subject/subjectSlice'
 import classSlice from 'components/Dashboard/Common/Class/classSlice'
 import typeTeacherSlice from 'components/Dashboard/Common/TypeTeacher/typeTeacherSlice'
+import teacherSlice from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
 
 const persistConfig = {
 	key: 'root',
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
 	subjects: subjectSlice,
 	typeTeacher: typeTeacherSlice,
 	classes: classSlice,
+	teacher: teacherSlice,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

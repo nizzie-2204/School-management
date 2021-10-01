@@ -1,29 +1,27 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
 	Button,
+	Checkbox,
 	FormControl,
 	FormControlLabel,
+	FormGroup,
 	Radio,
 	RadioGroup,
 	TextField,
 	Typography,
-	FormLabel,
-	FormGroup,
-	Checkbox,
 } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
+import { withStyles } from '@material-ui/styles'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
-import useStyles from './styles'
-import { useForm, Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
+import * as yup from 'yup'
 import { addTypeTeacher, updateTypeTeacher } from '../typeTeacherSlice'
-import { unwrapResult } from '@reduxjs/toolkit'
-import { withStyles } from '@material-ui/styles'
-import { getTypeTeachers } from '../typeTeacherSlice'
+import useStyles from './styles'
 
 const schema = yup.object().shape({
 	nameType: yup.string().required(),

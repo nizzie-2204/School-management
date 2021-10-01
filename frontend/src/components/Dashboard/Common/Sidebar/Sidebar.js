@@ -177,7 +177,13 @@ const Sidebar = () => {
 								primary="Kế hoạch đào tào"
 							/>
 						</ListItem>
-						<ListItem button className={classes.nested}>
+						<ListItem
+							button
+							className={classes.nested}
+							component={NavLink}
+							to="/dashboard/head-class-teacher"
+							activeClassName={classes.activeLink}
+						>
 							<ListItemIcon className={classes.listIcon}>
 								<SchoolIcon />
 							</ListItemIcon>
