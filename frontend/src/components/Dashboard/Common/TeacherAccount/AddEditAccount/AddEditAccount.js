@@ -232,7 +232,7 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 							}}
 							{...register('dateOfBirth')}
 							required
-							defaultValue={`${thisTeacher?.dateOfBirth?.slice(0, 10)}`}
+							defaultValue={thisTeacher?.dateOfBirth?.slice(0, 10)}
 						/>
 						<TextField
 							className={classes.root}
@@ -286,6 +286,7 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 							enableSearch={true}
 							inputStyle={{
 								border: '1px solid #dcdbdb',
+								width: '100%',
 							}}
 							specialLabel="Số điện thoại *"
 						/>

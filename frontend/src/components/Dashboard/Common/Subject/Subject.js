@@ -249,7 +249,7 @@ const Subject = () => {
 															>
 																<CreateIcon
 																	fontSize="small"
-																	style={{ color: '#ffa326' }}
+																	style={{ color: '#5278db' }}
 																/>
 															</IconButton>
 														</Tooltip>

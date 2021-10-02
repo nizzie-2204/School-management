@@ -77,6 +77,15 @@ const useStyles = makeStyles((theme) => ({
 			top: '-12px',
 		},
 	},
+	error: {
+		color: '#c74a47',
+		backgroundColor: '#fbe2e2',
+		fontSize: '16px',
+		textAlign: 'left',
+		padding: '10px 15px',
+		marginTop: '-30px',
+		marginBottom: '20px',
+	},
 	radioGroup: {
 		width: '48%',
 		display: 'flex',

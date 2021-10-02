@@ -21,6 +21,7 @@ import { Helmet } from 'react-helmet-async'
 import TableCellSubject from './components/TableCellSubject/TableCellSubject'
 import useStyles from './styles'
 
+import { useSelector } from 'react-redux'
 const links = [
 	{
 		title: 'Dashboard',
@@ -32,8 +33,8 @@ const links = [
 	},
 ]
 
+// Get days in week
 const days = []
-
 for (let i = 1; i < 6; i++) {
 	const day = addDays(
 		startOfWeek(new Date(), {
@@ -44,26 +45,9 @@ for (let i = 1; i < 6; i++) {
 	days.push(day)
 }
 
-// React select
-const options = [
-	{ value: 'a', label: '1A' },
-	{ value: 'b', label: '2C' },
-	{ value: 'c', label: '3A' },
-	{ value: 'd', label: '3C' },
-	{ value: 'e', label: '4A' },
-	{ value: 'f', label: '5B' },
-]
-
 const Timetable = () => {
 	const classes = useStyles()
-
-	// React select
-	const [selectedOption, setselectedOption] = useState()
-
-	const handleChange = (selectedOption) => {
-		setselectedOption(selectedOption)
-	}
-
+	const classesFromStore = useSelector((state) => state.classes.classes)
 	const [subject, setSubject] = useState('')
 	const handleChangeSubject = (event) => {
 		setSubject(event.target.value)
@@ -95,9 +79,12 @@ const Timetable = () => {
 								id="demo-simple-select-outlined"
 								value={subject}
 								onChange={handleChangeSubject}
-								label="Lớp"
 							>
-								<MenuItem value="1A">1A</MenuItem>
+								{classesFromStore?.map((thisClass) => {
+									return (
+										<MenuItem value={thisClass._id}>{thisClass.name}</MenuItem>
+									)
+								})}
 							</Select>
 						</FormControl>
 					</Box>

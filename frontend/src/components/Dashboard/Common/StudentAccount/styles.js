@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '18px',
 		fontWeight: 'bold',
 	},
+	limitText: {
+		maxWidth: 100,
+		overflow: 'hidden',
+		whiteSpace: ' nowrap',
+		textOverflow: 'ellipsis',
+	},
 	isLoggedIn: { color: theme.palette.success.main },
 	isLoggedOut: { color: theme.palette.error.main },
 	searchBar: {

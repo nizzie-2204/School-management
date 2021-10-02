@@ -16,13 +16,14 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import PhoneInput from 'react-phone-input-2'
 
 import { withStyles } from '@material-ui/styles'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStyles from './styles'
 import { useSnackbar } from 'notistack'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import da from 'date-fns/esm/locale/da/index.js'
+import { useSelector } from 'react-redux'
 
 const GreenRadio = withStyles({
 	root: {
@@ -54,10 +55,13 @@ const schema = yup.object().shape({
 
 const AddEditAccount = ({ open, handleClose, student }) => {
 	const classes = useStyles()
+	const classesFromStore = useSelector((state) => state.classes.classes)
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 	})
+	const [error, setError] = useState(null)
+
 	const [value, setValue] = useState()
 	const handleChange = (e) => {
 		setValue(e.target.value)
@@ -92,17 +96,90 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			},
 		}
 		console.log(newData)
-		// e.preventDefault()
-		// handleClose()
-		// enqueueSnackbar('Thêm tài khoản thành công', {
-		// 	variant: 'success',
-		// 	autoHideDuration: 3000,
-		// })
+		if (
+			phoneInput?.length !== 11 ||
+			!phoneInput ||
+			phoneInput2?.length !== 11 ||
+			!phoneInput2 ||
+			phoneInput3?.length !== 11 ||
+			!phoneInput3
+		) {
+			setError('Số điện thoại có dạng: +84 123 123 123')
+		} else {
+			handleClose()
+			enqueueSnackbar('Thêm tài khoản thành công', {
+				variant: 'success',
+				autoHideDuration: 3000,
+			})
+		}
 	}
 
 	const handleUpdateAccount = (data) => {
-		console.log(data)
+		const newData = {
+			name: data.name,
+			gender: data.gender,
+			address: data.address,
+			dateOfBirth: data.dateOfBirth,
+			classId: data.classId,
+			parent: {
+				father: {
+					name: data.dadName,
+					email: data.dadEmail,
+					phone: phoneInput2,
+					dateOfBirth: data.dadDateOfBirth,
+					address: data.dadAddress,
+				},
+				mother: {
+					name: data.momName,
+					email: data.momEmail,
+					phone: phoneInput3,
+					dateOfBirth: data.momDateOfBirth,
+					address: data.momAddress,
+				},
+			},
+		}
+		if (
+			phoneInput?.length !== 11 ||
+			!phoneInput ||
+			phoneInput2?.length !== 11 ||
+			!phoneInput2 ||
+			phoneInput3?.length !== 11 ||
+			!phoneInput3
+		) {
+			setError('Số điện thoại có dạng: +84 123 123 123')
+		} else {
+			handleClose()
+			enqueueSnackbar('Chỉnh sửa tài khoản thành công', {
+				variant: 'success',
+				autoHideDuration: 3000,
+			})
+		}
 	}
+
+	useEffect(() => {
+		if (student) {
+			console.log(student)
+			reset({
+				name: student?.name,
+				address: student?.address,
+				dateOfBirth: `${student?.dateOfBirth?.slice(0, 10)}`,
+				gender: student?.gender,
+				classId: student?.classId,
+
+				dadName: student?.parents.father.name,
+				dadAddress: student?.parents.father.address,
+				dadDateOfBirth: `${student?.parents.father.dateOfBirth.slice(0, 10)}`,
+				dadEmail: student?.parents.father.email,
+
+				momName: student?.parents.mother.name,
+				momAddress: student?.parents.mother.address,
+				momDateOfBirth: `${student?.parents.mother.dateOfBirth.slice(0, 10)}`,
+				momEmail: student?.parents.mother.email,
+			})
+			setPhoneInput2(`84 ${student?.parents?.father.phone}`)
+			setPhoneInput3(`84 ${student?.parents?.mother.phone}`)
+		}
+	}, [student])
 
 	return (
 		<Modal
@@ -122,7 +199,11 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 					className={classes.form}
 					style={{ maxHeight: '575px', overflowY: 'scroll' }}
 					autoComplete="off"
-					onSubmit={handleSubmit(handleAddAccount)}
+					onSubmit={
+						student
+							? handleSubmit(handleUpdateAccount)
+							: handleSubmit(handleAddAccount)
+					}
 				>
 					<Typography className={classes.formTitle} variant="h5">
 						Thêm tài khoản học sinh
@@ -145,6 +226,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 									input: classes.resize,
 								},
 							}}
+							defaultValue={student?.name}
 							{...register('name')}
 						/>
 						<FormControl component="fieldset" className={classes.radioGroup}>
@@ -152,7 +234,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							<Controller
 								rules={{ required: true }}
 								control={control}
-								// defaultValue={thisTeacher?.gender || 'Male'}
+								defaultValue={student?.gender || 'Male'}
 								{...register('gender')}
 								required
 								render={({ field }) => {
@@ -204,6 +286,8 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							{...register('dateOfBirth')}
+							defaultValue={student?.dateOfBirth?.slice(0, 10)}
+							required
 						/>
 						<TextField
 							className={classes.root}
@@ -218,6 +302,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 									input: classes.resize,
 								},
 							}}
+							defaultValue={student?.address}
 							{...register('address')}
 						/>
 					</div>
@@ -232,7 +317,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							<Controller
 								rules={{ required: true }}
 								control={control}
-								// defaultValue={thisClass?.teacherId?._id}
+								defaultValue={student?.classId}
 								{...register('classId')}
 								required
 								render={({ field }) => {
@@ -245,14 +330,13 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 												onChange(e)
 											}}
 										>
-											{/* {teachers?.map((teacher) => {
+											{classesFromStore?.map((thisClass) => {
 												return (
-													<MenuItem key={teacher._id} value={teacher._id}>
-														{teacher.name}
+													<MenuItem key={thisClass._id} value={thisClass._id}>
+														{thisClass.name}
 													</MenuItem>
 												)
-											})} */}
-											<MenuItem value="a">1</MenuItem>
+											})}
 										</Select>
 									)
 								}}
@@ -277,6 +361,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							{...register('dadName')}
+							defaultValue={student?.parents.father.name}
 						/>
 						<TextField
 							className={classes.root}
@@ -292,6 +377,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							{...register('dadEmail')}
+							defaultValue={student?.parents.father.email}
 						/>
 					</div>
 
@@ -313,7 +399,9 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 									input: classes.resize,
 								},
 							}}
+							required
 							{...register('dadDateOfBirth')}
+							defaultValue={student?.parents.father.dateOfBirth.slice(0, 10)}
 						/>
 						<TextField
 							className={classes.root}
@@ -329,6 +417,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							{...register('dadAddress')}
+							defaultValue={student?.parents.father.address}
 						/>
 					</div>
 					<div className={classes.inputGroup}>
@@ -347,6 +436,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							enableSearch={true}
 							inputStyle={{
 								border: '1px solid #dcdbdb',
+								width: '100%',
 							}}
 							specialLabel="Số điện thoại *"
 						/>
@@ -367,6 +457,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							{...register('momName')}
+							defaultValue={student?.parents.mother.name}
 						/>
 						<TextField
 							className={classes.root}
@@ -382,6 +473,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							{...register('momEmail')}
+							defaultValue={student?.parents.mother.email}
 						/>
 					</div>
 
@@ -404,6 +496,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							{...register('momDateOfBirth')}
+							defaultValue={student?.parents.mother.dateOfBirth.slice(0, 10)}
 						/>
 						<TextField
 							className={classes.root}
@@ -419,6 +512,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							{...register('momAddress')}
+							defaultValue={student?.parents.mother.address}
 						/>
 					</div>
 					<div className={classes.inputGroup}>
@@ -428,7 +522,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							value={phoneInput3}
 							onChange={(phoneInput3) => setPhoneInput(phoneInput3)}
 							containerStyle={{
-								width: '45%',
+								width: '48%',
 							}}
 							containerClass={classes.borderClass}
 							inputProps={{
@@ -437,6 +531,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							enableSearch={true}
 							inputStyle={{
 								border: '1px solid #dcdbdb',
+								width: '100%',
 							}}
 							specialLabel="Số điện thoại *"
 						/>
@@ -451,6 +546,8 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 					>
 						Lưu
 					</Button>
+
+					{error && <p className={classes.error}>{error}</p>}
 				</form>
 			</Fade>
 		</Modal>

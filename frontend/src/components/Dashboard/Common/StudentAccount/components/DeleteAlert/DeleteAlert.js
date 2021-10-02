@@ -5,17 +5,27 @@ import Modal from '@material-ui/core/Modal'
 import { useSnackbar } from 'notistack'
 import React from 'react'
 import useStyles from './styles'
+import { useDispatch } from 'react-redux'
+import { deleteStudent } from '../../studentAccountSlice'
+import { unwrapResult } from '@reduxjs/toolkit'
 
-const DeleteAlert = ({ open, handleClose }) => {
+const DeleteAlert = ({ open, handleClose, student }) => {
 	const classes = useStyles()
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const dispatch = useDispatch()
 
 	const handleDeleteAccount = () => {
-		handleClose()
-		enqueueSnackbar('Xóa tài khoản thành công', {
-			variant: 'success',
-			autoHideDuration: 3000,
-		})
+		const action = deleteStudent(student.id)
+		dispatch(action)
+			.then(unwrapResult)
+			.then(() => {
+				handleClose()
+				enqueueSnackbar('Xóa tài khoản thành công', {
+					variant: 'success',
+					autoHideDuration: 3000,
+				})
+			})
+			.catch((error) => console.log(error))
 	}
 
 	return (

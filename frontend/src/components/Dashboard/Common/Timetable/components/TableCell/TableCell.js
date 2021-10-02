@@ -19,7 +19,7 @@ import Modal from '@material-ui/core/Modal'
 const Lession = ({ row, index, cell }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const timetable = useSelector((state) => state.timetable)
+	const subjects = useSelector((state) => state.subjects.subjects)
 
 	const [open, setOpen] = useState(false)
 
@@ -140,9 +140,9 @@ const Lession = ({ row, index, cell }) => {
 								onChange={handleChangeSubject}
 								label="Lớp"
 							>
-								<MenuItem value="Toán">Toán</MenuItem>
-								<MenuItem value="Tiếng Việt">Tiếng Việt</MenuItem>
-								<MenuItem value="Âm Nhạc">Âm Nhạc</MenuItem>
+								{subjects?.map((subject) => {
+									return <MenuItem value={subject._id}>{subject.name}</MenuItem>
+								})}
 							</Select>
 						</FormControl>
 						<FormControl variant="outlined" className={classes.selectOption}>

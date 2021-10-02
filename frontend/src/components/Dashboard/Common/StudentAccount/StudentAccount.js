@@ -19,11 +19,15 @@ import ClearIcon from '@material-ui/icons/Clear'
 import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
+import { unwrapResult } from '@reduxjs/toolkit'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useDispatch, useSelector } from 'react-redux'
+import formatDate from 'utils/formatDate'
 import AddEditAccount from './components/AddEditAccount/AddEditAccount'
 import DeleteAlert from './components/DeleteAlert/DeleteAlert'
+import { getStudents } from './studentAccountSlice'
 import useStyles from './styles'
 
 function createData(name, calories, fat, carbs, protein) {
@@ -55,9 +59,12 @@ const links = [
 
 const StudentAccount = () => {
 	const classes = useStyles()
+	const dispatch = useDispatch()
+	const students = useSelector((state) => state.student.students)
+	const studentsLoading = useSelector((state) => state.student.studentsLoading)
 
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
-
+	const [thisStudent, setThisStudent] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => {
 		setOpen(true)
@@ -67,18 +74,23 @@ const StudentAccount = () => {
 	}
 
 	const [open2, setOpen2] = useState(false)
-	const handleOpen2 = () => {
+	const handleOpen2 = (student) => {
+		setThisStudent(student)
 		setOpen2(true)
 	}
 	const handleClose2 = () => {
+		setThisStudent(null)
+
 		setOpen2(false)
 	}
 
 	const [open3, setOpen3] = useState(false)
-	const handleOpen3 = (subject) => {
+	const handleOpen3 = (student) => {
+		setThisStudent(student)
 		setOpen3(true)
 	}
 	const handleClose3 = () => {
+		setThisStudent(null)
 		setOpen3(false)
 	}
 
@@ -86,6 +98,18 @@ const StudentAccount = () => {
 	const handleChangeSearch = (e) => {
 		setSearchTerm(e.target.value)
 	}
+
+	useEffect(() => {
+		const fetchStudents = () => {
+			const action = getStudents()
+			dispatch(action)
+				// .unwrap()
+				.then(unwrapResult)
+				.then((res) => console.log(res.data))
+				.catch((error) => console.log(error))
+		}
+		fetchStudents()
+	}, [])
 
 	return (
 		<>
@@ -174,15 +198,20 @@ const StudentAccount = () => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{rows.map((row, index) => (
+							{students?.map((student, index) => (
 								<TableRow key={index}>
-									<TableCell align="center" component="th" scope="row">
-										{row.name}
+									<TableCell
+										align="center"
+										component="th"
+										scope="row"
+										className={classes.limitText}
+									>
+										{student._id}
 									</TableCell>
-									<TableCell align="center">{row.calories}</TableCell>
+									<TableCell align="center">{student.name}</TableCell>
 
 									<TableCell align="center">
-										{isLoggedIn ? (
+										{student.isLoggedIn ? (
 											<CheckIcon
 												fontSize="small"
 												className={classes.isLoggedIn}
@@ -194,20 +223,32 @@ const StudentAccount = () => {
 											/>
 										)}
 									</TableCell>
-									<TableCell align="center">t2100021</TableCell>
-									<TableCell align="center">{row.carbs}</TableCell>
-									<TableCell align="center">{row.fat}</TableCell>
+									<TableCell align="center">{student.username}</TableCell>
+									<TableCell align="center">
+										{formatDate(student.createdAt)}
+									</TableCell>
+									<TableCell align="center">
+										{formatDate(student.updatedAt)}
+									</TableCell>
 									<TableCell align="center">
 										<Tooltip title="Chỉnh sửa">
-											<IconButton>
+											<IconButton
+												onClick={() => {
+													handleOpen3(student)
+												}}
+											>
 												<CreateIcon
 													fontSize="small"
-													style={{ color: '#ffa326' }}
+													style={{ color: '#5278db' }}
 												/>
 											</IconButton>
 										</Tooltip>
 										<Tooltip title="Xóa">
-											<IconButton onClick={handleOpen2}>
+											<IconButton
+												onClick={() => {
+													handleOpen2(student)
+												}}
+											>
 												<DeleteIcon
 													fontSize="small"
 													style={{ color: '#e96053' }}
@@ -217,7 +258,16 @@ const StudentAccount = () => {
 									</TableCell>
 								</TableRow>
 							))}
-							<DeleteAlert open={open2} handleClose={handleClose2} />
+							<DeleteAlert
+								open={open2}
+								handleClose={handleClose2}
+								student={thisStudent}
+							/>
+							<AddEditAccount
+								open={open3}
+								handleClose={handleClose3}
+								student={thisStudent}
+							/>
 						</TableBody>
 					</Table>
 				</TableContainer>
