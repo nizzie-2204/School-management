@@ -51,8 +51,7 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const subjects = useSelector((state) => state.subjects.subjects)
-
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 	})

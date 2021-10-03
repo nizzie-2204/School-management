@@ -111,6 +111,14 @@ const TeacherAccount = () => {
 		setPage(0)
 	}
 
+	useEffect(() => {
+		const fetchTeachers = () => {
+			const action = getTeachers()
+			dispatch(action)
+		}
+		fetchTeachers()
+	}, [])
+
 	return (
 		<>
 			<Helmet>

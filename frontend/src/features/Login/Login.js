@@ -46,8 +46,14 @@ const Login = () => {
 		dispatch(action)
 			.then(unwrapResult)
 			.then((res) => {
-				localStorage.setItem('token', res.data.token)
-				if (res.status !== 'fail') {
+				if (res.data.user.role === 'teacher') {
+					localStorage.setItem('teacherToken', res.data.token)
+					history.push('/dashboard/overview')
+				} else if (res.data.user.role === 'student') {
+					localStorage.setItem('studentToken', res.data.token)
+					history.push('/dashboard/overview')
+				} else {
+					localStorage.setItem('token', res.data.token)
 					history.push('/dashboard/overview')
 				}
 			})
@@ -62,7 +68,7 @@ const Login = () => {
 			})
 	}
 
-	if (Boolean(localStorage.getItem('token'))) {
+	if (localStorage.getItem('token')) {
 		return <Redirect to="/dashboard/overview" />
 	} else {
 		return (

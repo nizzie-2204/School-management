@@ -24,7 +24,10 @@ exports.createStudent = async (req, res, next) => {
 		const user = await Student.create(userInfo)
 		res.status(200).json({
 			status: 'success',
-			data: { username: user.username, password: password },
+			data: {
+				...user._doc,
+				password: password,
+			},
 		})
 	} catch (error) {
 		next(error)

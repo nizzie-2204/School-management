@@ -120,7 +120,7 @@ const TypeTeacher = () => {
 			<Box className={classes.main}>
 				<Breadcrumb links={links} />
 
-				<form noValidate autoComplete="off">
+				<form autoComplete="off">
 					<div className={classes.searchBar}>
 						<TextField
 							className={classes.searchField}

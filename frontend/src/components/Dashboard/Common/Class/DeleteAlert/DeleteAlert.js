@@ -44,7 +44,7 @@ const DeleteAlert = ({ open, handleClose, thisClass }) => {
 			<Fade in={open}>
 				<form className={classes.form} noValidate autoComplete="off">
 					<Typography className={classes.formTitle} variant="h5">
-						Bạn chắc chắn muốn xóa môn học này?
+						Bạn chắc chắn muốn xóa lớp học này?
 					</Typography>
 
 					<div className={classes.actions}>

@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
 	Button,
 	InputLabel,
@@ -13,18 +14,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Modal from '@material-ui/core/Modal'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
-import PhoneInput from 'react-phone-input-2'
-
 import { withStyles } from '@material-ui/styles'
-import React, { useEffect, useState } from 'react'
-import useStyles from './styles'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useSnackbar } from 'notistack'
+import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import PhoneInput from 'react-phone-input-2'
+import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
-import da from 'date-fns/esm/locale/da/index.js'
-import { useSelector } from 'react-redux'
-
+import useStyles from './styles'
+import { addStudent } from '../../studentAccountSlice'
 const GreenRadio = withStyles({
 	root: {
 		color: '#dcdbdb',
@@ -55,11 +54,13 @@ const schema = yup.object().shape({
 
 const AddEditAccount = ({ open, handleClose, student }) => {
 	const classes = useStyles()
+	const dispatch = useDispatch()
 	const classesFromStore = useSelector((state) => state.classes.classes)
 	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 	})
+
 	const [error, setError] = useState(null)
 
 	const [value, setValue] = useState()
@@ -67,7 +68,6 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 		setValue(e.target.value)
 	}
 
-	const [phoneInput, setPhoneInput] = useState(null)
 	const [phoneInput2, setPhoneInput2] = useState(null)
 	const [phoneInput3, setPhoneInput3] = useState(null)
 
@@ -78,7 +78,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			address: data.address,
 			dateOfBirth: data.dateOfBirth,
 			classId: data.classId,
-			parent: {
+			parents: {
 				father: {
 					name: data.dadName,
 					email: data.dadEmail,
@@ -95,10 +95,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 				},
 			},
 		}
-		console.log(newData)
 		if (
-			phoneInput?.length !== 11 ||
-			!phoneInput ||
 			phoneInput2?.length !== 11 ||
 			!phoneInput2 ||
 			phoneInput3?.length !== 11 ||
@@ -106,11 +103,20 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 		) {
 			setError('Số điện thoại có dạng: +84 123 123 123')
 		} else {
-			handleClose()
-			enqueueSnackbar('Thêm tài khoản thành công', {
-				variant: 'success',
-				autoHideDuration: 3000,
-			})
+			const action = addStudent(newData)
+			dispatch(action)
+				.then(unwrapResult)
+				.then((res) => {
+					// 		console.log(res)
+					// 		const action = updateC(newData)
+					// 		dispatch(action)
+					// 		handleClose()
+					// enqueueSnackbar('Thêm tài khoản thành công', {
+					// 	variant: 'success',
+					// 	autoHideDuration: 3000,
+					// })
+				})
+				.catch((error) => console.log(error))
 		}
 	}
 
@@ -139,8 +145,6 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			},
 		}
 		if (
-			phoneInput?.length !== 11 ||
-			!phoneInput ||
 			phoneInput2?.length !== 11 ||
 			!phoneInput2 ||
 			phoneInput3?.length !== 11 ||
@@ -148,11 +152,15 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 		) {
 			setError('Số điện thoại có dạng: +84 123 123 123')
 		} else {
-			handleClose()
-			enqueueSnackbar('Chỉnh sửa tài khoản thành công', {
-				variant: 'success',
-				autoHideDuration: 3000,
-			})
+			console.log(student.classId)
+			console.log(data.classId)
+
+			// handleClose()
+			// enqueueSnackbar('Chỉnh sửa tài khoản thành công', {
+			// 	variant: 'success',
+			// 	autoHideDuration: 3000,
+			// })
+			// }
 		}
 	}
 
@@ -520,7 +528,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							country="vn"
 							onlyCountries={['vn']}
 							value={phoneInput3}
-							onChange={(phoneInput3) => setPhoneInput(phoneInput3)}
+							onChange={(phoneInput3) => setPhoneInput3(phoneInput3)}
 							containerStyle={{
 								width: '48%',
 							}}

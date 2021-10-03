@@ -11,7 +11,7 @@ import { deleteTeacher } from '../teacherAccountSlice'
 
 const DeleteAlert = ({ open, handleClose, thisTeacher }) => {
 	const classes = useStyles()
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
 	const handleDeleteAccount = () => {
@@ -44,7 +44,7 @@ const DeleteAlert = ({ open, handleClose, thisTeacher }) => {
 			<Fade in={open}>
 				<form className={classes.form} noValidate autoComplete="off">
 					<Typography className={classes.formTitle} variant="h5">
-						Bạn chắc chắn muốn xóa môn học này?
+						Bạn chắc chắn muốn xóa tài khoản này?
 					</Typography>
 
 					<div className={classes.actions}>

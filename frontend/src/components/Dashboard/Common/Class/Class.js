@@ -92,7 +92,6 @@ const Class = () => {
 	const [searchTerm, setSearchTerm] = useState('')
 	const handleChangeSearch = (e) => {
 		setSearchTerm(e.target.value)
-		console.log(e.target.value)
 	}
 
 	// Pagination

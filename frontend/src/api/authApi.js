@@ -9,7 +9,10 @@ const authAPI = {
 		})
 	},
 	logout: async (id) => {
-		const token = localStorage.getItem('token')
+		const token =
+			localStorage.getItem('token') ||
+			localStorage.getItem('teacherToken') ||
+			localStorage.getItem('studentToken')
 
 		return await axiosClient.post('/logout', id, {
 			headers: { Authorization: `Bearer ${token}` },

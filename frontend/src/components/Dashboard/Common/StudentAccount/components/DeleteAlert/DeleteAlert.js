@@ -15,7 +15,7 @@ const DeleteAlert = ({ open, handleClose, student }) => {
 	const dispatch = useDispatch()
 
 	const handleDeleteAccount = () => {
-		const action = deleteStudent(student.id)
+		const action = deleteStudent(student._id)
 		dispatch(action)
 			.then(unwrapResult)
 			.then(() => {

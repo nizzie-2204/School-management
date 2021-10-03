@@ -80,3 +80,37 @@ exports.deleteClass = async (req, res, next) => {
 		next(error)
 	}
 }
+
+exports.updateStudentInClass = async (req, res, next) => {
+	try {
+		if (!req.body.oldClassId) {
+			// Push student to new class
+			const newClass = await Class.updateOne(
+				{ _id: req.body.newClassId },
+				{ $addToSet: { students: req.body.studentId } }
+			)
+		} else {
+			// Push student to new class
+			const newClass = await Class.updateOne(
+				{ _id: req.body.newClassId },
+				{ $addToSet: { students: req.body.studentId } }
+			)
+
+			// Remove student from old class
+			const oldClass = await Class.updateOne(
+				{
+					_id: req.body.oldClassId,
+				},
+				{
+					$pull: { students: req.body.studentId },
+				}
+			)
+		}
+
+		res
+			.status(200)
+			.json({ status: 'success', message: 'Update class successfully' })
+	} catch (error) {
+		next(error)
+	}
+}

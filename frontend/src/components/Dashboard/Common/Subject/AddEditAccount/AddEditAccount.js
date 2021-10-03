@@ -28,7 +28,6 @@ const AddEditAccount = ({ open, handleClose, subject }) => {
 	const [error, setError] = useState(null)
 
 	const handleAddSubject = (data) => {
-		console.log('Add: ', data)
 		const action = addSubject(data)
 		dispatch(action)
 			.then(unwrapResult)

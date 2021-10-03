@@ -48,7 +48,7 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const typeTeachers = useSelector((state) => state.typeTeacher.typeTeachers)
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 	})
@@ -73,7 +73,6 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 			dispatch(action)
 				.then(unwrapResult)
 				.then((res) => {
-					console.log(res)
 					handleClose()
 					enqueueSnackbar(
 						`Tài khoản: ${res?.data.username} mật khẩu: ${res?.data.password}`,
@@ -93,24 +92,33 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 	}
 
 	const handleUpdateAccount = (data) => {
-		const newData = { ...data, _id: thisTeacher._id }
-		const action = updateTeacher(newData)
-		dispatch(action)
-			.then(unwrapResult)
-			.then(() => {
-				handleClose()
-				enqueueSnackbar('Chỉnh sửa thành công', {
-					variant: 'success',
-					autoHideDuration: 3000,
+		if (phoneInput?.length !== 11 || !phoneInput) {
+			setError('Số điện thoại có dạng: +84 123 123 123')
+		} else {
+			setError(null)
+			const newData = {
+				...data,
+				phone: `0${phoneInput?.slice(2)}`,
+				_id: thisTeacher._id,
+			}
+			const action = updateTeacher(newData)
+			dispatch(action)
+				.then(unwrapResult)
+				.then(() => {
+					handleClose()
+					enqueueSnackbar('Chỉnh sửa thành công', {
+						variant: 'success',
+						autoHideDuration: 3000,
+					})
+					reset()
+					setPhoneInput(null)
 				})
-				reset()
-				setPhoneInput(null)
-			})
-			.catch((error) => {
-				if (error?.data?.message === 'email have to be unique') {
-					setError('Email đã tồn tại')
-				}
-			})
+				.catch((error) => {
+					if (error?.data?.message === 'email have to be unique') {
+						setError('Email đã tồn tại')
+					}
+				})
+		}
 	}
 
 	useEffect(() => {

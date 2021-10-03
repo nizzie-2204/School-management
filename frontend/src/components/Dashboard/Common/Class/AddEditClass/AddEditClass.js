@@ -28,7 +28,7 @@ const schema = yup.object().shape({
 const AddEditAccount = ({ open, handleClose, currClass }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset } = useForm({
 		resolver: yupResolver(schema),
 	})
@@ -80,7 +80,7 @@ const AddEditAccount = ({ open, handleClose, currClass }) => {
 			})
 			.catch((error) => {
 				if (error?.data?.message === 'name have to be unique') {
-					setError('Tên môn học đã tồn tại')
+					setError('Tên lớp học đã tồn tại')
 				}
 			})
 	}
@@ -102,7 +102,10 @@ const AddEditAccount = ({ open, handleClose, currClass }) => {
 			aria-describedby="transition-modal-description"
 			className={classes.modal}
 			open={open}
-			onClose={handleClose}
+			onClose={() => {
+				handleClose()
+				reset()
+			}}
 			closeAfterTransition
 			BackdropComponent={Backdrop}
 			BackdropProps={{

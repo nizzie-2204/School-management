@@ -11,7 +11,7 @@ import { deleteSubject } from '../subjectSlice'
 
 const DeleteAlert = ({ open, handleClose, subject }) => {
 	const classes = useStyles()
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
 	const handleDeleteAccount = () => {
@@ -42,7 +42,7 @@ const DeleteAlert = ({ open, handleClose, subject }) => {
 			}}
 		>
 			<Fade in={open}>
-				<form className={classes.form} noValidate autoComplete="off">
+				<form className={classes.form} autoComplete="off">
 					<Typography className={classes.formTitle} variant="h5">
 						Bạn chắc chắn muốn xóa môn học này?
 					</Typography>
