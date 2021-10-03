@@ -38,6 +38,12 @@ const classAPI = {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
+
+	updateStudentClass: async (data) => {
+		return await axiosClient.patch(`/classes/${data.studentId}`, data, {
+			headers: { Authorization: `Bearer ${token}` },
+		})
+	},
 }
 
 export default classAPI

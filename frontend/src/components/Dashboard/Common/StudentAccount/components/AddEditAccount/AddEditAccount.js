@@ -24,6 +24,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 import useStyles from './styles'
 import { addStudent } from '../../studentAccountSlice'
+import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice'
+import { updateStudent } from '../../studentAccountSlice'
 const GreenRadio = withStyles({
 	root: {
 		color: '#dcdbdb',
@@ -107,16 +109,30 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			dispatch(action)
 				.then(unwrapResult)
 				.then((res) => {
-					// 		console.log(res)
-					// 		const action = updateC(newData)
-					// 		dispatch(action)
-					// 		handleClose()
-					// enqueueSnackbar('Thêm tài khoản thành công', {
-					// 	variant: 'success',
-					// 	autoHideDuration: 3000,
-					// })
+					const newClassId = newData.classId
+					const studentId = res.data._id
+
+					const action = updateStudentClass({ newClassId, studentId })
+					dispatch(action)
+					handleClose()
+					enqueueSnackbar('Thêm tài khoản thành công', {
+						variant: 'success',
+						autoHideDuration: 3000,
+					})
 				})
-				.catch((error) => console.log(error))
+				.catch((error) => {
+					if (
+						error?.data?.message === 'parents.mother.email have to be unique'
+					) {
+						setError('Email của mẹ đã có người sử dụng')
+					}
+
+					if (
+						error?.data?.message === 'parents.father.email have to be unique'
+					) {
+						setError('Email của cha đã có người sử dụng')
+					}
+				})
 		}
 	}
 
@@ -151,16 +167,57 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			!phoneInput3
 		) {
 			setError('Số điện thoại có dạng: +84 123 123 123')
-		} else {
-			console.log(student.classId)
-			console.log(data.classId)
+		} else if (student.classId === data.classId) {
+			alert('Không có đổi lớp')
 
-			// handleClose()
-			// enqueueSnackbar('Chỉnh sửa tài khoản thành công', {
-			// 	variant: 'success',
-			// 	autoHideDuration: 3000,
-			// })
-			// }
+			const action = updateStudent(newData)
+			dispatch(action)
+				.then(unwrapResult)
+				.then(() => {
+					handleClose()
+					enqueueSnackbar('Chỉnh sửa tài khoản thành công', {
+						variant: 'success',
+						autoHideDuration: 3000,
+					})
+					reset()
+					setPhoneInput2(null)
+					setPhoneInput3(null)
+				})
+				.catch((error) => console.log(error))
+		} else if (student.classId !== data.classId) {
+			alert('Đổi lớp')
+			const action = updateStudent({
+				...newData,
+				classId: data.classId,
+				_id: student._id,
+			})
+			dispatch(action)
+				.then(unwrapResult)
+				.then((res) => {
+					const studentId = student._id
+					const oldClassId = student.classId
+					const newClassId = data.classId
+
+					const action = updateStudentClass({
+						studentId,
+						oldClassId,
+						newClassId,
+					})
+					dispatch(action)
+						.then(unwrapResult)
+						.then(() => {
+							handleClose()
+							enqueueSnackbar('Chỉnh sửa tài khoản thành công', {
+								variant: 'success',
+								autoHideDuration: 3000,
+							})
+							reset()
+							setPhoneInput2(null)
+							setPhoneInput3(null)
+						})
+						.catch(error)
+				})
+				.catch((error) => console.log(error))
 		}
 	}
 
@@ -184,8 +241,8 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 				momDateOfBirth: `${student?.parents.mother.dateOfBirth.slice(0, 10)}`,
 				momEmail: student?.parents.mother.email,
 			})
-			setPhoneInput2(`84 ${student?.parents?.father.phone}`)
-			setPhoneInput3(`84 ${student?.parents?.mother.phone}`)
+			setPhoneInput2(`${student?.parents?.father.phone}`)
+			setPhoneInput3(`${student?.parents?.mother.phone}`)
 		}
 	}, [student])
 
@@ -441,7 +498,6 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							inputProps={{
 								required: true,
 							}}
-							enableSearch={true}
 							inputStyle={{
 								border: '1px solid #dcdbdb',
 								width: '100%',
@@ -545,6 +601,8 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 						/>
 					</div>
 
+					{error && <p className={classes.error}>{error}</p>}
+
 					<Button
 						type="submit"
 						fullWidth
@@ -554,8 +612,6 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 					>
 						Lưu
 					</Button>
-
-					{error && <p className={classes.error}>{error}</p>}
 				</form>
 			</Fade>
 		</Modal>

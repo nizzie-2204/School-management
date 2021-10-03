@@ -83,7 +83,6 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '16px',
 		textAlign: 'left',
 		padding: '10px 15px',
-		marginTop: '-30px',
 		marginBottom: '20px',
 	},
 	radioGroup: {

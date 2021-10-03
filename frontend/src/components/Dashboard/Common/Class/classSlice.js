@@ -71,6 +71,23 @@ export const deleteClass = createAsyncThunk(
 	}
 )
 
+export const updateStudentClass = createAsyncThunk(
+	'class/updateStudentClass',
+	async (data, thunkAPI) => {
+		try {
+			const thisClass = classAPI.updateStudentClass(data)
+
+			if (thisClass) {
+				thunkAPI.dispatch(getClasses())
+			}
+
+			return thisClass.data
+		} catch (error) {
+			return thunkAPI.rejectWithValue(error.response)
+		}
+	}
+)
+
 const classSlice = createSlice({
 	name: 'class',
 	initialState: {

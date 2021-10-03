@@ -8,6 +8,7 @@ import useStyles from './styles'
 import { useDispatch } from 'react-redux'
 import { deleteStudent } from '../../studentAccountSlice'
 import { unwrapResult } from '@reduxjs/toolkit'
+import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice'
 
 const DeleteAlert = ({ open, handleClose, student }) => {
 	const classes = useStyles()
@@ -19,11 +20,19 @@ const DeleteAlert = ({ open, handleClose, student }) => {
 		dispatch(action)
 			.then(unwrapResult)
 			.then(() => {
-				handleClose()
-				enqueueSnackbar('Xóa tài khoản thành công', {
-					variant: 'success',
-					autoHideDuration: 3000,
-				})
+				const studentId = student._id
+				const oldClassId = student.classId
+				const action = updateStudentClass({ studentId, oldClassId })
+				dispatch(action)
+					.then(unwrapResult)
+					.then(() => {
+						handleClose()
+						enqueueSnackbar('Xóa tài khoản thành công', {
+							variant: 'success',
+							autoHideDuration: 3000,
+						})
+					})
+					.catch((error) => console.log(error))
 			})
 			.catch((error) => console.log(error))
 	}
