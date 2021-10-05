@@ -33,6 +33,16 @@ const teacherAPI = {
 		})
 	},
 
+	updateClassTeacher: async (id) => {
+		return await axiosClient.patch(
+			`/teachers/${id}`,
+			{},
+			{
+				headers: { Authorization: `Bearer ${token}` },
+			}
+		)
+	},
+
 	deleteTeacher: async (id) => {
 		return await axiosClient.delete(`/teachers/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },

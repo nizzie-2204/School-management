@@ -122,6 +122,7 @@ const initialState = [
 		],
 	},
 ]
+
 const timetableSlice = createSlice({
 	name: 'timetable',
 	initialState,

@@ -68,12 +68,32 @@ exports.updateTeacher = async (req, res, next) => {
 			{ ...req.body },
 			{ new: true, runValidators: true }
 		).select('-username -password')
-		console.log(user)
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)
 			error.statusCode = 404
 			return next(error)
 		}
+		res.status(200).json({ status: 'success', data: user })
+	} catch (error) {
+		next(error)
+	}
+}
+
+exports.updateClassTeacher = async (req, res, next) => {
+	try {
+		const user = await Teacher.findByIdAndUpdate(
+			{ _id: req.params.id },
+			{ $unset: { classId: '' } },
+			{ new: true, runValidators: true }
+		)
+
+		if (!user) {
+			const error = new Error('User does not exist: ' + userId)
+			error.statusCode = 404
+			return next(error)
+		}
+
+		console.log(req)
 
 		res.status(200).json({ status: 'success', data: user })
 	} catch (error) {

@@ -5,6 +5,7 @@ import { Bar, Pie } from 'react-chartjs-2'
 import CountUp from 'react-countup'
 import { Helmet } from 'react-helmet-async'
 import useStyles from './styles'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 
 const data = {
 	labels: ['Nguyễn Anh Tuấn', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],

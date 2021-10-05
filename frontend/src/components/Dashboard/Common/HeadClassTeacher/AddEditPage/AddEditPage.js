@@ -17,7 +17,10 @@ import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateTeacher } from '../../TeacherAccount/teacherAccountSlice'
+import {
+	updateClassTeacher,
+	updateTeacher,
+} from '../../TeacherAccount/teacherAccountSlice'
 import { unwrapResult } from '@reduxjs/toolkit'
 import schoolYears from 'utils/schoolYear'
 import { updateClass } from '../../Class/classSlice'
@@ -35,9 +38,14 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 	const thisSchoolYears = schoolYears()
 	const teachers = useSelector((state) => state.teacher.teachers)
 	const classHeadTeachers = teachers.filter((teacher) => {
-		return teacher.teacherType.isClassHeadTeacher
+		if (thisClass && thisClass?.teacherId?._id === teacher._id) {
+			return thisClass.teacherId
+		} else {
+			return teacher.teacherType.isClassHeadTeacher && !teacher.classId
+		}
 	})
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+
+	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 		defaultValues: {
@@ -47,13 +55,9 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 	const [error, setError] = useState(null)
 
 	const handleUpdateTeacher = (data) => {
-		const newData = { _id: thisClass._id, teacherId: data.teacherId }
-		const thisTeacher = teachers.find((teacher) => {
-			return teacher._id === data.teacherId
-		})
-		if (thisTeacher.classId) {
-			setError('Giáo viên này đã chủ nhiệm lớp khác')
-		} else {
+		if (!thisClass?.teacherId?._id && data.teacherId) {
+			alert('Chưa có giáo viên chủ nhiệm')
+			const newData = { _id: thisClass?._id, teacherId: data.teacherId }
 			const action = updateClass(newData)
 			dispatch(action)
 				.then(unwrapResult)
@@ -71,21 +75,43 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 							reset()
 						})
 						.catch((error) => {
-							if (error.data.message === 'name have to be unique') {
-								setError('Tên môn học đã tồn tại')
-							}
+							console.log(error)
 						})
 				})
 				.catch((error) => {
-					if (error.data.message === 'name have to be unique') {
-						setError('Tên môn học đã tồn tại')
-					}
+					console.log(error)
 				})
+		} else if (thisClass.teacherId._id === data.teacherId) {
+			alert('Có giáo viên chủ nhiệm và không đôi')
+			handleClose()
+			reset()
+		} else if (thisClass.teacherId._id !== data.teacherId) {
+			alert('Có giáo viên chủ nhiệm và đôi giáo viên mới')
+
+			// Remove class for old teacher
+
+			// Update new teacher for this class
+			const newData = { _id: thisClass?._id, teacherId: data.teacherId }
+			const action = updateClass(newData)
+			dispatch(action).catch((error) => console.log(error))
+
+			// Update  class for new teacher
+			const newData2 = { classId: thisClass._id, _id: data.teacherId }
+			const action2 = updateTeacher(newData2)
+			dispatch(action2)
+				.then(unwrapResult)
+				.then(() => {
+					const action3 = updateClassTeacher(thisClass.teacherId._id)
+					dispatch(action3).catch((error) => console.log(error))
+				})
+				.catch((error) => console.log(error))
+
+			handleClose()
+			reset()
 		}
 	}
 
 	useEffect(() => {
-		console.log(classHeadTeachers)
 		// Reset defaultValue input when editing
 		if (thisClass) {
 			reset({
@@ -213,23 +239,24 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 							<Controller
 								rules={{ required: true }}
 								control={control}
-								defaultValue={thisClass?.teacherId?._id}
+								defaultValue={thisClass?.teacherId}
 								{...register('teacherId')}
 								required
 								render={({ field }) => {
-									const { name, onBlur, onChange, value } = field
+									const { onBlur, onChange, value } = field
 									return (
 										<Select
+											displayEmpty={false}
 											value={value}
 											onBlur={onBlur}
 											onChange={(e) => {
 												onChange(e)
 											}}
 										>
-											{teachers?.map((teacher) => {
+											{classHeadTeachers?.map((teacher) => {
 												return (
-													<MenuItem key={teacher._id} value={teacher._id}>
-														{teacher.name}
+													<MenuItem key={teacher?._id} value={teacher?._id}>
+														{teacher?.name}
 													</MenuItem>
 												)
 											})}

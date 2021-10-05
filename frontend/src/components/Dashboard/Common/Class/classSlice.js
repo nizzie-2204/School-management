@@ -75,7 +75,7 @@ export const updateStudentClass = createAsyncThunk(
 	'class/updateStudentClass',
 	async (data, thunkAPI) => {
 		try {
-			const thisClass = classAPI.updateStudentClass(data)
+			const thisClass = await classAPI.updateStudentClass(data)
 
 			if (thisClass) {
 				thunkAPI.dispatch(getClasses())
@@ -94,11 +94,15 @@ const classSlice = createSlice({
 		classes: [],
 		classesLoading: false,
 		classesError: '',
-		class: [],
+		class: null,
 		classLoading: false,
 		classError: '',
 	},
-	reducers: {},
+	reducers: {
+		emptyClass: (state) => {
+			state.class = null
+		},
+	},
 	extraReducers: {
 		[getClasses.pending]: (state) => {
 			state.classesLoading = true
@@ -110,7 +114,19 @@ const classSlice = createSlice({
 		[getClasses.rejected]: (state) => {
 			state.classesError = 'error'
 		},
+		[getClass.pending]: (state) => {
+			state.classLoading = true
+		},
+		[getClass.fulfilled]: (state, action) => {
+			state.classLoading = false
+			state.class = action.payload.data
+		},
+		[getClass.rejected]: (state) => {
+			state.classError = 'error'
+		},
 	},
 })
+
+export const { emptyClass } = classSlice.actions
 
 export default classSlice.reducer

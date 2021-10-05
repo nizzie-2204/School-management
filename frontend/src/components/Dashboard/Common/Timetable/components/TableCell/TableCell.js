@@ -15,30 +15,57 @@ import { setTimeTable } from '../../timetableSlice'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
+import { emptyClass } from 'components/Dashboard/Common/Class/classSlice'
+import { setTeacher } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
 
 const Lession = ({ row, index, cell }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
+
 	const subjects = useSelector((state) => state.subjects.subjects)
+	const classFromStore = useSelector((state) => state.classes.class)
+	const teacherFromStore = useSelector((state) => state.teacher.teacher)
+	const teachersFromStore = useSelector((state) => state.teacher.teachers)
 
+	// Get all teachers of this class
+	const teachersOfThisClass = teachersFromStore.filter((teacher) => {
+		return !teacher.teacherType.isClassHeadTeacher
+	})
+	if (teacherFromStore) {
+		teachersOfThisClass?.push(teacherFromStore)
+	}
+
+	// Open modal
 	const [open, setOpen] = useState(false)
-
 	const handleOpen = () => {
 		setOpen(true)
 	}
-
 	const handleClose = () => {
 		setOpen(false)
 	}
 
+	const [asd, setAsd] = useState([])
 	const [subject, setSubject] = useState('')
-	const handleChangeSubject = (event) => {
-		setSubject(event.target.value)
+	const handleChangeSubject = (e) => {
+		setSubject(e.target.value)
+
+		const a = teachersOfThisClass.filter((teacher) => {
+			return teacher.teacherType.subjects.includes(e.target.value)
+		})
+		console.log(a)
+
+		setAsd(a)
 	}
 
-	const [teacher, setTeacher] = useState('')
-	const handleChangeTeacher = (event) => {
-		setTeacher(event.target.value)
+	const [teacher, setTeacher] = useState([])
+	const handleChangeTeacher = (e) => {
+		setTeacher(e.target.value)
+
+		// const selectedTeacher = teachersFromStore.find((teacher) => {
+		// 	return teacher._id === e.target.value
+		// })
+
+		// console.log(selectedTeacher)
 	}
 
 	let newRow = {
@@ -89,20 +116,30 @@ const Lession = ({ row, index, cell }) => {
 			subjectId: subject,
 			teacherId: teacher,
 		}
-		const action = setTimeTable({ newRow, index })
-		dispatch(action)
 
-		handleClose()
+		console.log(subject)
+		console.log(teacherFromStore.teacherType.subjects.includes(subject))
+		// const action = setTimeTable({ newRow, index })
+		// dispatch(action)
+
+		// handleClose()
 	}
 
 	useEffect(() => {
-		console.log(subject)
-		console.log(teacher)
-	}, [subject, teacher])
+		const action = emptyClass()
+		dispatch(action)
+	}, [])
+
 	return (
 		<>
 			<TableCell
-				onClick={handleOpen}
+				onClick={() => {
+					if (classFromStore) {
+						handleOpen()
+					} else {
+						return
+					}
+				}}
 				className={classes.tableCell}
 				align="center"
 			>
@@ -158,10 +195,11 @@ const Lession = ({ row, index, cell }) => {
 								value={teacher}
 								onChange={handleChangeTeacher}
 								label="Lớp"
+								defaultValue=""
 							>
-								<MenuItem value="A">A</MenuItem>
-								<MenuItem value="B">B</MenuItem>
-								<MenuItem value="C">C</MenuItem>
+								{asd?.map((teacher) => {
+									return <MenuItem value={teacher._id}>{teacher.name}</MenuItem>
+								})}
 							</Select>
 						</FormControl>
 						<Button variant="contained" onClick={handleConfirm}>

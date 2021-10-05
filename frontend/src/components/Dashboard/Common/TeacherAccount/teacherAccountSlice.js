@@ -52,6 +52,23 @@ export const updateTeacher = createAsyncThunk(
 	}
 )
 
+export const updateClassTeacher = createAsyncThunk(
+	'teacher/updateClassTeacher',
+	async (id, thunkAPI) => {
+		try {
+			const teacher = await teacherAPI.updateClassTeacher(id)
+
+			if (teacher) {
+				thunkAPI.dispatch(getTeachers())
+			}
+
+			return teacher.data
+		} catch (error) {
+			return thunkAPI.rejectWithValue(error.response)
+		}
+	}
+)
+
 export const deleteTeacher = createAsyncThunk(
 	'teacher/deleteTeacher',
 	async (id, thunkAPI) => {
@@ -70,8 +87,18 @@ const teacherAccountSlice = createSlice({
 		teachers: [],
 		teachersLoading: false,
 		teachersError: '',
+		teacher: null,
+		teacherLoading: false,
+		teacherError: '',
 	},
-	reducers: {},
+	reducers: {
+		emptyTeacher: (state) => {
+			state.teacher = null
+		},
+		setTeacher: (state, action) => {
+			console.log(action.payload)
+		},
+	},
 	extraReducers: {
 		[getTeachers.pending]: (state) => {
 			state.teachersLoading = true
@@ -83,8 +110,18 @@ const teacherAccountSlice = createSlice({
 		[getTeachers.rejected]: (state) => {
 			state.teachersError = 'error'
 		},
+		[getTeacher.pending]: (state) => {
+			state.teacherLoading = true
+		},
+		[getTeacher.fulfilled]: (state, action) => {
+			state.teacherLoading = false
+			state.teacher = action.payload.data
+		},
+		[getTeacher.rejected]: (state) => {
+			state.teacherError = 'error'
+		},
 	},
 })
 
-export const {} = teacherAccountSlice.actions
+export const { emptyTeacher, setTeacher } = teacherAccountSlice.actions
 export default teacherAccountSlice.reducer

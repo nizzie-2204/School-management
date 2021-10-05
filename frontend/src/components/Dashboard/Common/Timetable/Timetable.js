@@ -16,12 +16,17 @@ import {
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import addDays from 'date-fns/addDays'
 import startOfWeek from 'date-fns/startOfWeek'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import TableCellSubject from './components/TableCellSubject/TableCellSubject'
 import useStyles from './styles'
-
+import {
+	emptyTeacher,
+	getTeacher,
+} from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
 import { useSelector } from 'react-redux'
+import { getClass } from '../Class/classSlice'
+import { useDispatch } from 'react-redux'
 const links = [
 	{
 		title: 'Dashboard',
@@ -47,10 +52,30 @@ for (let i = 1; i < 6; i++) {
 
 const Timetable = () => {
 	const classes = useStyles()
+	const dispatch = useDispatch()
 	const classesFromStore = useSelector((state) => state.classes.classes)
-	const [subject, setSubject] = useState('')
-	const handleChangeSubject = (event) => {
-		setSubject(event.target.value)
+
+	const [selectedClass, setSelectedClass] = useState('')
+	const handleChangeClass = (e) => {
+		setSelectedClass(e.target.value)
+		const action = getClass(e.target.value)
+		dispatch(action)
+			.unwrap()
+			.then((res) => {
+				console.log(res)
+				if (res?.data?.teacherId) {
+					const action = getTeacher(res?.data?.teacherId._id)
+					dispatch(action)
+						.unwrap()
+						.then((res) => {
+							console.log(res)
+						})
+						.catch((error) => console.log(error))
+				} else {
+					const action = emptyTeacher()
+					dispatch(action)
+				}
+			})
 	}
 
 	return (
@@ -65,20 +90,21 @@ const Timetable = () => {
 				<Box className={classes.content}>
 					<Box className={classes.top}>
 						<Typography variant="body1" className={classes.title}>
-							Thời khóa biểu
+							Lớp
 						</Typography>
 						<FormControl variant="outlined" className={classes.selectClass}>
-							<InputLabel
+							{/* <InputLabel
 								id="demo-simple-select-outlined-label"
 								style={{ color: '#000' }}
+								className={classes.label}
 							>
 								Lớp
-							</InputLabel>
+							</InputLabel> */}
 							<Select
 								labelId="demo-simple-select-outlined-label"
 								id="demo-simple-select-outlined"
-								value={subject}
-								onChange={handleChangeSubject}
+								value={selectedClass}
+								onChange={handleChangeClass}
 							>
 								{classesFromStore?.map((thisClass) => {
 									return (

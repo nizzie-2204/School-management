@@ -132,7 +132,8 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 				email: thisTeacher.email,
 				teacherType: thisTeacher?.teacherType?._id,
 			})
-			setPhoneInput(`84 ${thisTeacher.phone}`)
+			console.log(thisTeacher.phone)
+			setPhoneInput(`84${thisTeacher.phone.slice(1)}`)
 		}
 	}, [thisTeacher])
 

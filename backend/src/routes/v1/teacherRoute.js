@@ -5,6 +5,7 @@ const {
 	getTeacher,
 	updateTeacher,
 	deleteTeacher,
+	updateClassTeacher,
 } = require('../../controllers/teacherController')
 const { permit } = require('../../middlewares/permit')
 const { verifyToken } = require('../../middlewares/auth')
@@ -20,5 +21,6 @@ Router.route('/teachers/:id')
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getTeacher)
 	.put(verifyToken, permit('admin'), updateTeacher)
 	.delete(verifyToken, permit('admin'), deleteTeacher)
+	.patch(verifyToken, permit('admin'), updateClassTeacher)
 
 module.exports = Router

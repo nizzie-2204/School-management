@@ -20,6 +20,15 @@ const useStyles = makeStyles((theme) => ({
 		textTransform: 'uppercase',
 		marginRight: '20px',
 	},
+	subTitle: {
+		fontSize: '16px',
+		fontWeight: '400',
+		marginLeft: '20px',
+	},
+	label: {
+		backgroundColor: theme.palette.background.paper,
+		padding: '0 8px',
+	},
 	select: {
 		width: '200px',
 		fontSize: '14px',
