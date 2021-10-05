@@ -94,7 +94,7 @@ const AddEditAccount = ({ open, handleClose, currClass }) => {
 				grade: currClass.grade,
 			})
 		}
-	}, [currClass])
+	}, [currClass, reset])
 
 	return (
 		<Modal

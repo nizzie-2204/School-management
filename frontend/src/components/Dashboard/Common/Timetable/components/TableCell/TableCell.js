@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react'
-import useStyles from './styles'
 import {
 	Button,
-	TableCell,
-	Popover,
-	Typography,
 	FormControl,
 	InputLabel,
 	MenuItem,
 	Select,
+	TableCell,
+	Typography,
 } from '@material-ui/core'
-import { useDispatch, useSelector } from 'react-redux'
-import { setTimeTable } from '../../timetableSlice'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
 import { emptyClass } from 'components/Dashboard/Common/Class/classSlice'
-import { setTeacher } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import useStyles from './styles'
 
 const Lession = ({ row, index, cell }) => {
 	const classes = useStyles()
@@ -52,7 +49,6 @@ const Lession = ({ row, index, cell }) => {
 		const a = teachersOfThisClass.filter((teacher) => {
 			return teacher.teacherType.subjects.includes(e.target.value)
 		})
-		console.log(a)
 
 		setAsd(a)
 	}
@@ -128,7 +124,7 @@ const Lession = ({ row, index, cell }) => {
 	useEffect(() => {
 		const action = emptyClass()
 		dispatch(action)
-	}, [])
+	}, [dispatch])
 
 	return (
 		<>

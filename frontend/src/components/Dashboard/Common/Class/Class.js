@@ -86,7 +86,7 @@ const Class = () => {
 			dispatch(action)
 		}
 		fetchClasses()
-	}, [])
+	}, [dispatch])
 
 	// Search
 	const [searchTerm, setSearchTerm] = useState('')
@@ -217,6 +217,7 @@ const Class = () => {
 											) {
 												return thisClass
 											}
+											return false
 										})
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((classFromStore, index) => (
@@ -300,6 +301,7 @@ const Class = () => {
 									) {
 										return thisClass
 									}
+									return false
 								}).length
 							}
 							rowsPerPage={rowsPerPage}

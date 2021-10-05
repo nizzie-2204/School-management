@@ -13,7 +13,6 @@ const HeaderContainer = () => {
 		return null
 	} else if (isLoggedIn && location.pathname.includes('/dashboard')) {
 		// Dashboard
-		console.log('private')
 		return <PrivateHeader />
 	} else {
 		return <PublicHeader />

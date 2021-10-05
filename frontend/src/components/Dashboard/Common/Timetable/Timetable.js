@@ -1,7 +1,6 @@
 import {
 	Box,
 	FormControl,
-	InputLabel,
 	MenuItem,
 	Paper,
 	Select,
@@ -14,19 +13,18 @@ import {
 	Typography,
 } from '@material-ui/core'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import addDays from 'date-fns/addDays'
-import startOfWeek from 'date-fns/startOfWeek'
-import React, { useState, useEffect } from 'react'
-import { Helmet } from 'react-helmet-async'
-import TableCellSubject from './components/TableCellSubject/TableCellSubject'
-import useStyles from './styles'
 import {
 	emptyTeacher,
 	getTeacher,
 } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
-import { useSelector } from 'react-redux'
+import addDays from 'date-fns/addDays'
+import startOfWeek from 'date-fns/startOfWeek'
+import React, { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { useDispatch, useSelector } from 'react-redux'
 import { getClass } from '../Class/classSlice'
-import { useDispatch } from 'react-redux'
+import TableCellSubject from './components/TableCellSubject/TableCellSubject'
+import useStyles from './styles'
 const links = [
 	{
 		title: 'Dashboard',

@@ -1,17 +1,16 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Button, TextField, Typography } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
+import { unwrapResult } from '@reduxjs/toolkit'
 import { useSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
-import useStyles from './styles'
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
-import { useDispatch, useSelector } from 'react-redux'
 import { addSubject, updateSubject } from '../subjectSlice'
-
-import { unwrapResult } from '@reduxjs/toolkit'
+import useStyles from './styles'
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
@@ -21,7 +20,7 @@ const schema = yup.object().shape({
 const AddEditAccount = ({ open, handleClose, subject }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset } = useForm({
 		resolver: yupResolver(schema),
 	})

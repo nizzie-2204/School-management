@@ -12,7 +12,7 @@ import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice
 
 const DeleteAlert = ({ open, handleClose, student }) => {
 	const classes = useStyles()
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
 	const handleDeleteAccount = () => {

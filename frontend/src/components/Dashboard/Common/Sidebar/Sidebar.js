@@ -20,7 +20,6 @@ import SpeedIcon from '@material-ui/icons/Speed'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import useStyles from './styles'
-import SimpleBarReact from 'simplebar-react'
 
 const Sidebar = () => {
 	const classes = useStyles()

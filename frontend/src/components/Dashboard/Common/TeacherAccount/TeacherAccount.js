@@ -21,7 +21,6 @@ import ClearIcon from '@material-ui/icons/Clear'
 import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
-import VisibilityIcon from '@material-ui/icons/Visibility'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
@@ -49,7 +48,6 @@ const links = [
 
 const TeacherAccount = () => {
 	const classes = useStyles()
-	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const dispatch = useDispatch()
 	const teachers = useSelector((state) => state.teacher.teachers)
 	const teachersLoading = useSelector((state) => state.teacher.teachersLoading)
@@ -90,7 +88,7 @@ const TeacherAccount = () => {
 		}
 
 		fetchTeachers()
-	}, [])
+	}, [dispatch])
 
 	// Search
 	const [searchTerm, setSearchTerm] = useState('')
@@ -117,7 +115,7 @@ const TeacherAccount = () => {
 			dispatch(action)
 		}
 		fetchTeachers()
-	}, [])
+	}, [dispatch])
 
 	return (
 		<>
@@ -233,6 +231,7 @@ const TeacherAccount = () => {
 											) {
 												return teacher
 											}
+											return false
 										})
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((teacher, index) => (
@@ -327,6 +326,7 @@ const TeacherAccount = () => {
 									) {
 										return teacher
 									}
+									return false
 								}).length
 							}
 							rowsPerPage={rowsPerPage}

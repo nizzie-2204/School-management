@@ -11,7 +11,7 @@ import useStyles from './styles'
 
 const DeleteAlert = ({ open, handleClose, thisClass }) => {
 	const classes = useStyles()
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
 	const handleDeleteClass = () => {

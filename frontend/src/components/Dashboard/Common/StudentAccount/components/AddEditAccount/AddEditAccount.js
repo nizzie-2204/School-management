@@ -58,7 +58,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const classesFromStore = useSelector((state) => state.classes.classes)
-	const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 	})
@@ -303,7 +303,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								{...register('gender')}
 								required
 								render={({ field }) => {
-									const { name, onBlur, onChange, value } = field
+									const { onBlur, onChange, value } = field
 									return (
 										<RadioGroup
 											row

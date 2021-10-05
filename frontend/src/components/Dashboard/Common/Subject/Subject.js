@@ -92,7 +92,7 @@ const Subject = () => {
 		dispatch(action)
 			.then(unwrapResult)
 			.catch((error) => console.error(error))
-	}, [])
+	}, [dispatch])
 
 	// Pagination
 	const [page, setPage] = useState(0)
@@ -219,6 +219,7 @@ const Subject = () => {
 											) {
 												return subject
 											}
+											return false
 										})
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((subject, index) => (
@@ -300,6 +301,7 @@ const Subject = () => {
 									) {
 										return subject
 									}
+									return false
 								}).length
 							}
 							rowsPerPage={rowsPerPage}

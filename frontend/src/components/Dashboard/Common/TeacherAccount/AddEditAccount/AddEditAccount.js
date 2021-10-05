@@ -192,7 +192,7 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 								{...register('gender')}
 								required
 								render={({ field }) => {
-									const { name, onBlur, onChange, value } = field
+									const { onBlur, onChange, value } = field
 									return (
 										<RadioGroup
 											row

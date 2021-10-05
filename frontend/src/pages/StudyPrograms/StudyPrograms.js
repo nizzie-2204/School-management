@@ -1,25 +1,21 @@
 import {
 	Card,
 	CardContent,
-	CardMedia,
 	Container,
 	Grid,
 	Typography,
 } from '@material-ui/core'
-import image4 from 'assets/images/academy.png'
-import image3 from 'assets/images/class.png'
-import image2 from 'assets/images/education.png'
+import ClassIcon from '@material-ui/icons/Class'
+import DirectionsBusIcon from '@material-ui/icons/DirectionsBus'
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital'
+import PanToolIcon from '@material-ui/icons/PanTool'
+import RecentActorsIcon from '@material-ui/icons/RecentActors'
+import SportsBasketballIcon from '@material-ui/icons/SportsBasketball'
 import Breadcrumb from 'components/Homepage/Breadcrumb/Breadcrumb'
 import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Fade from 'react-reveal/Fade'
 import { useStyles } from './styles'
-import ClassIcon from '@material-ui/icons/Class'
-import PanToolIcon from '@material-ui/icons/PanTool'
-import DirectionsBusIcon from '@material-ui/icons/DirectionsBus'
-import SportsBasketballIcon from '@material-ui/icons/SportsBasketball'
-import RecentActorsIcon from '@material-ui/icons/RecentActors'
-import LocalHospitalIcon from '@material-ui/icons/LocalHospital'
 
 const links = [
 	{

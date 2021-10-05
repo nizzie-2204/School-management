@@ -95,7 +95,7 @@ const TypeTeacher = () => {
 		dispatch(action)
 			.then(unwrapResult)
 			.catch((error) => console.error(error))
-	}, [])
+	}, [dispatch])
 
 	// Pagination
 	const [page, setPage] = useState(0)
@@ -224,6 +224,7 @@ const TypeTeacher = () => {
 												) {
 													return typeTeacher
 												}
+												return false
 											})
 											.slice(
 												page * rowsPerPage,
@@ -308,6 +309,7 @@ const TypeTeacher = () => {
 									) {
 										return typeTeacher
 									}
+									return false
 								}).length
 							}
 							rowsPerPage={rowsPerPage}

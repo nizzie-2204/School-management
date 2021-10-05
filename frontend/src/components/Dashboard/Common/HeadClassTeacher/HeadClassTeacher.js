@@ -12,23 +12,18 @@ import {
 	TableRow,
 	TextField,
 	Tooltip,
-	Typography,
 } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
-import BuildIcon from '@material-ui/icons/Build'
-import DeleteIcon from '@material-ui/icons/Delete'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import CreateIcon from '@material-ui/icons/Create'
 import SearchIcon from '@material-ui/icons/Search'
-import VisibilityIcon from '@material-ui/icons/Visibility'
 import { unwrapResult } from '@reduxjs/toolkit'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
-import CreateIcon from '@material-ui/icons/Create'
-import useStyles from './styles'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import { getClasses } from '../Class/classSlice'
 import AddEditPage from './AddEditPage/AddEditPage'
+import useStyles from './styles'
 
 const links = [
 	{
@@ -89,7 +84,7 @@ const HeadClassTeacher = () => {
 				console.log(classesFromStore)
 			})
 			.catch((error) => console.error(error))
-	}, [])
+	}, [dispatch])
 
 	return (
 		<>
@@ -177,45 +172,44 @@ const HeadClassTeacher = () => {
 											) {
 												return thisClass
 											}
+											return false
 										})
 										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 										.map((thisClass, index) => (
-											<>
-												<TableRow key={thisClass._id}>
-													<TableCell
-														align="center"
-														component="th"
-														scope="row"
-														className={classes.limitText}
-													>
-														{thisClass.name}
-													</TableCell>
-													<TableCell align="center">
-														{`Khối ${thisClass.grade}`}
-													</TableCell>
-													<TableCell align="center">
-														{`Năm học ${thisClass.schoolYear}`}
-													</TableCell>
-													<TableCell align="center">
-														{thisClass?.teacherId?.name}
-													</TableCell>
+											<TableRow key={thisClass._id}>
+												<TableCell
+													align="center"
+													component="th"
+													scope="row"
+													className={classes.limitText}
+												>
+													{thisClass.name}
+												</TableCell>
+												<TableCell align="center">
+													{`Khối ${thisClass.grade}`}
+												</TableCell>
+												<TableCell align="center">
+													{`Năm học ${thisClass.schoolYear}`}
+												</TableCell>
+												<TableCell align="center">
+													{thisClass?.teacherId?.name}
+												</TableCell>
 
-													<TableCell align="center">
-														<Tooltip title="Chỉnh sửa">
-															<IconButton
-																onClick={() => {
-																	handleOpen(thisClass)
-																}}
-															>
-																<CreateIcon
-																	fontSize="small"
-																	style={{ color: '#5278db' }}
-																/>
-															</IconButton>
-														</Tooltip>
-													</TableCell>
-												</TableRow>
-											</>
+												<TableCell align="center">
+													<Tooltip title="Chỉnh sửa">
+														<IconButton
+															onClick={() => {
+																handleOpen(thisClass)
+															}}
+														>
+															<CreateIcon
+																fontSize="small"
+																style={{ color: '#5278db' }}
+															/>
+														</IconButton>
+													</Tooltip>
+												</TableCell>
+											</TableRow>
 										))}
 								</TableBody>
 
@@ -241,6 +235,7 @@ const HeadClassTeacher = () => {
 									) {
 										return thisClass
 									}
+									return false
 								}).length
 							}
 							rowsPerPage={rowsPerPage}

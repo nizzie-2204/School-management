@@ -30,18 +30,6 @@ import DeleteAlert from './components/DeleteAlert/DeleteAlert'
 import { getStudents } from './studentAccountSlice'
 import useStyles from './styles'
 
-function createData(name, calories, fat, carbs, protein) {
-	return { name, calories, fat, carbs }
-}
-
-const rows = [
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-	createData(1, 'Nguyễn Văn A', '12/02/2021', '12/02/2021'),
-]
-
 const links = [
 	{
 		title: 'Dashboard',
@@ -63,7 +51,6 @@ const StudentAccount = () => {
 	const students = useSelector((state) => state.student.students)
 	const studentsLoading = useSelector((state) => state.student.studentsLoading)
 
-	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [thisStudent, setThisStudent] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => {
@@ -109,7 +96,7 @@ const StudentAccount = () => {
 				.catch((error) => console.log(error))
 		}
 		fetchStudents()
-	}, [])
+	}, [dispatch])
 
 	return (
 		<>

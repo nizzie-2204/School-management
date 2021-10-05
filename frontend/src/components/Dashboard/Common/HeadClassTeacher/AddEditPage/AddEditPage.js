@@ -52,11 +52,9 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 			teacherId: thisClass?.teacherId?._id,
 		},
 	})
-	const [error, setError] = useState(null)
 
 	const handleUpdateTeacher = (data) => {
 		if (!thisClass?.teacherId?._id && data.teacherId) {
-			alert('Chưa có giáo viên chủ nhiệm')
 			const newData = { _id: thisClass?._id, teacherId: data.teacherId }
 			const action = updateClass(newData)
 			dispatch(action)
@@ -82,14 +80,9 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 					console.log(error)
 				})
 		} else if (thisClass.teacherId._id === data.teacherId) {
-			alert('Có giáo viên chủ nhiệm và không đôi')
 			handleClose()
 			reset()
 		} else if (thisClass.teacherId._id !== data.teacherId) {
-			alert('Có giáo viên chủ nhiệm và đôi giáo viên mới')
-
-			// Remove class for old teacher
-
 			// Update new teacher for this class
 			const newData = { _id: thisClass?._id, teacherId: data.teacherId }
 			const action = updateClass(newData)
@@ -101,6 +94,7 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 			dispatch(action2)
 				.then(unwrapResult)
 				.then(() => {
+					// Remove class for old teacher
 					const action3 = updateClassTeacher(thisClass.teacherId._id)
 					dispatch(action3).catch((error) => console.log(error))
 				})
@@ -155,7 +149,7 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 					<Typography className={classes.formTitle} variant="h5">
 						Chỉnh sửa giáo viên chủ nhiệm
 					</Typography>
-					{error && <p className={classes.error}>{error}</p>}
+
 					<div className={classes.inputGroup} style={{ width: '100%' }}>
 						<TextField
 							className={classes.root}

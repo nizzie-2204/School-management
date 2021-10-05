@@ -1,10 +1,8 @@
-import React from 'react'
 import Footer from 'components/Homepage/Footer/Footer'
-import { useSelector } from 'react-redux'
+import React from 'react'
 import { useLocation } from 'react-router-dom'
 
 const FooterContainer = () => {
-	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 	const location = useLocation()
 
 	if (
