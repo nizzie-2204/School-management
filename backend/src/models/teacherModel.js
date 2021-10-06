@@ -36,19 +36,19 @@ const teacherSchema = new mongoose.Schema(
 				content: [
 					{
 						day: { type: String, required: true, default: 'Monday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Tuesday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Wednesday' },
@@ -126,43 +126,43 @@ const teacherSchema = new mongoose.Schema(
 				content: [
 					{
 						day: { type: String, required: true, default: 'Monday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Tuesday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Wednesday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Thursday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Friday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 				],
 			},
@@ -171,43 +171,43 @@ const teacherSchema = new mongoose.Schema(
 				content: [
 					{
 						day: { type: String, required: true, default: 'Monday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Tuesday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Wednesday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Thursday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 					{
 						day: { type: String, required: true, default: 'Friday' },
-						subject: {
+						subjectId: {
 							type: Schema.Types.ObjectId,
 							ref: 'Subject',
 						},
-						class: { type: Schema.Types.ObjectId, ref: 'Class' },
+						classId: { type: Schema.Types.ObjectId, ref: 'Class' },
 					},
 				],
 			},

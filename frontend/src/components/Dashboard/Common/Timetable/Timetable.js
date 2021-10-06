@@ -60,14 +60,11 @@ const Timetable = () => {
 		dispatch(action)
 			.unwrap()
 			.then((res) => {
-				console.log(res)
 				if (res?.data?.teacherId) {
 					const action = getTeacher(res?.data?.teacherId._id)
 					dispatch(action)
 						.unwrap()
-						.then((res) => {
-							console.log(res)
-						})
+
 						.catch((error) => console.log(error))
 				} else {
 					const action = emptyTeacher()
@@ -106,7 +103,9 @@ const Timetable = () => {
 							>
 								{classesFromStore?.map((thisClass) => {
 									return (
-										<MenuItem value={thisClass._id}>{thisClass.name}</MenuItem>
+										<MenuItem key={thisClass._id} value={thisClass._id}>
+											{thisClass.name}
+										</MenuItem>
 									)
 								})}
 							</Select>

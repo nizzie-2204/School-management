@@ -40,13 +40,98 @@ const AddEditAccount = ({ open, handleClose, currClass }) => {
 		setThisClass(e.target.value)
 	}
 
-	const [year, setyear] = useState(null)
+	const [year, setYear] = useState(null)
 	const handleChangeYear = (e) => {
-		setyear(e.target.value)
+		setYear(e.target.value)
 	}
 
 	const handleAddClass = (data) => {
-		const newData = { ...data, grade: parseInt(data.grade) }
+		const newData = {
+			...data,
+			grade: parseInt(data.grade),
+			timetable: [
+				{
+					time: '07:30 - 08:05',
+					content: [
+						{
+							day: 'Monday',
+						},
+						{
+							day: 'Tuesday',
+						},
+						{
+							day: 'Wednesday',
+						},
+						{
+							day: 'Thursday',
+						},
+						{
+							day: 'Friday',
+						},
+					],
+				},
+				{
+					time: '08:10 - 08:45',
+					content: [
+						{
+							day: 'Monday',
+						},
+						{
+							day: 'Tuesday',
+						},
+						{
+							day: 'Wednesday',
+						},
+						{
+							day: 'Thursday',
+						},
+						{
+							day: 'Friday',
+						},
+					],
+				},
+				{
+					time: '09:10 - 09:45',
+					content: [
+						{
+							day: 'Monday',
+						},
+						{
+							day: 'Tuesday',
+						},
+						{
+							day: 'Wednesday',
+						},
+						{
+							day: 'Thursday',
+						},
+						{
+							day: 'Friday',
+						},
+					],
+				},
+				{
+					time: '09:50 - 10:25',
+					content: [
+						{
+							day: 'Monday',
+						},
+						{
+							day: 'Tuesday',
+						},
+						{
+							day: 'Wednesday',
+						},
+						{
+							day: 'Thursday',
+						},
+						{
+							day: 'Friday',
+						},
+					],
+				},
+			],
+		}
 		const action = addClass(newData)
 		dispatch(action)
 			.then(unwrapResult)

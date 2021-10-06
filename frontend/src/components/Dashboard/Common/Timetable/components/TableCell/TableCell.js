@@ -14,10 +14,12 @@ import { emptyClass } from 'components/Dashboard/Common/Class/classSlice'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useStyles from './styles'
+import { useSnackbar } from 'notistack'
 
-const Lession = ({ row, index, cell }) => {
+const Lesson = ({ row, index, cell, prevIndex }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
+	const { enqueueSnackbar } = useSnackbar()
 
 	const subjects = useSelector((state) => state.subjects.subjects)
 	const classFromStore = useSelector((state) => state.classes.class)
@@ -46,22 +48,35 @@ const Lession = ({ row, index, cell }) => {
 	const handleChangeSubject = (e) => {
 		setSubject(e.target.value)
 
-		const a = teachersOfThisClass.filter((teacher) => {
+		// Filtering these teachers teach this subject
+		const theseTeachers = teachersOfThisClass.filter((teacher) => {
 			return teacher.teacherType.subjects.includes(e.target.value)
 		})
 
-		setAsd(a)
+		// Check if these teachers teach this class or not
+		const timetableTeachers = theseTeachers?.filter((teacher) => {
+			return !teacher.timetable[prevIndex].content[index].subjectId
+		})
+
+		theseTeachers?.forEach((teacher) => {
+			console.log(teacher.timetable[prevIndex].content[index].subjectId)
+		})
+
+		console.log(timetableTeachers)
+
+		setAsd(timetableTeachers)
+
+		// console.log(theseTeachers)
+		// console.log(timetableTeachers)
+		// if (!Boolean(timetableTeachers?.content[index]?.subjectId)) {
+		//
+		// }
+		// console.log(timetableTeachers)
 	}
 
 	const [teacher, setTeacher] = useState([])
 	const handleChangeTeacher = (e) => {
 		setTeacher(e.target.value)
-
-		// const selectedTeacher = teachersFromStore.find((teacher) => {
-		// 	return teacher._id === e.target.value
-		// })
-
-		// console.log(selectedTeacher)
 	}
 
 	let newRow = {
@@ -104,21 +119,48 @@ const Lession = ({ row, index, cell }) => {
 		if (subject === '' || teacher === '') {
 			return
 		}
+		console.log('Default value: ', row)
+		console.log(`             : `, row.content[index])
+		console.log('SubjectId: ', subject)
+		console.log('TeacherId: ', teacher)
+		console.log('ClassId: ', classFromStore?._id)
+		// setLesson({ ...lesson, subject: subject, teacher: teacher })
 
-		setLesson({ ...lesson, subject: subject, teacher: teacher })
+		// newRow.content[index] = {
+		// 	...newRow.content[index],
+		// 	subjectId: subject,
+		// 	teacherId: teacher,
+		// }
 
-		newRow.content[index] = {
-			...newRow.content[index],
-			subjectId: subject,
-			teacherId: teacher,
-		}
+		// Create new timetable of class
+		// const thisTime = teacherFromStore?.timetable?.find((time) => {
+		// 	return time.time === '07:30 - 08:05'
+		// })
+		// const x = thisTime.content.find((a) => {
+		// 	return a.day === 'Monday'
+		// })
+		// const newSubject = { ...x, subjectId: '61497e9d9951167afbbfe5c8' }
+		// const a = thisTime.content.filter((x) => {
+		// 	return x.day !== newSubject.day
+		// })
+		// const b = [...a, newSubject]
+		// const c = { ...thisTime, content: b }
+		// const d = teacherFromStore.timetable.filter((x) => {
+		// 	return x.time !== c.time
+		// })
+		// const e = [c, ...d]
+		// console.table("New timetable's class: ", e)
+		// const timetableClass = classFromStore?.timetable.find((x) => {
+		// 	return x.time === row.time
+		// })
+		// console.log([
+		// 	"Current timetable's class: ",
+		// 	timetableClass,
+		// 	timetableClass.content[index],
+		// ])
 
-		console.log(subject)
-		console.log(teacherFromStore.teacherType.subjects.includes(subject))
-		// const action = setTimeTable({ newRow, index })
-		// dispatch(action)
-
-		// handleClose()
+		// console.log(['Subject and time: ', row, row.content[index]])
+		// console.log(asd)
 	}
 
 	useEffect(() => {
@@ -133,6 +175,10 @@ const Lession = ({ row, index, cell }) => {
 					if (classFromStore) {
 						handleOpen()
 					} else {
+						enqueueSnackbar('Chọn lớp đề sắp xếp thời khóa biểu', {
+							variant: 'error',
+							autoHideDuration: 3000,
+						})
 						return
 					}
 				}}
@@ -174,7 +220,11 @@ const Lession = ({ row, index, cell }) => {
 								label="Lớp"
 							>
 								{subjects?.map((subject) => {
-									return <MenuItem value={subject._id}>{subject.name}</MenuItem>
+									return (
+										<MenuItem key={subject._id} value={subject._id}>
+											{subject.name}
+										</MenuItem>
+									)
 								})}
 							</Select>
 						</FormControl>
@@ -208,4 +258,4 @@ const Lession = ({ row, index, cell }) => {
 	)
 }
 
-export default Lession
+export default Lesson

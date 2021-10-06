@@ -68,6 +68,88 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 			const newData = {
 				...data,
 				phone: `0${phoneInput?.slice(2)}`,
+				timetable: [
+					{
+						time: '07:30 - 08:05',
+						content: [
+							{
+								day: 'Monday',
+							},
+							{
+								day: 'Tuesday',
+							},
+							{
+								day: 'Wednesday',
+							},
+							{
+								day: 'Thursday',
+							},
+							{
+								day: 'Friday',
+							},
+						],
+					},
+					{
+						time: '08:10 - 08:45',
+						content: [
+							{
+								day: 'Monday',
+							},
+							{
+								day: 'Tuesday',
+							},
+							{
+								day: 'Wednesday',
+							},
+							{
+								day: 'Thursday',
+							},
+							{
+								day: 'Friday',
+							},
+						],
+					},
+					{
+						time: '09:10 - 09:45',
+						content: [
+							{
+								day: 'Monday',
+							},
+							{
+								day: 'Tuesday',
+							},
+							{
+								day: 'Wednesday',
+							},
+							{
+								day: 'Thursday',
+							},
+							{
+								day: 'Friday',
+							},
+						],
+					},
+					{
+						time: '09:50 - 10:25',
+						content: [
+							{
+								day: 'Monday',
+							},
+							{
+								day: 'Tuesday',
+							},
+							{
+								day: 'Wednesday',
+							},
+							{
+								day: 'Thursday',
+							},
+							{
+								day: 'Friday',
+							},
+						],
+					},
+				],
 			}
 			const action = addTeacher(newData)
 			dispatch(action)

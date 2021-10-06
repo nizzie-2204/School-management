@@ -80,9 +80,6 @@ const HeadClassTeacher = () => {
 		const action = getClasses()
 		dispatch(action)
 			.then(unwrapResult)
-			.then(() => {
-				console.log(classesFromStore)
-			})
 			.catch((error) => console.error(error))
 	}, [dispatch])
 
