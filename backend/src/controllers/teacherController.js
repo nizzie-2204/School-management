@@ -81,7 +81,13 @@ exports.updateTeacher = async (req, res, next) => {
 
 exports.updateClassAndTimetable = async (req, res, next) => {
 	try {
-		if (req.body) {
+		if (
+			req.body.time &&
+			req.body.day &&
+			req.body.subjectId &&
+			req.body.classId &&
+			req.body.teacherId
+		) {
 			const newTimetable = await Teacher.updateOne(
 				{
 					_id: req.body.teacherId,
@@ -90,6 +96,40 @@ exports.updateClassAndTimetable = async (req, res, next) => {
 					$set: {
 						'timetable.$[outer].content.$[inner].subjectId': req.body.subjectId,
 						'timetable.$[outer].content.$[inner].classId': req.body.classId,
+					},
+				},
+				{
+					arrayFilters: [
+						{
+							'outer._id': req.body.time,
+						},
+						{
+							'inner._id': req.body.day,
+						},
+					],
+				}
+			)
+
+			res.status(200).json({
+				status: 'success',
+				message: 'Update timetable successfully',
+			})
+		} else if (
+			// req.body.time &&
+			// req.body.day &&
+			!req.body.subjectId &&
+			!req.body.classId
+			// &&
+			// req.body.teacherId
+		) {
+			const newTimetable = await Teacher.updateOne(
+				{
+					_id: req.body.teacherId,
+				},
+				{
+					$unset: {
+						'timetable.$[outer].content.$[inner].subjectId': '',
+						'timetable.$[outer].content.$[inner].classId': '',
 					},
 				},
 				{
