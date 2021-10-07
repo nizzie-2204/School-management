@@ -45,6 +45,10 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 
 	const [asd, setAsd] = useState([])
 	const [subject, setSubject] = useState('')
+
+	const [displaySubject, setDisplaySubject] = useState(null)
+	const [displayTeacher, setDisplayTeacher] = useState(null)
+
 	const handleChangeSubject = (e) => {
 		setSubject(e.target.value)
 
@@ -57,21 +61,8 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 		const timetableTeachers = theseTeachers?.filter((teacher) => {
 			return !teacher.timetable[prevIndex].content[index].subjectId
 		})
-
-		theseTeachers?.forEach((teacher) => {
-			console.log(teacher.timetable[prevIndex].content[index].subjectId)
-		})
-
 		console.log(timetableTeachers)
-
 		setAsd(timetableTeachers)
-
-		// console.log(theseTeachers)
-		// console.log(timetableTeachers)
-		// if (!Boolean(timetableTeachers?.content[index]?.subjectId)) {
-		//
-		// }
-		// console.log(timetableTeachers)
 	}
 
 	const [teacher, setTeacher] = useState([])
@@ -79,94 +70,45 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 		setTeacher(e.target.value)
 	}
 
-	let newRow = {
-		time: row?.session,
-		content: [
-			{
-				day: 'Monday',
-				subjectId: '',
-				teacherId: '',
-			},
-			{
-				day: 'Tuesday',
-				subjectId: '',
-				teacherId: '',
-			},
-			{
-				day: 'Wednesday',
-				subjectId: '',
-				teacherId: '',
-			},
-			{
-				day: 'Thursday',
-				subjectId: '',
-				teacherId: '',
-			},
-			{
-				day: 'Friday',
-				subjectId: '',
-				teacherId: '',
-			},
-		],
-	}
-
-	const [lesson, setLesson] = useState({
-		subject: '',
-		teacher: '',
-	})
-
 	const handleConfirm = () => {
 		if (subject === '' || teacher === '') {
 			return
 		}
-		console.log('Default value: ', row)
-		console.log(`             : `, row.content[index])
-		console.log('SubjectId: ', subject)
-		console.log('TeacherId: ', teacher)
-		console.log('ClassId: ', classFromStore?._id)
-		// setLesson({ ...lesson, subject: subject, teacher: teacher })
-
-		// newRow.content[index] = {
-		// 	...newRow.content[index],
-		// 	subjectId: subject,
-		// 	teacherId: teacher,
-		// }
-
-		// Create new timetable of class
-		// const thisTime = teacherFromStore?.timetable?.find((time) => {
-		// 	return time.time === '07:30 - 08:05'
-		// })
-		// const x = thisTime.content.find((a) => {
-		// 	return a.day === 'Monday'
-		// })
-		// const newSubject = { ...x, subjectId: '61497e9d9951167afbbfe5c8' }
-		// const a = thisTime.content.filter((x) => {
-		// 	return x.day !== newSubject.day
-		// })
-		// const b = [...a, newSubject]
-		// const c = { ...thisTime, content: b }
-		// const d = teacherFromStore.timetable.filter((x) => {
-		// 	return x.time !== c.time
-		// })
-		// const e = [c, ...d]
-		// console.table("New timetable's class: ", e)
-		// const timetableClass = classFromStore?.timetable.find((x) => {
-		// 	return x.time === row.time
-		// })
-		// console.log([
-		// 	"Current timetable's class: ",
-		// 	timetableClass,
-		// 	timetableClass.content[index],
-		// ])
-
-		// console.log(['Subject and time: ', row, row.content[index]])
-		// console.log(asd)
 	}
 
 	useEffect(() => {
 		const action = emptyClass()
 		dispatch(action)
-	}, [dispatch])
+	}, [])
+
+	useEffect(() => {
+		if (cell) {
+			setSubject(cell?.subjectId)
+			setTeacher(cell?.teacherId)
+
+			setDisplayTeacher(() => {
+				return teachersFromStore.find((teacher) => {
+					return teacher._id === cell?.teacherId
+				})
+			})
+
+			setDisplaySubject(() => {
+				return subjects.find((subject) => {
+					return subject._id === cell?.subjectId
+				})
+			})
+
+			const theseTeachers = teachersOfThisClass.filter((teacher) => {
+				return teacher.teacherType.subjects.includes(cell?.subjectId)
+			})
+
+			// Check if these teachers teach this class or not
+			const timetableTeachers = theseTeachers?.filter((teacher) => {
+				return !teacher.timetable[prevIndex].content[index].subjectId
+			})
+			setAsd(timetableTeachers)
+		}
+	}, [classFromStore])
 
 	return (
 		<>
@@ -185,8 +127,8 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 				className={classes.tableCell}
 				align="center"
 			>
-				<div>{lesson.subject}</div>
-				<div className={classes.titleSmall}>{lesson.teacher}</div>
+				<div>{displaySubject?.name}</div>
+				<div className={classes.titleSmall}>{displayTeacher?.name}</div>
 			</TableCell>
 			<Modal
 				aria-labelledby="transition-modal-title"
@@ -241,7 +183,6 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 								value={teacher}
 								onChange={handleChangeTeacher}
 								label="Lớp"
-								defaultValue=""
 							>
 								{asd?.map((teacher) => {
 									return <MenuItem value={teacher._id}>{teacher.name}</MenuItem>

@@ -1,4 +1,4 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = [
 	{
@@ -6,28 +6,18 @@ const initialState = [
 		content: [
 			{
 				day: 'Monday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Tuesday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Wednesday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Thursday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Friday',
-				subjectId: '',
-				teacherId: '',
 			},
 		],
 	},
@@ -36,28 +26,18 @@ const initialState = [
 		content: [
 			{
 				day: 'Monday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Tuesday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Wednesday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Thursday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Friday',
-				subjectId: '',
-				teacherId: '',
 			},
 		],
 	},
@@ -66,28 +46,18 @@ const initialState = [
 		content: [
 			{
 				day: 'Monday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Tuesday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Wednesday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Thursday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Friday',
-				subjectId: '',
-				teacherId: '',
 			},
 		],
 	},
@@ -96,28 +66,18 @@ const initialState = [
 		content: [
 			{
 				day: 'Monday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Tuesday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Wednesday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Thursday',
-				subjectId: '',
-				teacherId: '',
 			},
 			{
 				day: 'Friday',
-				subjectId: '',
-				teacherId: '',
 			},
 		],
 	},
@@ -126,19 +86,8 @@ const initialState = [
 const timetableSlice = createSlice({
 	name: 'timetable',
 	initialState,
-	reducers: {
-		setTimeTable: (state, action) => {
-			const currRow = current(state).find((item) => {
-				return item.time === action.payload.newRow.time
-			})
-
-			const indexCurrRow = current(state).indexOf(currRow)
-
-			state[indexCurrRow].content[action.payload.index] =
-				action.payload.newRow.content[action.payload.index]
-		},
-	},
+	reducers: {},
 })
 
-export const { setTimeTable } = timetableSlice.actions
+export const {} = timetableSlice.actions
 export default timetableSlice.reducer
