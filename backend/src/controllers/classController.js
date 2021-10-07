@@ -84,79 +84,82 @@ exports.deleteClass = async (req, res, next) => {
 	}
 }
 
-exports.updateStudentInClass = async (req, res, next) => {
+exports.updateStudentAndTimetable = async (req, res, next) => {
 	try {
-		const newTimetable = await Class.updateOne(
-			{
-				_id: req.body.classId,
-			},
-			{
-				$set: {
-					'timetable.$[outer].content.$[inner].subjectId': req.body.subjectId,
-					'timetable.$[outer].content.$[inner].teacherId': req.body.teacherId,
+		if (req.body.time && req.body.day) {
+			const newTimetable = await Class.updateOne(
+				{
+					_id: req.body.classId,
 				},
-			},
-			{
-				arrayFilters: [
-					{
-						'outer._id': req.body.time,
+				{
+					$set: {
+						'timetable.$[outer].content.$[inner].subjectId': req.body.subjectId,
+						'timetable.$[outer].content.$[inner].teacherId': req.body.teacherId,
 					},
-					{
-						'inner._id': req.body.day,
-					},
-				],
+				},
+				{
+					arrayFilters: [
+						{
+							'outer._id': req.body.time,
+						},
+						{
+							'inner._id': req.body.day,
+						},
+					],
+				}
+			)
+
+			res.status(200).json({
+				status: 'success',
+				message: 'Update timetable successfully',
+				data: newTimetable,
+			})
+		} else {
+			// Add student
+			if (!req.body.oldClassId) {
+				// Push student to new class
+				const newClass = await Class.updateOne(
+					{ _id: req.body.newClassId },
+					{ $addToSet: { students: req.body.studentId } }
+				)
 			}
-		)
 
-		res.status(200).json({
-			status: 'success',
-			message: 'Update timetable successfully',
-			data: newTimetable,
-		})
-		// // Add student
-		// if (!req.body.oldClassId) {
-		// 	// Push student to new class
-		// 	const newClass = await Class.updateOne(
-		// 		{ _id: req.body.newClassId },
-		// 		{ $addToSet: { students: req.body.studentId } }
-		// 	)
-		// }
+			// Delete student
+			else if (!req.body.newClassId) {
+				// Remove student from old class
+				const oldClass = await Class.updateOne(
+					{
+						_id: req.body.oldClassId,
+					},
+					{
+						$pull: { students: req.body.studentId },
+					}
+				)
+			}
 
-		// // Delete student
-		// else if (!req.body.newClassId) {
-		// 	// Remove student from old class
-		// 	const oldClass = await Class.updateOne(
-		// 		{
-		// 			_id: req.body.oldClassId,
-		// 		},
-		// 		{
-		// 			$pull: { students: req.body.studentId },
-		// 		}
-		// 	)
-		// }
+			// Update student
+			else {
+				// Push student to new class
+				const newClass = await Class.updateOne(
+					{ _id: req.body.newClassId },
+					{ $addToSet: { students: req.body.studentId } }
+				)
 
-		// // Update student
-		// else {
-		// 	// Push student to new class
-		// 	const newClass = await Class.updateOne(
-		// 		{ _id: req.body.newClassId },
-		// 		{ $addToSet: { students: req.body.studentId } }
-		// 	)
+				// Remove student from old class
+				const oldClass = await Class.updateOne(
+					{
+						_id: req.body.oldClassId,
+					},
+					{
+						$pull: { students: req.body.studentId },
+					}
+				)
+			}
 
-		// 	// Remove student from old class
-		// 	const oldClass = await Class.updateOne(
-		// 		{
-		// 			_id: req.body.oldClassId,
-		// 		},
-		// 		{
-		// 			$pull: { students: req.body.studentId },
-		// 		}
-		// 	)
-		// }
-
-		// res
-		// 	.status(200)
-		// 	.json({ status: 'success', message: 'Update class successfully' })
+			res
+				.status(200)
+				.json({ status: 'success', message: 'Update class successfully' })
+		}
 	} catch (error) {
 		next(error)
 	}

@@ -79,48 +79,50 @@ exports.updateTeacher = async (req, res, next) => {
 	}
 }
 
-exports.updateClassTeacher = async (req, res, next) => {
+exports.updateClassAndTimetable = async (req, res, next) => {
 	try {
-		const newTimetable = await Teacher.updateOne(
-			{
-				_id: req.body.teacherId,
-			},
-			{
-				$set: {
-					'timetable.$[outer].content.$[inner].subjectId': req.body.subjectId,
-					'timetable.$[outer].content.$[inner].classId': req.body.classId,
+		if (req.body) {
+			const newTimetable = await Teacher.updateOne(
+				{
+					_id: req.body.teacherId,
 				},
-			},
-			{
-				arrayFilters: [
-					{
-						'outer._id': req.body.time,
+				{
+					$set: {
+						'timetable.$[outer].content.$[inner].subjectId': req.body.subjectId,
+						'timetable.$[outer].content.$[inner].classId': req.body.classId,
 					},
-					{
-						'inner._id': req.body.day,
-					},
-				],
+				},
+				{
+					arrayFilters: [
+						{
+							'outer._id': req.body.time,
+						},
+						{
+							'inner._id': req.body.day,
+						},
+					],
+				}
+			)
+
+			res.status(200).json({
+				status: 'success',
+				message: 'Update timetable successfully',
+			})
+		} else {
+			const user = await Teacher.findByIdAndUpdate(
+				{ _id: req.params.id },
+				{ $unset: { classId: '' } },
+				{ new: true, runValidators: true }
+			)
+
+			if (!user) {
+				const error = new Error('User does not exist: ' + userId)
+				error.statusCode = 404
+				return next(error)
 			}
-		)
 
-		res.status(200).json({
-			status: 'success',
-			message: 'Update timetable successfully',
-			data: newTimetable,
-		})
-		// const user = await Teacher.findByIdAndUpdate(
-		// 	{ _id: req.params.id },
-		// 	{ $unset: { classId: '' } },
-		// 	{ new: true, runValidators: true }
-		// )
-
-		// if (!user) {
-		// 	const error = new Error('User does not exist: ' + userId)
-		// 	error.statusCode = 404
-		// 	return next(error)
-		// }
-
-		// res.status(200).json({ status: 'success', data: user })
+			res.status(200).json({ status: 'success', data: user })
+		}
 	} catch (error) {
 		next(error)
 	}
