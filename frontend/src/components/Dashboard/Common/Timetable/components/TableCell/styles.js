@@ -76,6 +76,14 @@ const useStyles = makeStyles((theme) => ({
 			border: '1px solid #3254ac',
 		},
 	},
+	submit: {
+		fontSize: '14px',
+		color: '#fff',
+		backgroundColor: '#3254ac',
+		'&:hover': {
+			backgroundColor: '#3254ac',
+		},
+	},
 }))
 
 export default useStyles

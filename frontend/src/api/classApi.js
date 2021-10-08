@@ -40,9 +40,15 @@ const classAPI = {
 	},
 
 	updateStudentClass: async (data) => {
-		return await axiosClient.patch(`/classes/${data.studentId}`, data, {
-			headers: { Authorization: `Bearer ${token}` },
-		})
+		if (data.time && data.day) {
+			return await axiosClient.patch(`/classes/${data.classId}`, data, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+		} else {
+			return await axiosClient.patch(`/classes/${data.studentId}`, data, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+		}
 	},
 }
 

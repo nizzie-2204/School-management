@@ -75,13 +75,24 @@ export const updateStudentClass = createAsyncThunk(
 	'class/updateStudentClass',
 	async (data, thunkAPI) => {
 		try {
-			const thisClass = await classAPI.updateStudentClass(data)
+			if (data.time && data.day) {
+				const thisClass = await classAPI.updateStudentClass(data)
 
-			if (thisClass) {
-				thunkAPI.dispatch(getClasses())
+				if (thisClass) {
+					thunkAPI.dispatch(getClasses())
+					thunkAPI.dispatch(getClass(data.classId))
+				}
+
+				return thisClass.data
+			} else {
+				const thisClass = await classAPI.updateStudentClass(data)
+
+				if (thisClass) {
+					thunkAPI.dispatch(getClasses())
+				}
+
+				return thisClass.data
 			}
-
-			return thisClass.data
 		} catch (error) {
 			return thunkAPI.rejectWithValue(error.response)
 		}

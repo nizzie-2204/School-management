@@ -33,14 +33,21 @@ const teacherAPI = {
 		})
 	},
 
-	updateClassTeacher: async (id) => {
-		return await axiosClient.patch(
-			`/teachers/${id}`,
-			{},
-			{
+	updateClassTeacher: async (data) => {
+		if (data.time && data.day) {
+			console.log(data)
+			return await axiosClient.patch(`/teachers/${data.teacherId}`, data, {
 				headers: { Authorization: `Bearer ${token}` },
-			}
-		)
+			})
+		} else {
+			return await axiosClient.patch(
+				`/teachers/${data}`,
+				{},
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			)
+		}
 	},
 
 	deleteTeacher: async (id) => {

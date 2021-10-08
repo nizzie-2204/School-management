@@ -113,14 +113,14 @@ exports.updateClassAndTimetable = async (req, res, next) => {
 			res.status(200).json({
 				status: 'success',
 				message: 'Update timetable successfully',
+				data: req.body,
 			})
 		} else if (
-			// req.body.time &&
-			// req.body.day &&
+			req.body.time &&
+			req.body.day &&
 			!req.body.subjectId &&
-			!req.body.classId
-			// &&
-			// req.body.teacherId
+			!req.body.classId &&
+			req.body.teacherId
 		) {
 			const newTimetable = await Teacher.updateOne(
 				{
@@ -147,6 +147,7 @@ exports.updateClassAndTimetable = async (req, res, next) => {
 			res.status(200).json({
 				status: 'success',
 				message: 'Update timetable successfully',
+				data: req.body,
 			})
 		} else {
 			const user = await Teacher.findByIdAndUpdate(

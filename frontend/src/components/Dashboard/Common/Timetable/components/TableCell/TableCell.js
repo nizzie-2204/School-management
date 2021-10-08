@@ -10,7 +10,11 @@ import {
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
-import { emptyClass } from 'components/Dashboard/Common/Class/classSlice'
+import {
+	emptyClass,
+	updateStudentClass,
+} from 'components/Dashboard/Common/Class/classSlice'
+import { updateClassTeacher } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useStyles from './styles'
@@ -61,7 +65,14 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 		const timetableTeachers = theseTeachers?.filter((teacher) => {
 			return !teacher.timetable[prevIndex].content[index].subjectId
 		})
-		console.log(timetableTeachers)
+
+		if (teacher) {
+			const oldTeacher = theseTeachers.find((x) => {
+				return x._id === teacher
+			})
+			timetableTeachers.push(oldTeacher)
+		}
+
 		setAsd(timetableTeachers)
 	}
 
@@ -71,8 +82,161 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 	}
 
 	const handleConfirm = () => {
-		if (subject === '' || teacher === '') {
-			return
+		// 1. Not selected subject and teacher yet
+		if (!subject || !teacher) {
+			console.log('Not selected subject and teacher yet')
+			handleClose()
+		}
+		// 2. Not changed subject and teacher yet
+		else if (
+			subject === displaySubject?._id &&
+			teacher === displayTeacher?._id
+		) {
+			console.log('Not changed subject and teacher yet')
+			handleClose()
+		}
+		// 3. Changed subject and teacher
+		else if (
+			subject !== displaySubject?._id &&
+			teacher !== displayTeacher?._id
+		) {
+			// Update class timetable
+			const classData = {
+				classId: classFromStore?._id,
+				time: row?._id,
+				subjectId: subject,
+				teacherId: teacher,
+				day: cell?._id,
+			}
+			const action = updateStudentClass(classData)
+			dispatch(action)
+
+			// Update new teacher timetable
+			const newTeacher = teachersFromStore.find((x) => {
+				return x._id === teacher
+			})
+			const newTeacherData = {
+				teacherId: teacher,
+				subjectId: subject,
+				classId: classFromStore?._id,
+				time: newTeacher?.timetable[prevIndex]._id,
+				day: newTeacher?.timetable[prevIndex].content[index]._id,
+			}
+			const action2 = updateClassTeacher(newTeacherData)
+			dispatch(action2)
+				.unwrap()
+				.then((res) => console.log(res))
+				.catch((error) => console.log(error))
+
+			// Update old teacher timetable
+			if (displayTeacher?._id) {
+				const oldTeacherData = {
+					teacherId: displayTeacher?._id,
+					subjectId: '',
+					classId: '',
+					time: displayTeacher?.timetable[prevIndex]._id,
+					day: displayTeacher?.timetable[prevIndex].content[index]._id,
+				}
+				const action3 = updateClassTeacher(oldTeacherData)
+				dispatch(action3)
+					.unwrap()
+					.then((res) => console.log(res))
+					.catch((error) => console.log(error))
+			}
+
+			enqueueSnackbar(`Chỉnh sửa thành công`, {
+				variant: 'success',
+			})
+			setSubject()
+			setTeacher()
+			handleClose()
+		}
+		// 4. Changed subject and not changed teacher yet
+		else if (
+			subject !== displaySubject?._id &&
+			teacher === displayTeacher?._id
+		) {
+			// Update class timetable
+			const classData = {
+				classId: classFromStore?._id,
+				time: row?._id,
+				subjectId: subject,
+				teacherId: displayTeacher?._id,
+				day: cell?._id,
+			}
+			const action = updateStudentClass(classData)
+			dispatch(action)
+
+			// Update current teacher timetable
+			const currTeacherData = {
+				teacherId: displayTeacher?._id,
+				subjectId: subject,
+				classId: classFromStore?._id,
+				time: displayTeacher.timetable[prevIndex]._id,
+				day: displayTeacher.timetable[prevIndex].content[index]._id,
+			}
+			const action2 = updateClassTeacher(currTeacherData)
+			dispatch(action2)
+
+			enqueueSnackbar(`Chỉnh sửa thành công`, {
+				variant: 'success',
+			})
+			setSubject()
+			setTeacher()
+			handleClose()
+		}
+		// 5. Changed teacher and not changed subject yet
+		else {
+			// Update class timetable
+			const classData = {
+				classId: classFromStore?._id,
+				time: row?._id,
+				subjectId: displaySubject?._id,
+				teacherId: teacher,
+				day: cell?._id,
+			}
+			const action = updateStudentClass(classData)
+			dispatch(action)
+				.unwrap()
+				.then((res) => console.log(res))
+				.catch((error) => console.log(error))
+
+			// Update new teacher timetable
+			const newTeacher = teachersFromStore.find((x) => {
+				return x._id === teacher
+			})
+			const newTeacherData = {
+				teacherId: teacher,
+				subjectId: displaySubject?._id,
+				classId: classFromStore?._id,
+				time: newTeacher?.timetable[prevIndex]._id,
+				day: newTeacher?.timetable[prevIndex].content[index]._id,
+			}
+			const action2 = updateClassTeacher(newTeacherData)
+			dispatch(action2)
+				.unwrap()
+				.then((res) => console.log(res))
+				.catch((error) => console.log(error))
+
+			// Update old teacher timetable
+			const oldTeacherData = {
+				teacherId: displayTeacher?._id,
+				subjectId: '',
+				classId: '',
+				time: displayTeacher?.timetable[prevIndex]._id,
+				day: displayTeacher?.timetable[prevIndex].content[index]._id,
+			}
+			const action3 = updateClassTeacher(oldTeacherData)
+			dispatch(action3)
+				.unwrap()
+				.then((res) => console.log(res))
+				.catch((error) => console.log(error))
+			enqueueSnackbar(`Chỉnh sửa thành công`, {
+				variant: 'success',
+			})
+			setSubject()
+			setTeacher()
+			handleClose()
 		}
 	}
 
@@ -106,6 +270,14 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 			const timetableTeachers = theseTeachers?.filter((teacher) => {
 				return !teacher.timetable[prevIndex].content[index].subjectId
 			})
+
+			if (cell.teacherId) {
+				const x = teachersFromStore.find((teacher) => {
+					return teacher._id === cell?.teacherId
+				})
+				timetableTeachers.push(x)
+			}
+
 			setAsd(timetableTeachers)
 		}
 	}, [classFromStore])
@@ -189,7 +361,11 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 								})}
 							</Select>
 						</FormControl>
-						<Button variant="contained" onClick={handleConfirm}>
+						<Button
+							variant="contained"
+							onClick={handleConfirm}
+							className={classes.submit}
+						>
 							Xác nhận
 						</Button>
 					</div>
