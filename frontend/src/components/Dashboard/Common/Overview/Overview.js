@@ -5,6 +5,7 @@ import { Bar, Pie } from 'react-chartjs-2'
 import CountUp from 'react-countup'
 import { Helmet } from 'react-helmet-async'
 import useStyles from './styles'
+import { useSelector } from 'react-redux'
 
 const data = {
 	labels: ['Nguyễn Anh Tuấn', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -55,7 +56,44 @@ const links = [
 
 const Overview = () => {
 	const classes = useStyles()
+	const students = useSelector((state) => state.student.students)
+	const teachers = useSelector((state) => state.teacher.teachers)
+	const users = [...students, ...teachers].sort((a, b) => {
+		return b - a
+	})
 
+	const totalUserVisits = users.reduce((curr, next) => {
+		return curr.visitingTime + next.visitingTime
+	}, 0)
+
+	const top10Users = users.slice(0, 10)
+	const barChartData = {
+		labels: top10Users.map((user) => {
+			return user.name
+		}),
+		datasets: [
+			{
+				label: 'Lượt truy cập',
+				data: top10Users.map((user) => {
+					return user.visitingTime
+				}),
+				backgroundColor: ['rgba(118,178,240,255)'],
+				borderColor: ['rgba(118,178,240,255)'],
+			},
+		],
+	}
+
+	const pieChartData = {
+		labels: ['Giáo viên', 'Học sinh'],
+		datasets: [
+			{
+				label: '# of Votes',
+				data: [students.length, teachers.length],
+				backgroundColor: ['rgba(16,132,145,255)', 'rgba(248,98,84,255)'],
+				borderColor: ['rgba(16,132,145,255)', 'rgba(248,98,84,255)'],
+			},
+		],
+	}
 	return (
 		<>
 			<Helmet>
@@ -73,29 +111,23 @@ const Overview = () => {
 						<Box className={classes.numberContainer}>
 							<Box className={classes.numberItem}>
 								<CountUp
-									end={100}
-									duration={1}
-									className={classes.numberItemTitle}
-									style={{ color: '#1a61c6' }}
-								/>
-								<Typography variant="h6" className={classes.numberItemDesc}>
-									Người dùng đang đăng nhập
-								</Typography>
-							</Box>
-
-							<Box className={classes.numberItem}>
-								<CountUp
-									end={100}
+									end={users.length}
 									duration={1}
 									className={classes.numberItemTitle}
 									style={{ color: '#0baa9b' }}
 								/>
 								<Typography variant="h6" className={classes.numberItemDesc}>
-									Người dùng đã đăng nhập
+									Người dùng hoạt động
 								</Typography>
 							</Box>
 
-							<Box className={classes.numberItem}>
+							<Box
+								style={{
+									borderRight: '1px solid rgb(239 239 239)',
+									borderLeft: '1px solid rgb(239 239 239)',
+								}}
+								className={classes.numberItem}
+							>
 								<CountUp
 									end={100}
 									duration={1}
@@ -109,7 +141,7 @@ const Overview = () => {
 
 							<Box className={classes.numberItem}>
 								<CountUp
-									end={100}
+									end={totalUserVisits}
 									duration={1}
 									className={classes.numberItemTitle}
 									style={{ color: '#e96053' }}

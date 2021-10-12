@@ -20,9 +20,10 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-between',
 	},
 	numberItem: {
-		width: '24%',
+		flex: 1,
 		display: 'flex',
 		flexDirection: 'column',
+		textAlign: 'center',
 	},
 	numberItemTitle: {
 		fontSize: '30px',
