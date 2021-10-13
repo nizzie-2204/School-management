@@ -1,24 +1,30 @@
 import {
+	Backdrop,
+	Box,
 	Button,
+	Fade,
 	FormControl,
 	InputLabel,
 	MenuItem,
+	Modal,
+	Popover,
 	Select,
 	TableCell,
 	Typography,
 } from '@material-ui/core'
-import Backdrop from '@material-ui/core/Backdrop'
-import Fade from '@material-ui/core/Fade'
-import Modal from '@material-ui/core/Modal'
+import BookIcon from '@material-ui/icons/Book'
+import LocalOfferIcon from '@material-ui/icons/LocalOffer'
+import PermIdentityIcon from '@material-ui/icons/PermIdentity'
+import ScheduleIcon from '@material-ui/icons/Schedule'
 import {
 	emptyClass,
 	updateStudentClass,
 } from 'components/Dashboard/Common/Class/classSlice'
 import { updateClassTeacher } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
+import { useSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import useStyles from './styles'
-import { useSnackbar } from 'notistack'
 
 const Lesson = ({ row, index, cell, prevIndex }) => {
 	const classes = useStyles()
@@ -28,6 +34,8 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 	const user = useSelector((state) => state.auth.user)
 	const subjects = useSelector((state) => state.subjects.subjects)
 	const classFromStore = useSelector((state) => state.classes.class)
+	const classesFromStore = useSelector((state) => state.classes.classes)
+
 	const teacherFromStore = useSelector((state) => state.teacher.teacher)
 	const teachersFromStore = useSelector((state) => state.teacher.teachers)
 
@@ -48,11 +56,28 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 		setOpen(false)
 	}
 
+	// Popover
+	const [anchorEl, setAnchorEl] = useState(null)
+
+	const handleClick = (event) => {
+		if (cell.subjectId || cell.teacherId) {
+			setAnchorEl(event.currentTarget)
+		} else return
+	}
+
+	const handleClose2 = () => {
+		setAnchorEl(null)
+	}
+
+	const open2 = Boolean(anchorEl)
+	const id = open2 ? 'simple-popover' : undefined
+
 	const [asd, setAsd] = useState([])
 	const [subject, setSubject] = useState('')
 
 	const [displaySubject, setDisplaySubject] = useState(null)
 	const [displayTeacher, setDisplayTeacher] = useState(null)
+	const [displayClass, setDisplayClass] = useState(null)
 
 	const handleChangeSubject = (e) => {
 		setSubject(e.target.value)
@@ -85,7 +110,7 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 	const handleConfirm = () => {
 		// 1. Not selected subject and teacher yet
 		if (!subject || !teacher) {
-			console.log('Not selected subject and teacher yet')
+			console.log('Not selected  and teacher yet')
 			handleClose()
 		}
 		// 2. Not changed subject and teacher yet
@@ -244,10 +269,15 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 	useEffect(() => {
 		const action = emptyClass()
 		dispatch(action)
-	}, [])
+	}, [dispatch])
 
 	useEffect(() => {
 		if (cell) {
+			setDisplayClass(() => {
+				return classesFromStore.find((thisClass) => {
+					return thisClass._id === cell?.classId
+				})
+			})
 			setSubject(cell?.subjectId)
 			setTeacher(cell?.teacherId)
 
@@ -255,6 +285,9 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 				return teachersFromStore.find((teacher) => {
 					return teacher._id === cell?.teacherId
 				})
+			})
+			const asdz = teachersFromStore.find((teacher) => {
+				return teacher._id === cell?.teacherId
 			})
 
 			setDisplaySubject(() => {
@@ -282,99 +315,148 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 			setAsd(timetableTeachers)
 		}
 	}, [classFromStore])
-	console.log(displayTeacher?.name)
 
 	return (
 		<>
 			<TableCell
-				onClick={() => {
-					if (classFromStore) {
-						handleOpen()
-					} else {
-						enqueueSnackbar('Chọn lớp đề sắp xếp thời khóa biểu', {
-							variant: 'error',
-							autoHideDuration: 3000,
-						})
-						return
-					}
-				}}
+				{...(!user.role !== 'admin' && { onClick: handleClick })}
+				{...(user.role === 'admin' &&
+					classFromStore && {
+						onClick: handleOpen,
+					})}
+				{...(user.role === 'admin' &&
+					!classFromStore && {
+						onClick: () => {
+							enqueueSnackbar(`Chưa chọn lớp`, {
+								variant: 'error',
+								autoHideDuration: 3000,
+							})
+						},
+					})}
 				className={classes.tableCell}
 				align="center"
 			>
 				<div>{displaySubject?.name}</div>
-				{!user.role === 'teacher' && classFromStore && (
-					<div className={classes.titleSmall}>{displayTeacher?.name}</div>
-				)}
+				<div className={classes.titleSmall}>{displayTeacher?.name}</div>
+				<div className={classes.titleSmall}>{displayClass?.name}</div>
 			</TableCell>
-			<Modal
-				aria-labelledby="transition-modal-title"
-				aria-describedby="transition-modal-description"
-				className={classes.modal}
-				open={open}
-				onClose={handleClose}
-				closeAfterTransition
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 100,
-				}}
-			>
-				<Fade in={open}>
-					<div className={classes.paper}>
-						<Typography className={classes.formTitle} variant="h5">
-							Chọn môn học và giáo viên
-						</Typography>
-						<FormControl variant="outlined" className={classes.selectOption}>
-							<InputLabel
-								id="demo-simple-select-outlined-label"
-								style={{ color: '#000' }}
+			{user.role === 'admin' ? (
+				<Modal
+					aria-labelledby="transition-modal-title"
+					aria-describedby="transition-modal-description"
+					className={classes.modal}
+					open={open}
+					onClose={handleClose}
+					closeAfterTransition
+					BackdropComponent={Backdrop}
+					BackdropProps={{
+						timeout: 100,
+					}}
+				>
+					<Fade in={open}>
+						<div className={classes.paper}>
+							<Typography className={classes.formTitle} variant="h5">
+								Chọn môn học và giáo viên
+							</Typography>
+							<FormControl variant="outlined" className={classes.selectOption}>
+								<InputLabel
+									id="demo-simple-select-outlined-label"
+									style={{ color: '#000' }}
+								>
+									Môn học
+								</InputLabel>
+								<Select
+									labelId="demo-simple-select-outlined-label"
+									id="demo-simple-select-outlined"
+									value={subject}
+									onChange={handleChangeSubject}
+									label="Lớp"
+								>
+									{subjects?.map((subject) => {
+										return (
+											<MenuItem key={subject._id} value={subject._id}>
+												{subject.name}
+											</MenuItem>
+										)
+									})}
+								</Select>
+							</FormControl>
+							<FormControl variant="outlined" className={classes.selectOption}>
+								<InputLabel
+									id="demo-simple-select-outlined-label"
+									style={{ color: '#000' }}
+								>
+									Giáo viên
+								</InputLabel>
+								<Select
+									labelId="demo-simple-select-outlined-label"
+									id="demo-simple-select-outlined"
+									value={teacher}
+									onChange={handleChangeTeacher}
+									label="Lớp"
+								>
+									{asd?.map((teacher) => {
+										return (
+											<MenuItem value={teacher._id}>{teacher.name}</MenuItem>
+										)
+									})}
+								</Select>
+							</FormControl>
+							<Button
+								variant="contained"
+								onClick={handleConfirm}
+								className={classes.submit}
 							>
-								Môn học
-							</InputLabel>
-							<Select
-								labelId="demo-simple-select-outlined-label"
-								id="demo-simple-select-outlined"
-								value={subject}
-								onChange={handleChangeSubject}
-								label="Lớp"
-							>
-								{subjects?.map((subject) => {
-									return (
-										<MenuItem key={subject._id} value={subject._id}>
-											{subject.name}
-										</MenuItem>
-									)
-								})}
-							</Select>
-						</FormControl>
-						<FormControl variant="outlined" className={classes.selectOption}>
-							<InputLabel
-								id="demo-simple-select-outlined-label"
-								style={{ color: '#000' }}
-							>
-								Giáo viên
-							</InputLabel>
-							<Select
-								labelId="demo-simple-select-outlined-label"
-								id="demo-simple-select-outlined"
-								value={teacher}
-								onChange={handleChangeTeacher}
-								label="Lớp"
-							>
-								{asd?.map((teacher) => {
-									return <MenuItem value={teacher._id}>{teacher.name}</MenuItem>
-								})}
-							</Select>
-						</FormControl>
-						<Button
-							variant="contained"
-							onClick={handleConfirm}
-							className={classes.submit}
+								Xác nhận
+							</Button>
+						</div>
+					</Fade>
+				</Modal>
+			) : (
+				<Popover
+					className={classes.popoverClass}
+					id={id}
+					open={open2}
+					anchorEl={anchorEl}
+					onClose={handleClose2}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'center',
+					}}
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}}
+				>
+					<Box className={classes.infoClass}>
+						<Box
+							className={classes.row}
+							style={{ textTransform: 'uppercase', fontWeight: 600 }}
 						>
-							Xác nhận
+							<BookIcon className={classes.rowIcon} />
+							{displaySubject?.name}
+						</Box>
+						<Box className={classes.row}>
+							<PermIdentityIcon className={classes.rowIcon} />
+							{user.name}
+						</Box>
+						<Box className={classes.row}>
+							<LocalOfferIcon className={classes.rowIcon} />
+							{displayClass?.name}
+						</Box>
+						<Box className={classes.row}>
+							<ScheduleIcon
+								className={classes.rowIcon}
+								style={{ color: '#000' }}
+							/>
+							{row.time}
+						</Box>
+						<Button variant="contained" className={classes.button}>
+							Chưa diễn ra
 						</Button>
-					</div>
-				</Fade>
-			</Modal>
+					</Box>
+				</Popover>
+			)}
 		</>
 	)
 }

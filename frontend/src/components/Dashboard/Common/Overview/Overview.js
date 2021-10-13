@@ -70,13 +70,13 @@ const Overview = () => {
 
 	const top10Users = users.slice(0, 10)
 	const barChartData = {
-		labels: top10Users.map((user) => {
+		labels: top10Users?.map((user) => {
 			return user.name
 		}),
 		datasets: [
 			{
 				label: 'Lượt truy cập',
-				data: top10Users.map((user) => {
+				data: top10Users?.map((user) => {
 					return user.visitingTime
 				}),
 				backgroundColor: ['rgba(118,178,240,255)'],
@@ -106,7 +106,7 @@ const Overview = () => {
 			<Box className={classes.main}>
 				<Breadcrumb links={links} />
 				<Box className={classes.container}>
-					{user.role === 'admin' && (
+					{user?.role === 'admin' && (
 						<>
 							<Box className={classes.data}>
 								<Typography variant="h4" className={classes.dataTitle}>
@@ -172,7 +172,7 @@ const Overview = () => {
 							</Box>
 						</>
 					)}
-					{user.role !== 'admin' && <OverviewUser />}
+					{user?.role !== 'admin' && <OverviewUser />}
 				</Box>
 			</Box>
 		</>

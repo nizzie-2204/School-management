@@ -41,10 +41,16 @@ const useStyles = makeStyles((theme) => ({
 		height: 250,
 		objectFit: 'cover',
 	},
+	classContainer: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		width: '100%',
+	},
 	class: {
+		width: '50%',
 		display: 'flex',
 		alignItems: 'center',
-		marginBottom: 20,
+		marginBottom: 30,
 	},
 	onlineClassThumb: {
 		width: 210,

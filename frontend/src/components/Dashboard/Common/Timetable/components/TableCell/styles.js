@@ -84,6 +84,36 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: '#3254ac',
 		},
 	},
+	infoClass: {
+		width: '250px !important',
+		padding: '20px !important',
+		fontSize: 14,
+	},
+	row: {
+		display: 'flex',
+		alignItems: 'center',
+		marginBottom: 7,
+		color: '#3254ac',
+
+		'&:last-of-type': {
+			color: theme.palette.text.main,
+			marginBottom: 15,
+		},
+	},
+	rowIcon: {
+		fontSize: 18,
+		marginRight: 10,
+		color: '#3254ac',
+	},
+	button: {
+		backgroundColor: '#3254ac',
+		color: theme.palette.text.secondary,
+
+		'&:hover': {
+			backgroundColor: '#3254ac',
+			color: theme.palette.text.secondary,
+		},
+	},
 }))
 
 export default useStyles

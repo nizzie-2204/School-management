@@ -15,7 +15,7 @@ const Router = express.Router()
 
 Router.route('/classes')
 	.post(verifyToken, permit('admin'), createClass)
-	.get(verifyToken, permit('admin'), getAllClasses)
+	.get(verifyToken, permit('admin', 'teacher', 'student'), getAllClasses)
 
 Router.route('/classes/:id')
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getClass)

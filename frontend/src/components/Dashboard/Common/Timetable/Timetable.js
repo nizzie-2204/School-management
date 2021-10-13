@@ -16,13 +16,17 @@ import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import {
 	emptyTeacher,
 	getTeacher,
+	getTeachers,
 } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
 import addDays from 'date-fns/addDays'
 import startOfWeek from 'date-fns/startOfWeek'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
 import { getClass } from '../Class/classSlice'
+import { getSubjects } from '../Subject/subjectSlice'
+import { getClasses } from '../Class/classSlice'
+
 import TableCellSubject from './components/TableCellSubject/TableCellSubject'
 import useStyles from './styles'
 const links = [
@@ -73,6 +77,17 @@ const Timetable = () => {
 			})
 	}
 
+	useEffect(() => {
+		const action = getClasses()
+		dispatch(action)
+
+		const action2 = getSubjects()
+		dispatch(action2)
+
+		const action3 = getTeachers()
+		dispatch(action3)
+	}, [])
+
 	return (
 		<>
 			<Helmet>
@@ -83,7 +98,7 @@ const Timetable = () => {
 				<Breadcrumb links={links} />
 
 				<Box className={classes.content}>
-					{user.role === 'admin' && (
+					{user?.role === 'admin' && (
 						<Box className={classes.top}>
 							<Typography variant="body1" className={classes.title}>
 								Lớp
