@@ -25,6 +25,7 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 	const dispatch = useDispatch()
 	const { enqueueSnackbar } = useSnackbar()
 
+	const user = useSelector((state) => state.auth.user)
 	const subjects = useSelector((state) => state.subjects.subjects)
 	const classFromStore = useSelector((state) => state.classes.class)
 	const teacherFromStore = useSelector((state) => state.teacher.teacher)
@@ -281,6 +282,7 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 			setAsd(timetableTeachers)
 		}
 	}, [classFromStore])
+	console.log(displayTeacher?.name)
 
 	return (
 		<>
@@ -300,7 +302,9 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 				align="center"
 			>
 				<div>{displaySubject?.name}</div>
-				<div className={classes.titleSmall}>{displayTeacher?.name}</div>
+				{!user.role === 'teacher' && classFromStore && (
+					<div className={classes.titleSmall}>{displayTeacher?.name}</div>
+				)}
 			</TableCell>
 			<Modal
 				aria-labelledby="transition-modal-title"

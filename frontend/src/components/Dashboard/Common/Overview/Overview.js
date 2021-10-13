@@ -6,6 +6,7 @@ import CountUp from 'react-countup'
 import { Helmet } from 'react-helmet-async'
 import useStyles from './styles'
 import { useSelector } from 'react-redux'
+import OverviewUser from './OverviewUser/OverviewUser'
 
 const data = {
 	labels: ['Nguyễn Anh Tuấn', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -56,6 +57,7 @@ const links = [
 
 const Overview = () => {
 	const classes = useStyles()
+	const user = useSelector((state) => state.auth.user)
 	const students = useSelector((state) => state.student.students)
 	const teachers = useSelector((state) => state.teacher.teachers)
 	const users = [...students, ...teachers].sort((a, b) => {
@@ -104,68 +106,73 @@ const Overview = () => {
 			<Box className={classes.main}>
 				<Breadcrumb links={links} />
 				<Box className={classes.container}>
-					<Box className={classes.data}>
-						<Typography variant="h4" className={classes.dataTitle}>
-							Thống kế nhanh
-						</Typography>
-						<Box className={classes.numberContainer}>
-							<Box className={classes.numberItem}>
-								<CountUp
-									end={users.length}
-									duration={1}
-									className={classes.numberItemTitle}
-									style={{ color: '#0baa9b' }}
-								/>
-								<Typography variant="h6" className={classes.numberItemDesc}>
-									Người dùng hoạt động
+					{user.role === 'admin' && (
+						<>
+							<Box className={classes.data}>
+								<Typography variant="h4" className={classes.dataTitle}>
+									Thống kế nhanh
 								</Typography>
-							</Box>
+								<Box className={classes.numberContainer}>
+									<Box className={classes.numberItem}>
+										<CountUp
+											end={users.length}
+											duration={1}
+											className={classes.numberItemTitle}
+											style={{ color: '#0baa9b' }}
+										/>
+										<Typography variant="h6" className={classes.numberItemDesc}>
+											Người dùng hoạt động
+										</Typography>
+									</Box>
 
-							<Box
-								style={{
-									borderRight: '1px solid rgb(239 239 239)',
-									borderLeft: '1px solid rgb(239 239 239)',
-								}}
-								className={classes.numberItem}
-							>
-								<CountUp
-									end={100}
-									duration={1}
-									className={classes.numberItemTitle}
-									style={{ color: '#ffa326' }}
-								/>
-								<Typography variant="h6" className={classes.numberItemDesc}>
-									Bài thi đã tạo
-								</Typography>
-							</Box>
+									<Box
+										style={{
+											borderRight: '1px solid rgb(239 239 239)',
+											borderLeft: '1px solid rgb(239 239 239)',
+										}}
+										className={classes.numberItem}
+									>
+										<CountUp
+											end={100}
+											duration={1}
+											className={classes.numberItemTitle}
+											style={{ color: '#ffa326' }}
+										/>
+										<Typography variant="h6" className={classes.numberItemDesc}>
+											Bài thi đã tạo
+										</Typography>
+									</Box>
 
-							<Box className={classes.numberItem}>
-								<CountUp
-									end={totalUserVisits}
-									duration={1}
-									className={classes.numberItemTitle}
-									style={{ color: '#e96053' }}
-								/>
-								<Typography variant="h6" className={classes.numberItemDesc}>
-									Tổng số lượt truy cập
-								</Typography>
+									<Box className={classes.numberItem}>
+										<CountUp
+											end={totalUserVisits}
+											duration={1}
+											className={classes.numberItemTitle}
+											style={{ color: '#e96053' }}
+										/>
+										<Typography variant="h6" className={classes.numberItemDesc}>
+											Tổng số lượt truy cập
+										</Typography>
+									</Box>
+								</Box>
 							</Box>
-						</Box>
-					</Box>
-					<Box className={classes.chart}>
-						<Box className={classes.chartItem}>
-							<Typography variant="h4" className={classes.dataTitle}>
-								Tài khoản truy cập nhiều nhất
-							</Typography>
-							<Bar data={data} options={options} />
-						</Box>
-						<Box className={classes.chartItem}>
-							<Typography variant="h4" className={classes.dataTitle}>
-								Tỉ trọng tài khoản người dùng
-							</Typography>
-							<Pie data={data2} />
-						</Box>
-					</Box>
+							<Box className={classes.chart}>
+								<Box className={classes.chartItem}>
+									<Typography variant="h4" className={classes.dataTitle}>
+										Tài khoản truy cập nhiều nhất
+									</Typography>
+									<Bar data={data} options={options} />
+								</Box>
+								<Box className={classes.chartItem}>
+									<Typography variant="h4" className={classes.dataTitle}>
+										Tỉ trọng tài khoản người dùng
+									</Typography>
+									<Pie data={data2} />
+								</Box>
+							</Box>
+						</>
+					)}
+					{user.role !== 'admin' && <OverviewUser />}
 				</Box>
 			</Box>
 		</>

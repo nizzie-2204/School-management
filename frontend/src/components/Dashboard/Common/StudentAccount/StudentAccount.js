@@ -5,6 +5,8 @@ import {
 	TextField,
 	Tooltip,
 	Typography,
+	TablePagination,
+	CircularProgress,
 } from '@material-ui/core'
 import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
@@ -86,6 +88,19 @@ const StudentAccount = () => {
 		setSearchTerm(e.target.value)
 	}
 
+	// Pagination
+	const [page, setPage] = useState(0)
+	const [rowsPerPage, setRowsPerPage] = useState(10)
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage)
+	}
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value)
+		setPage(0)
+	}
+
 	useEffect(() => {
 		const fetchStudents = () => {
 			const action = getStudents()
@@ -149,115 +164,160 @@ const StudentAccount = () => {
 					</Button>
 					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>
+				{studentsLoading ? (
+					<div className={classes.loading}>
+						<CircularProgress
+							style={{
+								color: '#3254ac',
+							}}
+						/>
+						<p>Đang tải dữ liệu...</p>
+					</div>
+				) : (
+					<>
+						<TableContainer
+							component={Paper}
+							className={classes.tableContainer}
+						>
+							<Table
+								className={classes.table}
+								stickyHeader
+								aria-label="sticky table"
+							>
+								<TableHead>
+									<TableRow>
+										<TableCell align="center" className={classes.tableHead}>
+											ID
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Họ và tên
+										</TableCell>
 
-				<TableContainer component={Paper} className={classes.tableContainer}>
-					<Table
-						className={classes.table}
-						stickyHeader
-						aria-label="sticky table"
-					>
-						<TableHead>
-							<TableRow>
-								<TableCell align="center" className={classes.tableHead}>
-									ID
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Họ và tên
-								</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Đăng nhập
+										</TableCell>
 
-								<TableCell align="center" className={classes.tableHead}>
-									Đăng nhập
-								</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Tài khoản
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Ngày tạo
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Ngày cập nhật
+										</TableCell>
 
-								<TableCell align="center" className={classes.tableHead}>
-									Tài khoản
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Ngày tạo
-								</TableCell>
-								<TableCell align="center" className={classes.tableHead}>
-									Ngày cập nhật
-								</TableCell>
-
-								<TableCell align="center" className={classes.tableHead}>
-									Hành động
-								</TableCell>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{students?.map((student, index) => (
-								<TableRow key={index}>
-									<TableCell
-										align="center"
-										component="th"
-										scope="row"
-										className={classes.limitText}
-									>
-										{student._id}
-									</TableCell>
-									<TableCell align="center">{student.name}</TableCell>
-
-									<TableCell align="center">
-										{student.isLoggedIn ? (
-											<CheckIcon
-												fontSize="small"
-												className={classes.isLoggedIn}
-											/>
-										) : (
-											<ClearIcon
-												fontSize="small"
-												className={classes.isLoggedOut}
-											/>
-										)}
-									</TableCell>
-									<TableCell align="center">{student.username}</TableCell>
-									<TableCell align="center">
-										{formatDate(student.createdAt)}
-									</TableCell>
-									<TableCell align="center">
-										{formatDate(student.updatedAt)}
-									</TableCell>
-									<TableCell align="center">
-										<Tooltip title="Chỉnh sửa">
-											<IconButton
-												onClick={() => {
-													handleOpen3(student)
-												}}
+										<TableCell align="center" className={classes.tableHead}>
+											Hành động
+										</TableCell>
+									</TableRow>
+								</TableHead>
+								<TableBody>
+									{students?.map((student, index) => (
+										<TableRow key={index}>
+											<TableCell
+												align="center"
+												component="th"
+												scope="row"
+												className={classes.limitText}
 											>
-												<CreateIcon
-													fontSize="small"
-													style={{ color: '#5278db' }}
-												/>
-											</IconButton>
-										</Tooltip>
-										<Tooltip title="Xóa">
-											<IconButton
-												onClick={() => {
-													handleOpen2(student)
-												}}
-											>
-												<DeleteIcon
-													fontSize="small"
-													style={{ color: '#e96053' }}
-												/>
-											</IconButton>
-										</Tooltip>
-									</TableCell>
-								</TableRow>
-							))}
-							<DeleteAlert
-								open={open2}
-								handleClose={handleClose2}
-								student={thisStudent}
+												{student._id}
+											</TableCell>
+											<TableCell align="center">{student.name}</TableCell>
+
+											<TableCell align="center">
+												{student.isLoggedIn ? (
+													<CheckIcon
+														fontSize="small"
+														className={classes.isLoggedIn}
+													/>
+												) : (
+													<ClearIcon
+														fontSize="small"
+														className={classes.isLoggedOut}
+													/>
+												)}
+											</TableCell>
+											<TableCell align="center">{student.username}</TableCell>
+											<TableCell align="center">
+												{formatDate(student.createdAt)}
+											</TableCell>
+											<TableCell align="center">
+												{formatDate(student.updatedAt)}
+											</TableCell>
+											<TableCell align="center">
+												<Tooltip title="Chỉnh sửa">
+													<IconButton
+														onClick={() => {
+															handleOpen3(student)
+														}}
+													>
+														<CreateIcon
+															fontSize="small"
+															style={{ color: '#5278db' }}
+														/>
+													</IconButton>
+												</Tooltip>
+												<Tooltip title="Xóa">
+													<IconButton
+														onClick={() => {
+															handleOpen2(student)
+														}}
+													>
+														<DeleteIcon
+															fontSize="small"
+															style={{ color: '#e96053' }}
+														/>
+													</IconButton>
+												</Tooltip>
+											</TableCell>
+										</TableRow>
+									))}
+									<DeleteAlert
+										open={open2}
+										handleClose={handleClose2}
+										student={thisStudent}
+									/>
+									<AddEditAccount
+										open={open3}
+										handleClose={handleClose3}
+										student={thisStudent}
+									/>
+								</TableBody>
+							</Table>
+						</TableContainer>
+						{students.length > 0 ? (
+							<TablePagination
+								rowsPerPageOptions={[10]}
+								component="div"
+								// Pagination on search
+								count={
+									students?.filter((teacher) => {
+										if (searchTerm === '') {
+											return teacher
+										} else if (
+											teacher.name
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase()) ||
+											teacher.username
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase())
+										) {
+											return teacher
+										}
+										return false
+									}).length
+								}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
 							/>
-							<AddEditAccount
-								open={open3}
-								handleClose={handleClose3}
-								student={thisStudent}
-							/>
-						</TableBody>
-					</Table>
-				</TableContainer>
+						) : (
+							<div className={classes.emptyData}>Chưa có dữ liệu</div>
+						)}
+					</>
+				)}
 			</Box>
 		</>
 	)

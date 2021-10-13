@@ -169,6 +169,7 @@ const TypeTeacher = () => {
 								color: '#3254ac',
 							}}
 						/>
+						<p>Đang tải dữ liệu...</p>
 					</div>
 				) : (
 					<>
@@ -294,29 +295,33 @@ const TypeTeacher = () => {
 								/>
 							</Table>
 						</TableContainer>
-						<TablePagination
-							rowsPerPageOptions={[10]}
-							component="div"
-							// Pagination on search
-							count={
-								typeTeachers?.filter((typeTeacher) => {
-									if (searchTerm === '') {
-										return typeTeacher
-									} else if (
-										typeTeacher.nameType
-											.toLowerCase()
-											.includes(searchTerm.toLowerCase())
-									) {
-										return typeTeacher
-									}
-									return false
-								}).length
-							}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-						/>
+						{typeTeachers.length > 0 ? (
+							<TablePagination
+								rowsPerPageOptions={[10]}
+								component="div"
+								// Pagination on search
+								count={
+									typeTeachers?.filter((typeTeacher) => {
+										if (searchTerm === '') {
+											return typeTeacher
+										} else if (
+											typeTeacher.nameType
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase())
+										) {
+											return typeTeacher
+										}
+										return false
+									}).length
+								}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
+							/>
+						) : (
+							<div className={classes.emptyData}>Chưa có dữ liệu</div>
+						)}
 					</>
 				)}
 			</Box>

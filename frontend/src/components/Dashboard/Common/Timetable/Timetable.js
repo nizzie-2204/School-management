@@ -52,7 +52,7 @@ const Timetable = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const classesFromStore = useSelector((state) => state.classes.classes)
-
+	const user = useSelector((state) => state.auth.user)
 	const [selectedClass, setSelectedClass] = useState('')
 	const handleChangeClass = (e) => {
 		setSelectedClass(e.target.value)
@@ -83,34 +83,29 @@ const Timetable = () => {
 				<Breadcrumb links={links} />
 
 				<Box className={classes.content}>
-					<Box className={classes.top}>
-						<Typography variant="body1" className={classes.title}>
-							Lớp
-						</Typography>
-						<FormControl variant="outlined" className={classes.selectClass}>
-							{/* <InputLabel
-								id="demo-simple-select-outlined-label"
-								style={{ color: '#000' }}
-								className={classes.label}
-							>
+					{user.role === 'admin' && (
+						<Box className={classes.top}>
+							<Typography variant="body1" className={classes.title}>
 								Lớp
-							</InputLabel> */}
-							<Select
-								labelId="demo-simple-select-outlined-label"
-								id="demo-simple-select-outlined"
-								value={selectedClass}
-								onChange={handleChangeClass}
-							>
-								{classesFromStore?.map((thisClass) => {
-									return (
-										<MenuItem key={thisClass._id} value={thisClass._id}>
-											{thisClass.name}
-										</MenuItem>
-									)
-								})}
-							</Select>
-						</FormControl>
-					</Box>
+							</Typography>
+							<FormControl variant="outlined" className={classes.selectClass}>
+								<Select
+									labelId="demo-simple-select-outlined-label"
+									id="demo-simple-select-outlined"
+									value={selectedClass}
+									onChange={handleChangeClass}
+								>
+									{classesFromStore?.map((thisClass) => {
+										return (
+											<MenuItem key={thisClass._id} value={thisClass._id}>
+												{thisClass.name}
+											</MenuItem>
+										)
+									})}
+								</Select>
+							</FormControl>
+						</Box>
+					)}
 
 					<TableContainer component={Paper}>
 						<Table className={classes.table} aria-label="simple table">

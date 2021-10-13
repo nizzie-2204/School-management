@@ -82,8 +82,13 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: '310px',
 	},
 	loading: {
+		height: 440,
 		textAlign: 'center',
 		margin: '50px auto',
+	},
+	emptyData: {
+		margin: '100px 0',
+		textAlign: 'center',
 	},
 }))
 

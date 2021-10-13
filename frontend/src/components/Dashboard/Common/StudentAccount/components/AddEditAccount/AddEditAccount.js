@@ -114,11 +114,14 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 
 					const action = updateStudentClass({ newClassId, studentId })
 					dispatch(action)
+
 					handleClose()
-					enqueueSnackbar('Thêm tài khoản thành công', {
-						variant: 'success',
-						autoHideDuration: 3000,
-					})
+					enqueueSnackbar(
+						`Tài khoản: ${res?.data.username} mật khẩu: ${res?.data.password}`,
+						{
+							variant: 'success',
+						}
+					)
 				})
 				.catch((error) => {
 					if (

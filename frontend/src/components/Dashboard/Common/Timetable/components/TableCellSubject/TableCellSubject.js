@@ -4,8 +4,9 @@ import startOfWeek from 'date-fns/startOfWeek'
 import React from 'react'
 import TableCellCustom from '../TableCell/TableCell'
 import useStyles from './styles'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { useState, useEffect } from 'react'
+import { getClass } from 'components/Dashboard/Common/Class/classSlice'
 // Get date in week
 const days = []
 
@@ -21,8 +22,9 @@ for (let i = 1; i < 6; i++) {
 
 const TableCellSubject = () => {
 	const classes = useStyles()
+	const dispatch = useDispatch()
 	const classFromStore = useSelector((state) => state.classes.class)
-	const timetable = [
+	const defaultTimetable = [
 		{
 			time: '07:30 - 08:05',
 			content: [
@@ -105,10 +107,28 @@ const TableCellSubject = () => {
 		},
 	]
 
+	// Teacher timetable
+	const user = useSelector((state) => state.auth.user)
+	const teacherTimetable = user.timetable
+
+	// Student timetable (class timetable of student)
+	useEffect(() => {
+		if (user.role === 'student') {
+			const fetchClass = () => {
+				const action = getClass(user.classId)
+				dispatch(action)
+			}
+			fetchClass()
+		}
+	}, [])
+
+	const timetableFromStore =
+		classFromStore?.timetable || teacherTimetable || null
+
 	return (
 		<>
-			{classFromStore !== null
-				? classFromStore?.timetable.map((row, index) => (
+			{timetableFromStore !== null
+				? timetableFromStore?.map((row, index) => (
 						<TableRow key={index}>
 							<TableCell className={classes.session} align="center">
 								<div>{`Tiết ${index + 1}`}</div>
@@ -128,7 +148,7 @@ const TableCellSubject = () => {
 							})}
 						</TableRow>
 				  ))
-				: timetable?.map((row, index) => (
+				: defaultTimetable?.map((row, index) => (
 						<TableRow key={index}>
 							<TableCell className={classes.session} align="center">
 								<div>{`Tiết ${index + 1}`}</div>

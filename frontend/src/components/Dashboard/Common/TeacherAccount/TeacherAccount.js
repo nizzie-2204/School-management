@@ -176,6 +176,7 @@ const TeacherAccount = () => {
 								color: '#3254ac',
 							}}
 						/>
+						<p>Đang tải dữ liệu...</p>
 					</div>
 				) : (
 					<>
@@ -216,86 +217,102 @@ const TeacherAccount = () => {
 										</TableCell>
 									</TableRow>
 								</TableHead>
-								<TableBody>
-									{teachers
-										?.filter((teacher) => {
-											if (searchTerm === '') {
-												return teacher
-											} else if (
-												teacher.name
-													.toLowerCase()
-													.includes(searchTerm.toLowerCase()) ||
-												teacher.username
-													.toLowerCase()
-													.includes(searchTerm.toLowerCase())
-											) {
-												return teacher
-											}
-											return false
-										})
-										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-										.map((teacher, index) => (
-											<TableRow key={index}>
-												<TableCell
-													align="center"
-													component="th"
-													scope="row"
-													className={classes.limitText}
-												>
-													{teacher._id}
-												</TableCell>
-												<TableCell align="center">{teacher.name}</TableCell>
+								{teachersLoading ? (
+									<div className={classes.loading}>
+										<CircularProgress
+											style={{
+												color: '#3254ac',
+											}}
+										/>
+										<p>Đang tải dữ liệu...</p>
+									</div>
+								) : (
+									<TableBody>
+										{teachers
+											?.filter((teacher) => {
+												if (searchTerm === '') {
+													return teacher
+												} else if (
+													teacher.name
+														.toLowerCase()
+														.includes(searchTerm.toLowerCase()) ||
+													teacher.username
+														.toLowerCase()
+														.includes(searchTerm.toLowerCase())
+												) {
+													return teacher
+												}
+												return false
+											})
+											.slice(
+												page * rowsPerPage,
+												page * rowsPerPage + rowsPerPage
+											)
+											.map((teacher, index) => (
+												<TableRow key={index}>
+													<TableCell
+														align="center"
+														component="th"
+														scope="row"
+														className={classes.limitText}
+													>
+														{teacher._id}
+													</TableCell>
+													<TableCell align="center">{teacher.name}</TableCell>
 
-												<TableCell align="center">
-													{teacher.isLoggedIn ? (
-														<CheckIcon
-															fontSize="small"
-															className={classes.isLoggedIn}
-														/>
-													) : (
-														<ClearIcon
-															fontSize="small"
-															className={classes.isLoggedOut}
-														/>
-													)}
-												</TableCell>
-												<TableCell align="center">{teacher.username}</TableCell>
-												<TableCell align="center">
-													{formatDate(teacher.createdAt)}
-												</TableCell>
-												<TableCell align="center">
-													{formatDate(teacher.updatedAt)}
-												</TableCell>
-												<TableCell align="center">
-													<Tooltip title="Chỉnh sửa">
-														<IconButton
+													<TableCell align="center">
+														{teacher.isLoggedIn ? (
+															<CheckIcon
+																fontSize="small"
+																className={classes.isLoggedIn}
+															/>
+														) : (
+															<ClearIcon
+																fontSize="small"
+																className={classes.isLoggedOut}
+															/>
+														)}
+													</TableCell>
+													<TableCell align="center">
+														{teacher.username}
+													</TableCell>
+													<TableCell align="center">
+														{formatDate(teacher.createdAt)}
+													</TableCell>
+													<TableCell align="center">
+														{formatDate(teacher.updatedAt)}
+													</TableCell>
+													<TableCell align="center">
+														<Tooltip title="Chỉnh sửa">
+															<IconButton
+																onClick={() => {
+																	handleOpen2(teacher)
+																}}
+															>
+																<CreateIcon
+																	fontSize="small"
+																	style={{ color: '#5278db' }}
+																/>
+															</IconButton>
+														</Tooltip>
+														<Tooltip
+															title="Xóa"
 															onClick={() => {
-																handleOpen2(teacher)
+																handleOpen3(teacher)
 															}}
 														>
-															<CreateIcon
-																fontSize="small"
-																style={{ color: '#5278db' }}
-															/>
-														</IconButton>
-													</Tooltip>
-													<Tooltip
-														title="Xóa"
-														onClick={() => {
-															handleOpen3(teacher)
-														}}
-													>
-														<IconButton>
-															<DeleteIcon
-																fontSize="small"
-																style={{ color: '#e96053' }}
-															/>
-														</IconButton>
-													</Tooltip>
-												</TableCell>
-											</TableRow>
-										))}
-								</TableBody>
+															<IconButton>
+																<DeleteIcon
+																	fontSize="small"
+																	style={{ color: '#e96053' }}
+																/>
+															</IconButton>
+														</Tooltip>
+													</TableCell>
+												</TableRow>
+											))}
+									</TableBody>
+								)}
 								<AddEditAccount
 									open={open2}
 									handleClose={handleClose2}
@@ -308,32 +325,36 @@ const TeacherAccount = () => {
 								/>
 							</Table>
 						</TableContainer>
-						<TablePagination
-							rowsPerPageOptions={[10]}
-							component="div"
-							// Pagination on search
-							count={
-								teachers?.filter((teacher) => {
-									if (searchTerm === '') {
-										return teacher
-									} else if (
-										teacher.name
-											.toLowerCase()
-											.includes(searchTerm.toLowerCase()) ||
-										teacher.username
-											.toLowerCase()
-											.includes(searchTerm.toLowerCase())
-									) {
-										return teacher
-									}
-									return false
-								}).length
-							}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-						/>
+						{teachers.length > 0 ? (
+							<TablePagination
+								rowsPerPageOptions={[10]}
+								component="div"
+								// Pagination on search
+								count={
+									teachers?.filter((teacher) => {
+										if (searchTerm === '') {
+											return teacher
+										} else if (
+											teacher.name
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase()) ||
+											teacher.username
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase())
+										) {
+											return teacher
+										}
+										return false
+									}).length
+								}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
+							/>
+						) : (
+							<div className={classes.emptyData}>Chưa có dữ liệu</div>
+						)}
 					</>
 				)}
 			</Box>

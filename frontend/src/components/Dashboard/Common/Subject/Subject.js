@@ -166,6 +166,7 @@ const Subject = () => {
 								color: '#3254ac',
 							}}
 						/>
+						<p>Đang tải dữ liệu...</p>
 					</div>
 				) : (
 					<>
@@ -283,32 +284,36 @@ const Subject = () => {
 								/>
 							</Table>
 						</TableContainer>
-						<TablePagination
-							rowsPerPageOptions={[10]}
-							component="div"
-							// Pagination on search
-							count={
-								subjects?.filter((subject) => {
-									if (searchTerm === '') {
-										return subject
-									} else if (
-										subject.name
-											.toLowerCase()
-											.includes(searchTerm.toLowerCase()) ||
-										subject.desc
-											.toLowerCase()
-											.includes(searchTerm.toLowerCase())
-									) {
-										return subject
-									}
-									return false
-								}).length
-							}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={handleChangeRowsPerPage}
-						/>
+						{subjects.length > 0 ? (
+							<TablePagination
+								rowsPerPageOptions={[10]}
+								component="div"
+								// Pagination on search
+								count={
+									subjects?.filter((subject) => {
+										if (searchTerm === '') {
+											return subject
+										} else if (
+											subject.name
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase()) ||
+											subject.desc
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase())
+										) {
+											return subject
+										}
+										return false
+									}).length
+								}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
+							/>
+						) : (
+							<div className={classes.emptyData}>Chưa có dữ liệu</div>
+						)}
 					</>
 				)}
 			</Box>
