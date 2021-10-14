@@ -8,7 +8,10 @@ const HeaderContainer = () => {
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
 	const location = useLocation()
 
-	if (location.pathname.includes('/login')) {
+	if (
+		location.pathname.includes('/login') ||
+		location.pathname.includes('/classroom')
+	) {
 		// Login page not using Header component
 		return null
 	} else if (isLoggedIn && location.pathname.includes('/dashboard')) {

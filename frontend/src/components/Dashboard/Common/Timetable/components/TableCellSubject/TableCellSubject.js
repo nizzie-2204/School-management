@@ -109,7 +109,6 @@ const TableCellSubject = () => {
 
 	// Teacher timetable
 	const user = useSelector((state) => state.auth.user)
-	const teacherTimetable = user.timetable
 
 	// Student timetable (class timetable of student)
 	useEffect(() => {
@@ -123,7 +122,7 @@ const TableCellSubject = () => {
 	}, [])
 
 	const timetableFromStore =
-		classFromStore?.timetable || teacherTimetable || null
+		classFromStore?.timetable || user?.timetable || null
 
 	return (
 		<>

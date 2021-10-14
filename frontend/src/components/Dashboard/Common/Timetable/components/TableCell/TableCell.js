@@ -319,12 +319,12 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 	return (
 		<>
 			<TableCell
-				{...(!user.role !== 'admin' && { onClick: handleClick })}
-				{...(user.role === 'admin' &&
+				{...(!user?.role !== 'admin' && { onClick: handleClick })}
+				{...(user?.role === 'admin' &&
 					classFromStore && {
 						onClick: handleOpen,
 					})}
-				{...(user.role === 'admin' &&
+				{...(user?.role === 'admin' &&
 					!classFromStore && {
 						onClick: () => {
 							enqueueSnackbar(`Chưa chọn lớp`, {
@@ -340,7 +340,7 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 				<div className={classes.titleSmall}>{displayTeacher?.name}</div>
 				<div className={classes.titleSmall}>{displayClass?.name}</div>
 			</TableCell>
-			{user.role === 'admin' ? (
+			{user?.role === 'admin' ? (
 				<Modal
 					aria-labelledby="transition-modal-title"
 					aria-describedby="transition-modal-description"

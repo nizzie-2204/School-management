@@ -39,6 +39,10 @@ const HeadClassTeacher = lazy(() =>
 	import('components/Dashboard/Common/HeadClassTeacher/HeadClassTeacher')
 )
 
+const Classroom = lazy(() =>
+	import('components/Dashboard/Common/Classroom/Main/Main')
+)
+
 const routes = [
 	{
 		exact: true,
@@ -119,6 +123,11 @@ const routes = [
 		exact: true,
 		path: '/dashboard/head-class-teacher',
 		component: HeadClassTeacher,
+	},
+	{
+		exact: true,
+		path: '/dashboard/classroom',
+		component: Classroom,
 	},
 ]
 

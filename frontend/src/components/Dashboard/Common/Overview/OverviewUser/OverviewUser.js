@@ -19,11 +19,14 @@ const OverviewUser = () => {
 	const dispatch = useDispatch()
 	const user = useSelector((state) => state.auth.user)
 	const subjects = useSelector((state) => state.subjects.subjects)
-	const timetableTeacher = user.timetable
+	let timetableTeacher
+	if (user?.timetable) {
+		timetableTeacher = user.timetable
+	}
 
 	// Get subject and time on this day
 	const subjectTime = []
-	timetableTeacher.forEach((time) => {
+	timetableTeacher?.forEach((time) => {
 		time.content.forEach((lesson) => {
 			const subject = subjects.find((x) => {
 				return x._id === lesson.subjectId
@@ -59,26 +62,26 @@ const OverviewUser = () => {
 						<Box className={classes.info}>
 							<Box className={classes.row}>
 								<AccountBoxIcon className={classes.infoIcon} />
-								Họ và tên: {user.name}
+								Họ và tên: {user?.name}
 							</Box>
 							<Box className={classes.row}>
 								<CakeIcon className={classes.infoIcon} />
-								Ngày sinh: {formatDate(user.dateOfBirth).slice(5)}
+								Ngày sinh: {formatDate(user?.dateOfBirth).slice(5)}
 							</Box>
 							<Box className={classes.row}>
 								<PermIdentityIcon className={classes.infoIcon} />
-								Tài khoản: {user.username}
+								Tài khoản: {user?.username}
 							</Box>
-							{user.role === 'student' && (
+							{user?.role === 'student' && (
 								<Box className={classes.row}>
-									<ClassIcon className={classes.infoIcon} />
+									<ClassIcon className={classes?.infoIcon} />
 									Lớp
 								</Box>
 							)}
-							{user.role === 'teacher' && (
+							{user?.role === 'teacher' && (
 								<Box className={classes.row}>
 									<CallIcon className={classes.infoIcon} />
-									Số điện thoại cá nhân: {user.phone}
+									Số điện thoại cá nhân: {user?.phone}
 								</Box>
 							)}
 						</Box>
@@ -89,7 +92,7 @@ const OverviewUser = () => {
 				</Box>
 				<Box className={classes.schedule}>
 					<Typography variant="h6" className={classes.dataTitle}>
-						Lịch {user.role === 'teacher' ? 'dạy' : 'học'} hôm nay
+						Lịch {user?.role === 'teacher' ? 'dạy' : 'học'} hôm nay
 					</Typography>
 
 					<Box className={classes.classContainer}>
