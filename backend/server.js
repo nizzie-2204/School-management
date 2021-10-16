@@ -2,8 +2,17 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const dotenv = require('dotenv')
+
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
+
+// const server = require('http').Server(app)
+// const io = require('socket.io')(server)
+
+// const http = require('http')
+// const server = http.createServer(app)
+// const { Server } = require('socket.io')
+// const io = new Server(server)
 
 // Route
 const authRoute = require('./src/routes/v1/authRoute')
@@ -56,6 +65,8 @@ app.all('*', (req, res, next) => {
 })
 
 // Connect socket.io
+let socketList = {}
+
 io.on('connection', (socket) => {
 	console.log(`New user connected: ${socket.id}`)
 
@@ -66,6 +77,8 @@ io.on('connection', (socket) => {
 
 	socket.on('BE-check-user', ({ roomId, userName }) => {
 		let error = false
+
+		console.log('roomId: ', roomId)
 
 		io.sockets.in(roomId).clients((err, clients) => {
 			clients.forEach((client) => {
@@ -142,6 +155,8 @@ io.on('connection', (socket) => {
 	})
 })
 
+io.listen(3001)
+
 app.listen(process.env.PORT, () => {
-	console.log('Server is running ...')
+	console.log(`Server is running on port ${process.env.PORT} ...`)
 })

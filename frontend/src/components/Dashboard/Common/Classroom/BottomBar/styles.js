@@ -39,10 +39,12 @@ const useStyles = makeStyles((theme) => ({
 	iconContainer: {
 		display: 'flex',
 		flexDirection: 'column',
+		pointerEvents: 'none',
 	},
 	icon: {
 		color: theme.palette.common.white,
 		fontSize: 28,
+		pointerEvents: 'none',
 	},
 	iconText: {
 		fontSize: 14,

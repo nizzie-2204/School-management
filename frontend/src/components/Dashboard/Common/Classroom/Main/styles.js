@@ -13,6 +13,47 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 	},
+	room: {
+		width: '100%',
+		height: 'calc(100vh - 70px)',
+		backgroundColor: '#161d29',
+		// display: 'flex',
+		// alignItems: 'center',
+		padding: 50,
+	},
+	video: {
+		position: 'relative',
+		zIndex: 0,
+		width: 400,
+		height: 300,
+	},
+	videoContainer: {
+		position: 'relative',
+		width: 400,
+		height: 300,
+	},
+	username: {
+		position: 'absolute',
+		content: '""',
+		top: '50%',
+		left: '50%',
+		transform: 'translate(-50%, -50%)',
+		fontSize: 28,
+		zIndex: 1,
+		color: theme.palette.text.secondary,
+		textAlign: 'center',
+	},
+	roomContainer: {
+		maxWidth: '100%',
+		height: ' 92%',
+		display: 'flex',
+		justifyContent: 'space-around',
+		flexWrap: 'wrap',
+		alignItems: 'center',
+		// padding: '15px',
+		boxSizing: 'border-box',
+		gap: '10px',
+	},
 }))
 
 export default useStyles

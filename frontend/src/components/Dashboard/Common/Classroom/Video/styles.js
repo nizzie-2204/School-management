@@ -2,7 +2,8 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
 	video: {
-		backgroundColor: '#000',
+		position: 'relative',
+		zIndex: 0,
 		width: 400,
 		height: 300,
 	},

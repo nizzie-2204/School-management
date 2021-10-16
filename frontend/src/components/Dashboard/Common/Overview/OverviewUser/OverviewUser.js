@@ -13,12 +13,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
 import { getSubjects } from '../../Subject/subjectSlice'
 import useStyles from './styles'
+import { getClass } from 'components/Dashboard/Common/Class/classSlice'
 
 const OverviewUser = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const user = useSelector((state) => state.auth.user)
 	const subjects = useSelector((state) => state.subjects.subjects)
+	const classFromStore = useSelector((state) => state.classes.class)
 	let timetableTeacher
 	if (user?.timetable) {
 		timetableTeacher = user.timetable
@@ -44,10 +46,18 @@ const OverviewUser = () => {
 	})
 
 	useEffect(() => {
+		if (user?.role === 'student') {
+			const fetchClass = () => {
+				const action = getClass(user.classId)
+				dispatch(action)
+			}
+			fetchClass()
+		}
 		const fetchSubjects = () => {
 			const action = getSubjects()
 			dispatch(action)
 		}
+
 		fetchSubjects()
 	}, [])
 
@@ -75,7 +85,7 @@ const OverviewUser = () => {
 							{user?.role === 'student' && (
 								<Box className={classes.row}>
 									<ClassIcon className={classes?.infoIcon} />
-									Lớp
+									Lớp {classFromStore?.name}
 								</Box>
 							)}
 							{user?.role === 'teacher' && (

@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import useStyles from './styles'
 
-const Video = () => {
+const Video = (props) => {
+	const ref = useRef({})
+	const peer = props.peer
+
+	useEffect(() => {
+		peer.on('stream', (stream) => {
+			ref.current.srcObject = stream
+		})
+		peer.on('track', (track, stream) => {})
+	}, [peer])
 	const classes = useStyles()
 	return <video className={classes.video}></video>
 }

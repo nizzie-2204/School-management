@@ -52,10 +52,14 @@ for (let i = 1; i < 6; i++) {
 	days.push(day)
 }
 
+// Tài khoản: t2100002 mật khẩu: GqIo9G3!
+// Tài khoản: s2100001 mật khẩu: kM2#=aB@
+
 const Timetable = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const classesFromStore = useSelector((state) => state.classes.classes)
+	const classFromStore = useSelector((state) => state.classes.class)
 	const user = useSelector((state) => state.auth.user)
 	const [selectedClass, setSelectedClass] = useState('')
 	const handleChangeClass = (e) => {
@@ -86,6 +90,11 @@ const Timetable = () => {
 
 		const action3 = getTeachers()
 		dispatch(action3)
+
+		if (user?.role === 'student') {
+			const action = getClass(user?.classId)
+			dispatch(action)
+		}
 	}, [])
 
 	return (
@@ -119,6 +128,18 @@ const Timetable = () => {
 									})}
 								</Select>
 							</FormControl>
+						</Box>
+					)}
+
+					{user?.role === 'student' && (
+						<Box className={classes.top} style={{ margin: '20px 0 30px' }}>
+							<Typography
+								variant="body1"
+								className={classes.title}
+								style={{ margin: '0 auto', fontSize: 26 }}
+							>
+								Lớp: {classFromStore?.name}
+							</Typography>
 						</Box>
 					)}
 

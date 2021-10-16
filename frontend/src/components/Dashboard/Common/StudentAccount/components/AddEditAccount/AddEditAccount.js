@@ -80,6 +80,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			address: data.address,
 			dateOfBirth: data.dateOfBirth,
 			classId: data.classId,
+			role: 'student',
 			parents: {
 				father: {
 					name: data.dadName,
@@ -109,6 +110,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			dispatch(action)
 				.then(unwrapResult)
 				.then((res) => {
+					console.log(res)
 					const newClassId = newData.classId
 					const studentId = res.data._id
 

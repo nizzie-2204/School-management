@@ -287,7 +287,7 @@ const Class = () => {
 								</TableBody>
 							</Table>
 						</TableContainer>
-						{classes.length > 0 ? (
+						{classesFromStore.length > 0 ? (
 							<TablePagination
 								rowsPerPageOptions={[10]}
 								component="div"

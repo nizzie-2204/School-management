@@ -21,16 +21,18 @@ import {
 	updateStudentClass,
 } from 'components/Dashboard/Common/Class/classSlice'
 import { updateClassTeacher } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
+import { nanoid } from 'nanoid'
 import { useSnackbar } from 'notistack'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import useStyles from './styles'
 
 const Lesson = ({ row, index, cell, prevIndex }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const { enqueueSnackbar } = useSnackbar()
-
+	const history = useHistory()
 	const user = useSelector((state) => state.auth.user)
 	const subjects = useSelector((state) => state.subjects.subjects)
 	const classFromStore = useSelector((state) => state.classes.class)
@@ -316,6 +318,39 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 		}
 	}, [classFromStore])
 
+	// Teacher create classroom
+	const roomRef = useRef(nanoid())
+	const userRef = useRef()
+	const [err, setErr] = useState(false)
+	const [errMsg, setErrMsg] = useState('')
+
+	// useEffect(() => {
+	// 	socket.on('FE-error-user-exist', ({ error }) => {
+	// 		if (!error) {
+	// 			const roomName = roomRef.current
+	// 			const userName = user?.name
+
+	// 			console.log(roomName)
+	// 			console.log(userName)
+
+	// 		} else {
+	// 			setErr(error)
+	// 			setErrMsg('User name already exist')
+	// 		}
+	// 	})
+	// }, [])
+
+	const handleCreateClassroom = () => {
+		if (!cell) {
+			return
+		} else {
+			const roomName = roomRef.current
+			const userName = user?.name
+			sessionStorage.setItem('user', userName)
+			history.push(`/dashboard/classroom/${roomName}`)
+		}
+	}
+
 	return (
 		<>
 			<TableCell
@@ -438,11 +473,13 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 						</Box>
 						<Box className={classes.row}>
 							<PermIdentityIcon className={classes.rowIcon} />
-							{user.name}
+							{user?.role === 'student' ? displayTeacher?.name : user?.name}
 						</Box>
 						<Box className={classes.row}>
 							<LocalOfferIcon className={classes.rowIcon} />
-							{displayClass?.name}
+							{user?.role === 'teacher'
+								? displayClass?.name
+								: classFromStore?.name}
 						</Box>
 						<Box className={classes.row}>
 							<ScheduleIcon
@@ -451,7 +488,11 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 							/>
 							{row.time}
 						</Box>
-						<Button variant="contained" className={classes.button}>
+						<Button
+							variant="contained"
+							className={classes.button}
+							onClick={handleCreateClassroom}
+						>
 							Chưa diễn ra
 						</Button>
 					</Box>

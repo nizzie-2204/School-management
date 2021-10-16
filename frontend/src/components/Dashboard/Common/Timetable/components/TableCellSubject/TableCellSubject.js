@@ -112,7 +112,7 @@ const TableCellSubject = () => {
 
 	// Student timetable (class timetable of student)
 	useEffect(() => {
-		if (user.role === 'student') {
+		if (user?.role === 'student') {
 			const fetchClass = () => {
 				const action = getClass(user.classId)
 				dispatch(action)

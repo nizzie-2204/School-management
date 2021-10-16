@@ -125,8 +125,8 @@ const routes = [
 		component: HeadClassTeacher,
 	},
 	{
-		exact: true,
-		path: '/dashboard/classroom',
+		exact: false,
+		path: '/dashboard/classroom/:roomId',
 		component: Classroom,
 	},
 ]
