@@ -4,6 +4,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import React, { useEffect, useRef, useState } from 'react'
 import useStyles from './styles'
 import socket from 'socket'
+import { useSelector } from 'react-redux'
 
 const formatDate = (timeStamp) => {
 	const thisDate = new Date(timeStamp)
@@ -22,12 +23,13 @@ const formatDate = (timeStamp) => {
 
 const Chat = ({ openChat, handleOpenChat, roomId }) => {
 	const classes = useStyles()
-
+	const user = useSelector((state) => state.auth.user)
 	const currentUser = sessionStorage.getItem('user')
 	const [msg, setMsg] = useState([])
 	const messagesEndRef = useRef(null)
 	const inputRef = useRef()
 	const formRef = useRef()
+
 	useEffect(() => {
 		socket.on('FE-receive-message', ({ msg, sender }) => {
 			setMsg((msgs) => [...msgs, { sender, msg }])
@@ -50,7 +52,6 @@ const Chat = ({ openChat, handleOpenChat, roomId }) => {
 			if (msg) {
 				socket.emit('BE-send-message', { roomId, msg, sender: currentUser })
 				inputRef.current.value = ''
-				console.log(inputRef.current.value)
 			}
 		}
 	}
@@ -66,7 +67,7 @@ const Chat = ({ openChat, handleOpenChat, roomId }) => {
 			return
 		} else {
 			const msg = inputRef.current.value
-			socket.emit('BE-send-message', { roomId, msg, sender: currentUser })
+			socket.emit('BE-send-message', { roomId, msg, sender: user.name })
 			formRef.current.reset()
 		}
 	}
@@ -83,11 +84,12 @@ const Chat = ({ openChat, handleOpenChat, roomId }) => {
 				<Box className={classes.messageList}>
 					{msg &&
 						msg.map(({ sender, msg }, idx) => {
-							if (sender !== currentUser) {
+							console.log(sender)
+							if (sender !== user?.name) {
 								return (
 									<div key={idx} className={classes.message}>
-										<strong className={classes.name}>Ai đó</strong>
-										<p className={classes.content}>
+										<strong>{sender}</strong>
+										<p>
 											{msg}
 											<small>{formatDate(new Date())}</small>
 										</p>
@@ -96,8 +98,8 @@ const Chat = ({ openChat, handleOpenChat, roomId }) => {
 							} else {
 								return (
 									<div key={idx} className={classes.userMessage}>
-										<strong className={classes.name}>Tôi</strong>
-										<p className={classes.content}>
+										<strong>Tôi</strong>
+										<p>
 											{msg}
 											<small>{formatDate(new Date())}</small>
 										</p>

@@ -26,9 +26,10 @@ import { useSnackbar } from 'notistack'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
+import checkTime from 'utils/checkTime'
 import useStyles from './styles'
 
-const Lesson = ({ row, index, cell, prevIndex }) => {
+const Lesson = ({ row, index, cell, prevIndex, date }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const { enqueueSnackbar } = useSnackbar()
@@ -320,28 +321,14 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 
 	// Teacher create classroom
 	const roomRef = useRef(nanoid())
-	const userRef = useRef()
-	const [err, setErr] = useState(false)
-	const [errMsg, setErrMsg] = useState('')
-
-	// useEffect(() => {
-	// 	socket.on('FE-error-user-exist', ({ error }) => {
-	// 		if (!error) {
-	// 			const roomName = roomRef.current
-	// 			const userName = user?.name
-
-	// 			console.log(roomName)
-	// 			console.log(userName)
-
-	// 		} else {
-	// 			setErr(error)
-	// 			setErrMsg('User name already exist')
-	// 		}
-	// 	})
-	// }, [])
 
 	const handleCreateClassroom = () => {
-		if (!cell) {
+		if (
+			!cell ||
+			!checkTime({ time: row.time, day: cell.day, date }).includes('Vào') ||
+			!cell.sucjectId ||
+			!cell.classId
+		) {
 			return
 		} else {
 			const roomName = roomRef.current
@@ -351,6 +338,11 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 		}
 	}
 
+	// console.log(day.toLocaleDateString('vi-VN', { timeZone: 'UTC' }))
+	// console.log(
+	// 	'Current date: ',
+	// 	new Date().toLocaleDateString('vi-VN', { timeZone: 'UTC' })
+	// )
 	return (
 		<>
 			<TableCell
@@ -490,10 +482,16 @@ const Lesson = ({ row, index, cell, prevIndex }) => {
 						</Box>
 						<Button
 							variant="contained"
-							className={classes.button}
+							className={`${
+								!checkTime({ time: row.time, day: cell.day, date }).includes(
+									'Vào'
+								)
+									? `${classes.opacity}`
+									: `${classes.button}`
+							}`}
 							onClick={handleCreateClassroom}
 						>
-							Chưa diễn ra
+							{checkTime({ time: row.time, day: cell.day, date })}
 						</Button>
 					</Box>
 				</Popover>

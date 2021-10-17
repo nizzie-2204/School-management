@@ -1,7 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 import useStyles from './styles'
+import { useSelector } from 'react-redux'
 
 const Video = (props) => {
+	const user = useSelector((state) => state.auth.user)
 	const ref = useRef({})
 	const peer = props.peer
 
@@ -12,7 +14,11 @@ const Video = (props) => {
 		peer.on('track', (track, stream) => {})
 	}, [peer])
 	const classes = useStyles()
-	return <video className={classes.video}></video>
+	return (
+		<video className={classes.video} playsInline autoPlay ref={ref}>
+			{user?.name}
+		</video>
+	)
 }
 
 export default Video

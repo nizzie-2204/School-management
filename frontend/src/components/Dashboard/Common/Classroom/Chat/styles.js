@@ -10,10 +10,10 @@ const useStyles = makeStyles((theme) => ({
 		transition: '0.4s',
 		position: 'absolute',
 		top: 0,
-		right: -380,
+		right: 0,
 	},
 	scale: {
-		right: 0,
+		right: -380,
 	},
 	topHeader: {
 		height: 70,
@@ -43,15 +43,14 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'flex-start',
 		fontSize: 16,
 		marginTop: 15,
-		marginLeft: 15,
 		textAlign: 'left',
 
-		'> strong': {
+		'& strong': {
 			color: theme.palette.text.secondary,
 			marginLeft: 3,
 		},
 
-		'> p': {
+		'& p': {
 			maxWidth: '65%',
 			width: 'auto',
 			padding: 9,

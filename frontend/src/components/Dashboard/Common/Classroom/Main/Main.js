@@ -9,6 +9,7 @@ import Peer from 'simple-peer'
 import socket from 'socket'
 import { useParams, useHistory } from 'react-router'
 import Video from '../Video/Video'
+import { useSelector } from 'react-redux'
 
 const Main = () => {
 	const classes = useStyles()
@@ -20,7 +21,9 @@ const Main = () => {
 	}
 
 	// Socket
-	const currentUser = sessionStorage.getItem('user')
+	const user = useSelector((state) => state.auth.user)
+	const currentUser = user?.name
+	const [users, setUsers] = useState(1)
 	const [peers, setPeers] = useState([])
 	const [userVideoAudio, setUserVideoAudio] = useState({
 		localUser: { video: true, audio: true },
@@ -33,6 +36,10 @@ const Main = () => {
 	const screenTrackRef = useRef()
 	const userStream = useRef()
 	const { roomId } = useParams()
+
+	socket.on('connect', () => {
+		console.log(socket.id) // x8WIv7-mJelg7on_ALbx
+	})
 
 	useEffect(() => {
 		// Get Video Devices
@@ -52,7 +59,9 @@ const Main = () => {
 				userStream.current = stream
 
 				socket.emit('BE-join-room', { roomId, userName: currentUser })
-				socket.on('FE-user-join', (users) => {
+				socket.on('FE-user-join', (users, socketList) => {
+					console.log(socketList)
+					setUsers(users.length)
 					// all users
 					const peers = []
 					users.forEach(({ userId, info }) => {
@@ -121,7 +130,6 @@ const Main = () => {
 						users = users.filter((user) => user.peerID !== peerIdx.peer.peerID)
 						return [...users]
 					})
-					console.log(peers)
 				})
 			})
 
@@ -195,7 +203,6 @@ const Main = () => {
 	}
 
 	const createUserVideo = (peer, index, arr) => {
-		console.log(peer)
 		// return (
 		// 	<VideoBox
 		// 		className={`width-peer${peers.length > 8 ? '' : peers.length}`}
@@ -209,11 +216,15 @@ const Main = () => {
 		// )
 
 		return (
-			<Box className={classes.room} onClick={expandScreen} key={index}>
+			<Box
+				className={classes.videoContainer}
+				onClick={expandScreen}
+				key={index}
+			>
 				{writeUserName(peer.userName)}
-				<Box className={classes.videoContainer}>
-					<Video key={index} peer={peer} number={arr.length} />
-				</Box>
+				{/* <Box className={classes.videoContainer}> */}
+				<Video key={index} peer={peer} number={arr.length} />
+				{/* </Box> */}
 			</Box>
 		)
 	}
@@ -362,11 +373,11 @@ const Main = () => {
 									<div className={classes.username}>{currentUser}</div>
 								)}
 							</Box>
+							{peers &&
+								peers.map((peer, index, arr) =>
+									createUserVideo(peer, index, arr)
+								)}
 						</Box>
-						{peers &&
-							peers.map((peer, index, arr) =>
-								createUserVideo(peer, index, arr)
-							)}
 					</Box>
 
 					<BottomBar
@@ -379,6 +390,7 @@ const Main = () => {
 						showVideoDevices={showVideoDevices}
 						setShowVideoDevices={setShowVideoDevices}
 						handleOpenChat={handleOpenChat}
+						users={users}
 					/>
 				</Box>
 				<Chat

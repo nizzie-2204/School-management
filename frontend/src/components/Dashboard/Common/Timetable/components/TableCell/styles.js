@@ -114,6 +114,17 @@ const useStyles = makeStyles((theme) => ({
 			color: theme.palette.text.secondary,
 		},
 	},
+	opacity: {
+		opacity: '0.5',
+		cursor: 'not-allowed',
+		backgroundColor: '#3254ac',
+		color: theme.palette.text.secondary,
+
+		'&:hover': {
+			backgroundColor: '#3254ac',
+			color: theme.palette.text.secondary,
+		},
+	},
 }))
 
 export default useStyles

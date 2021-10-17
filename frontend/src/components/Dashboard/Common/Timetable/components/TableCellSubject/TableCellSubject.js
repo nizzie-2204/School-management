@@ -10,7 +10,7 @@ import { getClass } from 'components/Dashboard/Common/Class/classSlice'
 // Get date in week
 const days = []
 
-for (let i = 1; i < 6; i++) {
+for (let i = 0; i < 5; i++) {
 	const day = addDays(
 		startOfWeek(new Date(), {
 			weekStartsOn: 1,
@@ -142,6 +142,7 @@ const TableCellSubject = () => {
 										index={index2}
 										prevIndex={index}
 										cell={cell}
+										date={days[index2]}
 									/>
 								)
 							})}

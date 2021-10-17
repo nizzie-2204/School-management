@@ -7,7 +7,7 @@ import MicIcon from '@material-ui/icons/Mic'
 import MicOffIcon from '@material-ui/icons/MicOff'
 import TextsmsIcon from '@material-ui/icons/Textsms'
 import DesktopWindowsIcon from '@material-ui/icons/DesktopWindows'
-
+import GroupIcon from '@material-ui/icons/Group'
 const BottomBar = ({
 	handleOpenChat,
 	goToBack,
@@ -18,6 +18,7 @@ const BottomBar = ({
 	videoDevices,
 	showVideoDevices,
 	setShowVideoDevices,
+	users,
 }) => {
 	const classes = useStyles()
 
@@ -27,7 +28,6 @@ const BottomBar = ({
 		},
 		[setShowVideoDevices]
 	)
-	console.log(userVideoAudio)
 
 	return (
 		<Box className={classes.bar}>
@@ -71,11 +71,23 @@ const BottomBar = ({
 						</IconButton>
 					</div>
 				</Box>
-				<Box className={classes.btn} onClick={clickScreenSharing}>
+				<Box
+					className={classes.btn}
+					onClick={clickScreenSharing}
+					style={{ marginRight: 20 }}
+				>
 					<div>
 						<IconButton className={classes.iconContainer}>
 							<DesktopWindowsIcon className={classes.icon} />
 						</IconButton>
+					</div>
+				</Box>
+				<Box className={classes.btn} style={{ cursor: 'default' }}>
+					<div className={classes.participant}>
+						<IconButton className={classes.iconContainer}>
+							<GroupIcon className={classes.icon} />
+						</IconButton>
+						<span className={classes.quantity}>{users}</span>
 					</div>
 				</Box>
 			</Box>

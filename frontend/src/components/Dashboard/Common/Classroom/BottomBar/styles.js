@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#2f80ec',
 		display: 'flex',
 		alignItems: 'center',
+		cursor: 'pointer',
 		'&:nth-of-type(1)': {
 			marginRight: 20,
 		},
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#f6484a',
 		display: 'flex',
 		alignItems: 'center',
+		cursor: 'pointer',
 		'&:nth-of-type(1)': {
 			marginRight: 20,
 		},
@@ -55,6 +57,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 	btnOut: {
 		color: '#f6484a',
+	},
+	participant: {
+		position: 'relative',
+	},
+	quantity: {
+		position: 'absolute',
+		content: '""',
+		top: 0,
+		right: 10,
+		fontSize: 14,
+		fontWeight: 600,
+		color: theme.palette.text.secondary,
 	},
 }))
 
