@@ -30,6 +30,7 @@ import AddEditAccount from './AddEditAccount/AddEditAccount'
 import DeleteAlert from './DeleteAlert/DeleteAlert'
 import useStyles from './styles'
 import { getTeachers } from './teacherAccountSlice'
+import emptyDataPNG from 'assets/images/document.png'
 
 const links = [
 	{
@@ -353,7 +354,10 @@ const TeacherAccount = () => {
 								onRowsPerPageChange={handleChangeRowsPerPage}
 							/>
 						) : (
-							<div className={classes.emptyData}>Chưa có dữ liệu</div>
+							<div className={classes.emptyData}>
+								<img src={emptyDataPNG} alt="empty" />
+								<p>Không có dữ liệu</p>
+							</div>
 						)}
 					</>
 				)}

@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getClasses } from '../Class/classSlice'
 import AddEditPage from './AddEditPage/AddEditPage'
 import useStyles from './styles'
+import emptyDataPNG from 'assets/images/document.png'
 
 const links = [
 	{
@@ -243,7 +244,10 @@ const HeadClassTeacher = () => {
 								onRowsPerPageChange={handleChangeRowsPerPage}
 							/>
 						) : (
-							<div className={classes.emptyData}>Chưa có dữ liệu</div>
+							<div className={classes.emptyData}>
+								<img src={emptyDataPNG} alt="empty" />
+								<p>Không có dữ liệu</p>
+							</div>
 						)}
 					</>
 				)}

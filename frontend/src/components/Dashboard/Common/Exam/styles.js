@@ -42,16 +42,19 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.text.main,
 		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
 			borderColor: 'transparent',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
 		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
 			borderColor: 'transparent',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
 		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
 			borderColor: 'transparent',
+
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
@@ -68,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
 		boxShadow: 'none !important',
 		'&:hover': {
 			backgroundColor: '#3254ac',
+		},
+		'& .MuiButton-startIcon': {
+			paddingBottom: 3,
 		},
 	},
 
@@ -90,6 +96,18 @@ const useStyles = makeStyles((theme) => ({
 		padding: '90px 0',
 		textAlign: 'center',
 		backgroundColor: theme.palette.background.paper,
+	},
+	takingExam: {
+		backgroundColor: theme.palette.success.main,
+		color: theme.palette.text.secondary,
+		textTransform: 'none',
+		boxShadow: 'none',
+
+		'&:hover': {
+			backgroundColor: theme.palette.success.main,
+			color: theme.palette.text.secondary,
+			boxShadow: 'none',
+		},
 	},
 }))
 

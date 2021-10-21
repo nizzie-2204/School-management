@@ -49,9 +49,12 @@ const useStyles = makeStyles((theme) => ({
 	main: {
 		backgroundColor: '#f3f7fa',
 		padding: '0 15px 15px 15px',
-		overflowY: 'overlay',
-		marginTop: '90px',
-		marginLeft: '310px',
+		marginLeft: 310,
+		marginTop: 90,
+		position: 'absolute',
+		width: 'calc(100vw - 310px)',
+		top: 0,
+		left: 0,
 	},
 }))
 

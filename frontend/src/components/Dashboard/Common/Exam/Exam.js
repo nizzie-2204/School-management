@@ -1,6 +1,9 @@
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
 	Box,
 	Button,
+	CircularProgress,
 	IconButton,
 	Paper,
 	Table,
@@ -14,7 +17,6 @@ import {
 	Tooltip,
 	Typography,
 } from '@material-ui/core'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import AddIcon from '@material-ui/icons/Add'
 import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
@@ -24,11 +26,10 @@ import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
-import formatDate from 'utils/formatDate'
-import AddEditAccount from './AddEditAccount/AddEditAccount'
-import DeleteAlert from './DeleteAlert/DeleteAlert'
+import { getStudents } from '../StudentAccount/studentAccountSlice'
+import AddEditAccount from './components/AddEditAccount/AddEditAccount'
+import DeleteAlert from './components/DeleteAlert/DeleteAlert'
 import useStyles from './styles'
-import { getSubjects } from './subjectSlice'
 import emptyDataPNG from 'assets/images/document.png'
 
 const links = [
@@ -37,24 +38,24 @@ const links = [
 		path: '/dashboard/overview',
 	},
 	{
-		title: 'Quản lý đào tạo',
-		path: '/dashboard/class',
+		title: 'Khảo thí',
+		path: '/dashboard/exam',
 	},
 	{
-		title: 'Môn học',
-		path: '/dashboard/subject',
+		title: 'Tổ chức kỳ thi',
+		path: '/dashboard/exam',
 	},
 ]
-
-const Subject = () => {
+const Exam = () => {
 	const classes = useStyles()
-	const dispatch = useDispatch()
-	const subjects = useSelector((state) => state.subjects.subjects)
-	const subjectsLoading = useSelector((state) => state.subjects.subjectsLoading)
-	const [subject, setSubject] = useState(null)
 
+	const dispatch = useDispatch()
+	const students = useSelector((state) => state.student.students)
+	const studentsLoading = useSelector((state) => state.student.studentsLoading)
+
+	const [thisStudent, setThisStudent] = useState(null)
 	const [open, setOpen] = useState(false)
-	const handleOpen = (subject) => {
+	const handleOpen = () => {
 		setOpen(true)
 	}
 	const handleClose = () => {
@@ -62,38 +63,30 @@ const Subject = () => {
 	}
 
 	const [open2, setOpen2] = useState(false)
-	const handleOpen2 = (subject) => {
-		setSubject(subject)
+	const handleOpen2 = (student) => {
+		setThisStudent(student)
 		setOpen2(true)
 	}
 	const handleClose2 = () => {
-		setSubject(null)
+		setThisStudent(null)
+
 		setOpen2(false)
 	}
 
 	const [open3, setOpen3] = useState(false)
-	const handleOpen3 = (subject) => {
-		setSubject(subject)
+	const handleOpen3 = (student) => {
+		setThisStudent(student)
 		setOpen3(true)
 	}
 	const handleClose3 = () => {
-		setSubject(null)
-
+		setThisStudent(null)
 		setOpen3(false)
 	}
 
 	const [searchTerm, setSearchTerm] = useState('')
 	const handleChangeSearch = (e) => {
 		setSearchTerm(e.target.value)
-		console.log(e.target.value)
 	}
-
-	useEffect(() => {
-		const action = getSubjects()
-		dispatch(action)
-			.then(unwrapResult)
-			.catch((error) => console.error(error))
-	}, [dispatch])
 
 	// Pagination
 	const [page, setPage] = useState(0)
@@ -108,27 +101,38 @@ const Subject = () => {
 		setPage(0)
 	}
 
+	useEffect(() => {
+		const fetchStudents = () => {
+			const action = getStudents()
+			dispatch(action)
+				// .unwrap()
+				.then(unwrapResult)
+				.then((res) => console.log(res.data))
+				.catch((error) => console.log(error))
+		}
+		fetchStudents()
+	}, [dispatch])
+
 	return (
 		<>
 			<Helmet>
-				<title>Môn học - Hệ thống trường quốc tế</title>
+				<title>Tổ chức kỳ thi - Hệ thống trường quốc tế</title>
 				<meta name="description" content="Helmet application" />
 			</Helmet>
 
 			<Box className={classes.main}>
 				<Breadcrumb links={links} />
-
-				<form noValidate autoComplete="off">
+				<form autoComplete="off">
 					<div className={classes.searchBar}>
 						<TextField
 							className={classes.searchField}
 							id="outlined-textarea"
-							placeholder="Tên môn hoặc miêu tả"
+							placeholder="Tên lớp"
 							variant="outlined"
 							inputProps={{
 								style: { padding: '12.5px 14px' },
 							}}
-							onChange={handleChangeSearch}
+							// onChange={handleChangeSearch}
 						/>
 						<Button
 							variant="contained"
@@ -147,20 +151,34 @@ const Subject = () => {
 						id="subtitle"
 						component="div"
 					>
-						Danh sách môn học
+						Tổ chức kỳ thi
 					</Typography>
-					<Button
-						variant="contained"
-						className={classes.button}
-						startIcon={<AddIcon />}
-						onClick={handleOpen}
-					>
-						Thêm môn học
-					</Button>
+					<Box className={classes.actions}>
+						<Button
+							variant="contained"
+							className={classes.button}
+							startIcon={
+								<FontAwesomeIcon icon={faFileExcel} style={{ fontSize: 13 }} />
+							}
+							style={{
+								backgroundColor: '#198750',
+								marginRight: 20,
+							}}
+						>
+							Xuất excel
+						</Button>
+						<Button
+							variant="contained"
+							className={classes.button}
+							startIcon={<AddIcon />}
+							onClick={handleOpen}
+						>
+							Thêm tài khoản
+						</Button>
+					</Box>
 					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>
-
-				{subjectsLoading ? (
+				{studentsLoading ? (
 					<div className={classes.loading}>
 						<CircularProgress
 							style={{
@@ -186,17 +204,17 @@ const Subject = () => {
 											ID
 										</TableCell>
 										<TableCell align="center" className={classes.tableHead}>
-											Tên
-										</TableCell>
-										<TableCell align="center" className={classes.tableHead}>
-											Miêu tả
+											Tên kỳ thi
 										</TableCell>
 
 										<TableCell align="center" className={classes.tableHead}>
-											Ngày tạo
+											Thời gian bắt đầu
 										</TableCell>
 										<TableCell align="center" className={classes.tableHead}>
-											Ngày cập nhật
+											Thời gian làm bài
+										</TableCell>
+										<TableCell align="center" className={classes.tableHead}>
+											Trạng thái
 										</TableCell>
 
 										<TableCell align="center" className={classes.tableHead}>
@@ -204,105 +222,82 @@ const Subject = () => {
 										</TableCell>
 									</TableRow>
 								</TableHead>
-
 								<TableBody>
-									{/* Search and render */}
-									{subjects
-										?.filter((subject) => {
-											if (searchTerm === '') {
-												return subject
-											} else if (
-												subject.name
-													.toLowerCase()
-													.includes(searchTerm.toLowerCase()) ||
-												subject.desc
-													.toLowerCase()
-													.includes(searchTerm.toLowerCase())
-											) {
-												return subject
-											}
-											return false
-										})
-										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-										.map((subject, index) => (
-											<>
-												<TableRow key={subject._id}>
-													<TableCell
-														align="center"
-														component="th"
-														scope="row"
-														className={classes.limitText}
-													>
-														{subject._id}
-													</TableCell>
-													<TableCell align="center">{subject.name}</TableCell>
-													<TableCell align="center">{subject.desc}</TableCell>
-													<TableCell align="center">
-														{formatDate(subject.createdAt)}
-													</TableCell>
-													<TableCell align="center">
-														{formatDate(subject.updatedAt)}
-													</TableCell>
-													<TableCell align="center">
-														<Tooltip title="Chỉnh sửa">
-															<IconButton
-																onClick={() => {
-																	handleOpen3(subject)
-																}}
-															>
-																<CreateIcon
-																	fontSize="small"
-																	style={{ color: '#5278db' }}
-																/>
-															</IconButton>
-														</Tooltip>
-														<Tooltip title="Xóa">
-															<IconButton
-																onClick={() => {
-																	handleOpen2(subject)
-																}}
-															>
-																<DeleteIcon
-																	fontSize="small"
-																	style={{ color: '#e96053' }}
-																/>
-															</IconButton>
-														</Tooltip>
-													</TableCell>
-												</TableRow>
-											</>
-										))}
+									<TableRow>
+										<TableCell
+											align="center"
+											component="th"
+											scope="row"
+											className={classes.limitText}
+										>
+											iasdasd
+										</TableCell>
+										<TableCell align="center">
+											<p>Ôn tập học kỳ 1</p>
+											<p>Môn: Toán</p>
+										</TableCell>
+
+										<TableCell align="center">15/05/2021 00:00</TableCell>
+										<TableCell align="center">60 phút</TableCell>
+										<TableCell align="center">Chưa diễn ra</TableCell>
+
+										<TableCell align="center">
+											{/* <Tooltip title="Chỉnh sửa">
+												<IconButton>
+													<CreateIcon
+														fontSize="small"
+														style={{ color: '#5278db' }}
+													/>
+												</IconButton>
+											</Tooltip>
+											<Tooltip title="Xóa">
+												<IconButton>
+													<DeleteIcon
+														fontSize="small"
+														style={{ color: '#e96053' }}
+													/>
+												</IconButton>
+											</Tooltip> */}
+											<Button
+												variant="contained"
+												className={classes.takingExam}
+											>
+												Làm bài
+											</Button>
+										</TableCell>
+									</TableRow>
+
+									<DeleteAlert
+										open={open2}
+										handleClose={handleClose2}
+										student={thisStudent}
+									/>
+									<AddEditAccount
+										open={open3}
+										handleClose={handleClose3}
+										student={thisStudent}
+									/>
 								</TableBody>
-								<DeleteAlert
-									open={open2}
-									handleClose={handleClose2}
-									subject={subject}
-								/>
-								<AddEditAccount
-									open={open3}
-									handleClose={handleClose3}
-									subject={subject}
-								/>
 							</Table>
 						</TableContainer>
-						{subjects.length > 0 ? (
+						{students.length > 0 ? (
 							<TablePagination
 								rowsPerPageOptions={[10]}
 								component="div"
 								// Pagination on search
 								count={
-									subjects?.filter((subject) => {
+									students?.filter((teacher) => {
 										if (searchTerm === '') {
-											return subject
+											return teacher
 										} else if (
-											subject.name
+											teacher.name
 												.toLowerCase()
 												.includes(searchTerm.toLowerCase()) ||
-											subject.desc
+											teacher.username
 												.toLowerCase()
 												.includes(searchTerm.toLowerCase())
 										) {
-											return subject
+											return teacher
 										}
 										return false
 									}).length
@@ -325,4 +320,4 @@ const Subject = () => {
 	)
 }
 
-export default Subject
+export default Exam

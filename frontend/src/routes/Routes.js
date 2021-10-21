@@ -43,6 +43,17 @@ const Classroom = lazy(() =>
 	import('components/Dashboard/Common/Classroom/Main/Main')
 )
 
+const Exam = lazy(() => import('components/Dashboard/Common/Exam/Exam'))
+const ExamDetail = lazy(() =>
+	import('components/Dashboard/Common/Exam/components/ExamDetail/ExamDetail')
+)
+const ExamAnswer = lazy(() =>
+	import('components/Dashboard/Common/Exam/components/ExamAnswer/ExamAnswer')
+)
+const TakingExam = lazy(() =>
+	import('components/Dashboard/Common/Exam/components/TakingExam/TakingExam')
+)
+
 const routes = [
 	{
 		exact: true,
@@ -129,7 +140,29 @@ const routes = [
 		path: '/dashboard/classroom/:roomId',
 		component: Classroom,
 	},
+	{
+		exact: true,
+		path: '/dashboard/exam',
+		component: Exam,
+	},
+	{
+		exact: false,
+		path: '/dashboard/exam/:id',
+		component: ExamDetail,
+	},
+	{
+		exact: false,
+		path: '/dashboard/taking-exam/:id',
+		component: TakingExam,
+	},
+	{
+		exact: false,
+		path: '/dashboard/exam-answer/:id',
+		component: ExamAnswer,
+	},
 ]
+
+//
 
 const Routes = () => {
 	const location = useLocation()

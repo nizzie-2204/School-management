@@ -30,6 +30,7 @@ import DeleteAlert from './DeleteAlert/DeleteAlert'
 import useStyles from './styles'
 import { getTypeTeachers } from './typeTeacherSlice'
 // import { getSubjects } from './subjectSlice'
+import emptyDataPNG from 'assets/images/document.png'
 
 const links = [
 	{
@@ -320,7 +321,10 @@ const TypeTeacher = () => {
 								onRowsPerPageChange={handleChangeRowsPerPage}
 							/>
 						) : (
-							<div className={classes.emptyData}>Chưa có dữ liệu</div>
+							<div className={classes.emptyData}>
+								<img src={emptyDataPNG} alt="empty" />
+								<p>Không có dữ liệu</p>
+							</div>
 						)}
 					</>
 				)}

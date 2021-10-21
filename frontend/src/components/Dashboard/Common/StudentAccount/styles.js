@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
 	tableContainer: {
-		maxHeight: 440,
+		// maxHeight: 440,
 	},
 	table: {
 		minWidth: 650,
@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 	tableHead: {
 		fontWeight: 'bold',
 		backgroundColor: '#eff3f6',
+		color: '#000',
 	},
 	titleTable: {
 		backgroundColor: theme.palette.background.paper,
@@ -40,19 +41,17 @@ const useStyles = makeStyles((theme) => ({
 		flex: '1',
 		color: theme.palette.text.main,
 		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: 'rgba(0, 0, 0, 0.15)',
+			borderColor: 'transparent',
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
 		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: 'rgba(0, 0, 0, 0.15)',
-
+			borderColor: 'transparent',
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
 		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-			borderColor: 'rgba(0, 0, 0, 0.15)',
-
+			borderColor: 'transparent',
 			borderRightColor: 'transparent',
 			borderRadius: '0',
 		},
@@ -67,18 +66,28 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#3254ac',
 		borderRadius: '0',
 		boxShadow: 'none !important',
+
 		'&:hover': {
 			backgroundColor: '#3254ac',
 		},
-	},
 
+		'& .MuiButton-startIcon': {
+			paddingBottom: 3,
+		},
+	},
+	actions: {
+		display: 'flex',
+		alignItems: 'center',
+	},
 	main: {
 		backgroundColor: '#f3f7fa',
 		padding: '0 15px 15px 15px',
-
-		overflowY: 'overlay',
-		marginTop: '90px',
-		marginLeft: '310px',
+		marginLeft: 310,
+		marginTop: 90,
+		position: 'absolute',
+		width: 'calc(100vw - 310px)',
+		top: 0,
+		left: 0,
 	},
 	loading: {
 		height: 440,
@@ -86,8 +95,9 @@ const useStyles = makeStyles((theme) => ({
 		margin: '50px auto',
 	},
 	emptyData: {
-		margin: '100px 0',
+		padding: '90px 0',
 		textAlign: 'center',
+		backgroundColor: theme.palette.background.paper,
 	},
 }))
 

@@ -20,14 +20,18 @@ const useStyles = makeStyles((theme) => ({
 		transition: '0.3s',
 		width: '310px',
 		height: 'calc(100vh - 90px)',
-		overflowY: 'scroll',
-		// '&:hover': {
-		// 	overflowY: 'overlay',
-		// },
+		marginTop: 90,
 		position: 'fixed',
+		fontFamily: 'sans-serif',
 	},
 	root: {
 		padding: 0,
+
+		'& .simplebar-scrollbar': {
+			'&::before': {
+				backgroundColor: '#f1f1f1',
+			},
+		},
 	},
 	listIcon: {
 		color: theme.palette.text.secondary,

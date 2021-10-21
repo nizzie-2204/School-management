@@ -31,6 +31,9 @@ import AddEditAccount from './components/AddEditAccount/AddEditAccount'
 import DeleteAlert from './components/DeleteAlert/DeleteAlert'
 import { getStudents } from './studentAccountSlice'
 import useStyles from './styles'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons'
+import emptyDataPNG from 'assets/images/document.png'
 
 const links = [
 	{
@@ -154,14 +157,29 @@ const StudentAccount = () => {
 					>
 						Danh sách tài khoản học sinh
 					</Typography>
-					<Button
-						variant="contained"
-						className={classes.button}
-						startIcon={<AddIcon />}
-						onClick={handleOpen}
-					>
-						Thêm tài khoản
-					</Button>
+					<Box className={classes.actions}>
+						<Button
+							variant="contained"
+							className={classes.button}
+							startIcon={
+								<FontAwesomeIcon icon={faFileExcel} style={{ fontSize: 13 }} />
+							}
+							style={{
+								backgroundColor: '#198750',
+								marginRight: 20,
+							}}
+						>
+							Xuất excel
+						</Button>
+						<Button
+							variant="contained"
+							className={classes.button}
+							startIcon={<AddIcon />}
+							onClick={handleOpen}
+						>
+							Thêm tài khoản
+						</Button>
+					</Box>
 					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>
 				{studentsLoading ? (
@@ -314,7 +332,10 @@ const StudentAccount = () => {
 								onRowsPerPageChange={handleChangeRowsPerPage}
 							/>
 						) : (
-							<div className={classes.emptyData}>Chưa có dữ liệu</div>
+							<div className={classes.emptyData}>
+								<img src={emptyDataPNG} alt="empty" />
+								<p>Không có dữ liệu</p>
+							</div>
 						)}
 					</>
 				)}

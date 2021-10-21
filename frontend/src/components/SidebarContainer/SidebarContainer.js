@@ -10,7 +10,9 @@ const SidebarContainer = () => {
 	if (
 		isLoggedIn &&
 		location.pathname.includes('/dashboard') &&
-		!location.pathname.includes('/classroom')
+		!location.pathname.includes('/classroom') &&
+		!location.pathname.includes('/dashboard/taking-exam') &&
+		!location.pathname.includes('/dashboard/exam-answer')
 	) {
 		// Only Dashboard page using Sidebar component
 		return <Sidebar />

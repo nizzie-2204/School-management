@@ -481,6 +481,7 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 							{row.time}
 						</Box>
 						<Button
+							style={{ marginRight: 10 }}
 							variant="contained"
 							className={`${
 								!checkTime({ time: row.time, day: cell.day, date }).includes(
@@ -491,8 +492,23 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 							}`}
 							onClick={handleCreateClassroom}
 						>
-							{checkTime({ time: row.time, day: cell.day, date })}
+							{checkTime({
+								time: row.time,
+								day: cell.day,
+								date,
+								role: user.role,
+							})}
 						</Button>
+						{checkTime({
+							time: row.time,
+							day: cell.day,
+							date,
+							role: user.role,
+						}).includes('Đã') && (
+							<Button variant="contained" className={classes.button}>
+								Xem lại
+							</Button>
+						)}
 					</Box>
 				</Popover>
 			)}
