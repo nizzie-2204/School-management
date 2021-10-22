@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import useStyles from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
@@ -9,8 +9,12 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
 import pdfDOC from 'assets/doc/video.pdf'
+import { useDropzone } from 'react-dropzone'
+
 const ExamAnswer = () => {
 	const classes = useStyles()
+
+	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
 		toolbarPlugin: {
 			fullScreenPlugin: {
@@ -24,6 +28,38 @@ const ExamAnswer = () => {
 			},
 		},
 	})
+
+	// Dropzone
+	const [files, setFiles] = useState([])
+	const { getRootProps, getInputProps } = useDropzone({
+		accept: 'image/*',
+		onDrop: (acceptedFiles) => {
+			setFiles(
+				acceptedFiles.map((file) =>
+					Object.assign(file, {
+						preview: URL.createObjectURL(file),
+					})
+				)
+			)
+		},
+	})
+
+	const thumbs = files.map((file) => (
+		<div key={file.name} className={classes.thumb}>
+			<div className={classes.thumbInner}>
+				<img src={file.preview} alt="thumb" className={classes.img} />
+			</div>
+		</div>
+	))
+
+	useEffect(
+		() => () => {
+			// Make sure to revoke the data uris to avoid memory leaks
+			files.forEach((file) => URL.revokeObjectURL(file.preview))
+		},
+		[files]
+	)
+
 	return (
 		<Box className={classes.container}>
 			<Box className={classes.header}>
@@ -95,6 +131,7 @@ const ExamAnswer = () => {
 						variant="outlined"
 						type="number"
 						className={classes.textField}
+						InputProps={{ inputProps: { min: 0, max: 10 } }}
 					/>
 					<Button variant="contained" className={classes.action}>
 						Cho điểm
@@ -122,7 +159,18 @@ const ExamAnswer = () => {
 						Đáp án
 					</Typography>
 
-					<Box className={classes.examQuestion}></Box>
+					<Box className={classes.answerQuestion}>
+						<section className="container">
+							<div
+								{...getRootProps({ className: 'dropzone' })}
+								className={classes.dropzone}
+							>
+								<input {...getInputProps()} />
+								<p>Kéo và thả một số hình ở đây hoặc nhấp để chọn hình</p>
+							</div>
+							<aside className={classes.thumbContainer}>{thumbs}</aside>
+						</section>
+					</Box>
 				</Box>
 			</Box>
 		</Box>

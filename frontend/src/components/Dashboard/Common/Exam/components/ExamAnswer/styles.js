@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
 		margin: '0 auto',
 		borderBottom: '1px solid #eee',
 		backgroundColor: theme.palette.background.paper,
+		boxShadow:
+			'0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);',
 	},
 	timer: {
 		display: 'flex',
@@ -83,9 +85,57 @@ const useStyles = makeStyles((theme) => ({
 	},
 	answer: {
 		width: '85%',
-		padding: 10,
+		padding: 20,
 		margin: '40px auto',
 		backgroundColor: theme.palette.background.paper,
+	},
+	answerQuestion: {
+		width: '90%',
+		margin: '0 auto',
+	},
+	thumbContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		marginTop: 16,
+	},
+	thumb: {
+		display: 'inline-flex',
+		borderRadius: 2,
+		border: '1px solid #eaeaea',
+		marginBottom: 20,
+		marginRight: 8,
+		width: 'auto',
+		height: 400,
+		padding: 4,
+		boxSizing: 'border-box',
+	},
+	thumbInner: {
+		display: 'flex',
+		minWidth: 0,
+		overflow: 'hidden',
+	},
+	img: {
+		display: 'block',
+		width: 'auto',
+		height: '100%',
+		objectFit: 'cover',
+	},
+	dropzone: {
+		flex: 1,
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		padding: 20,
+		borderWidth: 2,
+		borderRadius: 2,
+		borderColor: '#eeeeee',
+		borderStyle: 'dashed',
+		backgroundColor: '#fafafa',
+		color: '#bdbdbd',
+		outline: 'none',
+		transition: 'border .24s ease-in-out',
+		cursor: 'pointer',
 	},
 	teacher: {
 		display: 'flex',
@@ -96,6 +146,8 @@ const useStyles = makeStyles((theme) => ({
 		margin: '20px auto',
 		borderBottom: '1px solid #eee',
 		backgroundColor: theme.palette.background.paper,
+		boxShadow:
+			'0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);',
 	},
 	scoreContainer: {
 		display: 'flex',
@@ -136,6 +188,16 @@ const useStyles = makeStyles((theme) => ({
 	textField: {
 		marginBottom: 10,
 		width: '100%',
+
+		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #dcdbdb',
+		},
+		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #dcdbdb',
+		},
+		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+			border: '1px solid #3254ac',
+		},
 	},
 	action: {
 		color: theme.palette.text.secondary,

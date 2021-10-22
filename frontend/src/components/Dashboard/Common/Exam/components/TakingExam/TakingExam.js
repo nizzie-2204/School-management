@@ -6,11 +6,16 @@ import '@react-pdf-viewer/core/lib/styles/index.css'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
-import pdfDOC from 'assets/doc/video.pdf'
+import pdfDOC from 'assets/doc/de-thi.pdf'
 import React, { useEffect, useState } from 'react'
 import useStyles from './styles'
+import { useDropzone } from 'react-dropzone'
+import timePNG from 'assets/images/time.png'
+
 const TakingExam = () => {
 	const classes = useStyles()
+
+	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
 		toolbarPlugin: {
 			fullScreenPlugin: {
@@ -40,36 +45,67 @@ const TakingExam = () => {
 		alert('Nộp bài thành công!')
 	}
 
-	useEffect(() => {
-		if (Number(minute) >= 0 && Number(second) >= 1) {
-			const timerInterval = setInterval(() => {
-				let computedSecond
-				if (Number(computedSecond) < 1) {
-					computedSecond = 60
-				} else computedSecond = timer % 60
+	// useEffect(() => {
+	// 	if (Number(minute) >= 0 && Number(second) >= 1) {
+	// 		const timerInterval = setInterval(() => {
+	// 			let computedSecond
+	// 			if (Number(computedSecond) < 1) {
+	// 				computedSecond = 60
+	// 			} else computedSecond = timer % 60
 
-				const computedMinute = Math.floor(timer / 60)
+	// 			const computedMinute = Math.floor(timer / 60)
 
-				const secondString =
-					computedSecond.toString().length === 1
-						? `0${computedSecond}`
-						: computedSecond
-				const minuteString =
-					computedMinute.toString().length === 1
-						? `0${computedMinute}`
-						: computedMinute
+	// 			const secondString =
+	// 				computedSecond.toString().length === 1
+	// 					? `0${computedSecond}`
+	// 					: computedSecond
+	// 			const minuteString =
+	// 				computedMinute.toString().length === 1
+	// 					? `0${computedMinute}`
+	// 					: computedMinute
 
-				setSecond(secondString)
-				setMinute(minuteString)
+	// 			setSecond(secondString)
+	// 			setMinute(minuteString)
 
-				setTimer(timer - 1)
-			}, 1000)
+	// 			setTimer(timer - 1)
+	// 		}, 1000)
 
-			return () => {
-				clearInterval(timerInterval)
-			}
-		} else handleSubmitExam()
-	}, [timer])
+	// 		return () => {
+	// 			clearInterval(timerInterval)
+	// 		}
+	// 	} else handleSubmitExam()
+	// }, [timer])
+
+	// Dropzone
+	const [files, setFiles] = useState([])
+	const { getRootProps, getInputProps } = useDropzone({
+		accept: 'image/*',
+		onDrop: (acceptedFiles) => {
+			setFiles(
+				acceptedFiles.map((file) =>
+					Object.assign(file, {
+						preview: URL.createObjectURL(file),
+					})
+				)
+			)
+		},
+	})
+
+	const thumbs = files.map((file) => (
+		<div key={file.name} className={classes.thumb}>
+			<div className={classes.thumbInner}>
+				<img src={file.preview} alt="thumb" className={classes.img} />
+			</div>
+		</div>
+	))
+
+	useEffect(
+		() => () => {
+			// Make sure to revoke the data uris to avoid memory leaks
+			files.forEach((file) => URL.revokeObjectURL(file.preview))
+		},
+		[files]
+	)
 
 	return (
 		<Box className={classes.container}>
@@ -79,6 +115,7 @@ const TakingExam = () => {
 						Thời gian còn lại
 					</Typography>
 					<Typography variant="h5" className={classes.timerSubtitle}>
+						<img src={timePNG} alt="time" className={classes.timerIcon} />
 						{minute}:{second}
 					</Typography>
 				</Box>
@@ -134,7 +171,18 @@ const TakingExam = () => {
 						Đáp án
 					</Typography>
 
-					<Box className={classes.examQuestion}></Box>
+					<Box className={classes.answerQuestion}>
+						<section className="container">
+							<div
+								{...getRootProps({ className: 'dropzone' })}
+								className={classes.dropzone}
+							>
+								<input {...getInputProps()} />
+								<p>Kéo và thả một số hình ở đây hoặc nhấp để chọn hình</p>
+							</div>
+							<aside className={classes.thumbContainer}>{thumbs}</aside>
+						</section>
+					</Box>
 				</Box>
 			</Box>
 		</Box>
