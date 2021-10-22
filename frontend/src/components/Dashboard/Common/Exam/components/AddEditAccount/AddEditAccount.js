@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import {
+	Box,
 	Button,
 	InputLabel,
 	MenuItem,
@@ -19,6 +20,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 import useStyles from './styles'
 import formatISO from 'date-fns/formatISO'
+import { useDropzone } from 'react-dropzone'
+import { SpecialZoomLevel, Viewer, Worker } from '@react-pdf-viewer/core'
+import '@react-pdf-viewer/core/lib/styles/index.css'
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
+import '@react-pdf-viewer/default-layout/lib/styles/index.css'
+import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
+import pdfDOC from 'assets/doc/de-thi.pdf'
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
@@ -40,13 +48,71 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 		console.log(formatISO(new Date()).toString().slice(0, -9))
 	}, [])
 
+	// PDF
+	const defaultLayoutPluginInstance = defaultLayoutPlugin({
+		toolbarPlugin: {
+			fullScreenPlugin: {
+				// Zoom to fit the screen after entering and exiting the full screen mode
+				onEnterFullScreen: (zoom) => {
+					zoom(SpecialZoomLevel.PageFit)
+				},
+				onExitFullScreen: (zoom) => {
+					zoom(SpecialZoomLevel.PageFit)
+				},
+			},
+		},
+	})
+
+	// Dropzone
+	const [files, setFiles] = useState([])
+	const { getRootProps, getInputProps } = useDropzone({
+		accept: 'application/pdf',
+		multiple: false,
+		onDrop: (acceptedFiles) => {
+			setFiles(
+				acceptedFiles.map((file) =>
+					Object.assign(file, {
+						preview: URL.createObjectURL(file),
+					})
+				)
+			)
+		},
+	})
+
+	const removeAllFiles = () => {
+		setFiles([])
+	}
+
+	const thumbs = files.map((file) => (
+		<div key={file.name} className={classes.thumb}>
+			<Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+				<Viewer
+					fileUrl={file.preview}
+					plugins={[defaultLayoutPluginInstance]}
+					localization={vi_VN}
+				/>
+			</Worker>
+		</div>
+	))
+
+	useEffect(
+		() => () => {
+			// Make sure to revoke the data uris to avoid memory leaks
+			files.forEach((file) => URL.revokeObjectURL(file.preview))
+		},
+		[files]
+	)
+
 	return (
 		<Modal
 			aria-labelledby="transition-modal-title"
 			aria-describedby="transition-modal-description"
 			className={classes.modal}
 			open={open}
-			onClose={handleClose}
+			onClose={() => {
+				handleClose()
+				removeAllFiles()
+			}}
 			closeAfterTransition
 			BackdropComponent={Backdrop}
 			BackdropProps={{
@@ -190,23 +256,20 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 						<Typography variant="subtitle1" style={{ marginRight: 20 }}>
 							Đề thi
 						</Typography>
-						<label htmlFor="upload-photo">
-							<input
-								style={{ display: 'none' }}
-								id="upload-photo"
-								name="upload-photo"
-								type="file"
-								multiple
-							/>
-							<Button
-								variant="contained"
-								component="span"
-								className={classes.uploadFile}
-							>
-								Chọn file
-							</Button>
-						</label>
+
+						<Box className={classes.answerQuestion}>
+							<section className="container">
+								<div
+									{...getRootProps({ className: 'dropzone' })}
+									className={classes.dropzone}
+								>
+									<input {...getInputProps()} />
+									<p>Chọn file (PDF)</p>
+								</div>
+							</section>
+						</Box>
 					</div>
+					<aside className={classes.thumbContainer}>{thumbs}</aside>
 
 					{error && <p className={classes.error}>{error}</p>}
 

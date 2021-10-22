@@ -139,6 +139,21 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: 'transparent',
 		},
 	},
+	answerQuestion: {
+		padding: 10,
+		border: '2px dashed #ddd',
+		backgroundColor: '#fafafa',
+		color: theme.palette.text.primary,
+		outline: 'none',
+		transition: 'border .24s ease-in-out',
+		cursor: 'pointer',
+	},
+	thumb: {
+		height: 550,
+	},
+	thumbContainer: {
+		marginBottom: 20,
+	},
 }))
 
 export default useStyles

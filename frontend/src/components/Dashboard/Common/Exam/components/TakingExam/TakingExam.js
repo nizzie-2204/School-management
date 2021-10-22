@@ -82,10 +82,13 @@ const TakingExam = () => {
 		accept: 'image/*',
 		onDrop: (acceptedFiles) => {
 			setFiles(
-				acceptedFiles.map((file) =>
-					Object.assign(file, {
-						preview: URL.createObjectURL(file),
-					})
+				acceptedFiles.map(
+					(file) => (
+						console.log(file),
+						Object.assign(file, {
+							preview: URL.createObjectURL(file),
+						})
+					)
 				)
 			)
 		},
