@@ -4,10 +4,8 @@ const Schema = mongoose.Schema
 const examResultSchema = new Schema(
 	{
 		studentId: { type: mongoose.Types.ObjectId, ref: 'Student' },
-		score: { type: Number },
-		examResultImages: { type: String, required: true },
-		subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
-		classId: { type: Schema.Types.Object, ref: 'Class' },
+		score: { type: Number, default: 0 },
+		examResultImages: [],
 	},
 	{ timestamps: true }
 )

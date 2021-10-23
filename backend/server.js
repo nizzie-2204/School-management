@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const dotenv = require('dotenv')
+const fileupload = require('express-fileupload')
 
 const http = require('http').createServer(app)
 const io = require('socket.io')(http)
@@ -24,14 +25,18 @@ const subjectRoute = require('./src/routes/v1/subjectRoute')
 const classRoute = require('./src/routes/v1/classRoute')
 const examRoute = require('./src/routes/v1/examRoute')
 const examResultRoute = require('./src/routes/v1/examResultRoute')
-
+const uploadRoute = require('./src/routes/v1/uploadRoute')
 // if (process.env.NODE_ENV !== 'production') {
 // 	app.use(morgan('combined'))
 // }
 dotenv.config()
 app.use(cors())
 app.use(express.json())
-
+app.use(
+	fileupload({
+		useTempFiles: true,
+	})
+)
 // Upload images to public folder
 app.use(express.static(`${__dirname}/src/public`))
 
@@ -50,7 +55,8 @@ app.use(
 	classRoute,
 	examRoute,
 	examResultRoute,
-	teacherTypeRoute
+	teacherTypeRoute,
+	uploadRoute
 )
 
 // Import error handler
