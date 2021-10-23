@@ -15,22 +15,12 @@ const Router = express.Router()
 // Allow admin to use these routes verifyToken, permit('admin'),
 
 Router.route('/exam-results')
-	.post(
-		verifyToken,
-		permit('admin'),
-		upload.array('examResultImages[]'),
-		createExamResult
-	)
+	.post(verifyToken, permit('admin', 'teacher', 'student'), createExamResult)
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getAllExamResults)
 
 Router.route('/exam-results/:id')
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getExamResult)
-	.put(
-		verifyToken,
-		permit('admin'),
-		upload.array('examResultImages[]'),
-		updateExamResult
-	)
-	.delete(verifyToken, permit('admin'), deleteExamResult)
+	.put(verifyToken, permit('admin', 'teacher', 'student'), updateExamResult)
+	.delete(verifyToken, permit('admin', 'teacher', 'student'), deleteExamResult)
 
 module.exports = Router

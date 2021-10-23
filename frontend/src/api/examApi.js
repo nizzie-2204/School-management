@@ -1,71 +1,41 @@
 import axiosClient from './axios'
 
+const token =
+	localStorage.getItem('token') ||
+	localStorage.getItem('teacherToken') ||
+	localStorage.getItem('studentToken')
+
 const examAPI = {
-	getAllExams: async (token) => {
-		return await axiosClient.get({
-			url: '/exams',
+	getAllExams: async () => {
+		return await axiosClient.get('/exams', {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
 
-	getExam: async (token, id) => {
-		return await axiosClient.get({
-			url: `/exams/${id}`,
+	getExam: async (id) => {
+		return await axiosClient.get(`/exams/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},
 
-	addExam: async (token, data) => {
-		let formData = new FormData()
-
-		formData.append('startDate', data.startDate)
-		formData.append('startAt', data.startAt)
-		formData.append('name', data.name)
-		formData.append('semester', data.semester)
-		formData.append('subjectId', data.subjectId)
-		formData.append('grade', data.grade)
-		formData.append('duration', data.duration)
-		formData.append('startDate', data.startDate)
-
-		data.examImages.forEach((image) => formData.append('examImages[]', image))
-
-		return await axiosClient.post({
-			url: '/exams',
-			data: formData,
+	addExam: async (data) => {
+		return await axiosClient.post('/exams', data, {
 			headers: {
 				Authorization: `Bearer ${token}`,
-				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
 
-	updateExam: async (token, id, data) => {
-		let formData = new FormData()
-
-		formData.append('startDate', data.startDate)
-		formData.append('startAt', data.startAt)
-		formData.append('name', data.name)
-		formData.append('semester', data.semester)
-		formData.append('subjectId', data.subjectId)
-		formData.append('grade', data.grade)
-		formData.append('duration', data.duration)
-		formData.append('startDate', data.startDate)
-
-		data.examImages.forEach((image) => formData.append('examImages[]', image))
-
-		return await axiosClient.put({
-			url: `/exams/${id}`,
-			data: formData,
+	updateExam: async (data) => {
+		return await axiosClient.put(`/exams/${data.id}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
-				'Content-Type': 'multipart/form-data',
 			},
 		})
 	},
 
-	deleteExam: async (token, id) => {
-		return await axiosClient.delete({
-			url: `/exams/${id}`,
+	deleteExam: async (id) => {
+		return await axiosClient.delete(`/exams/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})
 	},

@@ -14,12 +14,12 @@ const Router = express.Router()
 
 // Allow admin to use these routes verifyToken, permit('admin'),
 Router.route('/exams')
-	.post(verifyToken, permit('admin'), createExam)
+	.post(verifyToken, permit('admin', 'teacher', 'student'), createExam)
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getAllExams)
 
 Router.route('/exams/:id')
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getExam)
-	.put(verifyToken, permit('admin'), updateExam)
-	.delete(verifyToken, permit('admin'), deleteExam)
+	.put(verifyToken, permit('admin', 'teacher', 'student'), updateExam)
+	.delete(verifyToken, permit('admin', 'teacher', 'student'), deleteExam)
 
 module.exports = Router
