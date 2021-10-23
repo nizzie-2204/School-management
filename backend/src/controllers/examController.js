@@ -2,27 +2,7 @@ const Exam = require('../models/examModel')
 
 exports.createExam = async (req, res, next) => {
 	try {
-		// const newExam = await Exam.create(req.body)
-		let exam = new Exam({
-			...req.body,
-		})
-
-		if (!req.files || Object.keys(req.files).length === 0) {
-			res.status(404).json({ status: 'fail', message: 'No files found' })
-		}
-
-		if (req.files) {
-			let path = ''
-			req.files.forEach((file) => {
-				path = path + file.path + ','
-			})
-
-			path = path.substring(0, path.lastIndexOf(','))
-
-			exam.examImages = path
-		}
-
-		await Exam.create(exam)
+		const exam = await Exam.create(req.body)
 
 		res.status(200).json({ status: 'success', data: exam })
 	} catch (error) {
@@ -32,23 +12,11 @@ exports.createExam = async (req, res, next) => {
 
 exports.updateExam = async (req, res, next) => {
 	try {
-		const exam = { ...req.body }
-
-		if (req.files) {
-			let path = ''
-			req.files.forEach((file) => {
-				path = path + file.path + ','
-			})
-
-			path = path.substring(0, path.lastIndexOf(','))
-
-			exam.examImages = path
-		}
-
-		const newExam = await Exam.findByIdAndUpdate(req.params.id, exam, {
-			new: true,
-			runValidators: true,
-		})
+		const newExam = await Exam.findByIdAndUpdate(
+			req.params.id,
+			{ ...req.body },
+			{ new: true, runValidators: true }
+		)
 
 		if (!newExam) {
 			const error = new Error('Exam does not exist: ' + userId)
@@ -92,7 +60,9 @@ exports.getAllExams = async (req, res, next) => {
 
 exports.getExam = async (req, res, next) => {
 	try {
-		const exam = await Exam.findById(req.params.id).populate('subjectId')
+		const exam = await Exam.findOne({ _id: req.params.id })
+			.populate('examResult')
+			.populate('subjectId')
 
 		if (!exam) {
 			const error = new Error('Exam does not exist: ' + userId)

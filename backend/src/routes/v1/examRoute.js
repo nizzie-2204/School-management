@@ -13,14 +13,13 @@ const { verifyToken } = require('../../middlewares/auth')
 const Router = express.Router()
 
 // Allow admin to use these routes verifyToken, permit('admin'),
-
 Router.route('/exams')
-	.post(verifyToken, permit('admin'), upload.array('examImages[]'), createExam)
+	.post(verifyToken, permit('admin'), createExam)
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getAllExams)
 
 Router.route('/exams/:id')
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getExam)
-	.put(verifyToken, permit('admin'), upload.array('examImages[]'), updateExam)
+	.put(verifyToken, permit('admin'), updateExam)
 	.delete(verifyToken, permit('admin'), deleteExam)
 
 module.exports = Router

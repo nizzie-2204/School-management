@@ -18,7 +18,7 @@ const examSchema = new Schema(
 		duration: { type: Number, default: 45 },
 		subjectId: { type: Schema.Types.ObjectId, ref: 'Subject' },
 		grade: { type: Number, enum: [1, 2, 3, 4, 5], default: 1 },
-		examFile: { type: String, required: true },
+		examFile: [],
 		examResult: [{ type: Schema.Types.ObjectId, ref: 'ExamResult' }],
 	},
 	{ timestamps: true }

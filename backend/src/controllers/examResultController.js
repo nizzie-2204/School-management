@@ -2,26 +2,9 @@ const ExamResult = require('../models/examResultModel')
 
 exports.createExamResult = async (req, res, next) => {
 	try {
-		let examResult = new ExamResult({
+		const examResult = await ExamResult.create({
 			...req.body,
 		})
-
-		if (!req.files || Object.keys(req.files).length === 0) {
-			res.status(404).json({ status: 'fail', message: 'No files found' })
-		}
-
-		if (req.files) {
-			let path = ''
-			req.files.forEach((file) => {
-				path = path + file.path + ','
-			})
-
-			path = path.substring(0, path.lastIndexOf(','))
-
-			examResult.examResultImages = path
-		}
-
-		await ExamResult.create(examResult)
 
 		res.status(200).json({ status: 'success', data: examResult })
 	} catch (error) {
@@ -41,11 +24,9 @@ exports.getAllExamResults = async (req, res, next) => {
 
 exports.getExamResult = async (req, res, next) => {
 	try {
-		const examResult = await ExamResult.findById(req.params.id)
-		// .populate('subjectId')
-		// .populate('classId')
-		// .populate('studentId')
-		// .select('-password')
+		const examResult = await ExamResult.findById(req.params.id).populate(
+			'studentId'
+		)
 
 		if (!examResult) {
 			const error = new Error('Exam result does not exist: ' + userId)
@@ -61,25 +42,9 @@ exports.getExamResult = async (req, res, next) => {
 
 exports.updateExamResult = async (req, res, next) => {
 	try {
-		const examResult = { ...req.body }
-
-		// if (req.files === [] || Object.keys(req.files).length === 0) {
-		// 	const currExamResult = await ExamResult.findById(req.params.id)
-
-		// 	examResult.examResultImages = currExamResult.examResultImages
-		// }
-		// if (req.files) {
-		// 	let path = ''
-		// 	req.files.forEach((file) => {
-		// 		path = path + file.path + ','
-		// 	})
-		// 	path = path.substring(0, path.lastIndexOf(','))
-		// 	examResult.examResultImages = path
-		// }
-
 		const newExamResult = await ExamResult.findByIdAndUpdate(
 			req.params.id,
-			examResult,
+			{ ...req.body },
 			{
 				new: true,
 				runValidators: true,
