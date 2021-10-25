@@ -25,7 +25,7 @@ exports.upload = async (req, res, next) => {
 						if (err) throw err
 						resultRes.push({
 							public_id: result.public_id,
-							url: result.secure_url,
+							preview: result.secure_url,
 						})
 						removeTmp(file[fi].tempFilePath)
 					}
@@ -41,7 +41,7 @@ exports.upload = async (req, res, next) => {
 
 					removeTmp(file.tempFilePath)
 
-					res.json({ public_id: result.public_id, url: result.secure_url })
+					res.json({ public_id: result.public_id, preview: result.secure_url })
 				}
 			)
 		}

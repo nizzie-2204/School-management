@@ -58,7 +58,9 @@ function a11yProps(index) {
 	}
 }
 
-const ExamDetail = () => {
+const ExamDetail = (props) => {
+	console.log(props.location.state.exam)
+
 	const classes = useStyles()
 	const [value, setValue] = React.useState(0)
 

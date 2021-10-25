@@ -1,6 +1,9 @@
 import axiosClient from './axios'
 
-const token = localStorage.getItem('token')
+const token =
+	localStorage.getItem('token') ||
+	localStorage.getItem('teacherToken') ||
+	localStorage.getItem('studentToken')
 
 const typeTeacherAPI = {
 	getAllTypeTeacher: async () => {

@@ -12,41 +12,38 @@ import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import FormControl from '@material-ui/core/FormControl'
 import Modal from '@material-ui/core/Modal'
-import 'date-fns'
-import { useSnackbar } from 'notistack'
-import React, { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import * as yup from 'yup'
-import useStyles from './styles'
-import formatISO from 'date-fns/formatISO'
-import { useDropzone } from 'react-dropzone'
 import { SpecialZoomLevel, Viewer, Worker } from '@react-pdf-viewer/core'
 import '@react-pdf-viewer/core/lib/styles/index.css'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
-import pdfDOC from 'assets/doc/de-thi.pdf'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { getSubjects } from 'components/Dashboard/Common/Subject/subjectSlice'
+import 'date-fns'
+import formatISO from 'date-fns/formatISO'
+import { useSnackbar } from 'notistack'
+import React, { useEffect, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import * as yup from 'yup'
+import useStyles from './styles'
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
 })
 
-const AddEditAccount = ({ open, handleClose, student }) => {
+const AddEditAccount = ({ open, handleClose, thisExam }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const { enqueueSnackbar } = useSnackbar()
 	const subjects = useSelector((state) => state.subjects.subjects)
 
-	const { register, handleSubmit, reset, control } = useForm({
+	const { register, handleSubmit, reset } = useForm({
 		resolver: yupResolver(schema),
 	})
 
 	const [error, setError] = useState(null)
-
-	useEffect(() => {
-		console.log(formatISO(new Date()).toString().slice(0, -9))
-	}, [])
 
 	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
@@ -103,6 +100,46 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 		[files]
 	)
 
+	useEffect(() => {
+		const action = getSubjects()
+		dispatch(action)
+			.then(unwrapResult)
+			.catch((error) => console.error(error))
+	}, [dispatch])
+
+	const [subject, setSubject] = useState('')
+	const handleChangeSubject = (e) => {
+		setSubject(e.target.value)
+	}
+
+	const handleAddExam = async (data) => {
+		if (files.length === 0) {
+			setError('Chưa chọn đề thi')
+		}
+
+		console.log(data)
+
+		// const action = upload(files)
+		// dispatch(action)
+	}
+
+	const handleEditExam = (data) => {
+		console.log(data)
+	}
+
+	useEffect(() => {
+		if (thisExam) {
+			reset({
+				name: thisExam?.name,
+				type: thisExam?.semester,
+				startAt: formatISO(new Date(thisExam?.startAt)).toString().slice(0, -9),
+				duration: thisExam?.duration,
+				grade: thisExam?.grade,
+			})
+			setFiles(thisExam.examFile)
+			setSubject(thisExam?.subjectId?._id)
+		}
+	}, [thisExam])
 	return (
 		<Modal
 			aria-labelledby="transition-modal-title"
@@ -124,7 +161,11 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 					className={classes.form}
 					style={{ maxHeight: '575px', overflowY: 'scroll' }}
 					autoComplete="off"
-					// onSubmit={}
+					onSubmit={
+						thisExam
+							? handleSubmit(handleEditExam)
+							: handleSubmit(handleAddExam)
+					}
 				>
 					<Typography className={classes.formTitle} variant="h5">
 						Thêm mới kỳ thi
@@ -144,8 +185,9 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 									input: classes.resize,
 								},
 							}}
-							defaultValue={student?.name}
+							// defaultValue={student?.name}
 							{...register('name')}
+							required
 						/>
 						<FormControl variant="outlined" className={classes.select}>
 							<InputLabel
@@ -157,14 +199,16 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							<Select
 								labelId="demo-simple-select-outlined-label"
 								id="demo-simple-select-outlined"
-								// defaultValue={currClass?.grade || thisClass}
-								// onChange={handleChangeClass}
+								defaultValue={thisExam?.semester}
+								// onChange={handleChangeType}
+								// value={type}
 								required
+								{...register('type')}
 							>
-								<MenuItem value="1">Giữa học kỳ 1</MenuItem>
-								<MenuItem value="2">Cuối học kỳ 1</MenuItem>
-								<MenuItem value="1">Giữa học kỳ 2</MenuItem>
-								<MenuItem value="2">Cuối học kỳ 2</MenuItem>
+								<MenuItem value="Giữa học kỳ 1">Giữa học kỳ 1</MenuItem>
+								<MenuItem value="Cuối học kỳ 1">Cuối học kỳ 1</MenuItem>
+								<MenuItem value="Giữa học kỳ 2">Giữa học kỳ 2</MenuItem>
+								<MenuItem value="Cuối học kỳ 2">Cuối học kỳ 2</MenuItem>
 							</Select>
 						</FormControl>
 					</div>
@@ -184,6 +228,8 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 								},
 							}}
 							defaultValue={formatISO(new Date()).toString().slice(0, -9)}
+							{...register('startAt')}
+							required
 						/>
 						<TextField
 							className={classes.root}
@@ -198,6 +244,8 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 									input: classes.resize,
 								},
 							}}
+							{...register('duration')}
+							required
 						/>
 					</div>
 
@@ -212,8 +260,9 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							<Select
 								labelId="demo-simple-select-outlined-label"
 								id="demo-simple-select-outlined"
-								// defaultValue={currClass?.grade || thisClass}
-								// onChange={handleChangeClass}
+								defaultValue={thisExam?.grade}
+								// onChange={handleChangeGrade}
+								// value={grade}
 								label="Khối"
 								required
 								{...register('grade')}
@@ -235,8 +284,9 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							<Select
 								labelId="demo-simple-select-outlined-label"
 								id="demo-simple-select-outlined"
-								// value={subject}
-								// onChange={handleChangeSubject}
+								value={subject}
+								onChange={handleChangeSubject}
+								required
 							>
 								{subjects?.map((subject) => {
 									return (

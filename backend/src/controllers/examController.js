@@ -50,7 +50,7 @@ exports.deleteExam = async (req, res, next) => {
 
 exports.getAllExams = async (req, res, next) => {
 	try {
-		const exams = await Exam.find()
+		const exams = await Exam.find().populate('subjectId')
 
 		res.status(200).json({ status: 'success', data: exams })
 	} catch (error) {

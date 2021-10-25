@@ -12,9 +12,9 @@ import useStyles from './styles'
 import { useDropzone } from 'react-dropzone'
 import timePNG from 'assets/images/time.png'
 
-const TakingExam = () => {
+const TakingExam = (props) => {
 	const classes = useStyles()
-
+	console.log(props.location.state.exam)
 	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
 		toolbarPlugin: {

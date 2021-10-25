@@ -1,10 +1,9 @@
-import { Box, IconButton, TextField, Button } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add'
+import { Box, IconButton, TextField } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import React, { useEffect, useRef, useState } from 'react'
-import useStyles from './styles'
-import socket from 'socket'
 import { useSelector } from 'react-redux'
+import socket from 'socket'
+import useStyles from './styles'
 
 const formatDate = (timeStamp) => {
 	const thisDate = new Date(timeStamp)

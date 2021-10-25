@@ -72,7 +72,30 @@ const examResultSlice = createSlice({
 		examResultError: null,
 	},
 	reducers: {},
-	extraReducers: {},
+	extraReducers: {
+		[getExamResults.pending]: (state) => {
+			state.examResultsLoading = true
+		},
+		[getExamResults.fulfilled]: (state, action) => {
+			state.examResultsLoading = false
+			console.log(action.payload)
+		},
+		[getExamResults.rejected]: (state, action) => {
+			state.examResultsLoading = false
+			console.log(action.payload)
+		},
+		[getExamResult.pending]: (state) => {
+			state.examResultLoading = true
+		},
+		[getExamResult.fulfilled]: (state, action) => {
+			state.examResultLoading = false
+			console.log(action.payload)
+		},
+		[getExamResult.rejected]: (state, action) => {
+			state.examResultLoading = false
+			console.log(action.payload)
+		},
+	},
 })
 
 export default examResultSlice.reducer

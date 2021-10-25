@@ -26,11 +26,13 @@ import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
-import { getStudents } from '../StudentAccount/studentAccountSlice'
 import AddEditAccount from './components/AddEditAccount/AddEditAccount'
 import DeleteAlert from './components/DeleteAlert/DeleteAlert'
 import useStyles from './styles'
 import emptyDataPNG from 'assets/images/document.png'
+import { getExams } from './examSlice'
+import { useHistory } from 'react-router'
+import VisibilityIcon from '@material-ui/icons/Visibility'
 
 const links = [
 	{
@@ -50,10 +52,12 @@ const Exam = () => {
 	const classes = useStyles()
 
 	const dispatch = useDispatch()
-	const students = useSelector((state) => state.student.students)
-	const studentsLoading = useSelector((state) => state.student.studentsLoading)
+	const user = useSelector((state) => state.auth.user)
+	const exams = useSelector((state) => state.exam.exams)
+	const examsLoading = useSelector((state) => state.exam.examsLoading)
+	const history = useHistory()
 
-	const [thisStudent, setThisStudent] = useState(null)
+	const [thisExam, setThisExam] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => {
 		setOpen(true)
@@ -63,23 +67,22 @@ const Exam = () => {
 	}
 
 	const [open2, setOpen2] = useState(false)
-	const handleOpen2 = (student) => {
-		setThisStudent(student)
+	const handleOpen2 = (exam) => {
+		setThisExam(exam)
 		setOpen2(true)
 	}
 	const handleClose2 = () => {
-		setThisStudent(null)
-
+		setThisExam(null)
 		setOpen2(false)
 	}
 
 	const [open3, setOpen3] = useState(false)
-	const handleOpen3 = (student) => {
-		setThisStudent(student)
+	const handleOpen3 = (exam) => {
+		setThisExam(exam)
 		setOpen3(true)
 	}
 	const handleClose3 = () => {
-		setThisStudent(null)
+		setThisExam(null)
 		setOpen3(false)
 	}
 
@@ -102,16 +105,31 @@ const Exam = () => {
 	}
 
 	useEffect(() => {
-		const fetchStudents = () => {
-			const action = getStudents()
+		const fetchExams = () => {
+			const action = getExams()
 			dispatch(action)
 				// .unwrap()
 				.then(unwrapResult)
-				.then((res) => console.log(res.data))
 				.catch((error) => console.log(error))
 		}
-		fetchStudents()
+		fetchExams()
 	}, [dispatch])
+
+	const handleTakingExam = (exam) => {
+		if (user.role !== 'student') return
+		history.push({
+			pathname: `/dashboard/taking-exam/${exam._id}`,
+			state: { exam },
+		})
+	}
+
+	const handleViewDetailExam = (exam) => {
+		// if (user.role !== 'teacher') return
+		history.push({
+			pathname: `/dashboard/exam/${exam._id}`,
+			state: { exam },
+		})
+	}
 
 	return (
 		<>
@@ -178,7 +196,7 @@ const Exam = () => {
 					</Box>
 					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>
-				{studentsLoading ? (
+				{examsLoading ? (
 					<div className={classes.loading}>
 						<CircularProgress
 							style={{
@@ -223,70 +241,98 @@ const Exam = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									<TableRow>
-										<TableCell
-											align="center"
-											component="th"
-											scope="row"
-											className={classes.limitText}
-										>
-											iasdasd
-										</TableCell>
-										<TableCell align="center">
-											<p>Ôn tập học kỳ 1</p>
-											<p>Môn: Toán</p>
-										</TableCell>
+									{exams?.map((exam) => {
+										return (
+											<TableRow>
+												<TableCell
+													align="center"
+													component="th"
+													scope="row"
+													className={classes.limitText}
+												>
+													{exam?._id}
+												</TableCell>
+												<TableCell align="center">
+													<p>{exam?.name}</p>
+													<p>Môn: {exam?.subjectId?.name}</p>
+												</TableCell>
 
-										<TableCell align="center">15/05/2021 00:00</TableCell>
-										<TableCell align="center">60 phút</TableCell>
-										<TableCell align="center">Chưa diễn ra</TableCell>
+												<TableCell align="center">15/05/2021 00:00</TableCell>
+												<TableCell align="center">
+													{exam?.duration} phút
+												</TableCell>
+												<TableCell align="center">Chưa diễn ra</TableCell>
 
-										<TableCell align="center">
-											{/* <Tooltip title="Chỉnh sửa">
-												<IconButton>
-													<CreateIcon
-														fontSize="small"
-														style={{ color: '#5278db' }}
-													/>
-												</IconButton>
-											</Tooltip>
-											<Tooltip title="Xóa">
-												<IconButton>
-													<DeleteIcon
-														fontSize="small"
-														style={{ color: '#e96053' }}
-													/>
-												</IconButton>
-											</Tooltip> */}
-											<Button
-												variant="contained"
-												className={classes.takingExam}
-											>
-												Làm bài
-											</Button>
-										</TableCell>
-									</TableRow>
-
+												<TableCell align="center">
+													<Tooltip title="Chỉnh sửa">
+														<IconButton>
+															<CreateIcon
+																fontSize="small"
+																style={{ color: '#5278db' }}
+																onClick={() => {
+																	handleOpen3(exam)
+																}}
+															/>
+														</IconButton>
+													</Tooltip>
+													<Tooltip title="Chi tiết">
+														<IconButton
+															onClick={() => {
+																handleViewDetailExam(exam)
+															}}
+														>
+															<VisibilityIcon
+																fontSize="small"
+																style={{ color: '#ffa000' }}
+															/>
+														</IconButton>
+													</Tooltip>
+													<Tooltip title="Xóa">
+														<IconButton>
+															<DeleteIcon
+																fontSize="small"
+																style={{ color: '#e96053' }}
+																onClick={() => {
+																	handleOpen2(exam)
+																}}
+															/>
+														</IconButton>
+													</Tooltip>
+													{user.role === 'student' && (
+														<Button
+															variant="contained"
+															className={classes.takingExam}
+															onClick={() => {
+																handleTakingExam(exam)
+															}}
+														>
+															Làm bài
+														</Button>
+													)}
+												</TableCell>
+											</TableRow>
+										)
+									})}
 									<DeleteAlert
 										open={open2}
 										handleClose={handleClose2}
-										student={thisStudent}
+										thisExam={thisExam}
 									/>
 									<AddEditAccount
 										open={open3}
 										handleClose={handleClose3}
-										student={thisStudent}
+										thisExam={thisExam}
 									/>
 								</TableBody>
 							</Table>
 						</TableContainer>
-						{students.length > 0 ? (
+						{exams?.length > 0 ? (
 							<TablePagination
 								rowsPerPageOptions={[10]}
 								component="div"
 								// Pagination on search
 								count={
-									students?.filter((teacher) => {
+									exams?.filter((teacher) => {
 										if (searchTerm === '') {
 											return teacher
 										} else if (

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const examSchema = new Schema(
 	{
 		name: { type: String, required: true },
-		startAt: { type: String, required: true },
+		startAt: { type: Date, required: true },
 		semester: {
 			type: String,
 			enum: [
