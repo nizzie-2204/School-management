@@ -17,9 +17,18 @@ import React from 'react'
 import useStyles from './styles'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/Visibility'
-
-const ListExamAnswer = () => {
+import formatDate from 'utils/formatDate'
+import { useHistory } from 'react-router-dom'
+const ListExamAnswer = ({ exam }) => {
 	const classes = useStyles()
+	const results = exam.examResult
+	const history = useHistory()
+	const handleScoringExam = (result) => {
+		history.push({
+			pathname: `/dashboard/exam-answer/${result._id}`,
+			state: { exam, result },
+		})
+	}
 
 	return (
 		<Box className={classes.container}>
@@ -78,36 +87,46 @@ const ListExamAnswer = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						<TableRow>
-							<TableCell
-								align="center"
-								component="th"
-								scope="row"
-								className={classes.limitText}
-							>
-								123
-							</TableCell>
-							<TableCell align="center">123</TableCell>
-
-							<TableCell align="center">123</TableCell>
-							<TableCell align="center">123</TableCell>
-							<TableCell align="center">123</TableCell>
-							<TableCell align="center">0/10</TableCell>
-							<TableCell align="center">
-								<Tooltip title="Chi tiết">
-									<IconButton
-									// onClick={() => {
-									// 	handleOpen3(student)
-									// }}
+						{results?.map((result) => {
+							return (
+								<TableRow>
+									<TableCell
+										align="center"
+										component="th"
+										scope="row"
+										className={classes.limitText}
 									>
-										<VisibilityIcon
-											fontSize="small"
-											style={{ color: '#ffa000' }}
-										/>
-									</IconButton>
-								</Tooltip>
-							</TableCell>
-						</TableRow>
+										{result._id}
+									</TableCell>
+									<TableCell align="center">{result.studentId.name}</TableCell>
+
+									<TableCell align="center">
+										{formatDate(result.studentId.dateOfBirth)}
+									</TableCell>
+									<TableCell align="center">
+										{result.studentId.username}
+									</TableCell>
+									<TableCell align="center">
+										{result.studentId.classId.name}
+									</TableCell>
+									<TableCell align="center">0/10</TableCell>
+									<TableCell align="center">
+										<Tooltip title="Chi tiết">
+											<IconButton
+												onClick={() => {
+													handleScoringExam(result)
+												}}
+											>
+												<VisibilityIcon
+													fontSize="small"
+													style={{ color: '#ffa000' }}
+												/>
+											</IconButton>
+										</Tooltip>
+									</TableCell>
+								</TableRow>
+							)
+						})}
 					</TableBody>
 				</Table>
 			</TableContainer>

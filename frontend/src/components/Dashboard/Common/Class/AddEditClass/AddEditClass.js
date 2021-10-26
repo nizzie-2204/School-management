@@ -20,6 +20,7 @@ import schoolYears from 'utils/schoolYear'
 import * as yup from 'yup'
 import { addClass, updateClass } from '../classSlice'
 import useStyles from './styles'
+import Alert from 'components/Alert/Alert'
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
@@ -137,9 +138,9 @@ const AddEditAccount = ({ open, handleClose, currClass }) => {
 			.then(unwrapResult)
 			.then(() => {
 				handleClose()
-				enqueueSnackbar('Thêm mới thành công', {
-					variant: 'success',
-					autoHideDuration: 3000,
+				Alert.fire({
+					icon: 'success',
+					title: 'Thêm mới thành công',
 				})
 				reset()
 			})
@@ -157,9 +158,9 @@ const AddEditAccount = ({ open, handleClose, currClass }) => {
 			.then(unwrapResult)
 			.then(() => {
 				handleClose()
-				enqueueSnackbar('Chỉnh sửa thành công', {
-					variant: 'success',
-					autoHideDuration: 3000,
+				Alert.fire({
+					icon: 'success',
+					title: 'Chỉnh sửa thành công',
 				})
 				reset()
 			})

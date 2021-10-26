@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
 	tableContainer: {
 		maxHeight: 440,
+		boxShadow: 'none',
 	},
 	table: {
 		minWidth: 650,
@@ -36,23 +37,31 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		marginBottom: '30px',
 		backgroundColor: theme.palette.background.paper,
+		padding: 10,
 	},
 	searchField: {
 		flex: '1',
 		color: theme.palette.text.main,
+		// border: '1px solid #eee',
 		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: 'transparent',
+			borderColor: '#eee',
 			borderRightColor: 'transparent',
+			borderTopLeftRadius: 4,
+			borderBottomLeftRadius: 4,
 			borderRadius: '0',
 		},
 		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
-			borderColor: 'transparent',
+			borderColor: '#eee',
 			borderRightColor: 'transparent',
+			borderTopLeftRadius: 4,
+			borderBottomLeftRadius: 4,
 			borderRadius: '0',
 		},
 		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-			borderColor: 'transparent',
+			borderColor: '#eee',
 			borderRightColor: 'transparent',
+			borderTopLeftRadius: 4,
+			borderBottomLeftRadius: 4,
 			borderRadius: '0',
 		},
 		'&::placeholder': {
@@ -64,10 +73,30 @@ const useStyles = makeStyles((theme) => ({
 		padding: '10px 20px',
 		color: theme.palette.text.secondary,
 		backgroundColor: '#3254ac',
-		borderRadius: '0',
+		borderRadius: 4,
 		boxShadow: 'none !important',
+		textTransform: 'none',
 		'&:hover': {
 			backgroundColor: '#3254ac',
+		},
+		'& .MuiButton-startIcon': {
+			paddingBottom: 3,
+		},
+	},
+	searchButton: {
+		padding: '10px 20px',
+		color: theme.palette.text.secondary,
+		backgroundColor: '#3254ac',
+		borderRadius: 4,
+		borderTopLeftRadius: 0,
+		borderBottomLeftRadius: 0,
+		boxShadow: 'none !important',
+		textTransform: 'none',
+		'&:hover': {
+			backgroundColor: '#3254ac',
+		},
+		'& .MuiButton-startIcon': {
+			paddingBottom: 3,
 		},
 	},
 

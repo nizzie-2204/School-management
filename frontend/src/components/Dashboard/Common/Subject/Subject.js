@@ -132,7 +132,7 @@ const Subject = () => {
 						/>
 						<Button
 							variant="contained"
-							className={classes.button}
+							className={classes.searchButton}
 							startIcon={<SearchIcon />}
 						>
 							Tìm kiếm

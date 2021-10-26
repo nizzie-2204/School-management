@@ -2,37 +2,29 @@ import { Button, Typography } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
-import { useSnackbar } from 'notistack'
-import React from 'react'
-import useStyles from './styles'
-import { useDispatch } from 'react-redux'
-import { deleteStudent } from 'components/Dashboard/Common/StudentAccount/studentAccountSlice'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice'
+import Alert from 'components/Alert/Alert'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { deleteExam } from '../../examSlice'
+import useStyles from './styles'
 
-const DeleteAlert = ({ open, handleClose, student }) => {
+const DeleteAlert = ({ open, handleClose, thisExam }) => {
 	const classes = useStyles()
-	const { enqueueSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
-	const handleDeleteAccount = () => {
-		const action = deleteStudent(student._id)
+	const handleDeleteExam = () => {
+		console.log(thisExam)
+		const action = deleteExam(thisExam._id)
 		dispatch(action)
 			.then(unwrapResult)
-			.then(() => {
-				const studentId = student._id
-				const oldClassId = student.classId
-				const action = updateStudentClass({ studentId, oldClassId })
-				dispatch(action)
-					.then(unwrapResult)
-					.then(() => {
-						handleClose()
-						enqueueSnackbar('Xóa tài khoản thành công', {
-							variant: 'success',
-							autoHideDuration: 3000,
-						})
-					})
-					.catch((error) => console.log(error))
+			.then((res) => {
+				console.log(res)
+				Alert.fire({
+					icon: 'success',
+					title: 'Xóa môn thi thành công',
+				})
+				handleClose()
 			})
 			.catch((error) => console.log(error))
 	}
@@ -60,7 +52,7 @@ const DeleteAlert = ({ open, handleClose, student }) => {
 						<Button
 							style={{ backgroundColor: '#3254ac', color: '#fff' }}
 							className={classes.button}
-							onClick={handleDeleteAccount}
+							onClick={handleDeleteExam}
 						>
 							Có
 						</Button>

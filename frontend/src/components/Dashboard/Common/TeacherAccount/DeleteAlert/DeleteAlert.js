@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import useStyles from './styles'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { deleteTeacher } from '../teacherAccountSlice'
+import Alert from 'components/Alert/Alert'
 
 const DeleteAlert = ({ open, handleClose, thisTeacher }) => {
 	const classes = useStyles()
@@ -20,9 +21,9 @@ const DeleteAlert = ({ open, handleClose, thisTeacher }) => {
 			.then(unwrapResult)
 			.then(() => {
 				handleClose()
-				enqueueSnackbar('Xóa thành công', {
-					variant: 'success',
-					autoHideDuration: 3000,
+				Alert.fire({
+					icon: 'success',
+					title: 'Xóa tài khoản thành công',
 				})
 			})
 			.catch((error) => console.log(error))

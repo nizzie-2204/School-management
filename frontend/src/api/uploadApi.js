@@ -9,10 +9,8 @@ const uploadAPI = {
 	upload: async (files) => {
 		let formData = new FormData()
 		files.forEach((file) => {
-			formData.append('files[]', file)
+			formData.append('files', file)
 		})
-
-		console.log(formData.get('files'))
 
 		return await axiosClient.post('/upload', formData, {
 			headers: {

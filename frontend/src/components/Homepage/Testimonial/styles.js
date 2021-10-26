@@ -54,8 +54,7 @@ const useStyles = makeStyles((theme) => ({
 			height: '450px',
 		},
 	},
-	star: { color: theme.palette.background.default, fontSize: '28px' },
-
+	star: { color: '#ffb607', fontSize: '28px' },
 	desc: {
 		fontSize: '14px',
 		textAlign: 'center',

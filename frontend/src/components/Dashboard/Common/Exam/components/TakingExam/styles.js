@@ -141,6 +141,10 @@ const useStyles = makeStyles((theme) => ({
 		transition: 'border .24s ease-in-out',
 		cursor: 'pointer',
 	},
+	opacity: {
+		opacity: '0.5',
+		cursor: 'not-allowed',
+	},
 }))
 
 export default useStyles

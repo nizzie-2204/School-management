@@ -7,14 +7,15 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
 import pdfDOC from 'assets/doc/de-thi.pdf'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import useStyles from './styles'
 import { useDropzone } from 'react-dropzone'
 import timePNG from 'assets/images/time.png'
+import Alert from 'components/Alert/Alert'
 
 const TakingExam = (props) => {
 	const classes = useStyles()
-	console.log(props.location.state.exam)
+
 	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
 		toolbarPlugin: {
@@ -31,23 +32,38 @@ const TakingExam = (props) => {
 	})
 
 	// Timer
-	const [timer, setTimer] = useState(10)
+
+	const [timer, setTimer] = useState(
+		localStorage.getItem('timerLS') || props.location.state.exam.duration
+	)
 	const [minute, setMinute] = useState(() => {
-		let result = Math.floor(timer / 60)
+		let result = Math.floor(
+			(localStorage.getItem('timerLS') || props.location.state.exam.duration) /
+				60
+		)
 		if (result.toString().length === 1) {
 			result = `0${result}`
 		}
 		return result
 	})
-	const [second, setSecond] = useState(timer % 60)
-
-	const handleSubmitExam = () => {
-		alert('Nộp bài thành công!')
-	}
+	const [second, setSecond] = useState(() => {
+		let result =
+			(localStorage.getItem('timerLS') || props.location.state.exam.duration) %
+			60
+		if (result.toString().length === 1) {
+			result = `0${result}`
+		}
+		return result
+	})
 
 	// useEffect(() => {
-	// 	if (Number(minute) >= 0 && Number(second) >= 1) {
+	// 	if (timer >= 0) {
 	// 		const timerInterval = setInterval(() => {
+	// 			if (!localStorage.getItem('timerLS')) {
+	// 				localStorage.setItem('timerLS', props.location.state.exam.duration)
+	// 				console.log(localStorage.getItem('timerLS'))
+	// 			}
+
 	// 			let computedSecond
 	// 			if (Number(computedSecond) < 1) {
 	// 				computedSecond = 60
@@ -68,12 +84,16 @@ const TakingExam = (props) => {
 	// 			setMinute(minuteString)
 
 	// 			setTimer(timer - 1)
+	// 			localStorage.setItem('timerLS', timer - 1)
 	// 		}, 1000)
 
 	// 		return () => {
 	// 			clearInterval(timerInterval)
 	// 		}
-	// 	} else handleSubmitExam()
+	// 	} else {
+	// 		localStorage.removeItem('timerLS')
+	// 		handleSubmitExam()
+	// 	}
 	// }, [timer])
 
 	// Dropzone
@@ -110,6 +130,13 @@ const TakingExam = (props) => {
 		[files]
 	)
 
+	const handleSubmitExam = () => {
+		const data = {
+			studentId: '61781f10c25f62ec2f0117e9',
+			examResultImages: files,
+		}
+	}
+
 	return (
 		<Box className={classes.container}>
 			<Box className={classes.header}>
@@ -145,10 +172,15 @@ const TakingExam = (props) => {
 				</Box>
 				<Button
 					variant="contained"
-					className={classes.submit}
+					className={
+						timer <= -1
+							? `${classes.submit} ${classes.opacity}`
+							: `${classes.submit}`
+					}
 					startIcon={
 						<FontAwesomeIcon icon={faFileAlt} style={{ marginRight: 5 }} />
 					}
+					onClick={handleSubmitExam}
 				>
 					Nộp bài
 				</Button>
@@ -176,13 +208,15 @@ const TakingExam = (props) => {
 
 					<Box className={classes.answerQuestion}>
 						<section className="container">
-							<div
-								{...getRootProps({ className: 'dropzone' })}
-								className={classes.dropzone}
-							>
-								<input {...getInputProps()} />
-								<p>Kéo và thả một số hình ở đây hoặc nhấp để chọn hình</p>
-							</div>
+							{timer >= 0 && (
+								<div
+									{...getRootProps({ className: 'dropzone' })}
+									className={classes.dropzone}
+								>
+									<input {...getInputProps()} />
+									<p>Kéo và thả một số hình ở đây hoặc nhấp để chọn hình</p>
+								</div>
+							)}
 							<aside className={classes.thumbContainer}>{thumbs}</aside>
 						</section>
 					</Box>

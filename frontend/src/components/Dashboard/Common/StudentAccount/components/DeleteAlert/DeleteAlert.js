@@ -2,17 +2,16 @@ import { Button, Typography } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
-import { useSnackbar } from 'notistack'
+import { unwrapResult } from '@reduxjs/toolkit'
+import Alert from 'components/Alert/Alert'
+import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice'
 import React from 'react'
-import useStyles from './styles'
 import { useDispatch } from 'react-redux'
 import { deleteStudent } from '../../studentAccountSlice'
-import { unwrapResult } from '@reduxjs/toolkit'
-import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice'
+import useStyles from './styles'
 
 const DeleteAlert = ({ open, handleClose, student }) => {
 	const classes = useStyles()
-	const { enqueueSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
 	const handleDeleteAccount = () => {
@@ -27,9 +26,9 @@ const DeleteAlert = ({ open, handleClose, student }) => {
 					.then(unwrapResult)
 					.then(() => {
 						handleClose()
-						enqueueSnackbar('Xóa tài khoản thành công', {
-							variant: 'success',
-							autoHideDuration: 3000,
+						Alert.fire({
+							icon: 'success',
+							title: 'Xóa tài khoản thành công',
 						})
 					})
 					.catch((error) => console.log(error))

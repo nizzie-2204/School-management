@@ -31,6 +31,10 @@ import DeleteAlert from './DeleteAlert/DeleteAlert'
 import useStyles from './styles'
 import { getTeachers } from './teacherAccountSlice'
 import emptyDataPNG from 'assets/images/document.png'
+import {
+	getTypeTeacher,
+	getTypeTeachers,
+} from '../TypeTeacher/typeTeacherSlice'
 
 const links = [
 	{
@@ -88,7 +92,13 @@ const TeacherAccount = () => {
 			dispatch(action)
 		}
 
+		const fetchTeacherTypes = () => {
+			const action = getTypeTeachers()
+			dispatch(action)
+		}
+
 		fetchTeachers()
+		fetchTeacherTypes()
 	}, [dispatch])
 
 	// Search
@@ -142,7 +152,7 @@ const TeacherAccount = () => {
 						/>
 						<Button
 							variant="contained"
-							className={classes.button}
+							className={classes.searchButton}
 							startIcon={<SearchIcon />}
 						>
 							Tìm kiếm

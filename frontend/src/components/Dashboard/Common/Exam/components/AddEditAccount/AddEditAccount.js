@@ -27,7 +27,9 @@ import { useDropzone } from 'react-dropzone'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
+import { addExam, upload, updateExam } from '../../examSlice'
 import useStyles from './styles'
+import Alert from 'components/Alert/Alert'
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
@@ -107,31 +109,87 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 			.catch((error) => console.error(error))
 	}, [dispatch])
 
-	const [subject, setSubject] = useState('')
+	const [subject, setSubject] = useState()
 	const handleChangeSubject = (e) => {
 		setSubject(e.target.value)
 	}
 
+	const [isSubmitedImages, setIsSubmittedImages] = useState(false)
+
 	const handleAddExam = async (data) => {
 		if (files.length === 0) {
 			setError('Chưa chọn đề thi')
+			return
 		}
-
-		console.log(data)
-
-		// const action = upload(files)
-		// dispatch(action)
+		const action = upload(files)
+		dispatch(action)
+			.then(unwrapResult)
+			.then((res) => {
+				const action = addExam({
+					...data,
+					examFile: res,
+					subjectId: subject,
+				})
+				dispatch(action)
+					.then(unwrapResult)
+					.then((res) => {
+						console.log(res)
+						Alert.fire({
+							icon: 'success',
+							title: 'Thêm môn thi thành công',
+						})
+						handleClose()
+					})
+			})
 	}
 
-	const handleEditExam = (data) => {
-		console.log(data)
+	const handleUpdateExam = (data) => {
+		if (files[0].preview === thisExam.examFile[0].preview) {
+			const action = updateExam({
+				...data,
+				subjectId: subject,
+				id: thisExam._id,
+			})
+			dispatch(action)
+				.then(unwrapResult)
+				.then((res) => {
+					console.log(res)
+					Alert.fire({
+						icon: 'success',
+						title: 'Chỉnh sửa môn thi thành công',
+					})
+					handleClose()
+				})
+		} else {
+			const action = upload(files)
+			dispatch(action)
+				.then(unwrapResult)
+				.then((res) => {
+					const action = updateExam({
+						...data,
+						examFile: res,
+						subjectId: subject,
+						id: thisExam._id,
+					})
+					dispatch(action)
+						.then(unwrapResult)
+						.then((res) => {
+							console.log(res)
+							Alert.fire({
+								icon: 'success',
+								title: 'Chỉnh sửa môn thi thành công',
+							})
+							handleClose()
+						})
+				})
+		}
 	}
 
 	useEffect(() => {
 		if (thisExam) {
 			reset({
 				name: thisExam?.name,
-				type: thisExam?.semester,
+				semester: thisExam?.semester,
 				startAt: formatISO(new Date(thisExam?.startAt)).toString().slice(0, -9),
 				duration: thisExam?.duration,
 				grade: thisExam?.grade,
@@ -140,6 +198,7 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 			setSubject(thisExam?.subjectId?._id)
 		}
 	}, [thisExam])
+
 	return (
 		<Modal
 			aria-labelledby="transition-modal-title"
@@ -163,7 +222,7 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 					autoComplete="off"
 					onSubmit={
 						thisExam
-							? handleSubmit(handleEditExam)
+							? handleSubmit(handleUpdateExam)
 							: handleSubmit(handleAddExam)
 					}
 				>
@@ -203,7 +262,7 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 								// onChange={handleChangeType}
 								// value={type}
 								required
-								{...register('type')}
+								{...register('semester')}
 							>
 								<MenuItem value="Giữa học kỳ 1">Giữa học kỳ 1</MenuItem>
 								<MenuItem value="Cuối học kỳ 1">Cuối học kỳ 1</MenuItem>

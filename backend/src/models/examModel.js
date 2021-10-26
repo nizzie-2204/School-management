@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 
 const examSchema = new Schema(
 	{
-		name: { type: String, required: true },
+		name: { type: String, required: true, unique: true },
 		startAt: { type: Date, required: true },
 		semester: {
 			type: String,

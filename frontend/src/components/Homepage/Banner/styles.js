@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/styles';
-import bgImage1 from 'assets/images/slider1.jpg';
+import { makeStyles } from '@material-ui/styles'
+import bgImage1 from 'assets/images/slider1.jpg'
 
 const useStyles = makeStyles((theme) => ({
 	banner: {
@@ -44,13 +44,14 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.text.secondary,
 		fontSize: '20px',
 		padding: '10px 30px',
-		backgroundColor: theme.palette.background.default,
+		backgroundColor: '#ffb607',
 		borderRadius: '20px',
+		transition: 0.3,
 		'&:hover': {
 			color: theme.palette.primary.main,
 			backgroundColor: theme.palette.background.paper,
 		},
 	},
-}));
+}))
 
-export { useStyles };
+export { useStyles }

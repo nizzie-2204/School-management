@@ -58,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
 	tableHead: {
 		backgroundColor: '#eff3f6',
 	},
+	limitText: {
+		maxWidth: 100,
+		overflow: 'hidden',
+		whiteSpace: ' nowrap',
+		textOverflow: 'ellipsis',
+	},
 }))
 
 export default useStyles

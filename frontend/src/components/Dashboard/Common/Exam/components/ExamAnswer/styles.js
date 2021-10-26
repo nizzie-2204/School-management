@@ -202,6 +202,11 @@ const useStyles = makeStyles((theme) => ({
 	action: {
 		color: theme.palette.text.secondary,
 		backgroundColor: '#3254ac',
+
+		'&:hover': {
+			color: theme.palette.text.secondary,
+			backgroundColor: '#3254ac',
+		},
 	},
 }))
 

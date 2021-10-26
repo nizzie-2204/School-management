@@ -27,7 +27,7 @@ const examAPI = {
 	},
 
 	updateExam: async (data) => {
-		return await axiosClient.put(`/exams/${data.id}`, {
+		return await axiosClient.put(`/exams/${data.id}`, data, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},

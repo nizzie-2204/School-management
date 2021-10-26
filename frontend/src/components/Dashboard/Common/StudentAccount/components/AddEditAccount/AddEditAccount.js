@@ -16,16 +16,16 @@ import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import { withStyles } from '@material-ui/styles'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { useSnackbar } from 'notistack'
+import Alert from 'components/Alert/Alert'
+import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
+import { addStudent, updateStudent } from '../../studentAccountSlice'
 import useStyles from './styles'
-import { addStudent } from '../../studentAccountSlice'
-import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice'
-import { updateStudent } from '../../studentAccountSlice'
+
 const GreenRadio = withStyles({
 	root: {
 		color: '#dcdbdb',
@@ -58,7 +58,6 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const classesFromStore = useSelector((state) => state.classes.classes)
-	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 	})
@@ -118,12 +117,10 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 					dispatch(action)
 
 					handleClose()
-					enqueueSnackbar(
-						`Tài khoản: ${res?.data.username} mật khẩu: ${res?.data.password}`,
-						{
-							variant: 'success',
-						}
-					)
+					Alert.fire({
+						icon: 'success',
+						title: `Tài khoản: ${res?.data.username} mật khẩu: ${res?.data.password}`,
+					})
 				})
 				.catch((error) => {
 					if (
@@ -143,6 +140,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 
 	const handleUpdateAccount = (data) => {
 		const newData = {
+			_id: student._id,
 			name: data.name,
 			gender: data.gender,
 			address: data.address,
@@ -173,24 +171,22 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 		) {
 			setError('Số điện thoại có dạng: +84 123 123 123')
 		} else if (student.classId === data.classId) {
-			alert('Không có đổi lớp')
-
 			const action = updateStudent(newData)
 			dispatch(action)
 				.then(unwrapResult)
 				.then(() => {
 					handleClose()
-					enqueueSnackbar('Chỉnh sửa tài khoản thành công', {
-						variant: 'success',
-						autoHideDuration: 3000,
+					Alert.fire({
+						icon: 'success',
+						title: 'Chỉnh sửa tài khoản thành công',
 					})
+
 					reset()
 					setPhoneInput2(null)
 					setPhoneInput3(null)
 				})
 				.catch((error) => console.log(error))
 		} else if (student.classId !== data.classId) {
-			alert('Đổi lớp')
 			const action = updateStudent({
 				...newData,
 				classId: data.classId,
@@ -212,10 +208,11 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 						.then(unwrapResult)
 						.then(() => {
 							handleClose()
-							enqueueSnackbar('Chỉnh sửa tài khoản thành công', {
-								variant: 'success',
-								autoHideDuration: 3000,
+							Alert.fire({
+								icon: 'success',
+								title: 'Chỉnh sửa tài khoản thành công',
 							})
+
 							reset()
 							setPhoneInput2(null)
 							setPhoneInput3(null)

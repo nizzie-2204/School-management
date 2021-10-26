@@ -10,9 +10,12 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
 import pdfDOC from 'assets/doc/video.pdf'
 import { useDropzone } from 'react-dropzone'
+import Alert from 'components/Alert/Alert'
 
-const ExamAnswer = () => {
+const ExamAnswer = (props) => {
 	const classes = useStyles()
+	const exam = props.location.state.exam
+	const result = props.location.state.result
 
 	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
@@ -60,6 +63,26 @@ const ExamAnswer = () => {
 		[files]
 	)
 
+	useEffect(() => {
+		if (props.location.state.result) {
+			setFiles(props.location.state.result.examResultImages)
+		}
+	}, [props])
+
+	const handleComment = () => {
+		Alert.fire({
+			icon: 'success',
+			title: 'Nhận xét thành công',
+		})
+	}
+
+	const handleScoring = () => {
+		Alert.fire({
+			icon: 'success',
+			title: 'Cho điểm thành công',
+		})
+	}
+
 	return (
 		<Box className={classes.container}>
 			<Box className={classes.header}>
@@ -69,18 +92,18 @@ const ExamAnswer = () => {
 					</Typography>
 					<div>
 						<span>
-							Môn: <strong>Tin học - </strong>{' '}
+							Môn: <strong>{exam.subjectId.name} - </strong>{' '}
 						</span>
 						<span>
-							Thời gian làm bài: <strong>15 phút</strong>{' '}
+							Thời gian làm bài: <strong>{`${exam.duration} phút`} </strong>{' '}
 						</span>
 					</div>
 					<div>
 						<span>
-							Họ và thi thí sinh: <strong> Nguyễn Văn A - </strong>
+							Họ và thi thí sinh: <strong> {result.studentId.name} - </strong>
 						</span>
 						<span>
-							Lớp: <strong>1A1</strong>{' '}
+							Lớp: <strong>{result.studentId.classId.name}</strong>{' '}
 						</span>
 					</div>
 				</Box>
@@ -119,7 +142,11 @@ const ExamAnswer = () => {
 						type="textarea"
 						className={classes.textField}
 					/>
-					<Button variant="contained" className={classes.action}>
+					<Button
+						variant="contained"
+						className={classes.action}
+						onClick={handleComment}
+					>
 						Nhận xét
 					</Button>
 				</Box>
@@ -133,7 +160,11 @@ const ExamAnswer = () => {
 						className={classes.textField}
 						InputProps={{ inputProps: { min: 0, max: 10 } }}
 					/>
-					<Button variant="contained" className={classes.action}>
+					<Button
+						variant="contained"
+						className={classes.action}
+						onClick={handleScoring}
+					>
 						Cho điểm
 					</Button>
 				</Box>
@@ -147,7 +178,7 @@ const ExamAnswer = () => {
 					<Box className={classes.examQuestion}>
 						<Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
 							<Viewer
-								fileUrl={pdfDOC}
+								fileUrl={exam.examFile[0].preview}
 								plugins={[defaultLayoutPluginInstance]}
 								localization={vi_VN}
 							/>
@@ -161,13 +192,13 @@ const ExamAnswer = () => {
 
 					<Box className={classes.answerQuestion}>
 						<section className="container">
-							<div
+							{/* <div
 								{...getRootProps({ className: 'dropzone' })}
 								className={classes.dropzone}
 							>
 								<input {...getInputProps()} />
 								<p>Kéo và thả một số hình ở đây hoặc nhấp để chọn hình</p>
-							</div>
+							</div> */}
 							<aside className={classes.thumbContainer}>{thumbs}</aside>
 						</section>
 					</Box>

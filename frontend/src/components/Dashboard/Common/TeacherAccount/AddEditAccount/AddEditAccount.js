@@ -16,7 +16,7 @@ import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
 import { withStyles } from '@material-ui/styles'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { useSnackbar } from 'notistack'
+import Alert from 'components/Alert/Alert'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
@@ -48,7 +48,6 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const typeTeachers = useSelector((state) => state.typeTeacher.typeTeachers)
-	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 	})
@@ -156,12 +155,11 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 				.then(unwrapResult)
 				.then((res) => {
 					handleClose()
-					enqueueSnackbar(
-						`Tài khoản: ${res?.data.username} mật khẩu: ${res?.data.password}`,
-						{
-							variant: 'success',
-						}
-					)
+					Alert.fire({
+						icon: 'success',
+						title: `Tài khoản: ${res?.data.username} mật khẩu: ${res?.data.password}`,
+					})
+
 					reset()
 					setPhoneInput(null)
 				})
@@ -188,9 +186,10 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 				.then(unwrapResult)
 				.then(() => {
 					handleClose()
-					enqueueSnackbar('Chỉnh sửa thành công', {
-						variant: 'success',
-						autoHideDuration: 3000,
+
+					Alert.fire({
+						icon: 'success',
+						title: 'Chỉnh sửa thành công',
 					})
 					reset()
 					setPhoneInput(null)

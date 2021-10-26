@@ -27,6 +27,8 @@ export const updateExam = createAsyncThunk(
 		try {
 			const exam = await examAPI.updateExam(data)
 
+			thunkAPI.dispatch(getExams())
+
 			return exam.data
 		} catch (error) {
 			return thunkAPI.rejectWithValue(error.response)
@@ -40,6 +42,8 @@ export const deleteExam = createAsyncThunk(
 		try {
 			const exam = await examAPI.deleteExam(id)
 
+			thunkAPI.dispatch(getExams())
+
 			return exam.data
 		} catch (error) {
 			return thunkAPI.rejectWithValue(error.response)
@@ -52,6 +56,8 @@ export const addExam = createAsyncThunk(
 	async (data, thunkAPI) => {
 		try {
 			const exam = await examAPI.addExam(data)
+
+			thunkAPI.dispatch(getExams())
 
 			return exam.data
 		} catch (error) {

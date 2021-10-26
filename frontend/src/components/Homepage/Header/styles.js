@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 		position: 'relative',
 		'&:hover': {
 			boxShadow: 'none',
-			backgroundColor: theme.palette.background.default,
+			backgroundColor: '#ffb607',
 			color: theme.palette.text.secondary,
 		},
 		[theme.breakpoints.down('md')]: {
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		padding: '12px 24px',
 		'&:hover': {
-			backgroundColor: theme.palette.background.default,
+			backgroundColor: '#ffb607',
 			color: theme.palette.text.secondary,
 		},
 	},
@@ -81,8 +81,7 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: 'none',
 		color: theme.palette.text.secondary,
 		transition: '0.2s',
-		backgroundColor: theme.palette.background.default,
-
+		backgroundColor: theme.palette.secondary.main,
 		padding: '15px 30px',
 		borderRadius: '8px',
 		'&:hover': {

@@ -1,3 +1,4 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import {
 	Button,
 	FormControl,
@@ -10,20 +11,19 @@ import {
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
-import { useSnackbar } from 'notistack'
+import { unwrapResult } from '@reduxjs/toolkit'
+import Alert from 'components/Alert/Alert'
 import React, { useEffect, useState } from 'react'
-import useStyles from './styles'
 import { Controller, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux'
+import schoolYears from 'utils/schoolYear'
+import * as yup from 'yup'
+import { updateClass } from '../../Class/classSlice'
 import {
 	updateClassTeacher,
 	updateTeacher,
 } from '../../TeacherAccount/teacherAccountSlice'
-import { unwrapResult } from '@reduxjs/toolkit'
-import schoolYears from 'utils/schoolYear'
-import { updateClass } from '../../Class/classSlice'
+import useStyles from './styles'
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
@@ -45,7 +45,6 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 		}
 	})
 
-	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 		defaultValues: {
@@ -66,9 +65,9 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 						.then(unwrapResult)
 						.then(() => {
 							handleClose()
-							enqueueSnackbar('Chỉnh sửa thành công', {
-								variant: 'success',
-								autoHideDuration: 3000,
+							Alert.fire({
+								icon: 'success',
+								title: 'Chỉnh sửa thành công',
 							})
 							reset()
 						})
@@ -97,6 +96,10 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 					// Remove class for old teacher
 					const action3 = updateClassTeacher(thisClass.teacherId._id)
 					dispatch(action3).catch((error) => console.log(error))
+					Alert.fire({
+						icon: 'success',
+						title: 'Chỉnh sửa thành công',
+					})
 				})
 				.catch((error) => console.log(error))
 

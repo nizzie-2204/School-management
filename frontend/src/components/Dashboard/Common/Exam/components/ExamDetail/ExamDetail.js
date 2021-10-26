@@ -1,16 +1,17 @@
-import React from 'react'
-import useStyles from './styles'
-import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import { Helmet } from 'react-helmet-async'
 import { Box, Typography } from '@material-ui/core'
 import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import schedulePNG from 'assets/images/schedule.png'
+import Tabs from '@material-ui/core/Tabs'
 import docPNG from 'assets/images/docs.png'
+import schedulePNG from 'assets/images/schedule.png'
 import cupPNG from 'assets/images/trophy.png'
-import ListStudent from '../ListStudent/ListStudent'
+import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
+import React from 'react'
+import { Helmet } from 'react-helmet-async'
+import formatDate from 'utils/formatDate'
 import ListExamAnswer from '../ListExamAnswer/ListExamAnswer'
+import ListStudent from '../ListStudent/ListStudent'
+import useStyles from './styles'
 
 const links = [
 	{
@@ -59,14 +60,14 @@ function a11yProps(index) {
 }
 
 const ExamDetail = (props) => {
-	console.log(props.location.state.exam)
-
+	const exam = props.location.state.exam
 	const classes = useStyles()
 	const [value, setValue] = React.useState(0)
 
 	const handleChange = (event, newValue) => {
 		setValue(newValue)
 	}
+
 	return (
 		<>
 			<Helmet>
@@ -79,25 +80,34 @@ const ExamDetail = (props) => {
 				<Box className={classes.content}>
 					<Box className={classes.info}>
 						<Typography variant="h5" className={classes.infoTitle}>
-							Kiểm tra định kỳ
+							{exam?.name}
 						</Typography>
 						<div>
 							<p>
-								Thời gian: <span style={{ color: '#5278db' }}>01/01/2021</span>
+								Thời gian:
+								<span style={{ color: '#5278db' }}>
+									{` ${formatDate(new Date(exam?.startAt))}`}
+								</span>
 							</p>
 						</div>
 						<div>
 							<span>
-								Khối: <span style={{ color: '#5278db' }}>1 - </span>
+								Khối:{' '}
+								<span style={{ color: '#5278db' }}>{` ${exam?.grade}`} - </span>
 							</span>
 							<span>
-								Môn: <span style={{ color: '#5278db' }}>Toán</span>
+								Môn:
+								<span
+									style={{ color: '#5278db' }}
+								>{` ${exam?.subjectId.name}`}</span>
 							</span>
 						</div>
 						<div>
 							<span>
-								Thời gian làm bài:{' '}
-								<span style={{ color: '#5278db' }}>60 phút</span>
+								Thời gian làm bài:
+								<span style={{ color: '#5278db' }}>
+									{` ${exam?.duration} phút`}
+								</span>
 							</span>
 						</div>
 					</Box>
@@ -120,7 +130,7 @@ const ExamDetail = (props) => {
 									<img src={docPNG} alt="doc" />
 								</div>
 								<div className={classes.dataInfo}>
-									<strong>5</strong>
+									<strong>{exam?.examResult?.length || 0}</strong>
 									<span>người trả lời</span>
 								</div>
 							</Box>
@@ -164,14 +174,14 @@ const ExamDetail = (props) => {
 							index={0}
 							className={classes.tabPanelContainer}
 						>
-							<ListStudent />
+							<ListStudent exam={exam} />
 						</TabPanel>
 						<TabPanel
 							className={classes.tabPanelContainer}
 							value={value}
 							index={1}
 						>
-							<ListExamAnswer />
+							<ListExamAnswer exam={exam} />
 						</TabPanel>
 						<TabPanel
 							className={classes.tabPanelContainer}

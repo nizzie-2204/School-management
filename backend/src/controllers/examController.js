@@ -32,7 +32,7 @@ exports.updateExam = async (req, res, next) => {
 
 exports.deleteExam = async (req, res, next) => {
 	try {
-		const exam = await Exam.findById(req.params.id)
+		const exam = await Exam.findByIdAndDelete(req.params.id)
 
 		if (!exam) {
 			const error = new Error('Exam does not exist:')
@@ -50,7 +50,17 @@ exports.deleteExam = async (req, res, next) => {
 
 exports.getAllExams = async (req, res, next) => {
 	try {
-		const exams = await Exam.find().populate('subjectId')
+		const exams = await Exam.find()
+			.populate('subjectId')
+			.populate({
+				path: 'examResult',
+				populate: {
+					path: 'studentId',
+					populate: {
+						path: 'classId',
+					},
+				},
+			})
 
 		res.status(200).json({ status: 'success', data: exams })
 	} catch (error) {

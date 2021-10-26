@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 import { addTypeTeacher, updateTypeTeacher } from '../typeTeacherSlice'
 import useStyles from './styles'
+import Alert from 'components/Alert/Alert'
 
 const schema = yup.object().shape({
 	nameType: yup.string().required(),
@@ -73,9 +74,9 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 				.then(unwrapResult)
 				.then(() => {
 					handleClose()
-					enqueueSnackbar('Thêm mới thành công', {
-						variant: 'success',
-						autoHideDuration: 3000,
+					Alert.fire({
+						icon: 'success',
+						title: 'Thêm mới thành công',
 					})
 					reset()
 				})
@@ -99,9 +100,9 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 				.then(unwrapResult)
 				.then(() => {
 					handleClose()
-					enqueueSnackbar('Chỉnh sửa thành công', {
-						variant: 'success',
-						autoHideDuration: 3000,
+					Alert.fire({
+						icon: 'success',
+						title: 'Chỉnh sửa thành công',
 					})
 					reset()
 				})

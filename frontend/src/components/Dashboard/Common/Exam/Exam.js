@@ -116,7 +116,7 @@ const Exam = () => {
 	}, [dispatch])
 
 	const handleTakingExam = (exam) => {
-		if (user.role !== 'student') return
+		// if (user.role !== 'student') return
 		history.push({
 			pathname: `/dashboard/taking-exam/${exam._id}`,
 			state: { exam },
@@ -154,7 +154,7 @@ const Exam = () => {
 						/>
 						<Button
 							variant="contained"
-							className={classes.button}
+							className={classes.searchButton}
 							startIcon={<SearchIcon />}
 						>
 							Tìm kiếm
@@ -176,7 +176,10 @@ const Exam = () => {
 							variant="contained"
 							className={classes.button}
 							startIcon={
-								<FontAwesomeIcon icon={faFileExcel} style={{ fontSize: 13 }} />
+								<FontAwesomeIcon
+									icon={faFileExcel}
+									style={{ fontSize: 13, marginRight: 5 }}
+								/>
 							}
 							style={{
 								backgroundColor: '#198750',
@@ -191,7 +194,7 @@ const Exam = () => {
 							startIcon={<AddIcon />}
 							onClick={handleOpen}
 						>
-							Thêm tài khoản
+							Thêm mới
 						</Button>
 					</Box>
 					<AddEditAccount open={open} handleClose={handleClose} />
@@ -265,13 +268,14 @@ const Exam = () => {
 
 												<TableCell align="center">
 													<Tooltip title="Chỉnh sửa">
-														<IconButton>
+														<IconButton
+															onClick={() => {
+																handleOpen3(exam)
+															}}
+														>
 															<CreateIcon
 																fontSize="small"
 																style={{ color: '#5278db' }}
-																onClick={() => {
-																	handleOpen3(exam)
-																}}
 															/>
 														</IconButton>
 													</Tooltip>
@@ -288,27 +292,28 @@ const Exam = () => {
 														</IconButton>
 													</Tooltip>
 													<Tooltip title="Xóa">
-														<IconButton>
+														<IconButton
+															onClick={() => {
+																handleOpen2(exam)
+															}}
+														>
 															<DeleteIcon
 																fontSize="small"
 																style={{ color: '#e96053' }}
-																onClick={() => {
-																	handleOpen2(exam)
-																}}
 															/>
 														</IconButton>
 													</Tooltip>
-													{user.role === 'student' && (
-														<Button
-															variant="contained"
-															className={classes.takingExam}
-															onClick={() => {
-																handleTakingExam(exam)
-															}}
-														>
-															Làm bài
-														</Button>
-													)}
+													{/* {user.role === 'student' && ( */}
+													<Button
+														variant="contained"
+														className={classes.takingExam}
+														onClick={() => {
+															handleTakingExam(exam)
+														}}
+													>
+														Làm bài
+													</Button>
+													{/* )} */}
 												</TableCell>
 											</TableRow>
 										)

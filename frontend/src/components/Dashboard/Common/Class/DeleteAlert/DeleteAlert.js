@@ -3,7 +3,7 @@ import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { useSnackbar } from 'notistack'
+import Alert from 'components/Alert/Alert'
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { deleteClass } from '../classSlice'
@@ -11,7 +11,6 @@ import useStyles from './styles'
 
 const DeleteAlert = ({ open, handleClose, thisClass }) => {
 	const classes = useStyles()
-	const { enqueueSnackbar } = useSnackbar()
 	const dispatch = useDispatch()
 
 	const handleDeleteClass = () => {
@@ -20,9 +19,9 @@ const DeleteAlert = ({ open, handleClose, thisClass }) => {
 			.then(unwrapResult)
 			.then(() => {
 				handleClose()
-				enqueueSnackbar('Xóa thành công', {
-					variant: 'success',
-					autoHideDuration: 3000,
+				Alert.fire({
+					icon: 'success',
+					title: 'Xóa thành công',
 				})
 			})
 			.catch((error) => console.log(error))
