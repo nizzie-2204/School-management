@@ -59,6 +59,10 @@ const TeacherAccount = () => {
 	const teachers = useSelector((state) => state.teacher.teachers)
 	const teachersLoading = useSelector((state) => state.teacher.teachersLoading)
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	const [open, setOpen] = useState(false)
 	const handleOpen = (subject) => {
 		setOpen(true)

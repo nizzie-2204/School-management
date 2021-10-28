@@ -16,24 +16,24 @@ import BookIcon from '@material-ui/icons/Book'
 import LocalOfferIcon from '@material-ui/icons/LocalOffer'
 import PermIdentityIcon from '@material-ui/icons/PermIdentity'
 import ScheduleIcon from '@material-ui/icons/Schedule'
+import Alert from 'components/Alert/Alert'
 import {
 	emptyClass,
 	updateStudentClass,
 } from 'components/Dashboard/Common/Class/classSlice'
 import { updateClassTeacher } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
 import { nanoid } from 'nanoid'
-import { useSnackbar } from 'notistack'
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import checkTime from 'utils/checkTime'
 import useStyles from './styles'
-import Alert from 'components/Alert/Alert'
+import { updateClass } from 'components/Dashboard/Common/Class/classSlice'
+import { unwrapResult } from '@reduxjs/toolkit'
 
 const Lesson = ({ row, index, cell, prevIndex, date }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const { enqueueSnackbar } = useSnackbar()
 	const history = useHistory()
 	const user = useSelector((state) => state.auth.user)
 	const subjects = useSelector((state) => state.subjects.subjects)
@@ -338,8 +338,42 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 			const roomName = roomRef.current
 			const userName = user?.name
 			sessionStorage.setItem('user', userName)
-			history.push(`/dashboard/classroom/${roomName}`)
+
+			// teacher call api to save id room online to db
+
+			const action = updateClass({
+				idClassOnline: roomName,
+			})
+			dispatch(action)
+				.then(unwrapResult)
+				.then(() => {
+					history.push(`/dashboard/classroom/${roomName}`)
+				})
+				.catch((error) => console.log(error))
 		}
+	}
+
+	const handleJoinClassroom = () => {
+		const roomName = user?.classId?.idClassOnline
+
+		if (
+			!cell ||
+			!checkTime({ time: row.time, day: cell.day, date }).includes('Vào') ||
+			!cell.sucjectId ||
+			!cell.classId
+		) {
+			return
+		}
+		if (!roomName) {
+			Alert.fire({
+				icon: 'error',
+				title: 'Giáo viên chưa tạo lớp học',
+			})
+		}
+
+		const userName = user?.name
+		sessionStorage.setItem('user', userName)
+		history.push(`/dashboard/classroom/${roomName}`)
 	}
 
 	// console.log(day.toLocaleDateString('vi-VN', { timeZone: 'UTC' }))
@@ -494,20 +528,24 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 									? `${classes.opacity}`
 									: `${classes.button}`
 							}`}
-							onClick={handleCreateClassroom}
+							onClick={
+								user?.role === 'teacher'
+									? handleCreateClassroom
+									: handleJoinClassroom
+							}
 						>
 							{checkTime({
 								time: row.time,
 								day: cell.day,
 								date,
-								role: user.role,
+								role: user?.role,
 							})}
 						</Button>
 						{checkTime({
 							time: row.time,
 							day: cell.day,
 							date,
-							role: user.role,
+							role: user?.role,
 						})?.includes('Đã') && (
 							<Button variant="contained" className={classes.button}>
 								Xem lại

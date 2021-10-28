@@ -66,6 +66,11 @@ const Overview = () => {
 	const students = useSelector((state) => state.student.students)
 	const teachers = useSelector((state) => state.teacher.teachers)
 	const exams = useSelector((state) => state.exam.exams)
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	const users = [...students, ...teachers].sort((a, b) => {
 		return b - a
 	})
@@ -116,7 +121,7 @@ const Overview = () => {
 		}
 
 		fetchData()
-	})
+	}, [])
 
 	return (
 		<>

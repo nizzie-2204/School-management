@@ -122,7 +122,10 @@ const TableCellSubject = () => {
 	}, [])
 
 	const timetableFromStore =
-		classFromStore?.timetable || user?.timetable || null
+		classFromStore?.timetable ||
+		user?.timetable ||
+		user?.classId?.timetable ||
+		null
 
 	return (
 		<>

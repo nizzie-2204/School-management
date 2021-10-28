@@ -21,22 +21,22 @@ import AddIcon from '@material-ui/icons/Add'
 import CreateIcon from '@material-ui/icons/Create'
 import DeleteIcon from '@material-ui/icons/Delete'
 import SearchIcon from '@material-ui/icons/Search'
+import VisibilityIcon from '@material-ui/icons/Visibility'
 import { unwrapResult } from '@reduxjs/toolkit'
+import emptyDataPNG from 'assets/images/document.png'
+import Alert from 'components/Alert/Alert'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
+import checkTimeV2 from 'utils/checkTime.v2'
+import downloadExcel from 'utils/downloadExcel'
+import formatDate from 'utils/formatDate'
 import AddEditAccount from './components/AddEditAccount/AddEditAccount'
 import DeleteAlert from './components/DeleteAlert/DeleteAlert'
-import useStyles from './styles'
-import emptyDataPNG from 'assets/images/document.png'
 import { getExams } from './examSlice'
-import { useHistory } from 'react-router'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import { formatISO } from 'date-fns'
-import { formatISO9075 } from 'date-fns/esm'
-import formatDate from 'utils/formatDate'
-import checkTimeV2 from 'utils/checkTime.v2'
+import useStyles from './styles'
 
 const links = [
 	{
@@ -54,10 +54,11 @@ const links = [
 ]
 
 // Tài khoản: t2100001 mật khẩu: rqa@W65M ====== gvtest1 chu nhiem lop 1a2
-//Tài khoản: t2100002 mật khẩu: %By6JW+b ======= gvtest2 am nhac
+// Tài khoản: t2100002 mật khẩu: %By6JW+b ======= gvtest2 am nhac
 
 // Tài khoản: s2100001 mật khẩu: kr_xp*3L ==== hs khoi 1
 // Tài khoản: s2100002 mật khẩu: ^bcB4_%m ==== hs khoi 2
+
 const Exam = () => {
 	const classes = useStyles()
 
@@ -66,6 +67,10 @@ const Exam = () => {
 	const user = useSelector((state) => state.auth.user)
 	const exams = useSelector((state) => state.exam.exams)
 	const examsLoading = useSelector((state) => state.exam.examsLoading)
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
 
 	const filteredExams = exams.filter((exam) => {
 		return exam?.grade === user?.classId?.grade
@@ -152,6 +157,17 @@ const Exam = () => {
 		})
 	}
 
+	const handleDownloadExcel = () => {
+		if (!exams || exams.length === 0) {
+			Alert.fire({
+				icon: 'error',
+				title: 'Không có dữ liệu',
+			})
+		} else {
+			downloadExcel(exams, 'Danh Sách Bài Thi', 'DanhSachBaiThi')
+		}
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -208,6 +224,7 @@ const Exam = () => {
 										backgroundColor: '#198750',
 										marginRight: 20,
 									}}
+									onClick={handleDownloadExcel}
 								>
 									Xuất excel
 								</Button>

@@ -51,6 +51,9 @@ const Class = () => {
 	const classesLoading = useSelector((state) => state.classes.classesLoading)
 	const dispatch = useDispatch()
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
 	const [thisClass, setThisClass] = useState(null)
 
 	const [open, setOpen] = useState(false)

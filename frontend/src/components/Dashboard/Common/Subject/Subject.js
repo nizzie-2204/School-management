@@ -53,6 +53,10 @@ const Subject = () => {
 	const subjectsLoading = useSelector((state) => state.subjects.subjectsLoading)
 	const [subject, setSubject] = useState(null)
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	const [open, setOpen] = useState(false)
 	const handleOpen = (subject) => {
 		setOpen(true)

@@ -21,14 +21,23 @@ const OverviewUser = () => {
 	const user = useSelector((state) => state.auth.user)
 	const subjects = useSelector((state) => state.subjects.subjects)
 	const classFromStore = useSelector((state) => state.classes.class)
+
+	console.log(user)
+
 	let timetableTeacher
 	if (user?.timetable) {
 		timetableTeacher = user.timetable
 	}
 
+	let timetableStudent
+	if (user?.classId.timetable) {
+		timetableStudent = user?.classId.timetable
+	}
+
 	// Get subject and time on this day
 	const subjectTime = []
-	timetableTeacher?.forEach((time) => {
+
+	;(timetableStudent || timetableTeacher)?.forEach((time) => {
 		time.content.forEach((lesson) => {
 			const subject = subjects.find((x) => {
 				return x._id === lesson.subjectId
@@ -85,7 +94,7 @@ const OverviewUser = () => {
 							{user?.role === 'student' && (
 								<Box className={classes.row}>
 									<ClassIcon className={classes?.infoIcon} />
-									Lớp {classFromStore?.name}
+									Lớp {user?.classId.name}
 								</Box>
 							)}
 							{user?.role === 'teacher' && (

@@ -94,7 +94,7 @@ exports.logout = async (req, res, next) => {
 				}
 			))
 
-		res.json({ message: 'Logout successful' })
+		res.json({ message: 'Logout successful', data: user })
 	} catch (error) {
 		next(error)
 	}

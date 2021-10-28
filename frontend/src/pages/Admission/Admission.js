@@ -16,17 +16,19 @@ import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import Fade from 'react-reveal/Fade'
 import { useStyles } from './styles'
+
+const links = [
+	{
+		title: 'Trang chủ',
+		path: '/',
+	},
+	{
+		title: 'Tuyển sinh',
+		path: '/admission',
+	},
+]
+
 const Admission = () => {
-	const links = [
-		{
-			title: 'Trang chủ',
-			path: '/',
-		},
-		{
-			title: 'Tuyển sinh',
-			path: '/admission',
-		},
-	]
 	const classes = useStyles()
 
 	useEffect(() => {

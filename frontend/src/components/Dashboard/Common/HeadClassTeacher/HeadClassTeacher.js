@@ -47,6 +47,10 @@ const HeadClassTeacher = () => {
 	const classesFromStore = useSelector((state) => state.classes.classes)
 	const classesLoading = useSelector((state) => state.classes.classesLoading)
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	const [currClass, setCurrClass] = useState(null)
 
 	const [open, setOpen] = useState(false)

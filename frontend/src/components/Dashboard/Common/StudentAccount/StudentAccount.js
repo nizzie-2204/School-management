@@ -58,6 +58,10 @@ const StudentAccount = () => {
 	const students = useSelector((state) => state.student.students)
 	const studentsLoading = useSelector((state) => state.student.studentsLoading)
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	const [thisStudent, setThisStudent] = useState(null)
 	const [open, setOpen] = useState(false)
 	const handleOpen = () => {

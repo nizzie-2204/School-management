@@ -62,6 +62,11 @@ const Timetable = () => {
 	const classesFromStore = useSelector((state) => state.classes.classes)
 	const classFromStore = useSelector((state) => state.classes.class)
 	const user = useSelector((state) => state.auth.user)
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	const [selectedClass, setSelectedClass] = useState('')
 	const handleChangeClass = (e) => {
 		setSelectedClass(e.target.value)
@@ -139,7 +144,7 @@ const Timetable = () => {
 								className={classes.title}
 								style={{ margin: '0 auto', fontSize: 26 }}
 							>
-								Lớp: {classFromStore?.name}
+								Lớp: {user?.classId.name}
 							</Typography>
 						</Box>
 					)}

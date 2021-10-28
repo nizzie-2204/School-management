@@ -55,6 +55,10 @@ const TypeTeacher = () => {
 		(state) => state.subjects.typeTeachersLoading
 	)
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	const [typeTeacher, setTypeTeacher] = useState(null)
 
 	const [open, setOpen] = useState(false)

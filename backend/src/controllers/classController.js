@@ -12,13 +12,23 @@ exports.createClass = async (req, res, next) => {
 
 exports.updateClass = async (req, res, next) => {
 	try {
-		const newClass = await Class.findByIdAndUpdate(
-			req.params.id,
-			{ ...req.body },
-			{ new: true, runValidators: true }
-		)
+		if (req.body.idClassOnline) {
+			const newClass = await Class.findByIdAndUpdate(
+				req.params.id,
+				{ $set: { idClassOnline: req.body.idClassOnline } },
+				{ new: true, runValidators: true }
+			)
 
-		res.status(200).json({ status: 'success', data: newClass })
+			res.status(200).json({ status: 'success', data: newClass })
+		} else {
+			const newClass = await Class.findByIdAndUpdate(
+				req.params.id,
+				{ ...req.body },
+				{ new: true, runValidators: true }
+			)
+
+			res.status(200).json({ status: 'success', data: newClass })
+		}
 	} catch (error) {
 		next(error)
 	}
