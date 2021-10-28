@@ -158,7 +158,7 @@ const TypeTeacher = () => {
 						startIcon={<AddIcon />}
 						onClick={handleOpen}
 					>
-						Thêm loại giáo viên
+						Thêm mới
 					</Button>
 					<AddEditTypeTeacher open={open} handleClose={handleClose} />
 				</div>

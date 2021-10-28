@@ -155,7 +155,7 @@ const Class = () => {
 						startIcon={<AddIcon />}
 						onClick={handleOpen}
 					>
-						Thêm lớp học
+						Thêm mới
 					</Button>
 					<AddEditClass open={open} handleClose={handleClose} />
 				</div>
@@ -192,7 +192,7 @@ const Class = () => {
 											Số lượng học sinh
 										</TableCell>
 										<TableCell align="center" className={classes.tableHead}>
-											Khối
+											Khối lớp
 										</TableCell>
 										<TableCell align="center" className={classes.tableHead}>
 											Ngày tạo
@@ -241,7 +241,7 @@ const Class = () => {
 													{classFromStore.students.length}
 												</TableCell>
 												<TableCell align="center">
-													{classFromStore.grade}
+													{`Khối ${classFromStore.grade}`}
 												</TableCell>
 												<TableCell align="center">
 													{formatDate(classFromStore.createdAt)}

@@ -155,7 +155,7 @@ const Subject = () => {
 						startIcon={<AddIcon />}
 						onClick={handleOpen}
 					>
-						Thêm môn học
+						Thêm mới
 					</Button>
 					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>

@@ -103,6 +103,10 @@ const useStyles = makeStyles((theme) => ({
 			paddingBottom: 3,
 		},
 	},
+	actions: {
+		display: 'flex',
+		alignItems: 'center',
+	},
 	main: {
 		backgroundColor: '#f3f7fa',
 		padding: '0 15px 15px 15px',

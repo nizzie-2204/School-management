@@ -34,6 +34,8 @@ import useStyles from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons'
 import emptyDataPNG from 'assets/images/document.png'
+import downloadExcel from 'utils/downloadExcel'
+import Alert from 'components/Alert/Alert'
 
 const links = [
 	{
@@ -116,6 +118,18 @@ const StudentAccount = () => {
 		fetchStudents()
 	}, [dispatch])
 
+	const handleDownloadExcel = () => {
+		if (!students || students.length === 0) {
+			Alert.fire({
+				icon: 'error',
+				title: 'Không có dữ liệu',
+			})
+			return
+		}
+
+		downloadExcel(students, 'Danh sách học sinh', 'DanhSachHocSinh')
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -168,6 +182,7 @@ const StudentAccount = () => {
 								backgroundColor: '#198750',
 								marginRight: 20,
 							}}
+							onClick={handleDownloadExcel}
 						>
 							Xuất excel
 						</Button>

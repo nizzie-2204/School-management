@@ -62,17 +62,21 @@ const Exam = () => {
 	const classes = useStyles()
 
 	const dispatch = useDispatch()
+	const history = useHistory()
 	const user = useSelector((state) => state.auth.user)
 	const exams = useSelector((state) => state.exam.exams)
 	const examsLoading = useSelector((state) => state.exam.examsLoading)
-
-	const history = useHistory()
 
 	const filteredExams = exams.filter((exam) => {
 		return exam?.grade === user?.classId?.grade
 	})
 
-	console.log(filteredExams)
+	const [isSubmitted, setIsSubmitted] = useState(false)
+	// exams?.examResult?.forEach((result) => {
+	// 	if (result?.studentId?._id === user._id) {
+	// 		setIsSubmitted(true)
+	// 	}
+	// })
 
 	const [thisExam, setThisExam] = useState(null)
 	const [open, setOpen] = useState(false)

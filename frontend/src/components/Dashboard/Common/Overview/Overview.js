@@ -71,7 +71,7 @@ const Overview = () => {
 	})
 
 	const totalUserVisits = users.reduce((curr, next) => {
-		return curr.visitingTime + next.visitingTime
+		return curr + next.visitingTime
 	}, 0)
 
 	const top10Users = users.slice(0, 10)

@@ -35,6 +35,8 @@ import {
 	getTypeTeacher,
 	getTypeTeachers,
 } from '../TypeTeacher/typeTeacherSlice'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileExcel } from '@fortawesome/free-solid-svg-icons'
 
 const links = [
 	{
@@ -169,14 +171,30 @@ const TeacherAccount = () => {
 					>
 						Danh sách tài khoản giáo viên
 					</Typography>
-					<Button
-						variant="contained"
-						className={classes.button}
-						startIcon={<AddIcon />}
-						onClick={handleOpen}
-					>
-						Thêm tài khoản
-					</Button>
+					<Box className={classes.actions}>
+						<Button
+							variant="contained"
+							className={classes.button}
+							startIcon={
+								<FontAwesomeIcon icon={faFileExcel} style={{ fontSize: 13 }} />
+							}
+							style={{
+								backgroundColor: '#198750',
+								marginRight: 20,
+							}}
+						>
+							Xuất excel
+						</Button>
+						<Button
+							variant="contained"
+							className={classes.button}
+							startIcon={<AddIcon />}
+							onClick={handleOpen}
+						>
+							Thêm mới
+						</Button>
+					</Box>
+
 					<AddEditAccount open={open} handleClose={handleClose} />
 				</div>
 
