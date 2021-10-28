@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import checkTime from 'utils/checkTime'
 import useStyles from './styles'
+import Alert from 'components/Alert/Alert'
 
 const Lesson = ({ row, index, cell, prevIndex, date }) => {
 	const classes = useStyles()
@@ -172,9 +173,9 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 					.then((res) => console.log(res))
 					.catch((error) => console.log(error))
 			}
-
-			enqueueSnackbar(`Chỉnh sửa thành công`, {
-				variant: 'success',
+			Alert.fire({
+				icon: 'success',
+				title: 'Chỉnh sửa thành công',
 			})
 			setSubject()
 			setTeacher()
@@ -207,8 +208,9 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 			const action2 = updateClassTeacher(currTeacherData)
 			dispatch(action2)
 
-			enqueueSnackbar(`Chỉnh sửa thành công`, {
-				variant: 'success',
+			Alert.fire({
+				icon: 'success',
+				title: 'Chỉnh sửa thành công',
 			})
 			setSubject()
 			setTeacher()
@@ -260,8 +262,10 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 				.unwrap()
 				.then((res) => console.log(res))
 				.catch((error) => console.log(error))
-			enqueueSnackbar(`Chỉnh sửa thành công`, {
-				variant: 'success',
+
+			Alert.fire({
+				icon: 'success',
+				title: 'Chỉnh sửa thành công',
 			})
 			setSubject()
 			setTeacher()
@@ -354,9 +358,9 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 				{...(user?.role === 'admin' &&
 					!classFromStore && {
 						onClick: () => {
-							enqueueSnackbar(`Chưa chọn lớp`, {
-								variant: 'error',
-								autoHideDuration: 3000,
+							Alert.fire({
+								icon: 'error',
+								title: 'Chưa chọn lớp',
 							})
 						},
 					})}
@@ -484,7 +488,7 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 							style={{ marginRight: 10 }}
 							variant="contained"
 							className={`${
-								!checkTime({ time: row.time, day: cell.day, date }).includes(
+								!checkTime({ time: row.time, day: cell.day, date })?.includes(
 									'Vào'
 								)
 									? `${classes.opacity}`
@@ -504,7 +508,7 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 							day: cell.day,
 							date,
 							role: user.role,
-						}).includes('Đã') && (
+						})?.includes('Đã') && (
 							<Button variant="contained" className={classes.button}>
 								Xem lại
 							</Button>

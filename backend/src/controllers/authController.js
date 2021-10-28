@@ -43,7 +43,9 @@ exports.login = async (req, res, next) => {
 						new: true,
 						runValidators: true,
 					}
-				).select('-password')) ||
+				)
+					.populate('classId')
+					.select('-password')) ||
 				(await Teacher.findOneAndUpdate(
 					{ username: req.body.username },
 					{ $inc: { visitingTime: 1 }, isLoggedIn: true },

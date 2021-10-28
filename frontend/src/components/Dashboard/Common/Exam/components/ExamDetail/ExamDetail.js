@@ -6,8 +6,9 @@ import docPNG from 'assets/images/docs.png'
 import schedulePNG from 'assets/images/schedule.png'
 import cupPNG from 'assets/images/trophy.png'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
+import { useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
 import ListExamAnswer from '../ListExamAnswer/ListExamAnswer'
 import ListStudent from '../ListStudent/ListStudent'
@@ -64,6 +65,14 @@ const ExamDetail = (props) => {
 	const classes = useStyles()
 	const [value, setValue] = React.useState(0)
 
+	const totalScore = exam.examResult.reduce((first, next) => {
+		return first + next.score
+	}, 0)
+
+	const mediumScore = parseFloat(
+		Number(totalScore / exam.examResult.length).toFixed(2)
+	)
+
 	const handleChange = (event, newValue) => {
 		setValue(newValue)
 	}
@@ -99,7 +108,7 @@ const ExamDetail = (props) => {
 								Môn:
 								<span
 									style={{ color: '#5278db' }}
-								>{` ${exam?.subjectId.name}`}</span>
+								>{` ${exam?.subjectId.name} `}</span>
 							</span>
 						</div>
 						<div>
@@ -139,7 +148,7 @@ const ExamDetail = (props) => {
 									<img src={cupPNG} alt="cup" />
 								</div>
 								<div className={classes.dataInfo}>
-									<strong>0</strong>
+									<strong>{mediumScore || 0}</strong>
 									<span>điểm trung bình</span>
 								</div>
 							</Box>

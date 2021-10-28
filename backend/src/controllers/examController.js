@@ -12,6 +12,25 @@ exports.createExam = async (req, res, next) => {
 
 exports.updateExam = async (req, res, next) => {
 	try {
+		if (req.body.examResultId) {
+			const newExam = await Exam.findByIdAndUpdate(
+				req.params.id,
+				{
+					$push: {
+						examResult: req.body.examResultId,
+					},
+				},
+				{ new: true, runValidators: true }
+			)
+			if (!newExam) {
+				const error = new Error('Exam does not exist: ' + userId)
+				error.statusCode = 404
+				return next(error)
+			}
+
+			res.status(200).json({ status: 'success', data: newExam })
+		}
+
 		const newExam = await Exam.findByIdAndUpdate(
 			req.params.id,
 			{ ...req.body },

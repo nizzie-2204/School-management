@@ -4,9 +4,9 @@ import examResultAPI from 'api/examResultApi'
 export const getExamResults = createAsyncThunk(
 	'examResult/getExamResults',
 	async () => {
-		const results = examResultAPI.getAllExamResults()
+		const results = await examResultAPI.getAllExamResults()
 
-		return (await results).data
+		return results.data
 	}
 )
 
@@ -14,7 +14,7 @@ export const getExamResult = createAsyncThunk(
 	'examResult/getExamResult',
 	async (id, thunkAPI) => {
 		try {
-			const result = examResultAPI.getExamResult(id)
+			const result = await examResultAPI.getExamResult(id)
 
 			return result.data
 		} catch (error) {
@@ -27,7 +27,7 @@ export const deleteExamResult = createAsyncThunk(
 	'examResult/deleteExamResult',
 	async (id, thunkAPI) => {
 		try {
-			const result = examResultAPI.deleteExam(id)
+			const result = await examResultAPI.deleteExamResult(id)
 
 			return result.data
 		} catch (error) {
@@ -40,7 +40,7 @@ export const addExamResult = createAsyncThunk(
 	'examResult/addExamResult',
 	async (data, thunkAPI) => {
 		try {
-			const result = examResultAPI.addExam(data)
+			const result = await examResultAPI.addExamResult(data)
 
 			return result.data
 		} catch (error) {
@@ -52,7 +52,7 @@ export const updateExamResult = createAsyncThunk(
 	'examResult/updateExamResult',
 	async (data, thunkAPI) => {
 		try {
-			const result = examResultAPI.updateExam(data)
+			const result = await examResultAPI.updateExamResult(data)
 
 			return result.data
 		} catch (error) {
@@ -78,11 +78,11 @@ const examResultSlice = createSlice({
 		},
 		[getExamResults.fulfilled]: (state, action) => {
 			state.examResultsLoading = false
-			console.log(action.payload)
+			state.examResults = action.payload.data
 		},
 		[getExamResults.rejected]: (state, action) => {
 			state.examResultsLoading = false
-			console.log(action.payload)
+			state.examResultsError = action.payload.message
 		},
 		[getExamResult.pending]: (state) => {
 			state.examResultLoading = true

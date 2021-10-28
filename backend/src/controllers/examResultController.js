@@ -15,6 +15,18 @@ exports.createExamResult = async (req, res, next) => {
 exports.getAllExamResults = async (req, res, next) => {
 	try {
 		const examResults = await ExamResult.find()
+			.populate({
+				path: 'studentId',
+				populate: {
+					path: 'classId',
+				},
+			})
+			.populate({
+				path: 'examId',
+				populate: {
+					path: 'subjectId',
+				},
+			})
 
 		res.status(200).json({ status: 'success', data: examResults })
 	} catch (error) {

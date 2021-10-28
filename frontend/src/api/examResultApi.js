@@ -18,7 +18,7 @@ const examResultAPI = {
 		})
 	},
 
-	addExam: async (data) => {
+	addExamResult: async (data) => {
 		return await axiosClient.post('/exam-results', data, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -26,7 +26,7 @@ const examResultAPI = {
 		})
 	},
 
-	updateExam: async (data) => {
+	updateExamResult: async (data) => {
 		return await axiosClient.put(`/exam-results/${data.id}`, data, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -34,7 +34,7 @@ const examResultAPI = {
 		})
 	},
 
-	deleteExam: async (id) => {
+	deleteExamResult: async (id) => {
 		return await axiosClient.delete(`/exam-results/${id}`, {
 			headers: { Authorization: `Bearer ${token}` },
 		})

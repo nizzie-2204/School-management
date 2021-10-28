@@ -1,12 +1,16 @@
 import { Box, Typography } from '@material-ui/core'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Bar, Pie } from 'react-chartjs-2'
 import CountUp from 'react-countup'
 import { Helmet } from 'react-helmet-async'
 import useStyles from './styles'
 import { useSelector } from 'react-redux'
 import OverviewUser from './OverviewUser/OverviewUser'
+import { getStudents } from '../StudentAccount/studentAccountSlice'
+import { useDispatch } from 'react-redux'
+import { getTeachers } from '../TeacherAccount/teacherAccountSlice'
+import { getExams } from '../Exam/examSlice'
 
 const data = {
 	labels: ['Nguyễn Anh Tuấn', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -57,9 +61,11 @@ const links = [
 
 const Overview = () => {
 	const classes = useStyles()
+	const dispatch = useDispatch()
 	const user = useSelector((state) => state.auth.user)
 	const students = useSelector((state) => state.student.students)
 	const teachers = useSelector((state) => state.teacher.teachers)
+	const exams = useSelector((state) => state.exam.exams)
 	const users = [...students, ...teachers].sort((a, b) => {
 		return b - a
 	})
@@ -96,6 +102,22 @@ const Overview = () => {
 			},
 		],
 	}
+
+	useEffect(() => {
+		const fetchData = () => {
+			const action = getStudents()
+			dispatch(action)
+
+			const action2 = getTeachers()
+			dispatch(action2)
+
+			const action3 = getExams()
+			dispatch(action3)
+		}
+
+		fetchData()
+	})
+
 	return (
 		<>
 			<Helmet>
@@ -133,7 +155,7 @@ const Overview = () => {
 										className={classes.numberItem}
 									>
 										<CountUp
-											end={100}
+											end={exams.length}
 											duration={1}
 											className={classes.numberItemTitle}
 											style={{ color: '#ffa326' }}

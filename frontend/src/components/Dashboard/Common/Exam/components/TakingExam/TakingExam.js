@@ -12,9 +12,20 @@ import useStyles from './styles'
 import { useDropzone } from 'react-dropzone'
 import timePNG from 'assets/images/time.png'
 import Alert from 'components/Alert/Alert'
-
+import { useSelector } from 'react-redux'
+import { addExamResult } from '../../examResultSlice'
+import { useDispatch } from 'react-redux'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { useHistory } from 'react-router'
+import { updateExam } from '../../examSlice'
+import { upload } from '../../examSlice'
+import { addMinutes } from 'date-fns'
 const TakingExam = (props) => {
 	const classes = useStyles()
+	const dispatch = useDispatch()
+	const history = useHistory()
+	const user = useSelector((state) => state.auth.user)
+	const exam = props.location.state.exam
 
 	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
@@ -33,68 +44,89 @@ const TakingExam = (props) => {
 
 	// Timer
 
-	const [timer, setTimer] = useState(
-		localStorage.getItem('timerLS') || props.location.state.exam.duration
-	)
-	const [minute, setMinute] = useState(() => {
-		let result = Math.floor(
-			(localStorage.getItem('timerLS') || props.location.state.exam.duration) /
-				60
+	const [timer, setTimer] = useState(() => {
+		const endAt = Math.floor(
+			addMinutes(
+				new Date(props.location.state.exam.startAt),
+				props.location.state.exam.duration
+			).getTime() / 60000
 		)
+		const currTime = Math.floor(new Date().getTime() / 60000)
+		const now = (endAt - currTime) * 60
+		return localStorage.getItem('timerLS') || now
+	})
+	const [minute, setMinute] = useState(() => {
+		const endAt = Math.floor(
+			addMinutes(
+				new Date(props.location.state.exam.startAt),
+				props.location.state.exam.duration
+			).getTime() / 60000
+		)
+		const currTime = Math.floor(new Date().getTime() / 60000)
+		const now = (endAt - currTime) * 60
+
+		let result = Math.floor(localStorage.getItem('timerLS') || now) % 60
 		if (result.toString().length === 1) {
 			result = `0${result}`
 		}
 		return result
 	})
 	const [second, setSecond] = useState(() => {
-		let result =
-			(localStorage.getItem('timerLS') || props.location.state.exam.duration) %
-			60
+		const endAt = Math.floor(
+			addMinutes(
+				new Date(props.location.state.exam.startAt),
+				props.location.state.exam.duration
+			).getTime() / 60000
+		)
+		const currTime = Math.floor(new Date().getTime() / 60000)
+		const now = (endAt - currTime) * 60
+		let result = (localStorage.getItem('timerLS') || now) % 60
+
 		if (result.toString().length === 1) {
 			result = `0${result}`
 		}
 		return result
 	})
 
-	// useEffect(() => {
-	// 	if (timer >= 0) {
-	// 		const timerInterval = setInterval(() => {
-	// 			if (!localStorage.getItem('timerLS')) {
-	// 				localStorage.setItem('timerLS', props.location.state.exam.duration)
-	// 				console.log(localStorage.getItem('timerLS'))
-	// 			}
+	useEffect(() => {
+		if (timer >= 0) {
+			const timerInterval = setInterval(() => {
+				if (!localStorage.getItem('timerLS')) {
+					localStorage.setItem('timerLS', props.location.state.exam.duration)
+					console.log(localStorage.getItem('timerLS'))
+				}
 
-	// 			let computedSecond
-	// 			if (Number(computedSecond) < 1) {
-	// 				computedSecond = 60
-	// 			} else computedSecond = timer % 60
+				let computedSecond
+				if (Number(computedSecond) < 1) {
+					computedSecond = 60
+				} else computedSecond = timer % 60
 
-	// 			const computedMinute = Math.floor(timer / 60)
+				const computedMinute = Math.floor(timer / 60)
 
-	// 			const secondString =
-	// 				computedSecond.toString().length === 1
-	// 					? `0${computedSecond}`
-	// 					: computedSecond
-	// 			const minuteString =
-	// 				computedMinute.toString().length === 1
-	// 					? `0${computedMinute}`
-	// 					: computedMinute
+				const secondString =
+					computedSecond.toString().length === 1
+						? `0${computedSecond}`
+						: computedSecond
+				const minuteString =
+					computedMinute.toString().length === 1
+						? `0${computedMinute}`
+						: computedMinute
 
-	// 			setSecond(secondString)
-	// 			setMinute(minuteString)
+				setSecond(secondString)
+				setMinute(minuteString)
 
-	// 			setTimer(timer - 1)
-	// 			localStorage.setItem('timerLS', timer - 1)
-	// 		}, 1000)
+				setTimer(timer - 1)
+				localStorage.setItem('timerLS', timer - 1)
+			}, 1000)
 
-	// 		return () => {
-	// 			clearInterval(timerInterval)
-	// 		}
-	// 	} else {
-	// 		localStorage.removeItem('timerLS')
-	// 		handleSubmitExam()
-	// 	}
-	// }, [timer])
+			return () => {
+				clearInterval(timerInterval)
+			}
+		} else {
+			localStorage.removeItem('timerLS')
+			handleSubmitExam()
+		}
+	}, [timer])
 
 	// Dropzone
 	const [files, setFiles] = useState([])
@@ -131,10 +163,37 @@ const TakingExam = (props) => {
 	)
 
 	const handleSubmitExam = () => {
-		const data = {
-			studentId: '61781f10c25f62ec2f0117e9',
-			examResultImages: files,
-		}
+		const action = upload(files)
+		dispatch(action)
+			.then(unwrapResult)
+			.then((res) => {
+				const data = {
+					studentId: user._id,
+					examResultImages: res,
+					examId: exam._id,
+				}
+				const action = addExamResult(data)
+				dispatch(action)
+					.then(unwrapResult)
+					.then((res) => {
+						console.log(res)
+						const action = updateExam({
+							id: exam._id,
+							examResultId: res.data._id,
+						})
+						dispatch(action)
+							.then(unwrapResult)
+							.then(() => {
+								Alert.fire({
+									icon: 'success',
+									title: 'Nộp bài thi thành công',
+								})
+							})
+							.catch((error) => console.log(error))
+					})
+					.catch((error) => console.log(error))
+			})
+			.catch((error) => console.log(error))
 	}
 
 	return (

@@ -54,6 +54,12 @@ const TakingExam = lazy(() =>
 	import('components/Dashboard/Common/Exam/components/TakingExam/TakingExam')
 )
 
+const LearningResult = lazy(() =>
+	import(
+		'components/Dashboard/Common/Exam/components/LearningResult/LearningResult'
+	)
+)
+
 const routes = [
 	{
 		exact: true,
@@ -159,6 +165,11 @@ const routes = [
 		exact: false,
 		path: '/dashboard/exam-answer/:id',
 		component: ExamAnswer,
+	},
+	{
+		exact: true,
+		path: '/dashboard/learning-result',
+		component: LearningResult,
 	},
 ]
 

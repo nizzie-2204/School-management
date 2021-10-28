@@ -11,11 +11,20 @@ import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
 import pdfDOC from 'assets/doc/video.pdf'
 import { useDropzone } from 'react-dropzone'
 import Alert from 'components/Alert/Alert'
+import { useForm } from 'react-hook-form'
+import { updateExamResult } from '../../examResultSlice'
+import { unwrapResult } from '@reduxjs/toolkit'
+import { useDispatch, useSelector } from 'react-redux'
 
 const ExamAnswer = (props) => {
 	const classes = useStyles()
+	const user = useSelector((state) => state.auth.user)
 	const exam = props.location.state.exam
 	const result = props.location.state.result
+	const dispatch = useDispatch()
+	const { register, handleSubmit, reset } = useForm()
+
+	console.log(result)
 
 	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
@@ -67,20 +76,36 @@ const ExamAnswer = (props) => {
 		if (props.location.state.result) {
 			setFiles(props.location.state.result.examResultImages)
 		}
+
+		if (props.location.state.exam.examResultImages) {
+			setFiles(props.location.state.exam.examResultImages)
+		}
 	}, [props])
 
-	const handleComment = () => {
-		Alert.fire({
-			icon: 'success',
-			title: 'Nhận xét thành công',
-		})
+	const handleComment = (data) => {
+		const action = updateExamResult({ id: result._id, comment: data.comment })
+		dispatch(action)
+			.then(unwrapResult)
+			.then(() => {
+				Alert.fire({
+					icon: 'success',
+					title: 'Nhận xét thành công',
+				})
+			})
+			.catch((error) => console.log(error))
 	}
 
-	const handleScoring = () => {
-		Alert.fire({
-			icon: 'success',
-			title: 'Cho điểm thành công',
-		})
+	const handleScoring = (data) => {
+		const action = updateExamResult({ id: result._id, score: data.score })
+		dispatch(action)
+			.then(unwrapResult)
+			.then(() => {
+				Alert.fire({
+					icon: 'success',
+					title: 'Cho điểm thành công',
+				})
+			})
+			.catch((error) => console.log(error))
 	}
 
 	return (
@@ -92,18 +117,31 @@ const ExamAnswer = (props) => {
 					</Typography>
 					<div>
 						<span>
-							Môn: <strong>{exam.subjectId.name} - </strong>{' '}
+							Môn:
+							<strong>
+								{` ${exam?.subjectId?.name || exam?.examId?.subjectId?.name}`} -
+							</strong>
 						</span>
 						<span>
-							Thời gian làm bài: <strong>{`${exam.duration} phút`} </strong>{' '}
+							Thời gian làm bài:
+							<strong>{` ${
+								exam?.duration || exam.examId.duration
+							} phút`}</strong>
 						</span>
 					</div>
 					<div>
 						<span>
-							Họ và thi thí sinh: <strong> {result.studentId.name} - </strong>
+							Họ và thi thí sinh:
+							<strong>
+								{` ${result?.studentId?.name || exam.studentId.name} - `}
+							</strong>
 						</span>
 						<span>
-							Lớp: <strong>{result.studentId.classId.name}</strong>{' '}
+							Lớp:
+							<strong>{` ${
+								exam?.studentId?.classId?.name ||
+								result?.studentId?.classId?.name
+							}`}</strong>
 						</span>
 					</div>
 				</Box>
@@ -115,7 +153,6 @@ const ExamAnswer = (props) => {
 							icon={faHome}
 							style={{
 								marginRight: 5,
-
 								marginBottom: 5,
 							}}
 						/>
@@ -130,10 +167,14 @@ const ExamAnswer = (props) => {
 						Điểm
 					</Typography>
 					<span>
-						<strong>0</strong>/10
+						<strong>{result?.score || exam?.score || 0}</strong>/10
 					</span>
 				</Box>
-				<Box className={classes.comment} style={{ margin: '0 70px' }}>
+				<form
+					className={classes.comment}
+					style={{ margin: '0 70px' }}
+					onSubmit={handleSubmit(handleComment)}
+				>
 					<Typography variant="h5" className={classes.commentTitle}>
 						Nhận xét của giáo viên
 					</Typography>
@@ -141,16 +182,24 @@ const ExamAnswer = (props) => {
 						variant="outlined"
 						type="textarea"
 						className={classes.textField}
+						{...register('comment')}
+						defaultValue={result?.comment || exam.comment}
+						disabled={user.role === 'student'}
 					/>
-					<Button
-						variant="contained"
-						className={classes.action}
-						onClick={handleComment}
-					>
-						Nhận xét
-					</Button>
-				</Box>
-				<Box className={classes.score2Container}>
+					{user.role === 'teacher' && (
+						<Button
+							variant="contained"
+							className={classes.action}
+							type="submit"
+						>
+							Nhận xét
+						</Button>
+					)}
+				</form>
+				<form
+					className={classes.score2Container}
+					onSubmit={handleSubmit(handleScoring)}
+				>
 					<Typography variant="h5" className={classes.commentTitle}>
 						Điểm số
 					</Typography>
@@ -159,15 +208,20 @@ const ExamAnswer = (props) => {
 						type="number"
 						className={classes.textField}
 						InputProps={{ inputProps: { min: 0, max: 10 } }}
+						{...register('score')}
+						defaultValue={result?.score || exam.score}
+						disabled={user.role === 'student'}
 					/>
-					<Button
-						variant="contained"
-						className={classes.action}
-						onClick={handleScoring}
-					>
-						Cho điểm
-					</Button>
-				</Box>
+					{user.role === 'teacher' && (
+						<Button
+							variant="contained"
+							className={classes.action}
+							type="submit"
+						>
+							Cho điểm
+						</Button>
+					)}
+				</form>
 			</Box>
 			<Box className={classes.main}>
 				<Box className={classes.examContainer}>
@@ -178,7 +232,10 @@ const ExamAnswer = (props) => {
 					<Box className={classes.examQuestion}>
 						<Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
 							<Viewer
-								fileUrl={exam.examFile[0].preview}
+								fileUrl={
+									exam?.examFile?.[0]?.preview ||
+									exam?.examId?.examFile?.[0]?.preview
+								}
 								plugins={[defaultLayoutPluginInstance]}
 								localization={vi_VN}
 							/>

@@ -5,7 +5,7 @@ const { verifyToken } = require('../../middlewares/auth')
 const Router = express.Router()
 
 // Allow admin to use these routes
-Router.route('/upload').post(verifyToken, permit('admin'), upload)
+Router.route('/upload').post(verifyToken, permit('admin', 'student'), upload)
 
 Router.route('/destroy').post(verifyToken, permit('admin'), destroy)
 

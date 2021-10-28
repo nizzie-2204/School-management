@@ -18,18 +18,17 @@ import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
 import { unwrapResult } from '@reduxjs/toolkit'
+import Alert from 'components/Alert/Alert'
 import { getSubjects } from 'components/Dashboard/Common/Subject/subjectSlice'
 import 'date-fns'
 import formatISO from 'date-fns/formatISO'
-import { useSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
-import { addExam, upload, updateExam } from '../../examSlice'
+import { addExam, updateExam, upload } from '../../examSlice'
 import useStyles from './styles'
-import Alert from 'components/Alert/Alert'
 
 const schema = yup.object().shape({
 	name: yup.string().required(),
@@ -38,7 +37,6 @@ const schema = yup.object().shape({
 const AddEditAccount = ({ open, handleClose, thisExam }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const { enqueueSnackbar } = useSnackbar()
 	const subjects = useSelector((state) => state.subjects.subjects)
 
 	const { register, handleSubmit, reset } = useForm({
@@ -134,11 +132,11 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 					.then(unwrapResult)
 					.then((res) => {
 						console.log(res)
+						handleClose()
 						Alert.fire({
 							icon: 'success',
 							title: 'Thêm môn thi thành công',
 						})
-						handleClose()
 					})
 			})
 	}

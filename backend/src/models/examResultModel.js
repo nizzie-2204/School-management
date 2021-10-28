@@ -7,6 +7,7 @@ const examResultSchema = new Schema(
 		score: { type: Number, default: 0 },
 		examResultImages: [],
 		comment: { type: String },
+		examId: { type: mongoose.Types.ObjectId, ref: 'Exam' },
 	},
 	{ timestamps: true }
 )

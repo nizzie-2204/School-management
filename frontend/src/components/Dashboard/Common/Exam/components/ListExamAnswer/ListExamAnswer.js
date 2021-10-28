@@ -23,6 +23,7 @@ const ListExamAnswer = ({ exam }) => {
 	const classes = useStyles()
 	const results = exam.examResult
 	const history = useHistory()
+
 	const handleScoringExam = (result) => {
 		history.push({
 			pathname: `/dashboard/exam-answer/${result._id}`,
@@ -36,7 +37,7 @@ const ListExamAnswer = ({ exam }) => {
 				<Typography variant="h5" className={classes.title}>
 					Danh sách bài thi
 				</Typography>
-				<span className={classes.subTitle}>10 kết quả</span>
+				<span className={classes.subTitle}>{results.length} kết quả</span>
 			</Box>
 			<form className={classes.form}>
 				<TextField
@@ -109,7 +110,7 @@ const ListExamAnswer = ({ exam }) => {
 									<TableCell align="center">
 										{result.studentId.classId.name}
 									</TableCell>
-									<TableCell align="center">0/10</TableCell>
+									<TableCell align="center">{result.score || 0}/10</TableCell>
 									<TableCell align="center">
 										<Tooltip title="Chi tiết">
 											<IconButton

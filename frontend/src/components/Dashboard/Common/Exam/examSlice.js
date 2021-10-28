@@ -93,7 +93,7 @@ const examSlice = createSlice({
 		},
 		[getExams.rejected]: (state, action) => {
 			state.examsLoading = false
-			state.examsError = action.payload.message
+			state.examsError = 'error'
 		},
 		[getExam.pending]: (state) => {
 			state.examLoading = true

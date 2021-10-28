@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		justifyContent: 'center',
 		border: '1px solid #eee',
-		borderRadius: 3,
+		borderRadius: 10,
 		// padding: 8,
 		marginRight: 15,
 		width: 59,

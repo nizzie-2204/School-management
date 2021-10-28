@@ -17,18 +17,18 @@ import PersonIcon from '@material-ui/icons/Person'
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
 import SchoolIcon from '@material-ui/icons/School'
 import SpeedIcon from '@material-ui/icons/Speed'
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import useStyles from './styles'
 import SimpleBarReact from 'simplebar-react'
 import 'simplebar/src/simplebar.css'
-
+import { useSelector } from 'react-redux'
 const Sidebar = () => {
 	const classes = useStyles()
-	const [open, setOpen] = React.useState(false)
-	const [open2, setOpen2] = React.useState(false)
-	const [open3, setOpen3] = React.useState(false)
-
+	const [open, setOpen] = useState(false)
+	const [open2, setOpen2] = useState(false)
+	const [open3, setOpen3] = useState(false)
+	const user = useSelector((state) => state.auth.user)
 	const handleClick = () => {
 		setOpen(!open)
 	}
@@ -226,10 +226,18 @@ const Sidebar = () => {
 								</ListItemIcon>
 								<ListItemText
 									className={classes.listItemText}
-									primary="Tổ chức kỳ thi"
+									primary={
+										user.role === 'student' ? 'Kỳ thi' : 'Tổ chức kỳ thi'
+									}
 								/>
 							</ListItem>
-							<ListItem button className={classes.nested}>
+							<ListItem
+								button
+								className={classes.nested}
+								component={NavLink}
+								to="/dashboard/learning-result"
+								activeClassName={classes.activeLink}
+							>
 								<ListItemIcon className={classes.listIcon}>
 									<QuestionAnswerIcon />
 								</ListItemIcon>

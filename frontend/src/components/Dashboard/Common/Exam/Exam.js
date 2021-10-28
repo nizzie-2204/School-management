@@ -33,6 +33,10 @@ import emptyDataPNG from 'assets/images/document.png'
 import { getExams } from './examSlice'
 import { useHistory } from 'react-router'
 import VisibilityIcon from '@material-ui/icons/Visibility'
+import { formatISO } from 'date-fns'
+import { formatISO9075 } from 'date-fns/esm'
+import formatDate from 'utils/formatDate'
+import checkTimeV2 from 'utils/checkTime.v2'
 
 const links = [
 	{
@@ -48,6 +52,12 @@ const links = [
 		path: '/dashboard/exam',
 	},
 ]
+
+// Tài khoản: t2100001 mật khẩu: rqa@W65M ====== gvtest1 chu nhiem lop 1a2
+//Tài khoản: t2100002 mật khẩu: %By6JW+b ======= gvtest2 am nhac
+
+// Tài khoản: s2100001 mật khẩu: kr_xp*3L ==== hs khoi 1
+// Tài khoản: s2100002 mật khẩu: ^bcB4_%m ==== hs khoi 2
 const Exam = () => {
 	const classes = useStyles()
 
@@ -55,7 +65,14 @@ const Exam = () => {
 	const user = useSelector((state) => state.auth.user)
 	const exams = useSelector((state) => state.exam.exams)
 	const examsLoading = useSelector((state) => state.exam.examsLoading)
+
 	const history = useHistory()
+
+	const filteredExams = exams.filter((exam) => {
+		return exam?.grade === user?.classId?.grade
+	})
+
+	console.log(filteredExams)
 
 	const [thisExam, setThisExam] = useState(null)
 	const [open, setOpen] = useState(false)
@@ -163,41 +180,45 @@ const Exam = () => {
 				</form>
 
 				<div className={classes.titleTable}>
-					<Typography
-						className={classes.title}
-						variant="h6"
-						id="subtitle"
-						component="div"
-					>
-						Tổ chức kỳ thi
-					</Typography>
-					<Box className={classes.actions}>
-						<Button
-							variant="contained"
-							className={classes.button}
-							startIcon={
-								<FontAwesomeIcon
-									icon={faFileExcel}
-									style={{ fontSize: 13, marginRight: 5 }}
-								/>
-							}
-							style={{
-								backgroundColor: '#198750',
-								marginRight: 20,
-							}}
-						>
-							Xuất excel
-						</Button>
-						<Button
-							variant="contained"
-							className={classes.button}
-							startIcon={<AddIcon />}
-							onClick={handleOpen}
-						>
-							Thêm mới
-						</Button>
-					</Box>
-					<AddEditAccount open={open} handleClose={handleClose} />
+					{user?.role === 'admin' && (
+						<>
+							<Typography
+								className={classes.title}
+								variant="h6"
+								id="subtitle"
+								component="div"
+							>
+								Tổ chức kỳ thi
+							</Typography>
+							<Box className={classes.actions}>
+								<Button
+									variant="contained"
+									className={classes.button}
+									startIcon={
+										<FontAwesomeIcon
+											icon={faFileExcel}
+											style={{ fontSize: 13, marginRight: 5 }}
+										/>
+									}
+									style={{
+										backgroundColor: '#198750',
+										marginRight: 20,
+									}}
+								>
+									Xuất excel
+								</Button>
+								<Button
+									variant="contained"
+									className={classes.button}
+									startIcon={<AddIcon />}
+									onClick={handleOpen}
+								>
+									Thêm mới
+								</Button>
+							</Box>
+							<AddEditAccount open={open} handleClose={handleClose} />
+						</>
+					)}
 				</div>
 				{examsLoading ? (
 					<div className={classes.loading}>
@@ -227,7 +248,9 @@ const Exam = () => {
 										<TableCell align="center" className={classes.tableHead}>
 											Tên kỳ thi
 										</TableCell>
-
+										<TableCell align="center" className={classes.tableHead}>
+											Khối
+										</TableCell>
 										<TableCell align="center" className={classes.tableHead}>
 											Thời gian bắt đầu
 										</TableCell>
@@ -244,80 +267,113 @@ const Exam = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{exams?.map((exam) => {
-										return (
-											<TableRow>
-												<TableCell
-													align="center"
-													component="th"
-													scope="row"
-													className={classes.limitText}
-												>
-													{exam?._id}
-												</TableCell>
-												<TableCell align="center">
-													<p>{exam?.name}</p>
-													<p>Môn: {exam?.subjectId?.name}</p>
-												</TableCell>
-
-												<TableCell align="center">15/05/2021 00:00</TableCell>
-												<TableCell align="center">
-													{exam?.duration} phút
-												</TableCell>
-												<TableCell align="center">Chưa diễn ra</TableCell>
-
-												<TableCell align="center">
-													<Tooltip title="Chỉnh sửa">
-														<IconButton
-															onClick={() => {
-																handleOpen3(exam)
-															}}
-														>
-															<CreateIcon
-																fontSize="small"
-																style={{ color: '#5278db' }}
-															/>
-														</IconButton>
-													</Tooltip>
-													<Tooltip title="Chi tiết">
-														<IconButton
-															onClick={() => {
-																handleViewDetailExam(exam)
-															}}
-														>
-															<VisibilityIcon
-																fontSize="small"
-																style={{ color: '#ffa000' }}
-															/>
-														</IconButton>
-													</Tooltip>
-													<Tooltip title="Xóa">
-														<IconButton
-															onClick={() => {
-																handleOpen2(exam)
-															}}
-														>
-															<DeleteIcon
-																fontSize="small"
-																style={{ color: '#e96053' }}
-															/>
-														</IconButton>
-													</Tooltip>
-													{/* {user.role === 'student' && ( */}
-													<Button
-														variant="contained"
-														className={classes.takingExam}
-														onClick={() => {
-															handleTakingExam(exam)
+									{((filteredExams.length > 0 && filteredExams) || exams).map(
+										(exam) => {
+											return (
+												<TableRow>
+													<TableCell
+														align="center"
+														component="th"
+														scope="row"
+														className={classes.limitText}
+													>
+														{exam?._id}
+													</TableCell>
+													<TableCell align="center">
+														<p>{exam?.name}</p>
+														<p>Môn: {exam?.subjectId?.name}</p>
+													</TableCell>
+													<TableCell align="center">
+														<p>{exam?.grade}</p>
+													</TableCell>
+													<TableCell align="center">
+														{formatDate(new Date(exam.startAt))}
+													</TableCell>
+													<TableCell align="center">
+														{exam?.duration} phút
+													</TableCell>
+													<TableCell
+														align="center"
+														style={{
+															color: `${
+																checkTimeV2(exam.startAt, exam.duration) ===
+																'Đang diễn ra'
+																	? '#4caf50'
+																	: [
+																			checkTimeV2(
+																				exam.startAt,
+																				exam.duration
+																			) === 'Đã kết thúc'
+																				? '#f44336'
+																				: '#52575e',
+																	  ]
+															}  `,
 														}}
 													>
-														Làm bài
-													</Button>
-													{/* )} */}
-												</TableCell>
-											</TableRow>
-										)
-									})}
+														{checkTimeV2(exam.startAt, exam.duration)}
+													</TableCell>
+
+													<TableCell align="center">
+														{user?.role === 'admin' && (
+															<Tooltip title="Chỉnh sửa">
+																<IconButton
+																	onClick={() => {
+																		handleOpen3(exam)
+																	}}
+																>
+																	<CreateIcon
+																		fontSize="small"
+																		style={{ color: '#5278db' }}
+																	/>
+																</IconButton>
+															</Tooltip>
+														)}
+														{user?.role === 'teacher' && (
+															<Tooltip title="Chi tiết">
+																<IconButton
+																	onClick={() => {
+																		handleViewDetailExam(exam)
+																	}}
+																>
+																	<VisibilityIcon
+																		fontSize="small"
+																		style={{ color: '#ffa000' }}
+																	/>
+																</IconButton>
+															</Tooltip>
+														)}
+														{user?.role === 'admin' && (
+															<Tooltip title="Xóa">
+																<IconButton
+																	onClick={() => {
+																		handleOpen2(exam)
+																	}}
+																>
+																	<DeleteIcon
+																		fontSize="small"
+																		style={{ color: '#e96053' }}
+																	/>
+																</IconButton>
+															</Tooltip>
+														)}
+														{user?.role === 'student' &&
+															checkTimeV2(exam.startAt, exam.duration) ===
+																'Đang diễn ra' && (
+																<Button
+																	variant="contained"
+																	className={classes.takingExam}
+																	onClick={() => {
+																		handleTakingExam(exam)
+																	}}
+																>
+																	Làm bài
+																</Button>
+															)}
+													</TableCell>
+												</TableRow>
+											)
+										}
+									)}
 									<DeleteAlert
 										open={open2}
 										handleClose={handleClose2}
