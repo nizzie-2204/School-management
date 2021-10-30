@@ -27,17 +27,51 @@ const useStyles = makeStyles((theme) => ({
 		padding: '15px 10px',
 	},
 	title: {
-		fontSize: '18px',
+		fontSize: 18,
 		fontWeight: 'bold',
 	},
 	isLoggedIn: { color: theme.palette.success.main },
 	isLoggedOut: { color: theme.palette.error.main },
+	form: {
+		display: 'flex',
+		alignItems: 'center',
+		backgroundColor: theme.palette.background.paper,
+		padding: 10,
+		paddingTop: 20,
+	},
+	select: {
+		width: 200,
+		marginRight: 20,
+		'& .MuiFormLabel-root': {
+			color: theme.palette.text.main,
+		},
+		'& .MuiInputLabel-outlined': {
+			fontSize: 14,
+			transform: 'translate(14px, 17px) scale(1)',
+		},
+		'& .MuiOutlinedInput-input': {
+			padding: '12.5px 14px',
+		},
+		'& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			borderColor: '#eee',
+			borderRadius: 4,
+		},
+		'&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+			borderColor: '#eee',
+			borderRadius: 4,
+		},
+		'& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+			borderColor: '#eee',
+			borderRadius: 4,
+		},
+		'&::placeholder': {
+			color: theme.palette.text.main,
+		},
+	},
 	searchBar: {
 		display: 'flex',
 		alignItems: 'center',
-		marginBottom: '30px',
-		backgroundColor: theme.palette.background.paper,
-		padding: 10,
+		flex: 1,
 	},
 	searchField: {
 		flex: '1',

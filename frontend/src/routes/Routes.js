@@ -182,7 +182,7 @@ const Routes = () => {
 			<TransitionGroup component={null}>
 				<CSSTransition timeout={300} classNames="page" key={location.key}>
 					{routes ? (
-						<Suspense fallback={<div />}>
+						<Suspense fallback={<div></div>}>
 							<Switch location={location}>
 								{routes.map((route, index) => {
 									const Component = route.component

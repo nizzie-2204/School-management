@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/styles'
 const useStyles = makeStyles((theme) => ({
 	appBar: {
 		backgroundColor: '#f3f7fa',
-		height: '90px',
+		height: 90,
 		paddingRight: '0 !important',
 		zIndex: 1,
 	},

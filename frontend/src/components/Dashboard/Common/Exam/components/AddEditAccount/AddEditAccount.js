@@ -131,12 +131,14 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 				dispatch(action)
 					.then(unwrapResult)
 					.then((res) => {
-						console.log(res)
 						handleClose()
 						Alert.fire({
 							icon: 'success',
 							title: 'Thêm môn thi thành công',
 						})
+						setSubject()
+						setFiles([])
+						reset()
 					})
 			})
 	}
@@ -216,7 +218,6 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 			<Fade in={open}>
 				<form
 					className={classes.form}
-					style={{ maxHeight: '575px', overflowY: 'scroll' }}
 					autoComplete="off"
 					onSubmit={
 						thisExam

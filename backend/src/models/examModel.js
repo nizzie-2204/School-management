@@ -11,7 +11,7 @@ const examSchema = new Schema(
 				'Giữa học kỳ 1',
 				'Cuối học kỳ 1',
 				'Giữa học kỳ 2',
-				'Cuối học kì 2',
+				'Cuối học kỳ 2',
 			],
 			default: 'Giữa học kì 1',
 		},

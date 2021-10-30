@@ -8,13 +8,12 @@
 
 html {
 	font-family: 'Baloo Paaji 2', cursive;
-	scroll-behavior: smooth;
 }
 
 body {
-	overflow-x: hidden;
-	/* overflow-y: scroll !important; */
+	overflow-x: hidden !important;
+	overflow-y: scroll !important;
+	/* overflow: visible !important; */
 	padding-right: 0 !important;
 	min-height: 100vh;
-	scroll-behavior: smooth;
 }

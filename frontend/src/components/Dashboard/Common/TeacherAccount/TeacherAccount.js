@@ -37,6 +37,8 @@ import {
 } from '../TypeTeacher/typeTeacherSlice'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFileExcel } from '@fortawesome/free-solid-svg-icons'
+import downloadExcel from 'utils/downloadExcel'
+import Alert from 'components/Alert/Alert'
 
 const links = [
 	{
@@ -134,6 +136,17 @@ const TeacherAccount = () => {
 		fetchTeachers()
 	}, [dispatch])
 
+	const handleDownloadExcel = () => {
+		if (!teachers || teachers.length === 0) {
+			Alert.fire({
+				icon: 'error',
+				title: 'Không có dữ liệu',
+			})
+			return
+		}
+		downloadExcel(teachers, 'Danh Sach Giao Vien', 'DanhSachGiaoVien')
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -186,6 +199,7 @@ const TeacherAccount = () => {
 								backgroundColor: '#198750',
 								marginRight: 20,
 							}}
+							onClick={handleDownloadExcel}
 						>
 							Xuất excel
 						</Button>

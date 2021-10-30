@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		paddingRight: '0 !important',
+		overflowX: 'hidden',
 	},
 	logo: {
 		width: '250px',

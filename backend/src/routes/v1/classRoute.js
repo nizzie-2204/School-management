@@ -19,7 +19,7 @@ Router.route('/classes')
 
 Router.route('/classes/:id')
 	.get(verifyToken, permit('admin', 'teacher', 'student'), getClass)
-	.put(verifyToken, permit('admin'), updateClass)
+	.put(verifyToken, permit('admin', 'teacher', 'student'), updateClass)
 	.delete(verifyToken, permit('admin'), deleteClass)
 	.patch(verifyToken, permit('admin'), updateStudentAndTimetable)
 

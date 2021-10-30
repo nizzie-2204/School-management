@@ -5,6 +5,7 @@ import {
 	Button,
 	CircularProgress,
 	IconButton,
+	MenuItem,
 	Paper,
 	Table,
 	TableBody,
@@ -37,6 +38,8 @@ import AddEditAccount from './components/AddEditAccount/AddEditAccount'
 import DeleteAlert from './components/DeleteAlert/DeleteAlert'
 import { getExams } from './examSlice'
 import useStyles from './styles'
+import { getExamResults } from './examResultSlice'
+import { getSubjects } from 'components/Dashboard/Common/Subject/subjectSlice'
 
 const links = [
 	{
@@ -66,22 +69,36 @@ const Exam = () => {
 	const history = useHistory()
 	const user = useSelector((state) => state.auth.user)
 	const exams = useSelector((state) => state.exam.exams)
+	const subjects = useSelector((state) => state.subjects.subjects)
+	const examResults = useSelector((state) => state.examResult.examResults)
 	const examsLoading = useSelector((state) => state.exam.examsLoading)
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
+		console.log(user)
 	}, [])
 
-	const filteredExams = exams.filter((exam) => {
-		return exam?.grade === user?.classId?.grade
-	})
+	let filteredExams
+	if (user?.role === 'student') {
+		filteredExams = exams.filter((exam) => {
+			return exam?.grade === user?.classId?.grade
+		})
+	}
+	// gv chủ nhiệm và giáo viên bộ môn hiển thị môn thi của từng người
+	if (user?.role === 'teacher' && user?.teacherType.isClassHeadTeacher) {
+		filteredExams = exams.filter((exam) => {
+			const check = user?.teacherType.subjects.find((subject) => {
+				return subject._id === exam.subjectId._id
+			})
+			return exam?.grade === user?.classId?.grade && check
+		})
+	}
 
-	const [isSubmitted, setIsSubmitted] = useState(false)
-	// exams?.examResult?.forEach((result) => {
-	// 	if (result?.studentId?._id === user._id) {
-	// 		setIsSubmitted(true)
-	// 	}
-	// })
+	if (user?.role === 'teacher' && !user?.teacherType.isClassHeadTeacher) {
+		filteredExams = exams.filter((exam) => {
+			return exam?.subjectId._id === user?.teacherType.subjects[0]._id
+		})
+	}
 
 	const [thisExam, setThisExam] = useState(null)
 	const [open, setOpen] = useState(false)
@@ -131,15 +148,44 @@ const Exam = () => {
 	}
 
 	useEffect(() => {
-		const fetchExams = () => {
+		const fetchData = () => {
 			const action = getExams()
 			dispatch(action)
-				// .unwrap()
-				.then(unwrapResult)
-				.catch((error) => console.log(error))
+
+			const action2 = getExamResults()
+			dispatch(action2)
+
+			const action3 = getSubjects()
+			dispatch(action3)
 		}
-		fetchExams()
+
+		fetchData()
 	}, [dispatch])
+
+	const [isSubmitted, setIsSubmitted] = useState(false)
+	useEffect(() => {
+		if (examResults) {
+			examResults?.forEach((result) => {
+				if (result?.studentId?._id === user?._id) {
+					setIsSubmitted(true)
+				}
+			})
+		}
+	}, [])
+
+	const handleCheckSubmitted = (exams) => {
+		let check
+		if (exams?.length === 0) {
+			return false
+		} else {
+			check = exams.find((result) => {
+				return result.studentId._id === user._id
+			})
+			if (check) {
+				return true
+			} else return false
+		}
+	}
 
 	const handleTakingExam = (exam) => {
 		// if (user.role !== 'student') return
@@ -168,6 +214,18 @@ const Exam = () => {
 		}
 	}
 
+	const [subject, setSubject] = useState('')
+
+	const handleChangeSubject = (event) => {
+		setSubject(event.target.value)
+	}
+
+	const [typeExam, setTypeExam] = useState('')
+
+	const handleChangeTypeExam = (event) => {
+		setTypeExam(event.target.value)
+	}
+
 	return (
 		<>
 			<Helmet>
@@ -177,7 +235,50 @@ const Exam = () => {
 
 			<Box className={classes.main}>
 				<Breadcrumb links={links} />
-				<form autoComplete="off">
+				<form autoComplete="off" className={classes.form}>
+					<TextField
+						id="outlined-select-gender"
+						select
+						label={subject === '' ? 'Môn học' : ''}
+						value={subject}
+						onChange={handleChangeSubject}
+						InputLabelProps={{ shrink: false }}
+						SelectProps={{
+							MenuProps: {
+								className: classes.menu,
+							},
+						}}
+						variant="outlined"
+						className={classes.select}
+					>
+						<MenuItem value="">Môn học</MenuItem>
+						{subjects.map((option) => (
+							<MenuItem key={option._id} value={option._id}>
+								{option.name}
+							</MenuItem>
+						))}
+					</TextField>
+					<TextField
+						id="outlined-select-gender"
+						select
+						label={typeExam === '' ? 'Loại kỳ thi' : ''}
+						value={typeExam}
+						onChange={handleChangeTypeExam}
+						InputLabelProps={{ shrink: false }}
+						SelectProps={{
+							MenuProps: {
+								className: classes.menu,
+							},
+						}}
+						variant="outlined"
+						className={classes.select}
+					>
+						<MenuItem value="">Loại kỳ thi</MenuItem>
+						<MenuItem value="Giữa học kỳ 1">Giữa học kỳ 1</MenuItem>
+						<MenuItem value="Cuối học kỳ 1">Cuối học kỳ 1</MenuItem>
+						<MenuItem value="Giữa học kỳ 2">Giữa học kỳ 2</MenuItem>
+						<MenuItem value="Cuối học kỳ 2">Cuối học kỳ 2</MenuItem>
+					</TextField>
 					<div className={classes.searchBar}>
 						<TextField
 							className={classes.searchField}
@@ -187,7 +288,7 @@ const Exam = () => {
 							inputProps={{
 								style: { padding: '12.5px 14px' },
 							}}
-							// onChange={handleChangeSearch}
+							onChange={handleChangeSearch}
 						/>
 						<Button
 							variant="contained"
@@ -264,10 +365,10 @@ const Exam = () => {
 								<TableHead>
 									<TableRow>
 										<TableCell align="center" className={classes.tableHead}>
-											ID
+											Tên kỳ thi
 										</TableCell>
 										<TableCell align="center" className={classes.tableHead}>
-											Tên kỳ thi
+											Loại kỳ thi
 										</TableCell>
 										<TableCell align="center" className={classes.tableHead}>
 											Khối
@@ -288,113 +389,284 @@ const Exam = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{((filteredExams.length > 0 && filteredExams) || exams).map(
-										(exam) => {
-											return (
-												<TableRow>
-													<TableCell
-														align="center"
-														component="th"
-														scope="row"
-														className={classes.limitText}
-													>
-														{exam?._id}
-													</TableCell>
-													<TableCell align="center">
-														<p>{exam?.name}</p>
-														<p>Môn: {exam?.subjectId?.name}</p>
-													</TableCell>
-													<TableCell align="center">
-														<p>{exam?.grade}</p>
-													</TableCell>
-													<TableCell align="center">
-														{formatDate(new Date(exam.startAt))}
-													</TableCell>
-													<TableCell align="center">
-														{exam?.duration} phút
-													</TableCell>
-													<TableCell
-														align="center"
-														style={{
-															color: `${
-																checkTimeV2(exam.startAt, exam.duration) ===
-																'Đang diễn ra'
-																	? '#4caf50'
-																	: [
-																			checkTimeV2(
-																				exam.startAt,
-																				exam.duration
-																			) === 'Đã kết thúc'
-																				? '#f44336'
-																				: '#52575e',
-																	  ]
-															}  `,
-														}}
-													>
-														{checkTimeV2(exam.startAt, exam.duration)}
-													</TableCell>
+									{user?.role !== 'admin' &&
+										((filteredExams?.length > 0 && filteredExams) || []).map(
+											(exam) => {
+												return (
+													<TableRow>
+														<TableCell
+															align="center"
+															component="th"
+															scope="row"
+														>
+															<strong>{exam?.name}</strong>
+															<p>Môn học: {exam?.subjectId?.name}</p>
+														</TableCell>
+														<TableCell align="center">
+															{exam.semester}
+														</TableCell>
+														<TableCell align="center">
+															<p>{exam?.grade}</p>
+														</TableCell>
+														<TableCell align="center">
+															{formatDate(new Date(exam.startAt))}
+														</TableCell>
+														<TableCell align="center">
+															{exam?.duration} phút
+														</TableCell>
+														<TableCell
+															align="center"
+															style={{
+																color: `${
+																	checkTimeV2(exam.startAt, exam.duration) ===
+																	'Đang diễn ra'
+																		? '#4caf50'
+																		: [
+																				checkTimeV2(
+																					exam.startAt,
+																					exam.duration
+																				) === 'Đã kết thúc'
+																					? '#f44336'
+																					: '#52575e',
+																		  ]
+																}  `,
+															}}
+														>
+															{checkTimeV2(exam.startAt, exam.duration)}
+														</TableCell>
 
-													<TableCell align="center">
-														{user?.role === 'admin' && (
-															<Tooltip title="Chỉnh sửa">
-																<IconButton
-																	onClick={() => {
-																		handleOpen3(exam)
-																	}}
-																>
-																	<CreateIcon
-																		fontSize="small"
-																		style={{ color: '#5278db' }}
-																	/>
-																</IconButton>
-															</Tooltip>
-														)}
-														{user?.role === 'teacher' && (
-															<Tooltip title="Chi tiết">
-																<IconButton
-																	onClick={() => {
-																		handleViewDetailExam(exam)
-																	}}
-																>
-																	<VisibilityIcon
-																		fontSize="small"
-																		style={{ color: '#ffa000' }}
-																	/>
-																</IconButton>
-															</Tooltip>
-														)}
-														{user?.role === 'admin' && (
-															<Tooltip title="Xóa">
-																<IconButton
-																	onClick={() => {
-																		handleOpen2(exam)
-																	}}
-																>
-																	<DeleteIcon
-																		fontSize="small"
-																		style={{ color: '#e96053' }}
-																	/>
-																</IconButton>
-															</Tooltip>
-														)}
-														{user?.role === 'student' &&
-															checkTimeV2(exam.startAt, exam.duration) ===
-																'Đang diễn ra' && (
-																<Button
-																	variant="contained"
-																	className={classes.takingExam}
-																	onClick={() => {
-																		handleTakingExam(exam)
-																	}}
-																>
-																	Làm bài
-																</Button>
+														<TableCell align="center">
+															{user?.role === 'admin' && (
+																<Tooltip title="Chỉnh sửa">
+																	<IconButton
+																		onClick={() => {
+																			handleOpen3(exam)
+																		}}
+																	>
+																		<CreateIcon
+																			fontSize="small"
+																			style={{ color: '#5278db' }}
+																		/>
+																	</IconButton>
+																</Tooltip>
 															)}
-													</TableCell>
-												</TableRow>
+															{user?.role === 'teacher' && (
+																<Tooltip title="Chi tiết">
+																	<IconButton
+																		onClick={() => {
+																			handleViewDetailExam(exam)
+																		}}
+																	>
+																		<VisibilityIcon
+																			fontSize="small"
+																			style={{ color: '#ffa000' }}
+																		/>
+																	</IconButton>
+																</Tooltip>
+															)}
+															{user?.role === 'admin' && (
+																<Tooltip title="Xóa">
+																	<IconButton
+																		onClick={() => {
+																			handleOpen2(exam)
+																		}}
+																	>
+																		<DeleteIcon
+																			fontSize="small"
+																			style={{ color: '#e96053' }}
+																		/>
+																	</IconButton>
+																</Tooltip>
+															)}
+															{user?.role === 'student' &&
+																checkTimeV2(exam.startAt, exam.duration) ===
+																	'Đang diễn ra' &&
+																!handleCheckSubmitted(exam.examResult) && (
+																	<Button
+																		variant="contained"
+																		className={classes.takingExam}
+																		onClick={() => {
+																			handleTakingExam(exam)
+																		}}
+																	>
+																		Làm bài
+																	</Button>
+																)}
+															{user?.role === 'student' &&
+																checkTimeV2(exam.startAt, exam.duration) ===
+																	'Đang diễn ra' &&
+																handleCheckSubmitted(exam.examResult) && (
+																	<Typography
+																		// className={classes.title}
+																		variant="subtitle1"
+																	>
+																		Đã nộp bài
+																	</Typography>
+																)}
+														</TableCell>
+													</TableRow>
+												)
+											}
+										)}
+									{user?.role === 'admin' &&
+										exams
+											.filter((exam) => {
+												if (
+													searchTerm === '' &&
+													subject === '' &&
+													typeExam === ''
+												)
+													return exam
+												if (searchTerm && subject === '' && typeExam === '')
+													return exam.name
+														.toLowerCase()
+														.includes(searchTerm.toLowerCase())
+												if (searchTerm && subject && typeExam === '')
+													return exam.name
+														.toLowerCase()
+														.includes(
+															searchTerm.toLowerCase() &&
+																exam.subjectId._id === subject
+														)
+												if (searchTerm && subject === '' && typeExam)
+													return exam.name
+														.toLowerCase()
+														.includes(
+															searchTerm.toLowerCase() &&
+																exam.subjectId._id === subject
+														)
+
+												if (searchTerm === '' && subject && typeExam === '')
+													return exam.subjectId._id === subject
+												if (searchTerm === '' && subject && typeExam)
+													return (
+														exam.subjectId._id === subject &&
+														exam.semester === typeExam
+													)
+												if (typeExam && searchTerm === '' && subject === '') {
+													return exam.semester === typeExam
+												} else return false
+											})
+											.slice(
+												page * rowsPerPage,
+												page * rowsPerPage + rowsPerPage
 											)
-										}
-									)}
+											.map((exam) => {
+												return (
+													<TableRow>
+														<TableCell
+															align="center"
+															component="th"
+															scope="row"
+														>
+															<strong>{exam?.name}</strong>
+															<p>Môn học: {exam?.subjectId?.name}</p>
+														</TableCell>
+														<TableCell align="center">
+															{exam.semester}
+														</TableCell>
+														<TableCell align="center">
+															<p>{exam?.grade}</p>
+														</TableCell>
+														<TableCell align="center">
+															{formatDate(new Date(exam.startAt))}
+														</TableCell>
+														<TableCell align="center">
+															{exam?.duration} phút
+														</TableCell>
+														<TableCell
+															align="center"
+															style={{
+																color: `${
+																	checkTimeV2(exam.startAt, exam.duration) ===
+																	'Đang diễn ra'
+																		? '#4caf50'
+																		: [
+																				checkTimeV2(
+																					exam.startAt,
+																					exam.duration
+																				) === 'Đã kết thúc'
+																					? '#f44336'
+																					: '#52575e',
+																		  ]
+																}  `,
+															}}
+														>
+															{checkTimeV2(exam.startAt, exam.duration)}
+														</TableCell>
+
+														<TableCell align="center">
+															{user?.role === 'admin' && (
+																<Tooltip title="Chỉnh sửa">
+																	<IconButton
+																		onClick={() => {
+																			handleOpen3(exam)
+																		}}
+																	>
+																		<CreateIcon
+																			fontSize="small"
+																			style={{ color: '#5278db' }}
+																		/>
+																	</IconButton>
+																</Tooltip>
+															)}
+															{user?.role === 'teacher' && (
+																<Tooltip title="Chi tiết">
+																	<IconButton
+																		onClick={() => {
+																			handleViewDetailExam(exam)
+																		}}
+																	>
+																		<VisibilityIcon
+																			fontSize="small"
+																			style={{ color: '#ffa000' }}
+																		/>
+																	</IconButton>
+																</Tooltip>
+															)}
+															{user?.role === 'admin' && (
+																<Tooltip title="Xóa">
+																	<IconButton
+																		onClick={() => {
+																			handleOpen2(exam)
+																		}}
+																	>
+																		<DeleteIcon
+																			fontSize="small"
+																			style={{ color: '#e96053' }}
+																		/>
+																	</IconButton>
+																</Tooltip>
+															)}
+															{user?.role === 'student' &&
+																checkTimeV2(exam.startAt, exam.duration) ===
+																	'Đang diễn ra' &&
+																!isSubmitted && (
+																	<Button
+																		variant="contained"
+																		className={classes.takingExam}
+																		onClick={() => {
+																			handleTakingExam(exam)
+																		}}
+																	>
+																		Làm bài
+																	</Button>
+																)}
+															{user?.role === 'student' &&
+																checkTimeV2(exam.startAt, exam.duration) ===
+																	'Đang diễn ra' &&
+																isSubmitted && (
+																	<Typography
+																		className={classes.title}
+																		variant="subtitle1"
+																	>
+																		Đã nộp bài
+																	</Typography>
+																)}
+														</TableCell>
+													</TableRow>
+												)
+											})}
 									<DeleteAlert
 										open={open2}
 										handleClose={handleClose2}
@@ -414,20 +686,38 @@ const Exam = () => {
 								component="div"
 								// Pagination on search
 								count={
-									exams?.filter((teacher) => {
-										if (searchTerm === '') {
-											return teacher
-										} else if (
-											teacher.name
-												.toLowerCase()
-												.includes(searchTerm.toLowerCase()) ||
-											teacher.username
+									exams.filter((exam) => {
+										if (searchTerm === '' && subject === '' && typeExam === '')
+											return exam
+										if (searchTerm && subject === '' && typeExam === '')
+											return exam.name
 												.toLowerCase()
 												.includes(searchTerm.toLowerCase())
-										) {
-											return teacher
-										}
-										return false
+										if (searchTerm && subject && typeExam === '')
+											return exam.name
+												.toLowerCase()
+												.includes(
+													searchTerm.toLowerCase() &&
+														exam.subjectId._id === subject
+												)
+										if (searchTerm && subject === '' && typeExam)
+											return exam.name
+												.toLowerCase()
+												.includes(
+													searchTerm.toLowerCase() &&
+														exam.subjectId._id === subject
+												)
+
+										if (searchTerm === '' && subject && typeExam === '')
+											return exam.subjectId._id === subject
+										if (searchTerm === '' && subject && typeExam)
+											return (
+												exam.subjectId._id === subject &&
+												exam.semester === typeExam
+											)
+										if (typeExam && searchTerm === '' && subject === '') {
+											return exam.semester === typeExam
+										} else return false
 									}).length
 								}
 								rowsPerPage={rowsPerPage}

@@ -46,6 +46,7 @@ const Login = () => {
 		dispatch(action)
 			.then(unwrapResult)
 			.then((res) => {
+				console.log(res)
 				if (res.data.user.role === 'teacher') {
 					localStorage.setItem('teacherToken', res.data.token)
 					history.push('/dashboard/overview')
@@ -117,7 +118,6 @@ const Login = () => {
 									margin="normal"
 									required
 									fullWidth
-									id="email"
 									label="Tài khoản"
 									name="username"
 									autoComplete="email"
@@ -136,7 +136,6 @@ const Login = () => {
 									fullWidth
 									name="password"
 									type="password"
-									id="password"
 									autoComplete="current-password"
 								/>
 

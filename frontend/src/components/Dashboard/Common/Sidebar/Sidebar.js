@@ -64,142 +64,158 @@ const Sidebar = () => {
 						/>
 					</ListItem>
 
-					<ListItem className={classes.listItem} button onClick={handleClick3}>
-						<ListItemIcon className={classes.listIcon}>
-							<PeopleIcon />
-						</ListItemIcon>
-						<ListItemText
-							className={classes.listItemText}
-							primary="Quản lý tài khoản"
-						/>
-						{open3 ? (
-							<ExpandLessIcon className={classes.listIcon} />
-						) : (
-							<ExpandMoreIcon className={classes.listIcon} />
-						)}
-					</ListItem>
-					<Collapse in={open3} timeout="auto" unmountOnExit>
-						<List component="div" disablePadding>
+					{user?.role === 'admin' && (
+						<>
 							<ListItem
-								component={NavLink}
-								to="/dashboard/student"
-								activeClassName={classes.activeLink}
+								className={classes.listItem}
 								button
-								className={classes.nested}
+								onClick={handleClick3}
 							>
 								<ListItemIcon className={classes.listIcon}>
-									<PersonIcon />
+									<PeopleIcon />
 								</ListItemIcon>
 								<ListItemText
 									className={classes.listItemText}
-									primary="Học sinh"
+									primary="Quản lý tài khoản"
 								/>
+								{open3 ? (
+									<ExpandLessIcon className={classes.listIcon} />
+								) : (
+									<ExpandMoreIcon className={classes.listIcon} />
+								)}
 							</ListItem>
-							<ListItem
-								component={NavLink}
-								to="/dashboard/teacher"
-								activeClassName={classes.activeLink}
-								button
-								className={classes.nested}
-							>
-								<ListItemIcon className={classes.listIcon}>
-									<PersonIcon />
-								</ListItemIcon>
-								<ListItemText
-									className={classes.listItemText}
-									primary="Giáo viên"
-								/>
-							</ListItem>
-						</List>
-					</Collapse>
+							<Collapse in={open3} timeout="auto" unmountOnExit>
+								<List component="div" disablePadding>
+									<ListItem
+										component={NavLink}
+										to="/dashboard/student"
+										activeClassName={classes.activeLink}
+										button
+										className={classes.nested}
+									>
+										<ListItemIcon className={classes.listIcon}>
+											<PersonIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Học sinh"
+										/>
+									</ListItem>
+									<ListItem
+										component={NavLink}
+										to="/dashboard/teacher"
+										activeClassName={classes.activeLink}
+										button
+										className={classes.nested}
+									>
+										<ListItemIcon className={classes.listIcon}>
+											<PersonIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Giáo viên"
+										/>
+									</ListItem>
+								</List>
+							</Collapse>
+						</>
+					)}
 
-					<ListItem className={classes.listItem} button onClick={handleClick}>
-						<ListItemIcon className={classes.listIcon}>
-							<AssignmentIndIcon />
-						</ListItemIcon>
-						<ListItemText
-							className={classes.listItemText}
-							primary="Quản lý đào tạo"
-						/>
-						{open ? (
-							<ExpandLessIcon className={classes.listIcon} />
-						) : (
-							<ExpandMoreIcon className={classes.listIcon} />
-						)}
-					</ListItem>
-					<Collapse in={open} timeout="auto" unmountOnExit>
-						<List component="div" disablePadding>
+					{user?.role === 'admin' && (
+						<>
 							<ListItem
+								className={classes.listItem}
 								button
-								className={classes.nested}
-								component={NavLink}
-								to="/dashboard/teacher-type"
-								activeClassName={classes.activeLink}
+								onClick={handleClick}
 							>
 								<ListItemIcon className={classes.listIcon}>
-									<SchoolIcon />
+									<AssignmentIndIcon />
 								</ListItemIcon>
 								<ListItemText
 									className={classes.listItemText}
-									primary="Loại giáo viên"
+									primary="Quản lý đào tạo"
 								/>
+								{open ? (
+									<ExpandLessIcon className={classes.listIcon} />
+								) : (
+									<ExpandMoreIcon className={classes.listIcon} />
+								)}
 							</ListItem>
-							<ListItem
-								button
-								className={classes.nested}
-								component={NavLink}
-								to="/dashboard/class"
-								activeClassName={classes.activeLink}
-							>
-								<ListItemIcon className={classes.listIcon}>
-									<SchoolIcon />
-								</ListItemIcon>
-								<ListItemText
-									className={classes.listItemText}
-									primary="Lớp học"
-								/>
-							</ListItem>
-							<ListItem
-								button
-								className={classes.nested}
-								component={NavLink}
-								to="/dashboard/subject"
-								activeClassName={classes.activeLink}
-							>
-								<ListItemIcon className={classes.listIcon}>
-									<SchoolIcon />
-								</ListItemIcon>
-								<ListItemText
-									className={classes.listItemText}
-									primary="Môn học"
-								/>
-							</ListItem>
-							<ListItem button className={classes.nested}>
-								<ListItemIcon className={classes.listIcon}>
-									<SchoolIcon />
-								</ListItemIcon>
-								<ListItemText
-									className={classes.listItemText}
-									primary="Kế hoạch đào tào"
-								/>
-							</ListItem>
-							<ListItem
-								button
-								className={classes.nested}
-								component={NavLink}
-								to="/dashboard/head-class-teacher"
-								activeClassName={classes.activeLink}
-							>
-								<ListItemIcon className={classes.listIcon}>
-									<SchoolIcon />
-								</ListItemIcon>
-								<ListItemText
-									className={classes.listItemText}
-									primary="Phân công chủ nhiệm"
-								/>
-							</ListItem>
-						</List>
-					</Collapse>
+							<Collapse in={open} timeout="auto" unmountOnExit>
+								<List component="div" disablePadding>
+									<ListItem
+										button
+										className={classes.nested}
+										component={NavLink}
+										to="/dashboard/teacher-type"
+										activeClassName={classes.activeLink}
+									>
+										<ListItemIcon className={classes.listIcon}>
+											<SchoolIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Loại giáo viên"
+										/>
+									</ListItem>
+									<ListItem
+										button
+										className={classes.nested}
+										component={NavLink}
+										to="/dashboard/class"
+										activeClassName={classes.activeLink}
+									>
+										<ListItemIcon className={classes.listIcon}>
+											<SchoolIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Lớp học"
+										/>
+									</ListItem>
+									<ListItem
+										button
+										className={classes.nested}
+										component={NavLink}
+										to="/dashboard/subject"
+										activeClassName={classes.activeLink}
+									>
+										<ListItemIcon className={classes.listIcon}>
+											<SchoolIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Môn học"
+										/>
+									</ListItem>
+									<ListItem button className={classes.nested}>
+										<ListItemIcon className={classes.listIcon}>
+											<SchoolIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Kế hoạch đào tào"
+										/>
+									</ListItem>
+									<ListItem
+										button
+										className={classes.nested}
+										component={NavLink}
+										to="/dashboard/head-class-teacher"
+										activeClassName={classes.activeLink}
+									>
+										<ListItemIcon className={classes.listIcon}>
+											<SchoolIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Phân công chủ nhiệm"
+										/>
+									</ListItem>
+								</List>
+							</Collapse>
+						</>
+					)}
 
 					<ListItem className={classes.listItem} button onClick={handleClick2}>
 						<ListItemIcon className={classes.listIcon}>
@@ -227,7 +243,13 @@ const Sidebar = () => {
 								<ListItemText
 									className={classes.listItemText}
 									primary={
-										user.role === 'student' ? 'Kỳ thi' : 'Tổ chức kỳ thi'
+										user.role === 'student'
+											? 'Kỳ thi'
+											: [
+													user.role === 'teacher'
+														? 'Chấm điểm thi'
+														: 'Tổ chức kỳ thi',
+											  ]
 									}
 								/>
 							</ListItem>

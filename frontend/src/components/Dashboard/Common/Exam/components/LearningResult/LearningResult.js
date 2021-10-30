@@ -82,6 +82,10 @@ const LearningResult = () => {
 	const [value, setValue] = useState(0)
 	const history = useHistory()
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	const handleChange = (event, newValue) => {
 		setValue(newValue)
 	}

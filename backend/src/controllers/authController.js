@@ -53,7 +53,15 @@ exports.login = async (req, res, next) => {
 						new: true,
 						runValidators: true,
 					}
-				).select('-password'))
+				)
+					.populate({
+						path: 'teacherType',
+						populate: {
+							path: 'subjects',
+						},
+					})
+					.populate('classId')
+					.select('-password'))
 
 			res.status(200).json({
 				status: 'success',

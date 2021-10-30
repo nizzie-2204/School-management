@@ -11,6 +11,8 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column',
 		width: '50%',
 		padding: '40px 30px',
+		maxHeight: '575px',
+		overflowY: 'auto',
 		backgroundColor: theme.palette.background.paper,
 		[theme.breakpoints.down('sm')]: {
 			width: '80%',

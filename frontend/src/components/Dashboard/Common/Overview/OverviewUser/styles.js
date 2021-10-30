@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		alignItems: 'center',
 		marginBottom: 10,
+		fontSize: 16,
 	},
 	infoIcon: {
 		marginRight: 20,

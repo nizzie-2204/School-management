@@ -27,6 +27,10 @@ const TakingExam = (props) => {
 	const user = useSelector((state) => state.auth.user)
 	const exam = props.location.state.exam
 
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
 	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({
 		toolbarPlugin: {
@@ -188,6 +192,9 @@ const TakingExam = (props) => {
 									icon: 'success',
 									title: 'Nộp bài thi thành công',
 								})
+								setTimeout(() => {
+									history.push('/dashboard/exam')
+								}, 3000)
 							})
 							.catch((error) => console.log(error))
 					})

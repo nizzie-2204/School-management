@@ -13,16 +13,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
 import { getSubjects } from '../../Subject/subjectSlice'
 import useStyles from './styles'
-import { getClass } from 'components/Dashboard/Common/Class/classSlice'
 
 const OverviewUser = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const user = useSelector((state) => state.auth.user)
 	const subjects = useSelector((state) => state.subjects.subjects)
-	const classFromStore = useSelector((state) => state.classes.class)
-
-	console.log(user)
 
 	let timetableTeacher
 	if (user?.timetable) {
@@ -30,7 +26,7 @@ const OverviewUser = () => {
 	}
 
 	let timetableStudent
-	if (user?.classId.timetable) {
+	if (user?.classId?.timetable) {
 		timetableStudent = user?.classId.timetable
 	}
 
@@ -55,13 +51,6 @@ const OverviewUser = () => {
 	})
 
 	useEffect(() => {
-		if (user?.role === 'student') {
-			const fetchClass = () => {
-				const action = getClass(user.classId)
-				dispatch(action)
-			}
-			fetchClass()
-		}
 		const fetchSubjects = () => {
 			const action = getSubjects()
 			dispatch(action)
@@ -81,26 +70,26 @@ const OverviewUser = () => {
 						<Box className={classes.info}>
 							<Box className={classes.row}>
 								<AccountBoxIcon className={classes.infoIcon} />
-								Họ và tên: {user?.name}
+								<p>Họ và tên: {user?.name}</p>
 							</Box>
 							<Box className={classes.row}>
 								<CakeIcon className={classes.infoIcon} />
-								Ngày sinh: {formatDate(user?.dateOfBirth).slice(5)}
+								<p>Ngày sinh: {formatDate(user?.dateOfBirth).slice(5)}</p>
 							</Box>
 							<Box className={classes.row}>
 								<PermIdentityIcon className={classes.infoIcon} />
-								Tài khoản: {user?.username}
+								<p> Tài khoản: {user?.username}</p>
 							</Box>
 							{user?.role === 'student' && (
 								<Box className={classes.row}>
 									<ClassIcon className={classes?.infoIcon} />
-									Lớp {user?.classId.name}
+									<p>Lớp {user?.classId.name}</p>
 								</Box>
 							)}
 							{user?.role === 'teacher' && (
 								<Box className={classes.row}>
 									<CallIcon className={classes.infoIcon} />
-									Số điện thoại cá nhân: {user?.phone}
+									<p>Số điện thoại cá nhân: {user?.phone}</p>
 								</Box>
 							)}
 						</Box>

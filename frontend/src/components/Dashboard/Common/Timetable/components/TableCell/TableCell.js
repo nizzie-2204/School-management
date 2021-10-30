@@ -30,6 +30,7 @@ import checkTime from 'utils/checkTime'
 import useStyles from './styles'
 import { updateClass } from 'components/Dashboard/Common/Class/classSlice'
 import { unwrapResult } from '@reduxjs/toolkit'
+import checkIsToday from 'utils/checkIsToday'
 
 const Lesson = ({ row, index, cell, prevIndex, date }) => {
 	const classes = useStyles()
@@ -330,11 +331,18 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 		if (
 			!cell ||
 			!checkTime({ time: row.time, day: cell.day, date }).includes('Vào') ||
-			!cell.sucjectId ||
 			!cell.classId
 		) {
+			console.log(cell)
+			console.log(
+				checkTime({ time: row.time, day: cell.day, date }).includes('Vào')
+			)
+			console.log(cell.sucjectId)
+			console.log(cell.classId)
 			return
 		} else {
+			console.log('vào 2')
+
 			const roomName = roomRef.current
 			const userName = user?.name
 			sessionStorage.setItem('user', userName)
@@ -343,6 +351,7 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 
 			const action = updateClass({
 				idClassOnline: roomName,
+				_id: cell.classId,
 			})
 			dispatch(action)
 				.then(unwrapResult)
@@ -358,9 +367,7 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 
 		if (
 			!cell ||
-			!checkTime({ time: row.time, day: cell.day, date }).includes('Vào') ||
-			!cell.sucjectId ||
-			!cell.classId
+			!checkTime({ time: row.time, day: cell.day, date }).includes('Vào')
 		) {
 			return
 		}
@@ -400,6 +407,9 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 					})}
 				className={classes.tableCell}
 				align="center"
+				style={{
+					backgroundColor: checkIsToday(date) && '#fbf5d4',
+				}}
 			>
 				<div>{displaySubject?.name}</div>
 				<div className={classes.titleSmall}>{displayTeacher?.name}</div>
@@ -436,6 +446,7 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 									value={subject}
 									onChange={handleChangeSubject}
 									label="Lớp"
+									required
 								>
 									{subjects?.map((subject) => {
 										return (
@@ -459,10 +470,11 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 									value={teacher}
 									onChange={handleChangeTeacher}
 									label="Lớp"
+									required
 								>
 									{asd?.map((teacher) => {
 										return (
-											<MenuItem value={teacher._id}>{teacher.name}</MenuItem>
+											<MenuItem value={teacher?._id}>{teacher?.name}</MenuItem>
 										)
 									})}
 								</Select>

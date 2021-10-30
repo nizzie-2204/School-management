@@ -6,7 +6,7 @@ import docPNG from 'assets/images/docs.png'
 import schedulePNG from 'assets/images/schedule.png'
 import cupPNG from 'assets/images/trophy.png'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
@@ -63,7 +63,11 @@ function a11yProps(index) {
 const ExamDetail = (props) => {
 	const exam = props.location.state.exam
 	const classes = useStyles()
-	const [value, setValue] = React.useState(0)
+	const [value, setValue] = useState(0)
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
 
 	const totalScore = exam.examResult.reduce((first, next) => {
 		return first + next.score

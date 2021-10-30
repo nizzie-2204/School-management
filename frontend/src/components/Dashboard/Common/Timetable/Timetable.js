@@ -18,17 +18,16 @@ import {
 	getTeacher,
 	getTeachers,
 } from 'components/Dashboard/Common/TeacherAccount/teacherAccountSlice'
-import addDays from 'date-fns/addDays'
-import startOfWeek from 'date-fns/startOfWeek'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
-import { getClass } from '../Class/classSlice'
+import checkIsToday from 'utils/checkIsToday'
+import getDaysInWeek from 'utils/getDaysInWeek'
+import { getClass, getClasses } from '../Class/classSlice'
 import { getSubjects } from '../Subject/subjectSlice'
-import { getClasses } from '../Class/classSlice'
-
 import TableCellSubject from './components/TableCellSubject/TableCellSubject'
 import useStyles from './styles'
+
 const links = [
 	{
 		title: 'Dashboard',
@@ -40,28 +39,12 @@ const links = [
 	},
 ]
 
-// Get days in week
-const days = []
-for (let i = 1; i < 6; i++) {
-	const day = addDays(
-		startOfWeek(new Date(), {
-			weekStartsOn: 1,
-		}),
-		i
-	)
-
-	days.push(day)
-}
-
-// Tài khoản: t2100002 mật khẩu: GqIo9G3!
-// Tài khoản: s2100001 mật khẩu: kM2#=aB@
-
 const Timetable = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const classesFromStore = useSelector((state) => state.classes.classes)
-	const classFromStore = useSelector((state) => state.classes.class)
 	const user = useSelector((state) => state.auth.user)
+	const days = getDaysInWeek()
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
@@ -149,7 +132,7 @@ const Timetable = () => {
 						</Box>
 					)}
 
-					<TableContainer component={Paper}>
+					<TableContainer component={Paper} elevation="0">
 						<Table className={classes.table} aria-label="simple table">
 							<TableHead className={classes.tableHead}>
 								<TableRow>
@@ -167,10 +150,13 @@ const Timetable = () => {
 												align="center"
 												className={classes.tableHeadTitle}
 												key={index}
+												style={{
+													backgroundColor: checkIsToday(day) && '#fbf5d4',
+												}}
 											>
 												<div>{`Thứ ${index + 2}`}</div>
 												<div className={classes.titleSmall}>
-													{day.toLocaleDateString('vi-VN', { timeZone: 'UTC' })}
+													{day.toLocaleDateString('vi-VN')}
 												</div>
 											</TableCell>
 										)
@@ -184,6 +170,9 @@ const Timetable = () => {
 										scope="row"
 										rowSpan={6}
 										className={classes.session}
+										style={{
+											backgroundColor: '#d0ecf0',
+										}}
 									>
 										Sáng
 									</TableCell>

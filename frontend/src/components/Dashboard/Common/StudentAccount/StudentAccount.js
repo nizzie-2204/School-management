@@ -94,6 +94,7 @@ const StudentAccount = () => {
 
 	const [searchTerm, setSearchTerm] = useState('')
 	const handleChangeSearch = (e) => {
+		console.log(e.target.value)
 		setSearchTerm(e.target.value)
 	}
 
@@ -250,7 +251,24 @@ const StudentAccount = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{students?.map((student, index) => (
+									{students?.filter((student) => {
+										if (searchTerm === '') {
+											return student
+										} else if (
+											student.name
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase()) ||
+											student.username
+												.toLowerCase()
+												.includes(searchTerm.toLowerCase())
+										) {
+											return student
+										}
+										return false
+									}).slice(
+												page * rowsPerPage,
+												page * rowsPerPage + rowsPerPage
+											).map((student, index) => (
 										<TableRow key={index}>
 											<TableCell
 												align="center"
@@ -329,18 +347,18 @@ const StudentAccount = () => {
 								component="div"
 								// Pagination on search
 								count={
-									students?.filter((teacher) => {
+									students?.filter((student) => {
 										if (searchTerm === '') {
-											return teacher
+											return student
 										} else if (
-											teacher.name
+											student.name
 												.toLowerCase()
 												.includes(searchTerm.toLowerCase()) ||
-											teacher.username
+											student.username
 												.toLowerCase()
 												.includes(searchTerm.toLowerCase())
 										) {
-											return teacher
+											return student
 										}
 										return false
 									}).length

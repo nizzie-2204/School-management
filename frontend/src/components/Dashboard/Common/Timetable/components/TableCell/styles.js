@@ -22,25 +22,27 @@ const useStyles = makeStyles((theme) => ({
 		borderBottom: '1px solid #dcdbdb',
 	},
 	tableCell: {
+		width: '16%',
+		// height: 150,
 		textTransform: 'capitalize',
 		fontWeight: 'bold',
 		cursor: 'pointer',
 		color: theme.palette.text.main,
-		fontSize: '16px',
+		fontSize: 14,
 		position: 'relative',
 		'&:not(:last-of-type)': {
 			borderRight: '1px solid rgba(180, 180, 180, 1)',
 		},
 	},
 	titleSmall: {
-		fontSize: '14px',
+		fontSize: 14,
 		fontWeight: 'normal',
 	},
 	session: {
 		color: theme.palette.text.main,
 		fontWeight: 'bold',
 		borderRight: '1px solid rgba(180, 180, 180, 1)',
-		fontSize: '16px',
+		fontSize: 16,
 
 		// backgroundColor: '#dce4f7',
 	},

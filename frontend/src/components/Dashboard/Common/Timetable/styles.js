@@ -54,8 +54,9 @@ const useStyles = makeStyles((theme) => ({
 		textTransform: 'uppercase',
 		fontWeight: 'bold',
 		fontSize: '16px',
-		color: theme.palette.text.secondary,
-		backgroundColor: '#3254ac',
+		color: theme.palette.text.main,
+		backgroundColor: '#d0ecf0',
+		// borderBottom: '1px solid rgba(180, 180, 180, 1)',
 		'&:not(:last-of-type)': {
 			borderRight: '1px solid rgba(180, 180, 180, 1)',
 		},

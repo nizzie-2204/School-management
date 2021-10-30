@@ -24,7 +24,9 @@ const ExamAnswer = (props) => {
 	const dispatch = useDispatch()
 	const { register, handleSubmit, reset } = useForm()
 
-	console.log(result)
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
 
 	// PDF
 	const defaultLayoutPluginInstance = defaultLayoutPlugin({

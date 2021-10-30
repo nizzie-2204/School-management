@@ -1,29 +1,17 @@
 import { TableCell, TableRow } from '@material-ui/core'
-import addDays from 'date-fns/addDays'
-import startOfWeek from 'date-fns/startOfWeek'
-import React from 'react'
+import { getClass } from 'components/Dashboard/Common/Class/classSlice'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import getDaysInWeek from 'utils/getDaysInWeek'
 import TableCellCustom from '../TableCell/TableCell'
 import useStyles from './styles'
-import { useSelector, useDispatch } from 'react-redux'
-import { useState, useEffect } from 'react'
-import { getClass } from 'components/Dashboard/Common/Class/classSlice'
-// Get date in week
-const days = []
-
-for (let i = 0; i < 5; i++) {
-	const day = addDays(
-		startOfWeek(new Date(), {
-			weekStartsOn: 1,
-		}),
-		i
-	)
-	days.push(day)
-}
 
 const TableCellSubject = () => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const classFromStore = useSelector((state) => state.classes.class)
+	const days = getDaysInWeek()
+
 	const defaultTimetable = [
 		{
 			time: '07:30 - 08:05',
@@ -132,7 +120,13 @@ const TableCellSubject = () => {
 			{timetableFromStore !== null
 				? timetableFromStore?.map((row, index) => (
 						<TableRow key={index}>
-							<TableCell className={classes.session} align="center">
+							<TableCell
+								className={classes.session}
+								align="center"
+								style={{
+									backgroundColor: '#d0ecf0',
+								}}
+							>
 								<div>{`Tiết ${index + 1}`}</div>
 								<div className={classes.titleSmall}>{row.time}</div>
 							</TableCell>
