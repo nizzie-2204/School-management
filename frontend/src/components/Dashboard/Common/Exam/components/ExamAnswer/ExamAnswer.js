@@ -1,4 +1,10 @@
-import { Box, Button, TextField, Typography } from '@material-ui/core'
+import {
+	Box,
+	Button,
+	TextField,
+	Typography,
+	CircularProgress,
+} from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import useStyles from './styles'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -23,6 +29,8 @@ const ExamAnswer = (props) => {
 	const result = props.location.state.result
 	const dispatch = useDispatch()
 	const { register, handleSubmit, reset } = useForm()
+
+	const [score, setScore] = useState(result?.score || exam?.score)
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
@@ -84,11 +92,14 @@ const ExamAnswer = (props) => {
 		}
 	}, [props])
 
+	const [isCommenting, setIsCommenting] = useState(false)
 	const handleComment = (data) => {
+		setIsCommenting(true)
 		const action = updateExamResult({ id: result._id, comment: data.comment })
 		dispatch(action)
 			.then(unwrapResult)
 			.then(() => {
+				setIsCommenting(false)
 				Alert.fire({
 					icon: 'success',
 					title: 'Nhận xét thành công',
@@ -97,11 +108,15 @@ const ExamAnswer = (props) => {
 			.catch((error) => console.log(error))
 	}
 
+	const [isScoring, setIsScoring] = useState(false)
 	const handleScoring = (data) => {
+		setIsScoring(true)
 		const action = updateExamResult({ id: result._id, score: data.score })
 		dispatch(action)
 			.then(unwrapResult)
-			.then(() => {
+			.then((res) => {
+				setScore(data.score)
+				setIsScoring(false)
 				Alert.fire({
 					icon: 'success',
 					title: 'Cho điểm thành công',
@@ -169,7 +184,7 @@ const ExamAnswer = (props) => {
 						Điểm
 					</Typography>
 					<span>
-						<strong>{result?.score || exam?.score || 0}</strong>/10
+						<strong>{score || 0}</strong>/10
 					</span>
 				</Box>
 				<form
@@ -186,15 +201,28 @@ const ExamAnswer = (props) => {
 						className={classes.textField}
 						{...register('comment')}
 						defaultValue={result?.comment || exam.comment}
-						disabled={user.role === 'student'}
+						disabled={user?.role === 'student'}
 					/>
-					{user.role === 'teacher' && (
+					{user?.role === 'teacher' && (
 						<Button
 							variant="contained"
-							className={classes.action}
 							type="submit"
+							className={`${classes.action} ${isCommenting && classes.opacity}`}
 						>
-							Nhận xét
+							{isCommenting ? (
+								<CircularProgress
+									variant="indeterminate"
+									disableShrink
+									className={classes.top}
+									classes={{
+										circle: classes.circle,
+									}}
+									size={24}
+									thickness={4}
+								/>
+							) : (
+								'Nhận xét'
+							)}
 						</Button>
 					)}
 				</form>
@@ -212,15 +240,28 @@ const ExamAnswer = (props) => {
 						InputProps={{ inputProps: { min: 0, max: 10 } }}
 						{...register('score')}
 						defaultValue={result?.score || exam.score}
-						disabled={user.role === 'student'}
+						disabled={user?.role === 'student'}
 					/>
-					{user.role === 'teacher' && (
+					{user?.role === 'teacher' && (
 						<Button
 							variant="contained"
-							className={classes.action}
 							type="submit"
+							className={`${classes.action} ${isScoring && classes.opacity}`}
 						>
-							Cho điểm
+							{isScoring ? (
+								<CircularProgress
+									variant="indeterminate"
+									disableShrink
+									className={classes.top}
+									classes={{
+										circle: classes.circle,
+									}}
+									size={24}
+									thickness={4}
+								/>
+							) : (
+								'Cho điểm'
+							)}
 						</Button>
 					)}
 				</form>

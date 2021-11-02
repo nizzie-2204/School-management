@@ -1,5 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, TextField, Typography } from '@material-ui/core'
+import {
+	Button,
+	TextField,
+	Typography,
+	CircularProgress,
+} from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
@@ -26,12 +31,15 @@ const AddEditAccount = ({ open, handleClose, subject }) => {
 		resolver: yupResolver(schema),
 	})
 	const [error, setError] = useState(null)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const handleAddSubject = (data) => {
+		setIsSubmitting(true)
 		const action = addSubject(data)
 		dispatch(action)
 			.then(unwrapResult)
 			.then(() => {
+				setIsSubmitting(false)
 				handleClose()
 				Alert.fire({
 					icon: 'success',
@@ -47,11 +55,13 @@ const AddEditAccount = ({ open, handleClose, subject }) => {
 	}
 
 	const handleUpdateSubject = (data) => {
+		setIsSubmitting(true)
 		const newDate = { ...subject, name: data.name, desc: data.desc }
 		const action = updateSubject(newDate)
 		dispatch(action)
 			.then(unwrapResult)
 			.then(() => {
+				setIsSubmitting(false)
 				handleClose()
 				Alert.fire({
 					icon: 'success',
@@ -137,15 +147,33 @@ const AddEditAccount = ({ open, handleClose, subject }) => {
 						/>
 					</div>
 
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-					>
-						Lưu
-					</Button>
+					<div style={{ alignSelf: 'end' }}>
+						<Button className={classes.cancel} onClick={handleClose}>
+							Hủy bỏ
+						</Button>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={`${classes.submit} ${isSubmitting && classes.opacity}`}
+						>
+							{isSubmitting ? (
+								<CircularProgress
+									variant="indeterminate"
+									disableShrink
+									className={classes.top}
+									classes={{
+										circle: classes.circle,
+									}}
+									size={24}
+									thickness={4}
+								/>
+							) : (
+								'Lưu'
+							)}
+						</Button>
+					</div>
 				</form>
 			</Fade>
 		</Modal>

@@ -6,23 +6,24 @@ import {
 	ListItemText,
 } from '@material-ui/core'
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd'
-import EqualizerIcon from '@material-ui/icons/Equalizer'
+import DateRangeIcon from '@material-ui/icons/DateRange'
+import DescriptionIcon from '@material-ui/icons/Description'
 import ExpandLessIcon from '@material-ui/icons/ExpandLess'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import GroupWorkIcon from '@material-ui/icons/GroupWork'
+import FlipCameraAndroidIcon from '@material-ui/icons/FlipCameraAndroid'
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import PeopleIcon from '@material-ui/icons/People'
 import PersonIcon from '@material-ui/icons/Person'
-import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer'
+import RotateRightIcon from '@material-ui/icons/RotateRight'
 import SchoolIcon from '@material-ui/icons/School'
 import SpeedIcon from '@material-ui/icons/Speed'
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import useStyles from './styles'
 import SimpleBarReact from 'simplebar-react'
 import 'simplebar/src/simplebar.css'
-import { useSelector } from 'react-redux'
+import useStyles from './styles'
 const Sidebar = () => {
 	const classes = useStyles()
 	const [open, setOpen] = useState(false)
@@ -217,75 +218,108 @@ const Sidebar = () => {
 						</>
 					)}
 
-					<ListItem className={classes.listItem} button onClick={handleClick2}>
-						<ListItemIcon className={classes.listIcon}>
-							<GroupWorkIcon />
-						</ListItemIcon>
-						<ListItemText className={classes.listItemText} primary="Khảo thí" />
-						{open2 ? (
-							<ExpandLessIcon className={classes.listIcon} />
-						) : (
-							<ExpandMoreIcon className={classes.listIcon} />
-						)}
-					</ListItem>
-					<Collapse in={open2} timeout="auto" unmountOnExit>
-						<List component="div" disablePadding>
-							<ListItem
-								button
-								className={classes.nested}
-								component={NavLink}
-								to="/dashboard/exam"
-								activeClassName={classes.activeLink}
-							>
-								<ListItemIcon className={classes.listIcon}>
-									<QuestionAnswerIcon />
-								</ListItemIcon>
-								<ListItemText
-									className={classes.listItemText}
-									primary={
-										user.role === 'student'
-											? 'Kỳ thi'
-											: [
-													user.role === 'teacher'
-														? 'Chấm điểm thi'
-														: 'Tổ chức kỳ thi',
-											  ]
-									}
-								/>
-							</ListItem>
-							<ListItem
-								button
-								className={classes.nested}
-								component={NavLink}
-								to="/dashboard/learning-result"
-								activeClassName={classes.activeLink}
-							>
-								<ListItemIcon className={classes.listIcon}>
-									<QuestionAnswerIcon />
-								</ListItemIcon>
-								<ListItemText
-									className={classes.listItemText}
-									primary="Kết quả học tập"
-								/>
-							</ListItem>
-						</List>
-					</Collapse>
-
 					<ListItem
 						className={classes.listItem}
 						button
-						component={NavLink}
-						to="/a"
-						activeClassName={classes.activeLink}
+						// component={NavLink}
+						// to="/a"
+						// activeClassName={classes.activeLink}
 					>
 						<ListItemIcon className={classes.listIcon}>
-							<EqualizerIcon />
+							<MenuBookIcon />
 						</ListItemIcon>
 						<ListItemText
 							className={classes.listItemText}
-							primary="Báo cáo thống kê"
+							primary="Bài giảng"
 						/>
 					</ListItem>
+					<ListItem className={classes.listItem} button>
+						<ListItemIcon className={classes.listIcon}>
+							<FlipCameraAndroidIcon />
+						</ListItemIcon>
+						<ListItemText
+							className={classes.listItemText}
+							primary="Kế hoạch giảng dạy"
+						/>
+					</ListItem>
+
+					{user?.role === 'student' && (
+						<>
+							<ListItem
+								className={classes.listItem}
+								button
+								onClick={handleClick2}
+							>
+								<ListItemIcon className={classes.listIcon}>
+									<DescriptionIcon />
+								</ListItemIcon>
+								<ListItemText
+									className={classes.listItemText}
+									primary="Khảo thí"
+								/>
+								{open2 ? (
+									<ExpandLessIcon className={classes.listIcon} />
+								) : (
+									<ExpandMoreIcon className={classes.listIcon} />
+								)}
+							</ListItem>
+							<Collapse in={open2} timeout="auto" unmountOnExit>
+								<List component="div" disablePadding>
+									<ListItem
+										button
+										className={classes.nested}
+										component={NavLink}
+										to="/dashboard/exam"
+										activeClassName={classes.activeLink}
+									>
+										<ListItemIcon className={classes.listIcon}>
+											<RotateRightIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Kỳ thi"
+										/>
+									</ListItem>
+									<ListItem
+										button
+										className={classes.nested}
+										component={NavLink}
+										to="/dashboard/learning-result"
+										activeClassName={classes.activeLink}
+									>
+										<ListItemIcon className={classes.listIcon}>
+											<RotateRightIcon />
+										</ListItemIcon>
+										<ListItemText
+											className={classes.listItemText}
+											primary="Kết quả học tập"
+										/>
+									</ListItem>
+								</List>
+							</Collapse>
+						</>
+					)}
+
+					{user?.role !== 'student' && (
+						<ListItem
+							className={classes.listItem}
+							button
+							component={NavLink}
+							to="/dashboard/exam"
+							activeClassName={classes.activeLink}
+						>
+							<ListItemIcon className={classes.listIcon}>
+								<DescriptionIcon />
+							</ListItemIcon>
+							<ListItemText
+								className={classes.listItemText}
+								primary={
+									user?.role === 'admin' ? 'Tổ chức thi' : 'Chấm điểm thi'
+								}
+							/>
+						</ListItem>
+					)}
+
 					<ListItem
 						className={classes.listItem}
 						button
@@ -294,7 +328,7 @@ const Sidebar = () => {
 						activeClassName={classes.activeLink}
 					>
 						<ListItemIcon className={classes.listIcon}>
-							<MenuBookIcon />
+							<DateRangeIcon />
 						</ListItemIcon>
 						<ListItemText
 							className={classes.listItemText}
@@ -304,9 +338,9 @@ const Sidebar = () => {
 					<ListItem
 						className={classes.listItem}
 						button
-						component={NavLink}
-						to="/a"
-						activeClassName={classes.activeLink}
+						// component={NavLink}
+						// to="/a"
+						// activeClassName={classes.activeLink}
 					>
 						<ListItemIcon className={classes.listIcon}>
 							<HelpOutlineIcon />

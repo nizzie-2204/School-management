@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import examResultAPI from 'api/examResultApi'
+import examAPI from 'api/examApi'
 
 export const getExamResults = createAsyncThunk(
 	'examResult/getExamResults',
@@ -53,6 +54,8 @@ export const updateExamResult = createAsyncThunk(
 	async (data, thunkAPI) => {
 		try {
 			const result = await examResultAPI.updateExamResult(data)
+
+			// thunkAPI.dispatch(examAPI.getAllExams())
 
 			return result.data
 		} catch (error) {

@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core'
 const useStyles = makeStyles((theme) => ({
 	container: {
 		backgroundColor: '#f3f7fa',
-		marginTop: 90,
 	},
 	header: {
 		display: 'flex',
@@ -207,6 +206,17 @@ const useStyles = makeStyles((theme) => ({
 			color: theme.palette.text.secondary,
 			backgroundColor: '#3254ac',
 		},
+	},
+	top: {
+		color: '#fff',
+		animationDuration: '750ms',
+	},
+	circle: {
+		strokeLinecap: 'round',
+	},
+	opacity: {
+		opacity: '0.5',
+		cursor: 'not-allowed',
 	},
 }))
 

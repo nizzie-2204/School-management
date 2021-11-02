@@ -120,12 +120,28 @@ const useStyles = makeStyles((theme) => ({
 		width: '80px',
 		marginLeft: 'auto',
 	},
+	cancel: {
+		border: '1px solid #dcdbdb',
+		marginRight: 20,
+		padding: '5px 15px',
+	},
 	resize: {
 		fontSize: '14px',
 	},
 	formControl: {
 		display: 'flex',
 		alignItems: 'center',
+	},
+	top: {
+		color: '#fff',
+		animationDuration: '750ms',
+	},
+	circle: {
+		strokeLinecap: 'round',
+	},
+	opacity: {
+		opacity: '0.5',
+		cursor: 'not-allowed',
 	},
 }))
 

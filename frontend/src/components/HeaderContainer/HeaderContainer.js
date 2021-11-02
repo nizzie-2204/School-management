@@ -11,7 +11,8 @@ const HeaderContainer = () => {
 	if (
 		location.pathname.includes('/login') ||
 		location.pathname.includes('/classroom') ||
-		location.pathname.includes('/taking-exam')
+		location.pathname.includes('/taking-exam') ||
+		location.pathname.includes('/exam-answer')
 	) {
 		// Login page not using Header component
 		return null

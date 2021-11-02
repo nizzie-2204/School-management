@@ -407,9 +407,9 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 					})}
 				className={classes.tableCell}
 				align="center"
-				style={{
-					backgroundColor: checkIsToday(date) && '#fbf5d4',
-				}}
+				// style={{
+				// 	backgroundColor: checkIsToday(date || new Date()) && '#fbf5d4',
+				// }}
 			>
 				<div>{displaySubject?.name}</div>
 				<div className={classes.titleSmall}>{displayTeacher?.name}</div>

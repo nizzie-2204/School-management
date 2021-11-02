@@ -12,12 +12,28 @@ import {
 	TableBody,
 	Tooltip,
 } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import useStyles from './styles'
 import SearchIcon from '@material-ui/icons/Search'
+import { getExam } from '../../examSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-const ListStudent = () => {
+const ListStudent = (props) => {
 	const classes = useStyles()
+	const dispatch = useDispatch()
+	const exam = useSelector((state) => state.exam.exam)
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
+	useEffect(() => {
+		const fetchData = () => {
+			const action = getExam(props.exam._id)
+			dispatch(action)
+		}
+		fetchData()
+	}, [])
 
 	return (
 		<Box className={classes.container}>

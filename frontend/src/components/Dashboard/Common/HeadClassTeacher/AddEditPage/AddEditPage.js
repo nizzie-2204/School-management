@@ -5,6 +5,7 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
+	CircularProgress,
 	TextField,
 	Typography,
 } from '@material-ui/core'
@@ -51,9 +52,11 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 			teacherId: thisClass?.teacherId?._id,
 		},
 	})
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const handleUpdateTeacher = (data) => {
 		if (!thisClass?.teacherId?._id && data.teacherId) {
+			setIsSubmitting(true)
 			const newData = { _id: thisClass?._id, teacherId: data.teacherId }
 			const action = updateClass(newData)
 			dispatch(action)
@@ -64,6 +67,7 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 					dispatch(action)
 						.then(unwrapResult)
 						.then(() => {
+							setIsSubmitting(false)
 							handleClose()
 							Alert.fire({
 								icon: 'success',
@@ -82,6 +86,8 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 			handleClose()
 			reset()
 		} else if (thisClass.teacherId._id !== data.teacherId) {
+			setIsSubmitting(true)
+
 			// Update new teacher for this class
 			const newData = { _id: thisClass?._id, teacherId: data.teacherId }
 			const action = updateClass(newData)
@@ -96,6 +102,8 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 					// Remove class for old teacher
 					const action3 = updateClassTeacher(thisClass.teacherId._id)
 					dispatch(action3).catch((error) => console.log(error))
+					setIsSubmitting(false)
+
 					Alert.fire({
 						icon: 'success',
 						title: 'Chỉnh sửa thành công',
@@ -263,16 +271,33 @@ const AddEditPage = ({ open, handleClose, thisClass }) => {
 							/>
 						</FormControl>
 					</div>
-
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-					>
-						Lưu
-					</Button>
+					<div style={{ alignSelf: 'end' }}>
+						<Button className={classes.cancel} onClick={handleClose}>
+							Hủy bỏ
+						</Button>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={`${classes.submit} ${isSubmitting && classes.opacity}`}
+						>
+							{isSubmitting ? (
+								<CircularProgress
+									variant="indeterminate"
+									disableShrink
+									className={classes.top}
+									classes={{
+										circle: classes.circle,
+									}}
+									size={24}
+									thickness={4}
+								/>
+							) : (
+								'Lưu'
+							)}
+						</Button>
+					</div>
 				</form>
 			</Fade>
 		</Modal>

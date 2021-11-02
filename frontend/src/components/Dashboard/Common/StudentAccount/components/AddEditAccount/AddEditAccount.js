@@ -5,6 +5,7 @@ import {
 	MenuItem,
 	Select,
 	TextField,
+	CircularProgress,
 	Typography,
 } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -71,6 +72,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 
 	const [phoneInput2, setPhoneInput2] = useState(null)
 	const [phoneInput3, setPhoneInput3] = useState(null)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const handleAddAccount = (data) => {
 		const newData = {
@@ -105,22 +107,28 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 		) {
 			setError('Số điện thoại có dạng: +84 123 123 123')
 		} else {
+			setIsSubmitting(true)
 			const action = addStudent(newData)
 			dispatch(action)
 				.then(unwrapResult)
 				.then((res) => {
-					console.log(res)
 					const newClassId = newData.classId
 					const studentId = res.data._id
 
 					const action = updateStudentClass({ newClassId, studentId })
 					dispatch(action)
-
-					handleClose()
-					Alert.fire({
-						icon: 'success',
-						title: `Tài khoản: ${res?.data.username} mật khẩu: ${res?.data.password}`,
-					})
+						.then(unwrapResult)
+						.then(() => {
+							setIsSubmitting(false)
+							handleClose()
+							reset()
+							setPhoneInput2(null)
+							setPhoneInput3(null)
+							Alert.fire({
+								icon: 'success',
+								title: `Tài khoản: ${res?.data.username} mật khẩu: ${res?.data.password}`,
+							})
+						})
 				})
 				.catch((error) => {
 					if (
@@ -171,16 +179,17 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 		) {
 			setError('Số điện thoại có dạng: +84 123 123 123')
 		} else if (student.classId === data.classId) {
+			setIsSubmitting(true)
 			const action = updateStudent(newData)
 			dispatch(action)
 				.then(unwrapResult)
 				.then(() => {
+					setIsSubmitting(false)
 					handleClose()
 					Alert.fire({
 						icon: 'success',
 						title: 'Chỉnh sửa tài khoản thành công',
 					})
-
 					reset()
 					setPhoneInput2(null)
 					setPhoneInput3(null)
@@ -264,7 +273,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			<Fade in={open}>
 				<form
 					className={classes.form}
-					style={{ maxHeight: '575px', overflowY: 'scroll' }}
+					style={{ maxHeight: '575px', overflowY: 'auto' }}
 					autoComplete="off"
 					onSubmit={
 						student
@@ -273,7 +282,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 					}
 				>
 					<Typography className={classes.formTitle} variant="h5">
-						Thêm tài khoản học sinh
+						{student ? 'Chỉnh sửa' : 'Thêm'} tài khoản học sinh
 					</Typography>
 
 					<Typography variant="h6" className={classes.formSubtitle}>
@@ -605,15 +614,33 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 
 					{error && <p className={classes.error}>{error}</p>}
 
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-					>
-						Lưu
-					</Button>
+					<div style={{ alignSelf: 'end' }}>
+						<Button className={classes.cancel} onClick={handleClose}>
+							Hủy bỏ
+						</Button>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={`${classes.submit} ${isSubmitting && classes.opacity}`}
+						>
+							{isSubmitting ? (
+								<CircularProgress
+									variant="indeterminate"
+									disableShrink
+									className={classes.top}
+									classes={{
+										circle: classes.circle,
+									}}
+									size={24}
+									thickness={4}
+								/>
+							) : (
+								'Lưu'
+							)}
+						</Button>
+					</div>
 				</form>
 			</Fade>
 		</Modal>

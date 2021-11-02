@@ -1,9 +1,10 @@
 import PrivateRoute from 'components/Route/PrivateRoute'
 import { nanoid } from 'nanoid'
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, useCallback, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import LoadingOverlay from 'react-loading-overlay-ts'
 
 // Components
 const Home = lazy(() => import('pages/Home/Home'))
@@ -38,11 +39,9 @@ const TypeTeacher = lazy(() =>
 const HeadClassTeacher = lazy(() =>
 	import('components/Dashboard/Common/HeadClassTeacher/HeadClassTeacher')
 )
-
 const Classroom = lazy(() =>
 	import('components/Dashboard/Common/Classroom/Main/Main')
 )
-
 const Exam = lazy(() => import('components/Dashboard/Common/Exam/Exam'))
 const ExamDetail = lazy(() =>
 	import('components/Dashboard/Common/Exam/components/ExamDetail/ExamDetail')
@@ -53,7 +52,6 @@ const ExamAnswer = lazy(() =>
 const TakingExam = lazy(() =>
 	import('components/Dashboard/Common/Exam/components/TakingExam/TakingExam')
 )
-
 const LearningResult = lazy(() =>
 	import(
 		'components/Dashboard/Common/Exam/components/LearningResult/LearningResult'
@@ -177,12 +175,22 @@ const routes = [
 
 const Routes = () => {
 	const location = useLocation()
+	const [isActive, setActive] = useState(true)
+
 	return (
 		<>
 			<TransitionGroup component={null}>
 				<CSSTransition timeout={300} classNames="page" key={location.key}>
 					{routes ? (
-						<Suspense fallback={<div></div>}>
+						<Suspense
+							fallback={
+								<LoadingOverlay
+									active={isActive}
+									spinner
+									text="Đang tải trang..."
+								></LoadingOverlay>
+							}
+						>
 							<Switch location={location}>
 								{routes.map((route, index) => {
 									const Component = route.component

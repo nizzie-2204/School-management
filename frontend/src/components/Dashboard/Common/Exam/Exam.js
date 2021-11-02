@@ -60,6 +60,8 @@ const links = [
 // Tài khoản: t2100002 mật khẩu: %By6JW+b ======= gvtest2 am nhac
 
 // Tài khoản: s2100001 mật khẩu: kr_xp*3L ==== hs khoi 1
+// Tài khoản: s2100003 mật khẩu: 6SIPYt60
+// Tài khoản: s2100004 mật khẩu: 3nR34&-0
 // Tài khoản: s2100002 mật khẩu: ^bcB4_%m ==== hs khoi 2
 
 const Exam = () => {
@@ -251,7 +253,7 @@ const Exam = () => {
 						variant="outlined"
 						className={classes.select}
 					>
-						<MenuItem value="">Môn học</MenuItem>
+						<MenuItem value="">Mặc định</MenuItem>
 						{subjects.map((option) => (
 							<MenuItem key={option._id} value={option._id}>
 								{option.name}
@@ -273,7 +275,7 @@ const Exam = () => {
 						variant="outlined"
 						className={classes.select}
 					>
-						<MenuItem value="">Loại kỳ thi</MenuItem>
+						<MenuItem value="">Mặc định</MenuItem>
 						<MenuItem value="Giữa học kỳ 1">Giữa học kỳ 1</MenuItem>
 						<MenuItem value="Cuối học kỳ 1">Cuối học kỳ 1</MenuItem>
 						<MenuItem value="Giữa học kỳ 2">Giữa học kỳ 2</MenuItem>
@@ -283,7 +285,7 @@ const Exam = () => {
 						<TextField
 							className={classes.searchField}
 							id="outlined-textarea"
-							placeholder="Tên lớp"
+							placeholder="Tên môn thi"
 							variant="outlined"
 							inputProps={{
 								style: { padding: '12.5px 14px' },
@@ -309,7 +311,7 @@ const Exam = () => {
 								id="subtitle"
 								component="div"
 							>
-								Tổ chức kỳ thi
+								Danh sách bài thi
 							</Typography>
 							<Box className={classes.actions}>
 								<Button
@@ -365,7 +367,7 @@ const Exam = () => {
 								<TableHead>
 									<TableRow>
 										<TableCell align="center" className={classes.tableHead}>
-											Tên kỳ thi
+											Tên bài thi
 										</TableCell>
 										<TableCell align="center" className={classes.tableHead}>
 											Loại kỳ thi
@@ -390,8 +392,49 @@ const Exam = () => {
 								</TableHead>
 								<TableBody>
 									{user?.role !== 'admin' &&
-										((filteredExams?.length > 0 && filteredExams) || []).map(
-											(exam) => {
+										((filteredExams?.length > 0 && filteredExams) || [])
+											.filter((exam) => {
+												if (
+													searchTerm === '' &&
+													subject === '' &&
+													typeExam === ''
+												)
+													return exam
+												if (searchTerm && subject === '' && typeExam === '')
+													return exam.name
+														.toLowerCase()
+														.includes(searchTerm.toLowerCase())
+												if (searchTerm && subject && typeExam === '')
+													return exam.name
+														.toLowerCase()
+														.includes(
+															searchTerm.toLowerCase() &&
+																exam.subjectId._id === subject
+														)
+												if (searchTerm && subject === '' && typeExam)
+													return exam.name
+														.toLowerCase()
+														.includes(
+															searchTerm.toLowerCase() &&
+																exam.subjectId._id === subject
+														)
+
+												if (searchTerm === '' && subject && typeExam === '')
+													return exam.subjectId._id === subject
+												if (searchTerm === '' && subject && typeExam)
+													return (
+														exam.subjectId._id === subject &&
+														exam.semester === typeExam
+													)
+												if (typeExam && searchTerm === '' && subject === '') {
+													return exam.semester === typeExam
+												} else return false
+											})
+											.slice(
+												page * rowsPerPage,
+												page * rowsPerPage + rowsPerPage
+											)
+											.map((exam) => {
 												return (
 													<TableRow>
 														<TableCell
@@ -506,8 +549,7 @@ const Exam = () => {
 														</TableCell>
 													</TableRow>
 												)
-											}
-										)}
+											})}
 									{user?.role === 'admin' &&
 										exams
 											.filter((exam) => {
@@ -728,7 +770,7 @@ const Exam = () => {
 						) : (
 							<div className={classes.emptyData}>
 								<img src={emptyDataPNG} alt="empty" />
-								<p>Không có dữ liệu</p>
+								<p style={{ color: '#c3c3c3' }}>Không có dữ liệu</p>
 							</div>
 						)}
 					</>

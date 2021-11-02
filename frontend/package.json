@@ -33,6 +33,7 @@
     "react-dropzone": "^11.4.2",
     "react-helmet-async": "^1.1.2",
     "react-hook-form": "^7.15.3",
+    "react-loading-overlay-ts": "^1.0.4",
     "react-multi-carousel": "^2.6.5",
     "react-phone-input-2": "^2.14.0",
     "react-redux": "^7.2.5",

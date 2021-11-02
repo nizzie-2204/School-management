@@ -42,7 +42,7 @@ export const deleteExam = createAsyncThunk(
 		try {
 			const exam = await examAPI.deleteExam(id)
 
-			thunkAPI.dispatch(getExams())
+			// thunkAPI.dispatch(getExams())
 
 			return exam.data
 		} catch (error) {
@@ -100,7 +100,7 @@ const examSlice = createSlice({
 		},
 		[getExam.fulfilled]: (state, action) => {
 			state.examLoading = false
-			console.log(action.payload)
+			state.exam = action.payload.data
 		},
 		[getExam.rejected]: (state, action) => {
 			state.examLoading = false

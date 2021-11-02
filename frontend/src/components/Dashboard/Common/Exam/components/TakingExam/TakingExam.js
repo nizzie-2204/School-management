@@ -1,25 +1,22 @@
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Box, Button, Typography } from '@material-ui/core'
+import { Box, Button, CircularProgress, Typography } from '@material-ui/core'
 import { SpecialZoomLevel, Viewer, Worker } from '@react-pdf-viewer/core'
 import '@react-pdf-viewer/core/lib/styles/index.css'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import vi_VN from '@react-pdf-viewer/locales/lib/vi_VN.json'
-import pdfDOC from 'assets/doc/de-thi.pdf'
-import React, { useEffect, useState, useRef } from 'react'
-import useStyles from './styles'
-import { useDropzone } from 'react-dropzone'
-import timePNG from 'assets/images/time.png'
-import Alert from 'components/Alert/Alert'
-import { useSelector } from 'react-redux'
-import { addExamResult } from '../../examResultSlice'
-import { useDispatch } from 'react-redux'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { useHistory } from 'react-router'
-import { updateExam } from '../../examSlice'
-import { upload } from '../../examSlice'
+import pdfDOC from 'assets/doc/de-thi.pdf'
+import timePNG from 'assets/images/time.png'
 import { addMinutes } from 'date-fns'
+import React, { useEffect, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
+import { addExamResult } from '../../examResultSlice'
+import { updateExam, upload } from '../../examSlice'
+import useStyles from './styles'
 const TakingExam = (props) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
@@ -47,7 +44,6 @@ const TakingExam = (props) => {
 	})
 
 	// Timer
-
 	const [timer, setTimer] = useState(() => {
 		const endAt = Math.floor(
 			addMinutes(
@@ -57,7 +53,7 @@ const TakingExam = (props) => {
 		)
 		const currTime = Math.floor(new Date().getTime() / 60000)
 		const now = (endAt - currTime) * 60
-		return localStorage.getItem('timerLS') || now
+		return now
 	})
 	const [minute, setMinute] = useState(() => {
 		const endAt = Math.floor(
@@ -69,7 +65,7 @@ const TakingExam = (props) => {
 		const currTime = Math.floor(new Date().getTime() / 60000)
 		const now = (endAt - currTime) * 60
 
-		let result = Math.floor(localStorage.getItem('timerLS') || now) % 60
+		let result = now % 60
 		if (result.toString().length === 1) {
 			result = `0${result}`
 		}
@@ -84,22 +80,14 @@ const TakingExam = (props) => {
 		)
 		const currTime = Math.floor(new Date().getTime() / 60000)
 		const now = (endAt - currTime) * 60
-		let result = (localStorage.getItem('timerLS') || now) % 60
+		let result = now % 60
 
-		if (result.toString().length === 1) {
-			result = `0${result}`
-		}
 		return result
 	})
 
 	useEffect(() => {
 		if (timer >= 0) {
 			const timerInterval = setInterval(() => {
-				if (!localStorage.getItem('timerLS')) {
-					localStorage.setItem('timerLS', props.location.state.exam.duration)
-					console.log(localStorage.getItem('timerLS'))
-				}
-
 				let computedSecond
 				if (Number(computedSecond) < 1) {
 					computedSecond = 60
@@ -166,41 +154,65 @@ const TakingExam = (props) => {
 		[files]
 	)
 
+	const [isSubmitting, setIsSubmitting] = useState(false)
 	const handleSubmitExam = () => {
-		const action = upload(files)
-		dispatch(action)
-			.then(unwrapResult)
-			.then((res) => {
-				const data = {
-					studentId: user._id,
-					examResultImages: res,
-					examId: exam._id,
-				}
-				const action = addExamResult(data)
-				dispatch(action)
-					.then(unwrapResult)
-					.then((res) => {
-						console.log(res)
-						const action = updateExam({
-							id: exam._id,
-							examResultId: res.data._id,
-						})
-						dispatch(action)
-							.then(unwrapResult)
-							.then(() => {
-								Alert.fire({
-									icon: 'success',
-									title: 'Nộp bài thi thành công',
-								})
-								setTimeout(() => {
-									history.push('/dashboard/exam')
-								}, 3000)
-							})
-							.catch((error) => console.log(error))
+		if (files.length === 0) {
+			setIsSubmitting(true)
+			const data = {
+				studentId: user._id,
+				examResultImages: [],
+				examId: exam._id,
+			}
+			const action = addExamResult(data)
+			dispatch(action)
+				.then(unwrapResult)
+				.then((res) => {
+					const action = updateExam({
+						id: exam._id,
+						examResultId: res.data._id,
 					})
-					.catch((error) => console.log(error))
-			})
-			.catch((error) => console.log(error))
+					dispatch(action)
+						.then(unwrapResult)
+						.then(() => {
+							localStorage.removeItem('timerLS')
+							setIsSubmitting(false)
+							history.push('/dashboard/exam')
+						})
+						.catch((error) => console.log(error))
+				})
+				.catch((error) => console.log(error))
+		} else {
+			setIsSubmitting(true)
+			const action = upload(files)
+			dispatch(action)
+				.then(unwrapResult)
+				.then((res) => {
+					const data = {
+						studentId: user._id,
+						examResultImages: res,
+						examId: exam._id,
+					}
+					const action = addExamResult(data)
+					dispatch(action)
+						.then(unwrapResult)
+						.then((res) => {
+							const action = updateExam({
+								id: exam._id,
+								examResultId: res.data._id,
+							})
+							dispatch(action)
+								.then(unwrapResult)
+								.then(() => {
+									localStorage.removeItem('timerLS')
+									setIsSubmitting(false)
+									history.push('/dashboard/exam')
+								})
+								.catch((error) => console.log(error))
+						})
+						.catch((error) => console.log(error))
+				})
+				.catch((error) => console.log(error))
+		}
 	}
 
 	return (
@@ -238,13 +250,22 @@ const TakingExam = (props) => {
 				</Box>
 				<Button
 					variant="contained"
-					className={
-						timer <= -1
-							? `${classes.submit} ${classes.opacity}`
-							: `${classes.submit}`
-					}
+					className={`${classes.submit} ${isSubmitting && classes.opacity}`}
 					startIcon={
-						<FontAwesomeIcon icon={faFileAlt} style={{ marginRight: 5 }} />
+						isSubmitting ? (
+							<CircularProgress
+								variant="indeterminate"
+								disableShrink
+								className={classes.top}
+								classes={{
+									circle: classes.circle,
+								}}
+								size={24}
+								thickness={4}
+							/>
+						) : (
+							<FontAwesomeIcon icon={faFileAlt} style={{ marginRight: 5 }} />
+						)
 					}
 					onClick={handleSubmitExam}
 				>

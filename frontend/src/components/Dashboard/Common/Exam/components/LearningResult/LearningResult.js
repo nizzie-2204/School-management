@@ -245,7 +245,7 @@ const LearningResult = () => {
 													</TableCell>
 
 													<TableCell align="center">
-														{exam.examId.name}
+														{exam?.examId?.name}
 													</TableCell>
 													<TableCell align="center">{exam.score}/10</TableCell>
 													<TableCell align="center">

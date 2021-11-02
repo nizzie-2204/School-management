@@ -145,6 +145,13 @@ const useStyles = makeStyles((theme) => ({
 		opacity: '0.5',
 		cursor: 'not-allowed',
 	},
+	top: {
+		color: '#fff',
+		animationDuration: '750ms',
+	},
+	circle: {
+		strokeLinecap: 'round',
+	},
 }))
 
 export default useStyles

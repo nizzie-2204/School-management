@@ -13,16 +13,32 @@ import {
 	Tooltip,
 	IconButton,
 } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect } from 'react'
 import useStyles from './styles'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import formatDate from 'utils/formatDate'
 import { useHistory } from 'react-router-dom'
-const ListExamAnswer = ({ exam }) => {
+import { getExam } from '../../examSlice'
+import { useDispatch, useSelector } from 'react-redux'
+const ListExamAnswer = (props) => {
 	const classes = useStyles()
-	const results = exam.examResult
+	const dispatch = useDispatch()
 	const history = useHistory()
+	const exam = useSelector((state) => state.exam.exam)
+	const results = exam.examResult
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [])
+
+	useEffect(() => {
+		const fetchData = () => {
+			const action = getExam(props.exam._id)
+			dispatch(action)
+		}
+		fetchData()
+	}, [])
 
 	const handleScoringExam = (result) => {
 		history.push({

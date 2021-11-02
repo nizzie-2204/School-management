@@ -8,6 +8,7 @@ import {
 	Radio,
 	RadioGroup,
 	TextField,
+	CircularProgress,
 	Typography,
 } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -57,12 +58,14 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 		resolver: yupResolver(schema),
 	})
 	const [error, setError] = useState(null)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const handleAddTypeTeacher = (data) => {
 		if (!data.subjects || data.subjects.length === 0) {
 			setError('Chưa chọn môn học')
 			return
 		} else {
+			setIsSubmitting(true)
 			setError(null)
 			const newData = {
 				...data,
@@ -73,6 +76,7 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 			dispatch(action)
 				.then(unwrapResult)
 				.then(() => {
+					setIsSubmitting(false)
 					handleClose()
 					Alert.fire({
 						icon: 'success',
@@ -89,6 +93,7 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 			setError('Chưa chọn môn học')
 			return
 		} else {
+			setIsSubmitting(true)
 			setError(null)
 			const newData = {
 				...data,
@@ -99,6 +104,8 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 			dispatch(action)
 				.then(unwrapResult)
 				.then(() => {
+					setIsSubmitting(false)
+
 					handleClose()
 					Alert.fire({
 						icon: 'success',
@@ -234,16 +241,33 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 							</FormGroup>
 						</FormControl>
 					</div>
-
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-					>
-						Lưu
-					</Button>
+					<div style={{ alignSelf: 'end' }}>
+						<Button className={classes.cancel} onClick={handleClose}>
+							Hủy bỏ
+						</Button>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={`${classes.submit} ${isSubmitting && classes.opacity}`}
+						>
+							{isSubmitting ? (
+								<CircularProgress
+									variant="indeterminate"
+									disableShrink
+									className={classes.top}
+									classes={{
+										circle: classes.circle,
+									}}
+									size={24}
+									thickness={4}
+								/>
+							) : (
+								'Lưu'
+							)}
+						</Button>
+					</div>
 				</form>
 			</Fade>
 		</Modal>

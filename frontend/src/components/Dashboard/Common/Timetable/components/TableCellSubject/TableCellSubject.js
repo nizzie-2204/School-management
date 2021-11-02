@@ -147,7 +147,13 @@ const TableCellSubject = () => {
 				  ))
 				: defaultTimetable?.map((row, index) => (
 						<TableRow key={index}>
-							<TableCell className={classes.session} align="center">
+							<TableCell
+								className={classes.session}
+								align="center"
+								style={{
+									backgroundColor: '#d0ecf0',
+								}}
+							>
 								<div>{`Tiết ${index + 1}`}</div>
 								<div className={classes.titleSmall}>{row.time}</div>
 							</TableCell>

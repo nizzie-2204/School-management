@@ -6,6 +6,7 @@ import {
 	MenuItem,
 	Select,
 	TextField,
+	CircularProgress,
 	Typography,
 } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -112,13 +113,14 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 		setSubject(e.target.value)
 	}
 
-	const [isSubmitedImages, setIsSubmittedImages] = useState(false)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const handleAddExam = async (data) => {
 		if (files.length === 0) {
 			setError('Chưa chọn đề thi')
 			return
 		}
+		setIsSubmitting(true)
 		const action = upload(files)
 		dispatch(action)
 			.then(unwrapResult)
@@ -131,6 +133,7 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 				dispatch(action)
 					.then(unwrapResult)
 					.then((res) => {
+						setIsSubmitting(false)
 						handleClose()
 						Alert.fire({
 							icon: 'success',
@@ -145,6 +148,7 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 
 	const handleUpdateExam = (data) => {
 		if (files[0].preview === thisExam.examFile[0].preview) {
+			setIsSubmitting(true)
 			const action = updateExam({
 				...data,
 				subjectId: subject,
@@ -153,7 +157,7 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 			dispatch(action)
 				.then(unwrapResult)
 				.then((res) => {
-					console.log(res)
+					setIsSubmitting(false)
 					Alert.fire({
 						icon: 'success',
 						title: 'Chỉnh sửa môn thi thành công',
@@ -161,6 +165,7 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 					handleClose()
 				})
 		} else {
+			setIsSubmitting(true)
 			const action = upload(files)
 			dispatch(action)
 				.then(unwrapResult)
@@ -174,7 +179,7 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 					dispatch(action)
 						.then(unwrapResult)
 						.then((res) => {
-							console.log(res)
+							setIsSubmitting(false)
 							Alert.fire({
 								icon: 'success',
 								title: 'Chỉnh sửa môn thi thành công',
@@ -226,13 +231,13 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 					}
 				>
 					<Typography className={classes.formTitle} variant="h5">
-						Thêm mới kỳ thi
+						Thêm mới bài thi
 					</Typography>
 
 					<div className={classes.inputGroup}>
 						<TextField
 							className={classes.root}
-							label="Tên kỳ thi"
+							label="Tên môn thi"
 							type="text"
 							variant="outlined"
 							InputLabelProps={{
@@ -381,15 +386,33 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 
 					{error && <p className={classes.error}>{error}</p>}
 
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-					>
-						Lưu
-					</Button>
+					<div style={{ alignSelf: 'end' }}>
+						<Button className={classes.cancel} onClick={handleClose}>
+							Hủy bỏ
+						</Button>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={`${classes.submit} ${isSubmitting && classes.opacity}`}
+						>
+							{isSubmitting ? (
+								<CircularProgress
+									variant="indeterminate"
+									disableShrink
+									className={classes.top}
+									classes={{
+										circle: classes.circle,
+									}}
+									size={24}
+									thickness={4}
+								/>
+							) : (
+								'Lưu'
+							)}
+						</Button>
+					</div>
 				</form>
 			</Fade>
 		</Modal>

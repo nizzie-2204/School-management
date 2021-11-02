@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
 import ListExamAnswer from '../ListExamAnswer/ListExamAnswer'
 import ListStudent from '../ListStudent/ListStudent'
+import PointSpectrum from '../PointSpectrum/PointSpectrum'
 import useStyles from './styles'
 
 const links = [
@@ -177,7 +178,7 @@ const ExamDetail = (props) => {
 								/>
 								<Tab
 									className={classes.tab}
-									label="Bảng điểm"
+									label="Phổ điểm"
 									{...a11yProps(2)}
 								/>
 							</Tabs>
@@ -201,7 +202,7 @@ const ExamDetail = (props) => {
 							value={value}
 							index={2}
 						>
-							Item Three
+							<PointSpectrum examResult={exam.examResult} />
 						</TabPanel>
 					</Box>
 				</Box>

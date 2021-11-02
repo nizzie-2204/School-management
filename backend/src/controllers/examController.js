@@ -90,8 +90,16 @@ exports.getAllExams = async (req, res, next) => {
 exports.getExam = async (req, res, next) => {
 	try {
 		const exam = await Exam.findOne({ _id: req.params.id })
-			.populate('examResult')
 			.populate('subjectId')
+			.populate({
+				path: 'examResult',
+				populate: {
+					path: 'studentId',
+					populate: {
+						path: 'classId',
+					},
+				},
+			})
 
 		if (!exam) {
 			const error = new Error('Exam does not exist: ' + userId)

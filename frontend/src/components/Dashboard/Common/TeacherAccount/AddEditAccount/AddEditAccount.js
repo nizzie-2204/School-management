@@ -8,6 +8,7 @@ import {
 	Radio,
 	RadioGroup,
 	Select,
+	CircularProgress,
 	TextField,
 	Typography,
 } from '@material-ui/core'
@@ -58,11 +59,13 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 		setValue(event.target.value)
 	}
 	const [phoneInput, setPhoneInput] = useState(null)
+	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const handleAddAccount = (data) => {
 		if (phoneInput?.length !== 11 || !phoneInput) {
 			setError('Số điện thoại có dạng: +84 123 123 123')
 		} else {
+			setIsSubmitting(true)
 			setError(null)
 			const newData = {
 				...data,
@@ -154,6 +157,8 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 			dispatch(action)
 				.then(unwrapResult)
 				.then((res) => {
+					setIsSubmitting(false)
+
 					handleClose()
 					Alert.fire({
 						icon: 'success',
@@ -176,6 +181,8 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 			setError('Số điện thoại có dạng: +84 123 123 123')
 		} else {
 			setError(null)
+			setIsSubmitting(true)
+
 			const newData = {
 				...data,
 				phone: `0${phoneInput?.slice(2)}`,
@@ -185,8 +192,8 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 			dispatch(action)
 				.then(unwrapResult)
 				.then(() => {
+					setIsSubmitting(false)
 					handleClose()
-
 					Alert.fire({
 						icon: 'success',
 						title: 'Chỉnh sửa thành công',
@@ -420,15 +427,33 @@ const AddEditAccount = ({ open, handleClose, thisTeacher }) => {
 						</FormControl>
 					</div>
 
-					<Button
-						type="submit"
-						fullWidth
-						variant="contained"
-						color="primary"
-						className={classes.submit}
-					>
-						Lưu
-					</Button>
+					<div style={{ alignSelf: 'end' }}>
+						<Button className={classes.cancel} onClick={handleClose}>
+							Hủy bỏ
+						</Button>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							className={`${classes.submit} ${isSubmitting && classes.opacity}`}
+						>
+							{isSubmitting ? (
+								<CircularProgress
+									variant="indeterminate"
+									disableShrink
+									className={classes.top}
+									classes={{
+										circle: classes.circle,
+									}}
+									size={24}
+									thickness={4}
+								/>
+							) : (
+								'Lưu'
+							)}
+						</Button>
+					</div>
 				</form>
 			</Fade>
 		</Modal>
