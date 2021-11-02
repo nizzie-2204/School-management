@@ -17,20 +17,25 @@ import useStyles from './styles'
 import SearchIcon from '@material-ui/icons/Search'
 import { getExam } from '../../examSlice'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { getStudents } from 'components/Dashboard/Common/StudentAccount/studentAccountSlice'
 const ListStudent = (props) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const exam = useSelector((state) => state.exam.exam)
+	const studentAccounts = useSelector((state) => state.student.students)
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
+		console.log(studentAccounts)
 	}, [])
 
 	useEffect(() => {
 		const fetchData = () => {
 			const action = getExam(props.exam._id)
 			dispatch(action)
+
+			const action2 = getStudents()
+			dispatch(action2)
 		}
 		fetchData()
 	}, [])

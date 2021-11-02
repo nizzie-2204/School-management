@@ -85,7 +85,7 @@ const examResultSlice = createSlice({
 		},
 		[getExamResults.rejected]: (state, action) => {
 			state.examResultsLoading = false
-			state.examResultsError = action.payload.message
+			state.examResultsError = 'error'
 		},
 		[getExamResult.pending]: (state) => {
 			state.examResultLoading = true

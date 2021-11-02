@@ -36,9 +36,11 @@ exports.createStudent = async (req, res, next) => {
 
 exports.getAllStudents = async (req, res, next) => {
 	try {
-		const teacher = await Student.find()
+		const students = await Student.find()
+			.populate('classId')
+			.select('-password')
 
-		res.status(200).json({ status: 'success', data: teacher })
+		res.status(200).json({ status: 'success', data: students })
 	} catch (error) {
 		next(error)
 	}

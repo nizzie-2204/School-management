@@ -40,6 +40,7 @@ import { getExams } from './examSlice'
 import useStyles from './styles'
 import { getExamResults } from './examResultSlice'
 import { getSubjects } from 'components/Dashboard/Common/Subject/subjectSlice'
+import ConfirmTakingExam from './components/ConfirmTakingExam/ConfirmTakingExam'
 
 const links = [
 	{
@@ -131,6 +132,16 @@ const Exam = () => {
 		setOpen3(false)
 	}
 
+	const [open4, setOpen4] = useState(false)
+	const handleOpen4 = (exam) => {
+		setThisExam(exam)
+		setOpen4(true)
+	}
+	const handleClose4 = () => {
+		setThisExam(null)
+		setOpen4(false)
+	}
+
 	const [searchTerm, setSearchTerm] = useState('')
 	const handleChangeSearch = (e) => {
 		setSearchTerm(e.target.value)
@@ -189,13 +200,7 @@ const Exam = () => {
 		}
 	}
 
-	const handleTakingExam = (exam) => {
-		// if (user.role !== 'student') return
-		history.push({
-			pathname: `/dashboard/taking-exam/${exam._id}`,
-			state: { exam },
-		})
-	}
+	
 
 	const handleViewDetailExam = (exam) => {
 		// if (user.role !== 'teacher') return
@@ -529,7 +534,7 @@ const Exam = () => {
 																		variant="contained"
 																		className={classes.takingExam}
 																		onClick={() => {
-																			handleTakingExam(exam)
+																			handleOpen4(exam)
 																		}}
 																	>
 																		Làm bài
@@ -680,31 +685,7 @@ const Exam = () => {
 																	</IconButton>
 																</Tooltip>
 															)}
-															{user?.role === 'student' &&
-																checkTimeV2(exam.startAt, exam.duration) ===
-																	'Đang diễn ra' &&
-																!isSubmitted && (
-																	<Button
-																		variant="contained"
-																		className={classes.takingExam}
-																		onClick={() => {
-																			handleTakingExam(exam)
-																		}}
-																	>
-																		Làm bài
-																	</Button>
-																)}
-															{user?.role === 'student' &&
-																checkTimeV2(exam.startAt, exam.duration) ===
-																	'Đang diễn ra' &&
-																isSubmitted && (
-																	<Typography
-																		className={classes.title}
-																		variant="subtitle1"
-																	>
-																		Đã nộp bài
-																	</Typography>
-																)}
+															
 														</TableCell>
 													</TableRow>
 												)
@@ -718,6 +699,9 @@ const Exam = () => {
 										open={open3}
 										handleClose={handleClose3}
 										thisExam={thisExam}
+									/>
+									<ConfirmTakingExam open={open4} thisExam={thisExam} 
+									handleClose={handleClose4}
 									/>
 								</TableBody>
 							</Table>
