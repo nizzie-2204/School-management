@@ -2,13 +2,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import {
 	Button,
 	Checkbox,
+	CircularProgress,
 	FormControl,
 	FormControlLabel,
 	FormGroup,
 	Radio,
 	RadioGroup,
 	TextField,
-	CircularProgress,
 	Typography,
 } from '@material-ui/core'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -16,14 +16,13 @@ import Fade from '@material-ui/core/Fade'
 import Modal from '@material-ui/core/Modal'
 import { withStyles } from '@material-ui/styles'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { useSnackbar } from 'notistack'
+import Alert from 'components/Alert/Alert'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import * as yup from 'yup'
 import { addTypeTeacher, updateTypeTeacher } from '../typeTeacherSlice'
 import useStyles from './styles'
-import Alert from 'components/Alert/Alert'
 
 const schema = yup.object().shape({
 	nameType: yup.string().required(),
@@ -53,7 +52,9 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const subjects = useSelector((state) => state.subjects.subjects)
-	const { enqueueSnackbar } = useSnackbar()
+
+	console.log(subjects)
+
 	const { register, handleSubmit, reset, control } = useForm({
 		resolver: yupResolver(schema),
 	})
@@ -218,7 +219,7 @@ const AddEditTypeTeacher = ({ open, handleClose, typeTeacher }) => {
 						<FormControl component="fieldset">
 							<Typography variant="body2">Môn học sẽ dạy</Typography>
 							<FormGroup aria-label="position" row>
-								{subjects.map((subject) => {
+								{subjects?.map((subject) => {
 									return (
 										<FormControlLabel
 											control={

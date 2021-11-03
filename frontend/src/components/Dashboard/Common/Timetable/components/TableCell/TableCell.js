@@ -383,11 +383,6 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 		history.push(`/dashboard/classroom/${roomName}`)
 	}
 
-	// console.log(day.toLocaleDateString('vi-VN', { timeZone: 'UTC' }))
-	// console.log(
-	// 	'Current date: ',
-	// 	new Date().toLocaleDateString('vi-VN', { timeZone: 'UTC' })
-	// )
 	return (
 		<>
 			<TableCell
@@ -407,9 +402,9 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 					})}
 				className={classes.tableCell}
 				align="center"
-				// style={{
-				// 	backgroundColor: checkIsToday(date || new Date()) && '#fbf5d4',
-				// }}
+				style={{
+					backgroundColor: checkIsToday(date) && '#fbf5d4',
+				}}
 			>
 				<div>{displaySubject?.name}</div>
 				<div className={classes.titleSmall}>{displayTeacher?.name}</div>
@@ -521,7 +516,7 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 							<LocalOfferIcon className={classes.rowIcon} />
 							{user?.role === 'teacher'
 								? displayClass?.name
-								: classFromStore?.name}
+								: user?.classId?.name}
 						</Box>
 						<Box className={classes.row}>
 							<ScheduleIcon

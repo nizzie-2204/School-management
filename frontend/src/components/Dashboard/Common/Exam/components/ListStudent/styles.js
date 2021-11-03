@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
 	tableContainer: {
 		boxShadow: 'none',
 	},
+	table: {
+		boxShadow: 'none',
+	},
 	tableHead: {
 		backgroundColor: '#eff3f6',
 	},

@@ -166,6 +166,7 @@ const TableCellSubject = () => {
 										index={index2}
 										prevIndex={index}
 										cell={cell}
+										date={days[index2]}
 									/>
 								)
 							})}

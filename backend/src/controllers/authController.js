@@ -79,28 +79,30 @@ exports.login = async (req, res, next) => {
 
 exports.logout = async (req, res, next) => {
 	try {
+		// const a = await Student.findById(req.body.id).select('-password')
+		// res.json({ data: a })
 		const user =
-			(await Admin.findOne({ _id: req.body.id })) ||
-			(await Student.findOneAndUpdate(
-				{ _id: req.body.id },
+			(await Admin.findById(req.body.id).select('-password')) ||
+			(await Student.findByIdAndUpdate(
+				req.body.id,
 				{
-					isLoggedIn: false,
+					$set: { isLoggedIn: false },
 				},
 				{
 					new: true,
 					runValidators: true,
 				}
-			)) ||
-			(await Teacher.findOneAndUpdate(
-				{ _id: req.body.id },
+			).select('-password')) ||
+			(await Teacher.findByIdAndUpdate(
+				req.body.id,
 				{
-					isLoggedIn: false,
+					$set: { isLoggedIn: false },
 				},
 				{
 					new: true,
 					runValidators: true,
 				}
-			))
+			).select('-password'))
 
 		res.json({ message: 'Logout successful', data: user })
 	} catch (error) {

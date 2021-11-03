@@ -81,6 +81,7 @@ const Header = () => {
 		dispatch(action)
 			.then(unwrapResult)
 			.then((res) => {
+				console.log(res)
 				localStorage.removeItem('token') ||
 					localStorage.removeItem('teacherToken') ||
 					localStorage.removeItem('studentToken')

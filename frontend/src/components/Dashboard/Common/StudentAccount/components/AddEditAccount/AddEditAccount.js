@@ -18,7 +18,10 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import { withStyles } from '@material-ui/styles'
 import { unwrapResult } from '@reduxjs/toolkit'
 import Alert from 'components/Alert/Alert'
-import { updateStudentClass } from 'components/Dashboard/Common/Class/classSlice'
+import {
+	getClasses,
+	updateStudentClass,
+} from 'components/Dashboard/Common/Class/classSlice'
 import React, { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
@@ -56,6 +59,7 @@ const schema = yup.object().shape({
 })
 
 const AddEditAccount = ({ open, handleClose, student }) => {
+	console.log(student)
 	const classes = useStyles()
 	const dispatch = useDispatch()
 	const classesFromStore = useSelector((state) => state.classes.classes)
@@ -240,7 +244,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 				address: student?.address,
 				dateOfBirth: `${student?.dateOfBirth?.slice(0, 10)}`,
 				gender: student?.gender,
-				classId: student?.classId,
+				classId: student?.classId?._id,
 
 				dadName: student?.parents.father.name,
 				dadAddress: student?.parents.father.address,
@@ -256,6 +260,14 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 			setPhoneInput3(`${student?.parents?.mother.phone}`)
 		}
 	}, [student])
+
+	useEffect(() => {
+		const fetchData = () => {
+			const action = getClasses()
+			dispatch(action)
+		}
+		fetchData()
+	}, [])
 
 	return (
 		<Modal
@@ -393,7 +405,7 @@ const AddEditAccount = ({ open, handleClose, student }) => {
 							<Controller
 								rules={{ required: true }}
 								control={control}
-								defaultValue={student?.classId}
+								defaultValue={student?.classId._id}
 								{...register('classId')}
 								required
 								render={({ field }) => {

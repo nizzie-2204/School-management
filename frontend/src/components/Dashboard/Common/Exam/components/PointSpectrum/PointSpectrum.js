@@ -48,12 +48,13 @@ const PointSpectrum = (props) => {
 				})
 			} else {
 				result.forEach((item2, index2) => {
-					if (item2.score === item) {
+					if (item2.score === item.score) {
 						const newResult = result.filter((x) => {
-							return x.score !== item
+							return x.score !== item.score
 						})
 						result = [...newResult, { score: item.score, time: item2.time + 1 }]
 					} else {
+						console.log(item)
 						result.push({
 							score: item.score,
 							time: 1,
@@ -62,6 +63,8 @@ const PointSpectrum = (props) => {
 				})
 			}
 		})
+		console.log(result)
+
 		return result
 	}
 
@@ -128,6 +131,11 @@ const PointSpectrum = (props) => {
 
 	const options = {
 		scales: {
+			x: {
+				grid: {
+					display: false,
+				},
+			},
 			yAxes: [
 				{
 					ticks: {

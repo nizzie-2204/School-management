@@ -31,6 +31,7 @@ import useStyles from './styles'
 import { getTypeTeachers } from './typeTeacherSlice'
 // import { getSubjects } from './subjectSlice'
 import emptyDataPNG from 'assets/images/document.png'
+import { getSubjects } from '../Subject/subjectSlice'
 
 const links = [
 	{
@@ -96,10 +97,15 @@ const TypeTeacher = () => {
 	}
 
 	useEffect(() => {
-		const action = getTypeTeachers()
-		dispatch(action)
-			.then(unwrapResult)
-			.catch((error) => console.error(error))
+		const fetchData = () => {
+			const action = getTypeTeachers()
+			dispatch(action)
+
+			const action2 = getSubjects()
+			dispatch(action2)
+		}
+
+		fetchData()
 	}, [dispatch])
 
 	// Pagination

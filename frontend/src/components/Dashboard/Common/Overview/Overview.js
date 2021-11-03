@@ -26,26 +26,20 @@ const data = {
 
 const options = {
 	indexAxis: 'y',
-	// Elements options apply to all of the options unless overridden in a dataset
-	// In this case, we are setting the border of each horizontal bar to be 2px wide
+
 	elements: {
 		bar: {
 			borderWidth: 2,
 		},
 	},
-	responsive: true,
-}
-
-const data2 = {
-	labels: ['Giáo viên', 'Học sinh'],
-	datasets: [
-		{
-			label: '# of Votes',
-			data: [20, 80],
-			backgroundColor: ['rgba(16,132,145,255)', 'rgba(248,98,84,255)'],
-			borderColor: ['rgba(16,132,145,255)', 'rgba(248,98,84,255)'],
+	scales: {
+		y: {
+			grid: {
+				display: false,
+			},
 		},
-	],
+	},
+	responsive: true,
 }
 
 const links = [
@@ -101,7 +95,7 @@ const Overview = () => {
 		datasets: [
 			{
 				label: '# of Votes',
-				data: [students.length, teachers.length],
+				data: [teachers.length, students.length],
 				backgroundColor: ['rgba(16,132,145,255)', 'rgba(248,98,84,255)'],
 				borderColor: ['rgba(16,132,145,255)', 'rgba(248,98,84,255)'],
 			},
@@ -194,7 +188,7 @@ const Overview = () => {
 									<Typography variant="h4" className={classes.dataTitle}>
 										Tỉ trọng tài khoản người dùng
 									</Typography>
-									<Pie data={data2} />
+									<Pie data={pieChartData} />
 								</Box>
 							</Box>
 						</>

@@ -8,8 +8,9 @@ import cupPNG from 'assets/images/trophy.png'
 import Breadcrumb from 'components/Dashboard/Common/Breadcrumb/Breadcrumb'
 import React, { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
+import { getExam } from '../../examSlice'
 import ListExamAnswer from '../ListExamAnswer/ListExamAnswer'
 import ListStudent from '../ListStudent/ListStudent'
 import PointSpectrum from '../PointSpectrum/PointSpectrum'
@@ -29,7 +30,7 @@ const links = [
 		path: '/dashboard/exam',
 	},
 	{
-		title: 'Chi tiết kỳ thi',
+		title: 'Chi tiết bài thi',
 		path: '/dashboard/exam/:id',
 	},
 ]
@@ -62,8 +63,9 @@ function a11yProps(index) {
 }
 
 const ExamDetail = (props) => {
-	const exam = props.location.state.exam
 	const classes = useStyles()
+	const exam = useSelector((state) => state.exam.exam)
+	const dispatch = useDispatch()
 	const [value, setValue] = useState(0)
 
 	useEffect(() => {
@@ -81,6 +83,14 @@ const ExamDetail = (props) => {
 	const handleChange = (event, newValue) => {
 		setValue(newValue)
 	}
+
+	useEffect(() => {
+		const fetchData = () => {
+			const action = getExam(props.exam?._id)
+			dispatch(action)
+		}
+		fetchData()
+	}, [])
 
 	return (
 		<>
