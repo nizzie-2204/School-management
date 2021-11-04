@@ -200,8 +200,6 @@ const Exam = () => {
 		}
 	}
 
-	
-
 	const handleViewDetailExam = (exam) => {
 		// if (user.role !== 'teacher') return
 		history.push({
@@ -258,7 +256,7 @@ const Exam = () => {
 						variant="outlined"
 						className={classes.select}
 					>
-						<MenuItem value="">Mặc định</MenuItem>
+						<MenuItem value="">Tất cả</MenuItem>
 						{subjects.map((option) => (
 							<MenuItem key={option._id} value={option._id}>
 								{option.name}
@@ -280,7 +278,7 @@ const Exam = () => {
 						variant="outlined"
 						className={classes.select}
 					>
-						<MenuItem value="">Mặc định</MenuItem>
+						<MenuItem value="">Tất cả</MenuItem>
 						<MenuItem value="Giữa học kỳ 1">Giữa học kỳ 1</MenuItem>
 						<MenuItem value="Cuối học kỳ 1">Cuối học kỳ 1</MenuItem>
 						<MenuItem value="Giữa học kỳ 2">Giữa học kỳ 2</MenuItem>
@@ -685,7 +683,6 @@ const Exam = () => {
 																	</IconButton>
 																</Tooltip>
 															)}
-															
 														</TableCell>
 													</TableRow>
 												)
@@ -700,8 +697,10 @@ const Exam = () => {
 										handleClose={handleClose3}
 										thisExam={thisExam}
 									/>
-									<ConfirmTakingExam open={open4} thisExam={thisExam} 
-									handleClose={handleClose4}
+									<ConfirmTakingExam
+										open={open4}
+										thisExam={thisExam}
+										handleClose={handleClose4}
 									/>
 								</TableBody>
 							</Table>

@@ -106,7 +106,7 @@ const ExamDetail = (props) => {
 						<Typography variant="h5" className={classes.infoTitle}>
 							{exam?.name}
 						</Typography>
-						<div>
+						<div style={{ marginBottom: 5 }}>
 							<p>
 								Thời gian:
 								<span style={{ color: '#5278db' }}>
@@ -114,7 +114,7 @@ const ExamDetail = (props) => {
 								</span>
 							</p>
 						</div>
-						<div>
+						<div style={{ marginBottom: 5 }}>
 							<span>
 								Khối:{' '}
 								<span style={{ color: '#5278db' }}>{` ${exam?.grade}`} - </span>

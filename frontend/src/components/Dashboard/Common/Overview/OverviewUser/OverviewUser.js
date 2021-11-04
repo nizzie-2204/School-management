@@ -32,7 +32,6 @@ const OverviewUser = () => {
 
 	// Get subject and time on this day
 	const subjectTime = []
-
 	;(timetableStudent || timetableTeacher)?.forEach((time) => {
 		time.content.forEach((lesson) => {
 			const subject = subjects.find((x) => {
@@ -104,44 +103,45 @@ const OverviewUser = () => {
 					</Typography>
 
 					<Box className={classes.classContainer}>
-						{subjectTime?.map((subject) => {
-							return (
-								<Box className={classes.class}>
-									<img
-										src={onlineClassThumb}
-										alt="thumb"
-										className={classes.onlineClassThumb}
-									/>
-									<Box className={classes.classInfo}>
-										<Typography
-											variant="subtitle1"
-											className={classes.classTitle}
-										>
-											Môn: {subject?.lesson}
-										</Typography>
-										<Box className={classes.rowClass}>
-											<StopIcon
-												style={{
-													color: '#3254ac',
-													marginRight: 10,
-												}}
-											/>
-											Lớp học trực tuyến
-										</Box>
-										<Box className={classes.rowClass}>
-											<ScheduleIcon
-												style={{
-													marginRight: 10,
-													marginLeft: 3,
-													fontSize: 18,
-												}}
-											/>
-											{subject.time}
+						{subjectTime.length > 0 &&
+							subjectTime.map((subject) => {
+								return (
+									<Box className={classes.class}>
+										<img
+											src={onlineClassThumb}
+											alt="thumb"
+											className={classes.onlineClassThumb}
+										/>
+										<Box className={classes.classInfo}>
+											<Typography
+												variant="subtitle1"
+												className={classes.classTitle}
+											>
+												Môn: {subject?.lesson}
+											</Typography>
+											<Box className={classes.rowClass}>
+												<StopIcon
+													style={{
+														color: '#3254ac',
+														marginRight: 10,
+													}}
+												/>
+												Lớp học trực tuyến
+											</Box>
+											<Box className={classes.rowClass}>
+												<ScheduleIcon
+													style={{
+														marginRight: 10,
+														marginLeft: 3,
+														fontSize: 18,
+													}}
+												/>
+												{subject.time}
+											</Box>
 										</Box>
 									</Box>
-								</Box>
-							)
-						})}
+								)
+							})}
 					</Box>
 				</Box>
 			</>

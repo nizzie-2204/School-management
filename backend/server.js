@@ -78,7 +78,9 @@ io.on('connection', (socket) => {
 
 	socket.on('disconnect', () => {
 		socket.disconnect()
+		delete socketList[socket.id]
 		console.log('User disconnected!', socket.id)
+		console.log('socketList', socketList)
 	})
 
 	socket.on('BE-check-user', ({ roomId, userName }) => {
@@ -141,7 +143,7 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('BE-leave-room', ({ roomId, leaver }) => {
-		console.log(leaver)
+		console.log('BE-leave-room 145', leaver)
 		delete socketList[socket.id]
 		socket.broadcast
 			.to(roomId)

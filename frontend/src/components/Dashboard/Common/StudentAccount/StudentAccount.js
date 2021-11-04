@@ -94,7 +94,6 @@ const StudentAccount = () => {
 
 	const [searchTerm, setSearchTerm] = useState('')
 	const handleChangeSearch = (e) => {
-		console.log(e.target.value)
 		setSearchTerm(e.target.value)
 	}
 
@@ -251,83 +250,83 @@ const StudentAccount = () => {
 									</TableRow>
 								</TableHead>
 								<TableBody>
-									{students?.filter((student) => {
-										if (searchTerm === '') {
-											return student
-										} else if (
-											student.name
-												.toLowerCase()
-												.includes(searchTerm.toLowerCase()) ||
-											student.username
-												.toLowerCase()
-												.includes(searchTerm.toLowerCase())
-										) {
-											return student
-										}
-										return false
-									}).slice(
-												page * rowsPerPage,
-												page * rowsPerPage + rowsPerPage
-											).map((student, index) => (
-										<TableRow key={index}>
-											<TableCell
-												align="center"
-												component="th"
-												scope="row"
-												className={classes.limitText}
-											>
-												{student._id}
-											</TableCell>
-											<TableCell align="center">{student.name}</TableCell>
+									{students
+										?.filter((student) => {
+											if (searchTerm === '') {
+												return student
+											} else if (
+												student.name
+													.toLowerCase()
+													.includes(searchTerm.toLowerCase()) ||
+												student.username
+													.toLowerCase()
+													.includes(searchTerm.toLowerCase())
+											) {
+												return student
+											}
+											return false
+										})
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((student, index) => (
+											<TableRow key={index}>
+												<TableCell
+													align="center"
+													component="th"
+													scope="row"
+													className={classes.limitText}
+												>
+													{student._id}
+												</TableCell>
+												<TableCell align="center">{student.name}</TableCell>
 
-											<TableCell align="center">
-												{student.isLoggedIn ? (
-													<CheckIcon
-														fontSize="small"
-														className={classes.isLoggedIn}
-													/>
-												) : (
-													<ClearIcon
-														fontSize="small"
-														className={classes.isLoggedOut}
-													/>
-												)}
-											</TableCell>
-											<TableCell align="center">{student.username}</TableCell>
-											<TableCell align="center">
-												{formatDate(student.createdAt)}
-											</TableCell>
-											<TableCell align="center">
-												{formatDate(student.updatedAt)}
-											</TableCell>
-											<TableCell align="center">
-												<Tooltip title="Chỉnh sửa">
-													<IconButton
-														onClick={() => {
-															handleOpen3(student)
-														}}
-													>
-														<CreateIcon
+												<TableCell align="center">
+													{student.isLoggedIn ? (
+														<CheckIcon
 															fontSize="small"
-															style={{ color: '#5278db' }}
+															className={classes.isLoggedIn}
 														/>
-													</IconButton>
-												</Tooltip>
-												<Tooltip title="Xóa">
-													<IconButton
-														onClick={() => {
-															handleOpen2(student)
-														}}
-													>
-														<DeleteIcon
+													) : (
+														<ClearIcon
 															fontSize="small"
-															style={{ color: '#e96053' }}
+															className={classes.isLoggedOut}
 														/>
-													</IconButton>
-												</Tooltip>
-											</TableCell>
-										</TableRow>
-									))}
+													)}
+												</TableCell>
+												<TableCell align="center">{student.username}</TableCell>
+												<TableCell align="center">
+													{formatDate(student.createdAt)}
+												</TableCell>
+												<TableCell align="center">
+													{formatDate(student.updatedAt)}
+												</TableCell>
+												<TableCell align="center">
+													<Tooltip title="Chỉnh sửa">
+														<IconButton
+															onClick={() => {
+																handleOpen3(student)
+															}}
+														>
+															<CreateIcon
+																fontSize="small"
+																style={{ color: '#5278db' }}
+															/>
+														</IconButton>
+													</Tooltip>
+													<Tooltip title="Xóa">
+														<IconButton
+															onClick={() => {
+																handleOpen2(student)
+															}}
+														>
+															<DeleteIcon
+																fontSize="small"
+																style={{ color: '#e96053' }}
+															/>
+														</IconButton>
+													</Tooltip>
+												</TableCell>
+											</TableRow>
+										))}
 									<DeleteAlert
 										open={open2}
 										handleClose={handleClose2}

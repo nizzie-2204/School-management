@@ -60,7 +60,6 @@ const Main = () => {
 
 				socket.emit('BE-join-room', { roomId, userName: currentUser })
 				socket.on('FE-user-join', (users, socketList) => {
-					console.log(socketList)
 					setUsers(users.length)
 					// all users
 					const peers = []
@@ -126,6 +125,7 @@ const Main = () => {
 				socket.on('FE-user-leave', ({ userId, userName }) => {
 					const peerIdx = findPeer(userId)
 					peerIdx.peer.destroy()
+
 					setPeers((users) => {
 						users = users.filter((user) => user.peerID !== peerIdx.peer.peerID)
 						return [...users]
@@ -152,6 +152,7 @@ const Main = () => {
 
 		return () => {
 			socket.disconnect()
+			console.log(socket)
 		}
 
 		// eslint-disable-next-line
@@ -173,8 +174,19 @@ const Main = () => {
 		})
 		peer.on('disconnect', () => {
 			peer.destroy()
+			peer.replaceTrack(null)
+			// peer.removeTrack(track,)
+			console.log(peer)
+			stream.getTracks().forEach((track) => {
+				// track.stop()
+				// track.removeTrack(track, stream)
+			})
+			peer.removeStream(stream)
 		})
 
+		// stream.getTracks().forEach((track) => {
+		// 	track.stop()
+		// })
 		return peer
 	}
 
@@ -191,6 +203,14 @@ const Main = () => {
 
 		peer.on('disconnect', () => {
 			peer.destroy()
+			peer.replaceTrack(null)
+			console.log(peer)
+
+			stream.getTracks().forEach((track) => {
+				// track.stop()
+				// track.removeTrack(track, stream)
+			})
+			peer.removeStream(stream)
 		})
 
 		peer.signal(incomingSignal)
@@ -247,7 +267,9 @@ const Main = () => {
 
 		socket.emit('BE-leave-room', { roomId, leaver: currentUser })
 		sessionStorage.removeItem('user')
-		history.push('/dashboard/timetable')
+		// history.push('/dashboard/timetable')
+		// window.location.reload()
+		window.location.href = '/dashboard/timetable'
 	}
 
 	const toggleCameraAudio = (e) => {

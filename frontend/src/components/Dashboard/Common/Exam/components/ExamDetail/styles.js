@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 	infoTitle: {
 		fontWeight: 600,
 		fontSize: 20,
+		marginBottom: 10,
 	},
 	overview: {
 		borderBottom: '1px solid #eee',

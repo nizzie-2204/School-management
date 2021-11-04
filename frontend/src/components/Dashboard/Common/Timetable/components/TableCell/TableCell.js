@@ -328,38 +328,36 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 	const roomRef = useRef(nanoid())
 
 	const handleCreateClassroom = () => {
-		if (
-			!cell ||
-			!checkTime({ time: row.time, day: cell.day, date }).includes('Vào') ||
-			!cell.classId
-		) {
-			console.log(cell)
-			console.log(
-				checkTime({ time: row.time, day: cell.day, date }).includes('Vào')
-			)
-			console.log(cell.sucjectId)
-			console.log(cell.classId)
-			return
-		} else {
-			console.log('vào 2')
+		// if (
+		// 	!cell ||
+		// 	!checkTime({ time: row.time, day: cell.day, date }).includes('Vào') ||
+		// 	!cell.classId
+		// ) {
+		// 	console.log(cell)
+		// 	console.log(
+		// 		checkTime({ time: row.time, day: cell.day, date }).includes('Vào')
+		// 	)
+		// 	console.log(cell.sucjectId)
+		// 	console.log(cell.classId)
+		// 	return
+		// } else {
 
-			const roomName = roomRef.current
-			const userName = user?.name
-			sessionStorage.setItem('user', userName)
+		const roomName = roomRef.current
+		const userName = user?.name
+		sessionStorage.setItem('user', userName)
 
-			// teacher call api to save id room online to db
-
-			const action = updateClass({
-				idClassOnline: roomName,
-				_id: cell.classId,
+		// teacher call api to save id room online to db
+		const action = updateClass({
+			idClassOnline: roomName,
+			_id: cell.classId,
+		})
+		dispatch(action)
+			.then(unwrapResult)
+			.then(() => {
+				history.push(`/dashboard/classroom/${roomName}`)
 			})
-			dispatch(action)
-				.then(unwrapResult)
-				.then(() => {
-					history.push(`/dashboard/classroom/${roomName}`)
-				})
-				.catch((error) => console.log(error))
-		}
+			.catch((error) => console.log(error))
+		// }
 	}
 
 	const handleJoinClassroom = () => {
@@ -554,7 +552,11 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 							date,
 							role: user?.role,
 						})?.includes('Đã') && (
-							<Button variant="contained" className={classes.button}>
+							<Button
+								variant="contained"
+								className={classes.button}
+								onClick={handleCreateClassroom}
+							>
 								Xem lại
 							</Button>
 						)}

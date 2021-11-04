@@ -12,8 +12,9 @@ import {
 	TableBody,
 	Tooltip,
 	IconButton,
+	TablePagination,
 } from '@material-ui/core'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import useStyles from './styles'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/Visibility'
@@ -21,6 +22,8 @@ import formatDate from 'utils/formatDate'
 import { useHistory } from 'react-router-dom'
 import { getExam } from '../../examSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import emptyDataPNG from 'assets/images/document.png'
+
 const ListExamAnswer = (props) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
@@ -47,6 +50,24 @@ const ListExamAnswer = (props) => {
 		})
 	}
 
+	const [searchTerm, setSearchTerm] = useState('')
+	const handleChangeSearch = (e) => {
+		setSearchTerm(e.target.value)
+	}
+
+	// Pagination
+	const [page, setPage] = useState(0)
+	const [rowsPerPage, setRowsPerPage] = useState(10)
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage)
+	}
+
+	const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(+event.target.value)
+		setPage(0)
+	}
+
 	return (
 		<Box className={classes.container}>
 			<Box className={classes.header}>
@@ -64,7 +85,7 @@ const ListExamAnswer = (props) => {
 					inputProps={{
 						style: { padding: '12.5px 14px' },
 					}}
-					// onChange={handleChangeSearch}
+					onChange={handleChangeSearch}
 				/>
 				<Button
 					variant="contained"
@@ -104,49 +125,111 @@ const ListExamAnswer = (props) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{results?.map((result) => {
-							return (
-								<TableRow>
-									<TableCell
-										align="center"
-										component="th"
-										scope="row"
-										className={classes.limitText}
-									>
-										{result._id}
-									</TableCell>
-									<TableCell align="center">{result.studentId.name}</TableCell>
+						{results
+							?.filter((student) => {
+								if (searchTerm === '') {
+									return student
+								} else if (
+									student.studentId.name
+										.toLowerCase()
+										.includes(searchTerm.toLowerCase()) ||
+									student.studentId.username
+										.toLowerCase()
+										.includes(searchTerm.toLowerCase())
+								) {
+									return student
+								} else if (
+									student.studentId.classId.name
+										.toLowerCase()
+										.includes(searchTerm.toLowerCase())
+								) {
+									return student
+								}
+								return false
+							})
+							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+							.map((result) => {
+								return (
+									<TableRow>
+										<TableCell
+											align="center"
+											component="th"
+											scope="row"
+											className={classes.limitText}
+										>
+											{result._id}
+										</TableCell>
+										<TableCell align="center">
+											{result.studentId.name}
+										</TableCell>
 
-									<TableCell align="center">
-										{formatDate(result.studentId.dateOfBirth)}
-									</TableCell>
-									<TableCell align="center">
-										{result.studentId.username}
-									</TableCell>
-									<TableCell align="center">
-										{result.studentId.classId.name}
-									</TableCell>
-									<TableCell align="center">{result.score || 0}/10</TableCell>
-									<TableCell align="center">
-										<Tooltip title="Chi tiết">
-											<IconButton
-												onClick={() => {
-													handleScoringExam(result)
-												}}
-											>
-												<VisibilityIcon
-													fontSize="small"
-													style={{ color: '#ffa000' }}
-												/>
-											</IconButton>
-										</Tooltip>
-									</TableCell>
-								</TableRow>
-							)
-						})}
+										<TableCell align="center">
+											{formatDate(result.studentId.dateOfBirth)}
+										</TableCell>
+										<TableCell align="center">
+											{result.studentId.username}
+										</TableCell>
+										<TableCell align="center">
+											{result.studentId.classId.name}
+										</TableCell>
+										<TableCell align="center">{result.score || 0}/10</TableCell>
+										<TableCell align="center">
+											<Tooltip title="Chi tiết">
+												<IconButton
+													onClick={() => {
+														handleScoringExam(result)
+													}}
+												>
+													<VisibilityIcon
+														fontSize="small"
+														style={{ color: '#ffa000' }}
+													/>
+												</IconButton>
+											</Tooltip>
+										</TableCell>
+									</TableRow>
+								)
+							})}
 					</TableBody>
 				</Table>
 			</TableContainer>
+			{results.length > 0 ? (
+				<TablePagination
+					rowsPerPageOptions={[10]}
+					component="div"
+					// Pagination on search
+					count={results?.filter((student) => {
+						if (searchTerm === '') {
+							return student
+						} else if (
+							student.studentId.name
+								.toLowerCase()
+								.includes(searchTerm.toLowerCase()) ||
+							student.studentId.username
+								.toLowerCase()
+								.includes(searchTerm.toLowerCase())
+						) {
+							return student
+						} else if (
+							student.studentId.classId.name
+								.toLowerCase()
+								.includes(searchTerm.toLowerCase())
+						) {
+							return student
+						}
+						return false
+					})}
+					rowsPerPage={rowsPerPage}
+					page={page}
+					onPageChange={handleChangePage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
+				/>
+			) : (
+				<div className={classes.emptyData}>
+					<img src={emptyDataPNG} alt="empty" />
+					<p>Không có dữ liệu</p>
+				</div>
+			)}
 		</Box>
 	)
 }
