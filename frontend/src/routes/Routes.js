@@ -5,6 +5,7 @@ import { Route, Switch } from 'react-router-dom'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import LoadingOverlay from 'react-loading-overlay-ts'
+import '../App.css'
 
 // Components
 const Home = lazy(() => import('pages/Home/Home'))
@@ -175,22 +176,13 @@ const routes = [
 
 const Routes = () => {
 	const location = useLocation()
-	const [isActive, setActive] = useState(true)
 
 	return (
 		<>
 			<TransitionGroup component={null}>
 				<CSSTransition timeout={300} classNames="page" key={location.key}>
 					{routes ? (
-						<Suspense
-							fallback={
-								<LoadingOverlay
-									active={isActive}
-									spinner
-									text="Đang tải trang..."
-								></LoadingOverlay>
-							}
-						>
+						<Suspense fallback={null}>
 							<Switch location={location}>
 								{routes.map((route, index) => {
 									const Component = route.component

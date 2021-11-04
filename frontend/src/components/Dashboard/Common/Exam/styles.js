@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		backgroundColor: theme.palette.background.paper,
 		padding: 10,
-		paddingTop: 20,
 	},
 	select: {
 		width: 200,

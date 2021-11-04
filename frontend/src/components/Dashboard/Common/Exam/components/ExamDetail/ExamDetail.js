@@ -72,12 +72,12 @@ const ExamDetail = (props) => {
 		window.scrollTo(0, 0)
 	}, [])
 
-	const totalScore = exam.examResult.reduce((first, next) => {
+	const totalScore = exam?.examResult?.reduce((first, next) => {
 		return first + next.score
 	}, 0)
 
 	const mediumScore = parseFloat(
-		Number(totalScore / exam.examResult.length).toFixed(2)
+		Number(totalScore / exam?.examResult?.length).toFixed(2)
 	)
 
 	const handleChange = (event, newValue) => {
@@ -85,8 +85,9 @@ const ExamDetail = (props) => {
 	}
 
 	useEffect(() => {
+		console.log(props)
 		const fetchData = () => {
-			const action = getExam(props.exam?._id)
+			const action = getExam(props.location.state.exam?._id)
 			dispatch(action)
 		}
 		fetchData()
@@ -123,7 +124,7 @@ const ExamDetail = (props) => {
 								Môn:
 								<span
 									style={{ color: '#5278db' }}
-								>{` ${exam?.subjectId.name} `}</span>
+								>{` ${exam?.subjectId?.name} `}</span>
 							</span>
 						</div>
 						<div>

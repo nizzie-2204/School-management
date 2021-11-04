@@ -39,8 +39,6 @@ const OverviewUser = () => {
 			})
 
 			if (subject && lesson.day.includes(new Date().toString().slice(0, 2))) {
-				console.log('Time: ', time?.time)
-				console.log('Subject: ', subject?.names)
 				subjectTime.push({
 					time: time?.time,
 					lesson: subject?.name,
@@ -103,7 +101,7 @@ const OverviewUser = () => {
 					</Typography>
 
 					<Box className={classes.classContainer}>
-						{subjectTime.length > 0 &&
+						{subjectTime?.length > 0 &&
 							subjectTime.map((subject) => {
 								return (
 									<Box className={classes.class}>

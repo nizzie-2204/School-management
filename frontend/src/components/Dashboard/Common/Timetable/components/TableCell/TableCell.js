@@ -362,19 +362,19 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 
 	const handleJoinClassroom = () => {
 		const roomName = user?.classId?.idClassOnline
-
-		if (
-			!cell ||
-			!checkTime({ time: row.time, day: cell.day, date }).includes('Vào')
-		) {
-			return
-		}
-		if (!roomName) {
-			Alert.fire({
-				icon: 'error',
-				title: 'Giáo viên chưa tạo lớp học',
-			})
-		}
+		console.log(user)
+		// if (
+		// 	!cell ||
+		// 	!checkTime({ time: row.time, day: cell.day, date }).includes('Vào')
+		// ) {
+		// 	return
+		// }
+		// if (!roomName) {
+		// 	Alert.fire({
+		// 		icon: 'error',
+		// 		title: 'Giáo viên chưa tạo lớp học',
+		// 	})
+		// }
 
 		const userName = user?.name
 		sessionStorage.setItem('user', userName)
