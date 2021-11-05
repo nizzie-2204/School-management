@@ -8,16 +8,17 @@ const {
 } = require('../../controllers/adminController')
 const { permit } = require('../../middlewares/permit')
 const { verifyToken } = require('../../middlewares/auth')
+const cache = require('../../middlewares/routeCache')
 const Router = express.Router()
 
 // Allow admin to use these routes verifyToken, permit('admin'),
 
 Router.route('/admins')
 	.post(createAdmin)
-	.get(verifyToken, permit('admin'), getAllAdmins)
+	.get(verifyToken, cache(300), permit('admin'), getAllAdmins)
 
 Router.route('/admins/:id')
-	.get(verifyToken, permit('admin'), getAdmin)
+	.get(verifyToken, cache(300), permit('admin'), getAdmin)
 	.put(verifyToken, permit('admin'), updateAdmin)
 	.delete(verifyToken, permit('admin'), deleteAdmin)
 

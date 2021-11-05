@@ -10,16 +10,29 @@ const {
 } = require('../../controllers/examResultController')
 const { permit } = require('../../middlewares/permit')
 const { verifyToken } = require('../../middlewares/auth')
+const cache = require('../../middlewares/routeCache')
 const Router = express.Router()
 
 // Allow admin to use these routes verifyToken, permit('admin'),
 
 Router.route('/exam-results')
 	.post(verifyToken, permit('admin', 'teacher', 'student'), createExamResult)
-	.get(verifyToken, permit('admin', 'teacher', 'student'), getAllExamResults)
+	.get(
+		verifyToken,
+		cache(300),
+
+		permit('admin', 'teacher', 'student'),
+		getAllExamResults
+	)
 
 Router.route('/exam-results/:id')
-	.get(verifyToken, permit('admin', 'teacher', 'student'), getExamResult)
+	.get(
+		verifyToken,
+		cache(300),
+
+		permit('admin', 'teacher', 'student'),
+		getExamResult
+	)
 	.put(verifyToken, permit('admin', 'teacher', 'student'), updateExamResult)
 	.delete(verifyToken, permit('admin', 'teacher', 'student'), deleteExamResult)
 

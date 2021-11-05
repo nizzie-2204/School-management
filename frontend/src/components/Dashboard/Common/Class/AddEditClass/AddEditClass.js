@@ -13,7 +13,6 @@ import Fade from '@material-ui/core/Fade'
 import FormControl from '@material-ui/core/FormControl'
 import Modal from '@material-ui/core/Modal'
 import { unwrapResult } from '@reduxjs/toolkit'
-import { useSnackbar } from 'notistack'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
@@ -30,7 +29,6 @@ const schema = yup.object().shape({
 const AddEditAccount = ({ open, handleClose, currClass }) => {
 	const classes = useStyles()
 	const dispatch = useDispatch()
-	const { enqueueSnackbar } = useSnackbar()
 	const { register, handleSubmit, reset } = useForm({
 		resolver: yupResolver(schema),
 	})

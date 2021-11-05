@@ -23,7 +23,6 @@
     "i": "^0.3.7",
     "material-ui-popup-state": "^1.9.3",
     "nanoid": "^3.1.25",
-    "notistack": "^1.0.10",
     "npm": "^8.1.0",
     "pdfjs-dist": "^2.6.347",
     "react": "^17.0.2",

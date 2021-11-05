@@ -1,10 +1,9 @@
 import PrivateRoute from 'components/Route/PrivateRoute'
 import { nanoid } from 'nanoid'
-import React, { lazy, Suspense, useCallback, useState } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min'
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
-import LoadingOverlay from 'react-loading-overlay-ts'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import '../App.css'
 
 // Components
