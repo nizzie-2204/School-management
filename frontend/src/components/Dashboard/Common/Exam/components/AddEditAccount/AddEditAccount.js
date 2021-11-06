@@ -101,12 +101,12 @@ const AddEditAccount = ({ open, handleClose, thisExam }) => {
 		[files]
 	)
 
-	useEffect(() => {
-		const action = getSubjects()
-		dispatch(action)
-			.then(unwrapResult)
-			.catch((error) => console.error(error))
-	}, [dispatch])
+	// useEffect(() => {
+	// 	const action = getSubjects()
+	// 	dispatch(action)
+	// 		.then(unwrapResult)
+	// 		.catch((error) => console.error(error))
+	// }, [dispatch])
 
 	const [subject, setSubject] = useState()
 	const handleChangeSubject = (e) => {

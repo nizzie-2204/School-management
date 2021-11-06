@@ -27,6 +27,7 @@ exports.getAllExamResults = async (req, res, next) => {
 					path: 'subjectId',
 				},
 			})
+			.lean()
 
 		res.status(200).json({ status: 'success', data: examResults })
 	} catch (error) {
@@ -36,9 +37,9 @@ exports.getAllExamResults = async (req, res, next) => {
 
 exports.getExamResult = async (req, res, next) => {
 	try {
-		const examResult = await ExamResult.findById(req.params.id).populate(
-			'studentId'
-		)
+		const examResult = await ExamResult.findById(req.params.id)
+			.populate('studentId')
+			.lean()
 
 		if (!examResult) {
 			const error = new Error('Exam result does not exist: ' + userId)

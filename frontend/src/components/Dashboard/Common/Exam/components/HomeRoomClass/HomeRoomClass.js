@@ -22,31 +22,26 @@ import formatDate from 'utils/formatDate'
 import { getExam } from '../../examSlice'
 import useStyles from './styles'
 
-const ListStudent = (props) => {
+const HomeRoomClass = () => {
 	const classes = useStyles()
-	const dispatch = useDispatch()
 	const exam = useSelector((state) => state.exam.exam)
 	const students = useSelector((state) => state.student.students)
+	const user = useSelector((state) => state.auth.user)
+
+	const studentsInClass = students.filter(
+		(student) => student.classId._id === user.classId._id
+	)
 
 	const studentsInGrade = students.filter(
 		(student) => student?.classId?.grade === exam?.grade
 	)
 
-	const studentInExam = exam?.examResult?.map((result) => result.studentId?._id)
+	const studentsInExam = exam?.examResult?.map(
+		(result) => result.studentId?._id
+	)
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
-	}, [])
-
-	useEffect(() => {
-		const fetchData = () => {
-			const action = getExam(props.exam._id)
-			dispatch(action)
-
-			const action2 = getStudents()
-			dispatch(action2)
-		}
-		fetchData()
 	}, [])
 
 	const [searchTerm, setSearchTerm] = useState('')
@@ -74,7 +69,7 @@ const ListStudent = (props) => {
 					Danh sách học sinh
 				</Typography>
 				<span className={classes.subTitle}>
-					{studentsInGrade.length} kết quả
+					{studentsInClass.length} kết quả
 				</span>
 			</Box>
 			<form className={classes.form}>
@@ -120,7 +115,7 @@ const ListStudent = (props) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{studentsInGrade
+						{studentsInClass
 							?.filter((student) => {
 								if (searchTerm === '') {
 									return student
@@ -161,7 +156,7 @@ const ListStudent = (props) => {
 										</TableCell>
 										<TableCell align="center">{student.classId.name}</TableCell>
 										<TableCell align="center">
-											{studentInExam.includes(student._id) && (
+											{studentsInExam.includes(student._id) && (
 												<CloseIcon style={{ fontSize: 14 }} />
 											)}
 										</TableCell>
@@ -171,13 +166,13 @@ const ListStudent = (props) => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			{studentsInGrade.length > 0 ? (
+			{studentsInClass.length > 0 ? (
 				<TablePagination
 					rowsPerPageOptions={[10]}
 					component="div"
 					// Pagination on search
 					count={
-						studentsInGrade?.filter((student) => {
+						studentsInClass?.filter((student) => {
 							if (searchTerm === '') {
 								return student
 							} else if (
@@ -212,4 +207,4 @@ const ListStudent = (props) => {
 	)
 }
 
-export default memo(ListStudent)
+export default HomeRoomClass

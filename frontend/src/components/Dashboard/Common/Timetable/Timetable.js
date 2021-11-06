@@ -81,7 +81,7 @@ const Timetable = () => {
 		dispatch(action3)
 
 		if (user?.role === 'student') {
-			const action = getClass(user?.classId)
+			const action = getClass(user?.classId._id)
 			dispatch(action)
 		}
 	}, [])

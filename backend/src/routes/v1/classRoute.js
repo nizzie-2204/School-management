@@ -14,17 +14,15 @@ const Router = express.Router()
 
 // Allow admin to use these routes verifyToken, permit('admin'),
 
-Router.route('/classes')
-	.post(verifyToken, permit('admin'), createClass)
-	.get(
-		verifyToken,
-		cache(300),
-		permit('admin', 'teacher', 'student'),
-		getAllClasses
-	)
+Router.route('/classes').post(verifyToken, permit('admin'), createClass).get(
+	verifyToken,
+
+	permit('admin', 'teacher', 'student'),
+	getAllClasses
+)
 
 Router.route('/classes/:id')
-	.get(verifyToken, cache(300), permit('admin', 'teacher', 'student'), getClass)
+	.get(verifyToken, permit('admin', 'teacher', 'student'), getClass)
 	.put(verifyToken, permit('admin', 'teacher', 'student'), updateClass)
 	.delete(verifyToken, permit('admin'), deleteClass)
 	.patch(verifyToken, permit('admin'), updateStudentAndTimetable)

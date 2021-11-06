@@ -78,7 +78,6 @@ const Exam = () => {
 
 	useEffect(() => {
 		window.scrollTo(0, 0)
-		console.log(user)
 	}, [])
 
 	let filteredExams

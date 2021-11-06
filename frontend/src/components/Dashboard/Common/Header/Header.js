@@ -146,7 +146,7 @@ const Header = () => {
 								open={Boolean(anchorEl)}
 								onClose={handleClose}
 							>
-								<StyledMenuItem>
+								{/* <StyledMenuItem>
 									<Link to="/dashboard/profile" className={classes.popupUser}>
 										<AccountCircleIcon
 											fontSize="small"
@@ -154,7 +154,7 @@ const Header = () => {
 										/>
 										<ListItemText primary="Xem hồ sơ" />
 									</Link>
-								</StyledMenuItem>
+								</StyledMenuItem> */}
 								<StyledMenuItem onClick={handleLogout}>
 									<PowerSettingsNewIcon
 										fontSize="small"

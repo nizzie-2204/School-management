@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet-async'
 import { useDispatch, useSelector } from 'react-redux'
 import formatDate from 'utils/formatDate'
 import { getExam } from '../../examSlice'
+import HomeRoomClass from '../HomeRoomClass/HomeRoomClass'
 import ListExamAnswer from '../ListExamAnswer/ListExamAnswer'
 import ListStudent from '../ListStudent/ListStudent'
 import PointSpectrum from '../PointSpectrum/PointSpectrum'
@@ -65,6 +66,7 @@ function a11yProps(index) {
 const ExamDetail = (props) => {
 	const classes = useStyles()
 	const exam = useSelector((state) => state.exam.exam)
+	const user = useSelector((state) => state.auth.user)
 	const dispatch = useDispatch()
 	const [value, setValue] = useState(0)
 
@@ -192,6 +194,13 @@ const ExamDetail = (props) => {
 									label="Phổ điểm"
 									{...a11yProps(2)}
 								/>
+								{user?.classId && (
+									<Tab
+										className={classes.tab}
+										label="Danh sách lớp chủ nhiệm"
+										{...a11yProps(3)}
+									/>
+								)}
 							</Tabs>
 						</AppBar>
 						<TabPanel
@@ -213,8 +222,17 @@ const ExamDetail = (props) => {
 							value={value}
 							index={2}
 						>
-							<PointSpectrum examResult={exam.examResult} />
+							<PointSpectrum exam={exam} />
 						</TabPanel>
+						{user?.classId && (
+							<TabPanel
+								className={classes.tabPanelContainer}
+								value={value}
+								index={3}
+							>
+								<HomeRoomClass />
+							</TabPanel>
+						)}
 					</Box>
 				</Box>
 			</Box>

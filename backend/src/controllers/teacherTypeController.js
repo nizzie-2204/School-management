@@ -44,7 +44,7 @@ exports.deleteTeacherType = async (req, res, next) => {
 
 exports.getAllTeacherTypes = async (req, res, next) => {
 	try {
-		const teacherTypes = await TeacherType.find()
+		const teacherTypes = await TeacherType.find().lean()
 		// res.json('test')
 		res.status(200).json({ status: 'success', data: teacherTypes })
 	} catch (error) {
@@ -56,7 +56,9 @@ exports.getTeacherType = async (req, res, next) => {
 	try {
 		const teacherType = await TeacherType.findOne({
 			_id: req.params.id,
-		}).populate('subjects')
+		})
+			.populate('subjects')
+			.lean()
 
 		if (!teacherType) {
 			const error = new Error('Teacher type does not exist')

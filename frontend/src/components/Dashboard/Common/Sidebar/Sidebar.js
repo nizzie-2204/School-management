@@ -233,7 +233,7 @@ const Sidebar = () => {
 							primary="Bài giảng"
 						/>
 					</ListItem>
-					<ListItem className={classes.listItem} button>
+					{/* <ListItem className={classes.listItem} button>
 						<ListItemIcon className={classes.listIcon}>
 							<FlipCameraAndroidIcon />
 						</ListItemIcon>
@@ -241,7 +241,7 @@ const Sidebar = () => {
 							className={classes.listItemText}
 							primary="Kế hoạch giảng dạy"
 						/>
-					</ListItem>
+					</ListItem> */}
 
 					{user?.role === 'student' && (
 						<>

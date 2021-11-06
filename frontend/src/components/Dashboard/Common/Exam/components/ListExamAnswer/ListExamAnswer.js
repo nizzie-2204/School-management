@@ -14,7 +14,7 @@ import {
 	IconButton,
 	TablePagination,
 } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import useStyles from './styles'
 import SearchIcon from '@material-ui/icons/Search'
 import VisibilityIcon from '@material-ui/icons/Visibility'
@@ -234,4 +234,4 @@ const ListExamAnswer = (props) => {
 	)
 }
 
-export default ListExamAnswer
+export default memo(ListExamAnswer)

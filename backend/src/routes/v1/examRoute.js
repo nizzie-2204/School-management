@@ -18,13 +18,13 @@ Router.route('/exams')
 	.post(verifyToken, permit('admin', 'teacher', 'student'), createExam)
 	.get(
 		verifyToken,
-		cache(300),
+
 		permit('admin', 'teacher', 'student'),
 		getAllExams
 	)
 
 Router.route('/exams/:id')
-	.get(verifyToken, cache(300), permit('admin', 'teacher', 'student'), getExam)
+	.get(verifyToken, permit('admin', 'teacher', 'student'), getExam)
 	.put(verifyToken, permit('admin', 'teacher', 'student'), updateExam)
 	.delete(verifyToken, permit('admin', 'teacher', 'student'), deleteExam)
 

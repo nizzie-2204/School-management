@@ -80,6 +80,7 @@ exports.getAllExams = async (req, res, next) => {
 					},
 				},
 			})
+			.lean()
 
 		res.status(200).json({ status: 'success', data: exams })
 	} catch (error) {
@@ -100,6 +101,7 @@ exports.getExam = async (req, res, next) => {
 					},
 				},
 			})
+			.lean()
 
 		if (!exam) {
 			const error = new Error('Exam does not exist: ' + userId)

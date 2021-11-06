@@ -17,7 +17,7 @@ Router.route('/teacher-types')
 	.post(verifyToken, permit('admin'), createTeacherType)
 	.get(
 		verifyToken,
-		cache(300),
+
 		permit('admin', 'teacher', 'student'),
 		getAllTeacherTypes
 	)
@@ -25,7 +25,7 @@ Router.route('/teacher-types')
 Router.route('/teacher-types/:id')
 	.get(
 		verifyToken,
-		cache(300),
+
 		permit('admin', 'teacher', 'student'),
 		getTeacherType
 	)

@@ -45,7 +45,8 @@ exports.login = async (req, res, next) => {
 					}
 				)
 					.populate('classId')
-					.select('-password')) ||
+					.select('-password')
+					.lean()) ||
 				(await Teacher.findOneAndUpdate(
 					{ username: req.body.username },
 					{ $inc: { visitingTime: 1 }, isLoggedIn: true },
@@ -61,8 +62,8 @@ exports.login = async (req, res, next) => {
 						},
 					})
 					.populate('classId')
-					.select('-password'))
-
+					.select('-password')
+					.lean())
 			res.status(200).json({
 				status: 'success',
 				data: { token: token, user: newUser },
@@ -92,7 +93,9 @@ exports.logout = async (req, res, next) => {
 					new: true,
 					runValidators: true,
 				}
-			).select('-password')) ||
+			)
+				.select('-password')
+				.lean()) ||
 			(await Teacher.findByIdAndUpdate(
 				req.body.id,
 				{
@@ -102,7 +105,9 @@ exports.logout = async (req, res, next) => {
 					new: true,
 					runValidators: true,
 				}
-			).select('-password'))
+			)
+				.select('-password')
+				.lean())
 
 		res.json({ message: 'Logout successful', data: user })
 	} catch (error) {

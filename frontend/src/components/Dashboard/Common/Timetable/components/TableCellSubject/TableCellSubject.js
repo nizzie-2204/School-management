@@ -99,15 +99,15 @@ const TableCellSubject = () => {
 	const user = useSelector((state) => state.auth.user)
 
 	// Student timetable (class timetable of student)
-	useEffect(() => {
-		if (user?.role === 'student') {
-			const fetchClass = () => {
-				const action = getClass(user.classId)
-				dispatch(action)
-			}
-			fetchClass()
-		}
-	}, [])
+	// useEffect(() => {
+	// 	if (user?.role === 'student') {
+	// 		const fetchClass = () => {
+	// 			const action = getClass(user.classId._id)
+	// 			dispatch(action)
+	// 		}
+	// 		fetchClass()
+	// 	}
+	// }, [])
 
 	const timetableFromStore =
 		classFromStore?.timetable ||

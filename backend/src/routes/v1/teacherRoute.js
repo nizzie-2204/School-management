@@ -14,19 +14,17 @@ const Router = express.Router()
 
 // Allow admin to use these routes
 
-Router.route('/teachers')
-	.post(verifyToken, permit('admin'), createTeacher)
-	.get(
-		verifyToken,
-		cache(300),
-		permit('admin', 'teacher', 'student'),
-		getAllTeachers
-	)
+Router.route('/teachers').post(verifyToken, permit('admin'), createTeacher).get(
+	verifyToken,
+
+	permit('admin', 'teacher', 'student'),
+	getAllTeachers
+)
 
 Router.route('/teachers/:id')
 	.get(
 		verifyToken,
-		cache(300),
+
 		permit('admin', 'teacher', 'student'),
 		getTeacher
 	)

@@ -9,7 +9,7 @@ import {
 	TableCell,
 	TableBody,
 } from '@material-ui/core'
-import React, { useEffect } from 'react'
+import React, { useEffect, memo } from 'react'
 import useStyles from './styles'
 import { Bar } from 'react-chartjs-2'
 import { useDispatch, useSelector } from 'react-redux'
@@ -34,6 +34,8 @@ const PointSpectrum = (props) => {
 
 	// Calculate scores to fill in chart and table
 	const handleScore = (array) => {
+		console.log('handleScore')
+
 		const newArray = [...array]
 		const sortedArray = newArray.sort((a, b) => {
 			return a.score - b.score
@@ -54,7 +56,6 @@ const PointSpectrum = (props) => {
 						})
 						result = [...newResult, { score: item.score, time: item2.time + 1 }]
 					} else {
-						console.log(item)
 						result.push({
 							score: item.score,
 							time: 1,
@@ -63,7 +64,6 @@ const PointSpectrum = (props) => {
 				})
 			}
 		})
-		console.log(result)
 
 		return result
 	}
@@ -203,4 +203,4 @@ const PointSpectrum = (props) => {
 	)
 }
 
-export default PointSpectrum
+export default memo(PointSpectrum)

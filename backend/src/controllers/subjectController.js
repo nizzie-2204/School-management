@@ -41,7 +41,7 @@ exports.deleteSubject = async (req, res, next) => {
 }
 exports.getAllSubjects = async (req, res, next) => {
 	try {
-		const subjects = await Subject.find()
+		const subjects = await Subject.find().lean()
 
 		res.status(200).json({ status: 'success', data: subjects })
 	} catch (error) {
@@ -50,7 +50,7 @@ exports.getAllSubjects = async (req, res, next) => {
 }
 exports.getSubject = async (req, res, next) => {
 	try {
-		const subject = await Subject.findById(req.params.id)
+		const subject = await Subject.findById(req.params.id).lean()
 
 		if (!subject) {
 			const error = new Error('Subject does not exist: ' + userId)

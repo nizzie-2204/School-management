@@ -19,7 +19,6 @@ Router.route('/exam-results')
 	.post(verifyToken, permit('admin', 'teacher', 'student'), createExamResult)
 	.get(
 		verifyToken,
-		cache(300),
 
 		permit('admin', 'teacher', 'student'),
 		getAllExamResults
@@ -28,7 +27,6 @@ Router.route('/exam-results')
 Router.route('/exam-results/:id')
 	.get(
 		verifyToken,
-		cache(300),
 
 		permit('admin', 'teacher', 'student'),
 		getExamResult

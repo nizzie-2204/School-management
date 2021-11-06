@@ -182,7 +182,7 @@ const Overview = () => {
 									<Typography variant="h4" className={classes.dataTitle}>
 										Tài khoản truy cập nhiều nhất
 									</Typography>
-									<Bar data={data} options={options} />
+									<Bar data={barChartData} options={options} />
 								</Box>
 								<Box className={classes.chartItem}>
 									<Typography variant="h4" className={classes.dataTitle}>

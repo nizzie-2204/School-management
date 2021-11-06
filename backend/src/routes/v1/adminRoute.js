@@ -15,10 +15,10 @@ const Router = express.Router()
 
 Router.route('/admins')
 	.post(createAdmin)
-	.get(verifyToken, cache(300), permit('admin'), getAllAdmins)
+	.get(verifyToken, permit('admin'), getAllAdmins)
 
 Router.route('/admins/:id')
-	.get(verifyToken, cache(300), permit('admin'), getAdmin)
+	.get(verifyToken, permit('admin'), getAdmin)
 	.put(verifyToken, permit('admin'), updateAdmin)
 	.delete(verifyToken, permit('admin'), deleteAdmin)
 

@@ -36,7 +36,7 @@ exports.getAllTeachers = async (req, res, next) => {
 		const teacher = await Teacher.find()
 			.select('-password')
 			.populate('teacherType')
-
+			.lean()
 		res.status(200).json({ status: 'success', data: teacher })
 	} catch (error) {
 		next(error)
@@ -48,7 +48,7 @@ exports.getTeacher = async (req, res, next) => {
 		const user = await Teacher.findById(req.params.id)
 			.select('-password')
 			.populate('classId teacherType')
-
+			.lean()
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)
 			error.statusCode = 404

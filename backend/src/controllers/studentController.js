@@ -39,7 +39,7 @@ exports.getAllStudents = async (req, res, next) => {
 		const students = await Student.find()
 			.populate('classId')
 			.select('-password')
-
+			.lean()
 		res.status(200).json({ status: 'success', data: students })
 	} catch (error) {
 		next(error)
@@ -48,7 +48,9 @@ exports.getAllStudents = async (req, res, next) => {
 
 exports.getStudent = async (req, res, next) => {
 	try {
-		const user = await Student.findById(req.params.id).select('-password')
+		const user = await Student.findById(req.params.id)
+			.select('-password')
+			.lean()
 
 		if (!user) {
 			const error = new Error('User does not exist: ' + userId)

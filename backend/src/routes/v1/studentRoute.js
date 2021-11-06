@@ -12,19 +12,17 @@ const cache = require('../../middlewares/routeCache')
 const Router = express.Router()
 
 // Allow admin to use these routes
-Router.route('/students')
-	.post(verifyToken, permit('admin'), createStudent)
-	.get(
-		verifyToken,
-		cache(300),
-		permit('admin', 'teacher', 'student'),
-		getAllStudents
-	)
+Router.route('/students').post(verifyToken, permit('admin'), createStudent).get(
+	verifyToken,
+
+	permit('admin', 'teacher', 'student'),
+	getAllStudents
+)
 
 Router.route('/students/:id')
 	.get(
 		verifyToken,
-		cache(300),
+
 		permit('admin', 'teacher', 'student'),
 		getStudent
 	)

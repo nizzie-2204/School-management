@@ -36,7 +36,7 @@ exports.updateClass = async (req, res, next) => {
 
 exports.getAllClasses = async (req, res, next) => {
 	try {
-		const classes = await Class.find().populate('teacherId')
+		const classes = await Class.find().populate('teacherId').lean()
 
 		res.status(200).json({ status: 'success', data: classes })
 	} catch (error) {
@@ -46,10 +46,12 @@ exports.getAllClasses = async (req, res, next) => {
 
 exports.getClass = async (req, res, next) => {
 	try {
-		const newClass = await Class.findById(req.params.id).populate({
-			path: 'teacherId',
-			select: '-password',
-		})
+		const newClass = await Class.findById(req.params.id)
+			.populate({
+				path: 'teacherId',
+				select: '-password',
+			})
+			.lean()
 		// .populate({
 		// 	// path: 'timetable',
 		// 	// populate: {

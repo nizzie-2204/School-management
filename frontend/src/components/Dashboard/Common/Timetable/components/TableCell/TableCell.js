@@ -294,9 +294,9 @@ const Lesson = ({ row, index, cell, prevIndex, date }) => {
 					return teacher._id === cell?.teacherId
 				})
 			})
-			const asdz = teachersFromStore.find((teacher) => {
-				return teacher._id === cell?.teacherId
-			})
+			// const asdz = teachersFromStore.find((teacher) => {
+			// 	return teacher._id === cell?.teacherId
+			// })
 
 			setDisplaySubject(() => {
 				return subjects.find((subject) => {
